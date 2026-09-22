@@ -165,7 +165,11 @@ img {
   transition: background 0.2s ease, color 0.2s ease;
 }
 
-.site-nav a:hover,
+.site-nav a:hover {
+  background: var(--accent-warm);
+  color: var(--ink);
+}
+
 .site-nav a.active {
   background: var(--ink);
   color: var(--accent-warm);
@@ -236,9 +240,9 @@ main {
 }
 
 /* ---------------------------------------------------- placeholder tiles
-   Used on projects / design / fun grids. Hover: tilt + drop shadow.
+   Used on projects / design / fun grids. Hover: lift up + drop shadow.
    Position handled with CSS vars so JS-driven dragging (fun page) and
-   the hover tilt never fight over the transform property. */
+   the hover lift never fight over the transform property. */
 
 .placeholder {
   --tx: 0px;
@@ -252,7 +256,7 @@ main {
 }
 
 .placeholder:hover {
-  --rot: -3deg;
+  --ty: -10px;
   box-shadow: 0 18px 30px rgba(20, 62, 102, 0.22);
 }
 
@@ -402,12 +406,14 @@ a.placeholder-link {
 }
 
 .hero-box {
-  border: 2px solid var(--button-stroke);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--button-stroke);
   border-radius: var(--radius-lg);
   padding: var(--space-5) var(--space-4);
   text-align: center;
-  /* deliberately not clipped: the letters in .site-title fly past this
-     box's edges as the page scrolls (see .letter / main.js) */
 }
 
 .site-title {
@@ -446,23 +452,15 @@ a.placeholder-link {
 }
 
 .site-title:hover .word-chelsea {
-  transform: rotate(-7deg) translateY(2px);
-}
-
-.site-title:hover .word-lee {
   transform: rotate(7deg) translateY(2px);
 }
 
-/* Individual letters fly apart (their own --fx/--fy/--frot, set inline per
-   letter) as --progress rises from 0 to 1, driven by scroll position via
-   JS in main.js. This sits on the letter itself, nested inside the word
-   span that handles the hover tilt above, so the two transforms don't
-   collide. */
+.site-title:hover .word-lee {
+  transform: rotate(-7deg) translateY(2px);
+}
+
 .letter {
   display: inline-block;
-  transform: translate(calc(var(--fx, 0px) * var(--progress, 0)), calc(var(--fy, 0px) * var(--progress, 0)))
-    rotate(calc(var(--frot, 0) * var(--progress, 0) * 1deg));
-  opacity: calc(1 - var(--progress, 0));
 }
 
 /* ------------------------------------------------- eyes-looking divider
