@@ -6,6 +6,10 @@
       phrases, one per click; after the last phrase it returns to the
       original "hi, i'm chelsea!" greeting before cycling through again.
       The "(click me)" hint disappears after the first click.
+   3. Click-to-color title letters (home page): each letter in "chelsea
+      lee" is independently clickable, cycling its own fill color through
+      a small palette (see the .letter.color-* rules in style.css).
+      Keyboard-accessible (Enter/Space) like the other interactions here.
 */
 
 (function () {
@@ -71,5 +75,41 @@
         }
       });
     }
+
+    var titleLetters = document.querySelectorAll(".site-title .letter");
+    // "" (no class) is the default yellow fill from .word; each click steps
+    // to the next color and wraps back around to the default.
+    var letterColors = ["", "color-blue", "color-lightblue", "color-navy"];
+
+    var cycleLetterColor = function (letter) {
+      var current = parseInt(letter.getAttribute("data-color-index") || "0", 10);
+      var next = (current + 1) % letterColors.length;
+      letterColors.forEach(function (cls) {
+        if (cls) {
+          letter.classList.remove(cls);
+        }
+      });
+      if (letterColors[next]) {
+        letter.classList.add(letterColors[next]);
+      }
+      letter.setAttribute("data-color-index", String(next));
+    };
+
+    titleLetters.forEach(function (letter) {
+      letter.setAttribute("role", "button");
+      letter.setAttribute("tabindex", "0");
+      letter.setAttribute("aria-label", "Change the color of this letter");
+
+      letter.addEventListener("click", function () {
+        cycleLetterColor(letter);
+      });
+
+      letter.addEventListener("keydown", function (e) {
+        if (e.key === "Enter" || e.key === " " || e.key === "Spacebar") {
+          e.preventDefault();
+          cycleLetterColor(letter);
+        }
+      });
+    });
   });
 })();

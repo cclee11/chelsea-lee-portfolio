@@ -9,6 +9,7 @@
   --button-stroke: #6194c0;
   --accent-warm: #fff6c3;
   --accent-tint: #e0f7ff;
+  --page-bg: #f5fafd;
 
   --space-1: 4px;
   --space-2: 8px;
@@ -24,6 +25,7 @@
   --font-sans: "deuterium-variable", sans-serif;
   --wght-light: 300;
   --wght-regular: 400;
+  --wght-medium: 500;
 
   --header-size: 40px;
   --header-line: 44px;
@@ -50,7 +52,7 @@ body {
   font-size: var(--body-size);
   line-height: var(--body-line);
   color: var(--ink);
-  background: #ffffff;
+  background: var(--page-bg);
   -webkit-font-smoothing: antialiased;
   /* the ring from the logo, standing in for the system pointer everywhere */
   cursor: url("../assets/cursor-ring.png") 10 10, auto;
@@ -61,7 +63,8 @@ button,
 .placeholder,
 .icon-logo-link,
 .flip-tile,
-.bubble-intro {
+.bubble-intro,
+.letter {
   cursor: url("../assets/cursor-ring.png") 10 10, pointer;
 }
 
@@ -151,7 +154,7 @@ img {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: #ffffff;
+  background: var(--page-bg);
 }
 
 .site-nav a {
@@ -161,6 +164,7 @@ img {
   background: var(--background);
   letter-spacing: 0.02em;
   padding: var(--space-2) var(--space-4);
+  border: 1px solid transparent;
   border-radius: var(--radius-full);
   transition: background 0.2s ease, color 0.2s ease;
 }
@@ -171,8 +175,9 @@ img {
 }
 
 .site-nav a.active {
-  background: var(--ink);
-  color: var(--accent-warm);
+  background: var(--accent-warm);
+  color: var(--ink);
+  border-color: var(--button-stroke);
 }
 
 /* -------------------------------------------------------------- layout */
@@ -186,8 +191,8 @@ main {
 .page-title {
   font-size: var(--header-size);
   line-height: var(--header-line);
-  font-variation-settings: "wght" var(--wght-regular);
-  color: var(--background);
+  font-variation-settings: "wght" var(--wght-medium);
+  color: var(--ink);
   margin: 0 0 var(--space-5);
 }
 
@@ -417,7 +422,6 @@ a.placeholder-link {
 }
 
 .site-title {
-  --progress: 0;
   margin: var(--space-3) 0 var(--space-4);
   display: inline-flex;
   flex-wrap: wrap;
@@ -428,6 +432,8 @@ a.placeholder-link {
      font-size) would end up nearly invisible next to 130px letters */
   gap: 28px;
   cursor: url("../assets/cursor-ring.png") 10 10, default;
+  /* idle bounce, always running, matching the eyes-divider logo below it */
+  animation: title-bob 2.6s ease-in-out infinite;
 }
 
 .site-title .word {
@@ -438,8 +444,6 @@ a.placeholder-link {
   color: var(--accent-warm);
   -webkit-text-stroke: 2.5px var(--button-stroke);
   paint-order: stroke fill;
-  transition: transform 0.3s ease;
-  transform-origin: 50% 85%;
 }
 
 @media (max-width: 640px) {
@@ -451,16 +455,28 @@ a.placeholder-link {
   }
 }
 
-.site-title:hover .word-chelsea {
-  transform: rotate(7deg) translateY(2px);
+@keyframes title-bob {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-6px); }
 }
 
-.site-title:hover .word-lee {
-  transform: rotate(-7deg) translateY(2px);
-}
-
+/* Each letter is independently clickable: clicking cycles its fill through
+   a small palette (see main.js), while the blue outline stroke (inherited
+   from .word) stays constant so every state still reads as one family. */
 .letter {
   display: inline-block;
+}
+
+.letter.color-blue {
+  color: var(--button-stroke);
+}
+
+.letter.color-lightblue {
+  color: var(--background);
+}
+
+.letter.color-navy {
+  color: var(--ink);
 }
 
 /* ------------------------------------------------- eyes-looking divider
