@@ -1,0 +1,705 @@
+/* ==========================================================================
+   chelsea lee — portfolio
+   Design tokens pulled from the "Chelsea Lee" design system.
+   ========================================================================== */
+
+:root {
+  --ink: #143e66;
+  --background: #a7d4e4;
+  --button-stroke: #6194c0;
+  --accent-warm: #fff6c3;
+  --accent-tint: #e0f7ff;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 16px;
+  --space-4: 24px;
+  --space-5: 40px;
+
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+  --radius-full: 999px;
+
+  --font-sans: "deuterium-variable", sans-serif;
+  --wght-light: 300;
+  --wght-regular: 400;
+
+  --header-size: 40px;
+  --header-line: 44px;
+  --subheader-size: 20px;
+  --subheader-line: 26px;
+  --body-size: 15px;
+  --body-line: 22px;
+
+  --content-max: 960px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-variation-settings: "wght" var(--wght-light);
+  font-size: var(--body-size);
+  line-height: var(--body-line);
+  color: var(--ink);
+  background: #ffffff;
+  -webkit-font-smoothing: antialiased;
+  /* the ring from the logo, standing in for the system pointer everywhere */
+  cursor: url("../assets/cursor-ring.png") 10 10, auto;
+}
+
+a,
+button,
+.placeholder,
+.icon-logo-link,
+.flip-tile,
+.bubble-intro {
+  cursor: url("../assets/cursor-ring.png") 10 10, pointer;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* ---------------------------------------------------------------- header */
+
+.site-header {
+  display: flex;
+  justify-content: center;
+  padding: var(--space-4) var(--space-3) var(--space-3);
+}
+
+.icon-logo-link {
+  display: inline-block;
+}
+
+/* The logo is split into 3 pieces (left ring / symbol / right ring) so
+   they can be animated independently. .icon-logo-wrap is sized to the
+   full original mark's aspect ratio, and each piece is positioned inside
+   it with the exact percentages of where it sits in that original mark,
+   so at rest the three pieces reassemble into the same logo. On hover,
+   only the rings slide outward — the symbol in the middle never moves. */
+.icon-logo-wrap {
+  position: relative;
+  display: block;
+  /* smaller than the eyes-divider mark on the home page (see .eyes-icon) */
+  width: 72px;
+  height: calc(72px * 344 / 776);
+}
+
+.logo-piece {
+  position: absolute;
+  display: block;
+  width: auto;
+  height: auto;
+  transition: transform 0.3s ease;
+}
+
+.logo-ring-left {
+  left: 0.26%;
+  top: 2.62%;
+  width: 33.38%;
+  height: 75.29%;
+}
+
+.logo-symbol {
+  left: 33.76%;
+  top: 18.02%;
+  width: 32.99%;
+  height: 81.69%;
+}
+
+.logo-ring-right {
+  left: 66.49%;
+  top: 0.58%;
+  width: 33.38%;
+  height: 75.29%;
+}
+
+.icon-logo-link:hover .logo-ring-left {
+  transform: translateX(-10px);
+}
+
+.icon-logo-link:hover .logo-ring-right {
+  transform: translateX(10px);
+}
+
+/* ------------------------------------------------------------------ nav */
+
+.site-nav {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  padding: var(--space-3) 0;
+  border-top: 1px solid var(--background);
+  border-bottom: 1px solid var(--background);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: #ffffff;
+}
+
+.site-nav a {
+  font-size: var(--body-size);
+  font-variation-settings: "wght" var(--wght-light);
+  color: var(--ink);
+  background: var(--background);
+  letter-spacing: 0.02em;
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-full);
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.site-nav a:hover,
+.site-nav a.active {
+  background: var(--ink);
+  color: var(--accent-warm);
+}
+
+/* -------------------------------------------------------------- layout */
+
+main {
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: var(--space-5) var(--space-4) var(--space-5);
+}
+
+.page-title {
+  font-size: var(--header-size);
+  line-height: var(--header-line);
+  font-variation-settings: "wght" var(--wght-regular);
+  color: var(--background);
+  margin: 0 0 var(--space-5);
+}
+
+/* -------------------------------------------------------------- footer */
+
+.site-footer {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: var(--space-4);
+  border-top: 1px solid var(--background);
+}
+
+.footer-left {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.footer-credits {
+  margin: 0;
+  text-align: left;
+  font-size: 12px;
+  color: var(--button-stroke);
+}
+
+.footer-label {
+  font-size: var(--body-size);
+  color: var(--ink);
+}
+
+.connect-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+}
+
+.connect-link {
+  color: var(--ink);
+  font-size: var(--body-size);
+  transition: color 0.2s ease;
+}
+
+.connect-link:hover {
+  color: var(--button-stroke);
+}
+
+/* ---------------------------------------------------- placeholder tiles
+   Used on projects / design / fun grids. Hover: tilt + drop shadow.
+   Position handled with CSS vars so JS-driven dragging (fun page) and
+   the hover tilt never fight over the transform property. */
+
+.placeholder {
+  --tx: 0px;
+  --ty: 0px;
+  --rot: 0deg;
+  background: #d9d9d9;
+  border-radius: var(--radius-lg);
+  transform: translate(var(--tx), var(--ty)) rotate(var(--rot));
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  will-change: transform;
+}
+
+.placeholder:hover {
+  --rot: -3deg;
+  box-shadow: 0 18px 30px rgba(20, 62, 102, 0.22);
+}
+
+a.placeholder-link {
+  display: block;
+}
+
+/* ---------------------------------------------------------- grid pages */
+
+.grid-2col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-5) var(--space-4);
+}
+
+.grid-2col .placeholder {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+}
+
+.stack-1col {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.stack-1col .placeholder {
+  width: 100%;
+  aspect-ratio: 16 / 8;
+}
+
+@media (max-width: 640px) {
+  .grid-2col {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ------------------------------------------------------------ flip tiles
+   Used on the fun page. Click flips the tile with a 3D rotate; the front
+   face reuses .placeholder so it keeps the same hover tilt + shadow as
+   every other placeholder tile on the site until it's flipped. */
+
+.flip-tile {
+  position: relative;
+  width: 100%;
+  perspective: 1200px;
+}
+
+.grid-2col .flip-tile {
+  aspect-ratio: 1 / 1;
+}
+
+.flip-tile-inner {
+  position: absolute;
+  inset: 0;
+  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+  transform-style: preserve-3d;
+}
+
+.flip-tile.is-flipped .flip-tile-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-tile-face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--space-4);
+}
+
+.flip-tile-front {
+  margin: 0;
+}
+
+.flip-tile-back {
+  background: var(--background);
+  color: var(--ink);
+  font-style: italic;
+  font-size: 14px;
+  line-height: 20px;
+  transform: rotateY(180deg);
+}
+
+/* ------------------------------------------------------------ sub-pages */
+
+.subpage-content {
+  min-height: 40vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: var(--button-stroke);
+  border: 2px dashed var(--background);
+  border-radius: var(--radius-lg);
+  font-size: var(--subheader-size);
+  line-height: var(--subheader-line);
+  padding: var(--space-5);
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: var(--space-4);
+  color: var(--button-stroke);
+  transition: color 0.2s ease;
+}
+
+.back-link:hover {
+  color: var(--ink);
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+  align-items: start;
+}
+
+.detail-image {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+}
+
+.bubble-note {
+  background: var(--accent-warm);
+  color: var(--button-stroke);
+}
+
+@media (max-width: 640px) {
+  .detail-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------------------------------------------------------------- home */
+
+.home-hero {
+  position: relative;
+  width: 100%;
+  padding-bottom: var(--space-5);
+  margin-bottom: var(--space-4);
+}
+
+.hero-box {
+  border: 2px solid var(--button-stroke);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5) var(--space-4);
+  text-align: center;
+  /* deliberately not clipped: the letters in .site-title fly past this
+     box's edges as the page scrolls (see .letter / main.js) */
+}
+
+.site-title {
+  --progress: 0;
+  margin: var(--space-3) 0 var(--space-4);
+  display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: baseline;
+  /* gap is set in px, not em: the words are sized way up via .word's own
+     font-size, so an em-based gap here (inherited from body's small
+     font-size) would end up nearly invisible next to 130px letters */
+  gap: 28px;
+  cursor: url("../assets/cursor-ring.png") 10 10, default;
+}
+
+.site-title .word {
+  display: inline-flex;
+  font-size: 130px;
+  line-height: 1;
+  font-variation-settings: "wght" var(--wght-regular);
+  color: var(--accent-warm);
+  -webkit-text-stroke: 2.5px var(--button-stroke);
+  paint-order: stroke fill;
+  transition: transform 0.3s ease;
+  transform-origin: 50% 85%;
+}
+
+@media (max-width: 640px) {
+  .site-title .word {
+    font-size: 64px;
+  }
+  .site-title {
+    gap: 14px;
+  }
+}
+
+.site-title:hover .word-chelsea {
+  transform: rotate(-7deg) translateY(2px);
+}
+
+.site-title:hover .word-lee {
+  transform: rotate(7deg) translateY(2px);
+}
+
+/* Individual letters fly apart (their own --fx/--fy/--frot, set inline per
+   letter) as --progress rises from 0 to 1, driven by scroll position via
+   JS in main.js. This sits on the letter itself, nested inside the word
+   span that handles the hover tilt above, so the two transforms don't
+   collide. */
+.letter {
+  display: inline-block;
+  transform: translate(calc(var(--fx, 0px) * var(--progress, 0)), calc(var(--fy, 0px) * var(--progress, 0)))
+    rotate(calc(var(--frot, 0) * var(--progress, 0) * 1deg));
+  opacity: calc(1 - var(--progress, 0));
+}
+
+/* ------------------------------------------------- eyes-looking divider
+   Sits between the hero card and the project grid. Built as two stacked
+   layers so only the pupils move, never the rings/character: .eyes-base
+   is the mark with the pupils (fill + their own outline stroke) erased to
+   a plain disc, and .eyes-pupils is a transparent-everywhere-but-the-
+   pupils overlay — stroke included, so the outline travels with the fill
+   instead of being left behind — that slides left/right on hover, using
+   the exact left/center/right positions from the source artwork so the
+   pupils never clip outside their sockets. .eyes-pupils is drawn at the
+   "look left" position, so 0 / 1 / 2 step-units of --pupil-step land on
+   left / center / right respectively; resting state sits at 1 step
+   (center). The whole icon also has a gentle idle bob running all the
+   time, hover or not. */
+
+.eyes-divider {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  margin: var(--space-5) 0;
+}
+
+.eyes-icon {
+  --pupil-step: 6.37px;
+  position: relative;
+  display: inline-block;
+  width: 130px;
+  height: calc(130px * 342 / 776);
+  cursor: url("../assets/cursor-ring.png") 10 10, default;
+  animation: eyes-bob 2.6s ease-in-out infinite;
+}
+
+.eyes-base,
+.eyes-pupils {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.eyes-pupils {
+  transform: translateX(var(--pupil-step));
+  transition: transform 0.3s ease;
+}
+
+.eyes-icon:hover .eyes-pupils {
+  transition: none;
+  animation: pupils-look 2.4s ease-in-out infinite;
+}
+
+@keyframes eyes-bob {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-6px); }
+}
+
+@keyframes pupils-look {
+  0%   { transform: translateX(var(--pupil-step)); }
+  15%  { transform: translateX(var(--pupil-step)); }
+  25%  { transform: translateX(0); }
+  40%  { transform: translateX(0); }
+  50%  { transform: translateX(var(--pupil-step)); }
+  65%  { transform: translateX(calc(var(--pupil-step) * 2)); }
+  80%  { transform: translateX(calc(var(--pupil-step) * 2)); }
+  100% { transform: translateX(var(--pupil-step)); }
+}
+
+.eyes-caption {
+  margin: 0;
+  font-size: 12px;
+  font-style: italic;
+  color: var(--button-stroke);
+}
+
+.tagline {
+  font-style: italic;
+  font-size: var(--subheader-size);
+  line-height: var(--subheader-line);
+  margin: 0 0 var(--space-4);
+}
+
+.intro {
+  max-width: 620px;
+  margin: 0 auto;
+  font-size: var(--body-size);
+  line-height: var(--body-line);
+}
+
+.intro mark {
+  background: var(--accent-tint);
+  color: var(--ink);
+  padding: 0 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* --------------------------------------------------------------- about */
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+  position: relative;
+  align-items: start;
+  /* the speech bubble pokes up above the photo (see .bubble-intro), so
+     without this the nav ends up sitting right on top of it */
+  margin-top: var(--space-4);
+  /* extra breathing room before the footer, on top of main's own padding */
+  margin-bottom: var(--space-5);
+}
+
+.about-info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.about-photo-wrap {
+  position: relative;
+}
+
+.about-photo {
+  border-radius: var(--radius-lg);
+  width: 100%;
+  height: auto;
+}
+
+.bubble {
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  font-size: var(--body-size);
+  line-height: var(--body-line);
+}
+
+.bubble-bio {
+  background: var(--accent-warm);
+  color: var(--ink);
+}
+
+.bubble-quote {
+  background: var(--button-stroke);
+  color: var(--accent-tint);
+  font-style: italic;
+}
+
+.bubble-fact {
+  position: absolute;
+  right: -30px;
+  bottom: -30px;
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  background: var(--accent-tint);
+  color: var(--button-stroke);
+  font-style: italic;
+  font-size: 12px;
+  line-height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--space-3);
+}
+
+/* A real speech bubble (rounded rect + tail) sitting over the top-left
+   corner of the photo, doubling as a click-to-cycle greeting. Clicking it
+   swaps .bubble-intro-text through a list of phrases (see main.js); the
+   "(click me)" hint only shows before the first click. */
+.bubble-intro {
+  position: absolute;
+  top: -30px;
+  left: -30px;
+  z-index: 2;
+  max-width: 260px;
+  padding: var(--space-4) var(--space-5);
+  background: var(--accent-warm);
+  color: var(--ink);
+  text-align: center;
+}
+
+.bubble-intro-text {
+  margin: 0;
+  font-size: 22px;
+  line-height: 1.25;
+  font-variation-settings: "wght" var(--wght-regular);
+}
+
+.bubble-intro-hint {
+  margin: var(--space-2) 0 0;
+  font-size: 11px;
+  font-style: italic;
+  color: var(--button-stroke);
+}
+
+.bubble-intro::after {
+  content: "";
+  position: absolute;
+  bottom: -14px;
+  left: 36px;
+  width: 0;
+  height: 0;
+  border-left: 12px solid transparent;
+  border-right: 12px solid transparent;
+  border-top: 16px solid var(--accent-warm);
+}
+
+.bubble-hobbies {
+  background: var(--background);
+  color: var(--ink);
+}
+
+.tilt-hover {
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.tilt-hover:hover {
+  box-shadow: 0 18px 30px rgba(20, 62, 102, 0.22);
+}
+
+.tilt-left:hover {
+  transform: rotate(-3deg);
+}
+
+.tilt-right:hover {
+  transform: rotate(3deg);
+}
+
+@media (max-width: 640px) {
+  .about-grid {
+    grid-template-columns: 1fr;
+  }
+  .bubble-fact {
+    position: static;
+    width: auto;
+    height: auto;
+    border-radius: var(--radius-lg);
+    margin-top: var(--space-3);
+  }
+}
