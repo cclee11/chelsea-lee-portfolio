@@ -10,10 +10,34 @@
       lee" is independently clickable, cycling its own fill color through
       a small palette (see the .letter.color-* rules in style.css).
       Keyboard-accessible (Enter/Space) like the other interactions here.
+   4. Night mode toggle: a small ring-shaped button, sticky to the bottom
+      right of every page, flips a [data-theme="dark"] attribute on <html>
+      (see style.css) and remembers the choice in localStorage. Applied
+      as early as possible (script runs at the end of body, so
+      document.documentElement already exists) to avoid a flash of the
+      wrong theme on load.
 */
 
 (function () {
   "use strict";
+
+  var THEME_KEY = "chelsea-lee-theme";
+
+  function applyTheme(theme) {
+    if (theme === "dark") {
+      document.documentElement.setAttribute("data-theme", "dark");
+    } else {
+      document.documentElement.removeAttribute("data-theme");
+    }
+  }
+
+  var storedTheme = null;
+  try {
+    storedTheme = window.localStorage.getItem(THEME_KEY);
+  } catch (err) {
+    storedTheme = null;
+  }
+  applyTheme(storedTheme);
 
   function toggleFlip(tile) {
     tile.classList.toggle("is-flipped");
@@ -111,5 +135,24 @@
         }
       });
     });
+
+    var themeToggle = document.createElement("button");
+    themeToggle.type = "button";
+    themeToggle.className = "theme-toggle";
+    themeToggle.setAttribute("aria-label", "Toggle night mode");
+
+    themeToggle.addEventListener("click", function () {
+      var isDark = document.documentElement.getAttribute("data-theme") === "dark";
+      var next = isDark ? "light" : "dark";
+      applyTheme(next);
+      try {
+        window.localStorage.setItem(THEME_KEY, next);
+      } catch (err) {
+        /* localStorage unavailable (e.g. private browsing) — the toggle
+           still works for the rest of this page view */
+      }
+    });
+
+    document.body.appendChild(themeToggle);
   });
 })();

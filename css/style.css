@@ -10,6 +10,10 @@
   --accent-warm: #fff6c3;
   --accent-tint: #e0f7ff;
   --page-bg: #f5fafd;
+  /* text sitting directly on the page background; kept separate from
+     --ink, which stays the fixed navy used for text on the colored bubble
+     / pill surfaces, so those stay legible when night mode flips --text */
+  --text: var(--ink);
 
   --space-1: 4px;
   --space-2: 8px;
@@ -37,6 +41,15 @@
   --content-max: 960px;
 }
 
+/* Night mode: only the page canvas and the plain running text on top of it
+   flip to dark. The colored bubbles, pills and buttons keep their usual
+   brand colors (and --ink stays put) so text on those surfaces is never
+   put at risk of low contrast. */
+:root[data-theme="dark"] {
+  --page-bg: #0f2033;
+  --text: #eaf3fb;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -51,9 +64,10 @@ body {
   font-variation-settings: "wght" var(--wght-light);
   font-size: var(--body-size);
   line-height: var(--body-line);
-  color: var(--ink);
+  color: var(--text);
   background: var(--page-bg);
   -webkit-font-smoothing: antialiased;
+  transition: background 0.25s ease, color 0.25s ease;
   /* the ring from the logo, standing in for the system pointer everywhere */
   cursor: url("../assets/cursor-ring.png") 10 10, auto;
 }
@@ -64,7 +78,8 @@ button,
 .icon-logo-link,
 .flip-tile,
 .bubble-intro,
-.letter {
+.letter,
+.theme-toggle {
   cursor: url("../assets/cursor-ring.png") 10 10, pointer;
 }
 
@@ -192,7 +207,7 @@ main {
   font-size: var(--header-size);
   line-height: var(--header-line);
   font-variation-settings: "wght" var(--wght-medium);
-  color: var(--ink);
+  color: var(--text);
   margin: 0 0 var(--space-5);
 }
 
@@ -225,7 +240,7 @@ main {
 
 .footer-label {
   font-size: var(--body-size);
-  color: var(--ink);
+  color: var(--text);
 }
 
 .connect-links {
@@ -235,7 +250,7 @@ main {
 }
 
 .connect-link {
-  color: var(--ink);
+  color: var(--text);
   font-size: var(--body-size);
   transition: color 0.2s ease;
 }
@@ -553,6 +568,28 @@ a.placeholder-link {
   color: var(--button-stroke);
 }
 
+/* -------------------------------------------------------- secret page
+   A hidden little "you found me" page linked from the fun-fact bubble on
+   about.html. No header/nav — just a back link up top and the same
+   eyes-looking mark from the home page, centered in the space below it. */
+
+.secret-page {
+  min-height: 70vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.secret-page .eyes-divider {
+  flex: 1;
+  justify-content: center;
+  margin: 0;
+}
+
+.secret-page .eyes-icon {
+  width: 240px;
+  height: calc(240px * 342 / 776);
+}
+
 .tagline {
   font-style: italic;
   font-size: var(--subheader-size);
@@ -593,6 +630,13 @@ a.placeholder-link {
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
+}
+
+/* Cards stay put in their left column; only the text inside them centers
+   and reads a touch larger than the rest of the site's body copy. */
+.about-info .bubble {
+  text-align: center;
+  font-size: 16px;
 }
 
 .about-photo-wrap {
@@ -640,6 +684,10 @@ a.placeholder-link {
   justify-content: center;
   text-align: center;
   padding: var(--space-3);
+}
+
+.bubble-fact:hover {
+  background: var(--accent-warm);
 }
 
 /* A real speech bubble (rounded rect + tail) sitting over the top-left
@@ -690,7 +738,7 @@ a.placeholder-link {
 }
 
 .tilt-hover {
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
 }
 
 .tilt-hover:hover {
@@ -716,4 +764,34 @@ a.placeholder-link {
     border-radius: var(--radius-lg);
     margin-top: var(--space-3);
   }
+}
+
+/* ---------------------------------------------------------- night mode
+   A small fixed toggle, sticky to the bottom-right corner on every page
+   (injected by main.js so it doesn't need to be added to every HTML
+   file). Uses the same ring artwork as the logo as its icon; the circle
+   it sits in follows the page background, so it blends in either theme. */
+
+.theme-toggle {
+  position: fixed;
+  right: var(--space-4);
+  bottom: var(--space-4);
+  z-index: 500;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid var(--button-stroke);
+  background-color: var(--page-bg);
+  background-image: url("../assets/logo-ring-left.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 64%;
+  box-shadow: 0 8px 20px rgba(20, 62, 102, 0.22);
+  transition: background-color 0.25s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.theme-toggle:hover {
+  transform: scale(1.08);
+  box-shadow: 0 10px 24px rgba(20, 62, 102, 0.3);
 }
