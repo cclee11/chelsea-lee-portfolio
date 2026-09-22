@@ -632,11 +632,11 @@ a.placeholder-link {
   gap: var(--space-4);
 }
 
-/* Cards stay put in their left column; only the text inside them centers
-   and reads a touch larger than the rest of the site's body copy. */
+/* Cards stay put in their left column; the text inside reads left-aligned
+   and a touch smaller than the rest of the site's body copy. */
 .about-info .bubble {
-  text-align: center;
-  font-size: 16px;
+  text-align: left;
+  font-size: 13px;
 }
 
 .about-photo-wrap {
@@ -657,14 +657,13 @@ a.placeholder-link {
 }
 
 .bubble-bio {
-  background: var(--accent-warm);
+  background: var(--background);
   color: var(--ink);
 }
 
 .bubble-quote {
-  background: var(--button-stroke);
-  color: var(--accent-tint);
-  font-style: italic;
+  background: var(--background);
+  color: var(--ink);
 }
 
 .bubble-fact {
