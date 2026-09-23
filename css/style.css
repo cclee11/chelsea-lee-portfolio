@@ -422,6 +422,220 @@ a.placeholder-link {
   }
 }
 
+/* ------------------------------------------------------------ case study
+   Shared building blocks for the project-N.html deep-dive template:
+   a meta-pill row (role / team / timeline), an eyebrow-free section
+   heading, quick stats, alternating research/process blocks (reusing
+   .detail-grid), a numbered reflection list, and a prev/next footer nav.
+   .tbd marks inline prose Chelsea still needs to write; .placeholder-tbd
+   marks an image slot that still needs a real screenshot. Both read as
+   clearly unfinished (dashed, muted) so they're easy to find and swap. */
+
+.case-tagline {
+  font-size: var(--subheader-size);
+  line-height: var(--subheader-line);
+  color: var(--text);
+  font-variation-settings: "wght" var(--wght-regular);
+  margin: 0 0 var(--space-4);
+  max-width: 640px;
+}
+
+.case-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin: 0 0 var(--space-5);
+}
+
+.case-meta-pill {
+  background: var(--accent-tint);
+  border-radius: var(--radius-md);
+  padding: var(--space-2) var(--space-3);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 108px;
+}
+
+.case-meta-pill .meta-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--button-stroke);
+}
+
+.case-meta-pill .meta-value {
+  font-size: 14px;
+  color: var(--ink);
+  font-variation-settings: "wght" var(--wght-medium);
+}
+
+.case-hero {
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  margin: 0 0 var(--space-5);
+}
+
+.case-section {
+  margin: 0 0 var(--space-5);
+}
+
+.case-heading {
+  font-size: var(--subheader-size);
+  line-height: var(--subheader-line);
+  color: var(--text);
+  font-variation-settings: "wght" var(--wght-medium);
+  margin: 0 0 var(--space-3);
+}
+
+.case-subheading {
+  font-size: var(--body-size);
+  color: var(--text);
+  font-variation-settings: "wght" var(--wght-medium);
+  margin: var(--space-4) 0 var(--space-2);
+}
+
+.case-subheading:first-child {
+  margin-top: 0;
+}
+
+/* placeholder text still to be written */
+.tbd {
+  font-style: italic;
+  color: var(--button-stroke);
+  border-bottom: 1px dashed var(--button-stroke);
+}
+
+/* placeholder image slot: same grey tile as everywhere else, plus a
+   centered label so it's obvious what still needs a real screenshot */
+.placeholder-tbd {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--space-3);
+}
+
+.placeholder-tbd span {
+  font-size: 12px;
+  font-style: italic;
+  color: var(--button-stroke);
+  max-width: 70%;
+}
+
+.case-note {
+  background: var(--accent-tint);
+  color: var(--ink);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  font-size: var(--body-size);
+  line-height: var(--body-line);
+}
+
+.case-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-5);
+  margin: var(--space-4) 0 0;
+}
+
+.case-stat .stat-number {
+  display: block;
+  font-size: 32px;
+  line-height: 1.1;
+  color: var(--text);
+  font-variation-settings: "wght" var(--wght-medium);
+}
+
+.case-stat .stat-label {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--button-stroke);
+}
+
+.case-takeaways {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.takeaway {
+  display: flex;
+  gap: var(--space-3);
+  align-items: flex-start;
+  margin-bottom: var(--space-4);
+}
+
+.takeaway:last-child {
+  margin-bottom: 0;
+}
+
+.takeaway-num {
+  flex: 0 0 auto;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--accent-tint);
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-variation-settings: "wght" var(--wght-medium);
+}
+
+.takeaway p {
+  margin: 0;
+  padding-top: 4px;
+}
+
+.project-nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-4);
+  margin: var(--space-5) 0 0;
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--background);
+}
+
+.project-nav a {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.project-nav .nav-next {
+  text-align: right;
+  align-items: flex-end;
+}
+
+.project-nav .nav-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--button-stroke);
+}
+
+.project-nav .nav-title {
+  font-size: 16px;
+  color: var(--text);
+  font-variation-settings: "wght" var(--wght-medium);
+  transition: color 0.2s ease;
+}
+
+.project-nav a:hover .nav-title {
+  color: var(--button-stroke);
+}
+
+@media (max-width: 640px) {
+  .case-stats {
+    gap: var(--space-4);
+  }
+}
+
 /* ---------------------------------------------------------------- home */
 
 .home-hero {
