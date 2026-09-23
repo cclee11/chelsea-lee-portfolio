@@ -314,9 +314,27 @@ a.placeholder-link {
   aspect-ratio: 16 / 8;
 }
 
+/* home page projects grid: a smaller, capped-width two-up grid instead of
+   full-bleed rectangles stacked one on top of the other */
+.projects-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4) var(--space-4);
+  max-width: 620px;
+}
+
+.projects-grid .placeholder {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+}
+
 @media (max-width: 640px) {
   .grid-2col {
     grid-template-columns: 1fr;
+  }
+  .projects-grid {
+    grid-template-columns: 1fr;
+    max-width: 420px;
   }
 }
 
@@ -370,6 +388,40 @@ a.placeholder-link {
   font-size: 14px;
   line-height: 20px;
   transform: rotateY(180deg);
+}
+
+/* --------------------------------------------------------------- subnav
+   A second row of tabs under a page title (currently used on the "more"
+   page to switch between the UX and design panels). Mirrors the pill
+   look of .site-nav a, just centered and one step smaller. */
+
+.subnav {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-2);
+  margin: 0 0 var(--space-5);
+}
+
+.subnav-tab {
+  font-family: inherit;
+  font-size: var(--body-size);
+  font-variation-settings: "wght" var(--wght-light);
+  color: var(--ink);
+  background: var(--background);
+  border: 1px solid transparent;
+  border-radius: var(--radius-full);
+  padding: var(--space-2) var(--space-4);
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.subnav-tab:hover {
+  background: var(--accent-warm);
+}
+
+.subnav-tab.is-active {
+  background: var(--accent-warm);
+  border-color: var(--button-stroke);
+  font-variation-settings: "wght" var(--wght-medium);
 }
 
 /* ------------------------------------------------------------ sub-pages */

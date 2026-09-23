@@ -16,6 +16,10 @@
       as early as possible (script runs at the end of body, so
       document.documentElement already exists) to avoid a flash of the
       wrong theme on load.
+   5. Subnav tabs (more page): clicking a .subnav-tab shows the
+      .subnav-panel with the matching data-panel and hides the rest.
+      Generic by data-tab/data-panel, so any page can reuse the same
+      markup for its own set of tabs.
 */
 
 (function () {
@@ -135,6 +139,31 @@
         }
       });
     });
+
+    var subnavTabs = document.querySelectorAll(".subnav-tab");
+    if (subnavTabs.length) {
+      var subnavPanels = document.querySelectorAll(".subnav-panel");
+
+      var activateSubnavTab = function (tab) {
+        var target = tab.getAttribute("data-tab");
+
+        subnavTabs.forEach(function (t) {
+          var isActive = t === tab;
+          t.classList.toggle("is-active", isActive);
+          t.setAttribute("aria-selected", isActive ? "true" : "false");
+        });
+
+        subnavPanels.forEach(function (panel) {
+          panel.hidden = panel.getAttribute("data-panel") !== target;
+        });
+      };
+
+      subnavTabs.forEach(function (tab) {
+        tab.addEventListener("click", function () {
+          activateSubnavTab(tab);
+        });
+      });
+    }
 
     var themeToggle = document.createElement("button");
     themeToggle.type = "button";

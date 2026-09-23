@@ -8,7 +8,7 @@
   <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png">
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
-  <title>Chelsea Lee - Design</title>
+  <title>more — chelsea lee</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -25,21 +25,33 @@
 
   <nav class="site-nav">
     <a href="index.html">projects</a>
-    <a href="design.html" class="active">design</a>
+    <a href="design.html" class="active">more</a>
     <a href="fun.html">fun!</a>
     <a href="about.html">about</a>
   </nav>
 
   <main>
-    <h1 class="page-title">design</h1>
+    <h1 class="page-title">more</h1>
 
-    <div class="grid-2col">
-      <a href="pages/design-1.html" class="placeholder-link"><div class="placeholder"></div></a>
-      <a href="pages/design-2.html" class="placeholder-link"><div class="placeholder"></div></a>
-      <a href="pages/design-3.html" class="placeholder-link"><div class="placeholder"></div></a>
-      <a href="pages/design-4.html" class="placeholder-link"><div class="placeholder"></div></a>
-      <a href="pages/design-5.html" class="placeholder-link"><div class="placeholder"></div></a>
-      <a href="pages/design-6.html" class="placeholder-link"><div class="placeholder"></div></a>
+    <nav class="subnav" role="tablist">
+      <button type="button" class="subnav-tab is-active" data-tab="ux" role="tab" aria-selected="true">UX</button>
+      <button type="button" class="subnav-tab" data-tab="design" role="tab" aria-selected="false">design</button>
+    </nav>
+
+    <div class="subnav-panel" data-panel="ux" role="tabpanel">
+      <div class="grid-2col">
+        <a href="pages/design-1.html" class="placeholder-link"><div class="placeholder"></div></a>
+        <a href="pages/design-2.html" class="placeholder-link"><div class="placeholder"></div></a>
+        <a href="pages/design-3.html" class="placeholder-link"><div class="placeholder"></div></a>
+      </div>
+    </div>
+
+    <div class="subnav-panel" data-panel="design" role="tabpanel" hidden>
+      <div class="grid-2col">
+        <a href="pages/design-4.html" class="placeholder-link"><div class="placeholder"></div></a>
+        <a href="pages/design-5.html" class="placeholder-link"><div class="placeholder"></div></a>
+        <a href="pages/design-6.html" class="placeholder-link"><div class="placeholder"></div></a>
+      </div>
     </div>
   </main>
 
