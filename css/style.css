@@ -46,8 +46,14 @@
    brand colors (and --ink stays put) so text on those surfaces is never
    put at risk of low contrast. */
 :root[data-theme="dark"] {
-  --page-bg: #0f2033;
-  --text: #eaf3fb;
+  --page-bg: #0a1828;
+  --text: var(--accent-tint);
+}
+
+/* dark mode restores the original pale-yellow title fill, since the
+   light-mode default is now navy (see .site-title .word) */
+:root[data-theme="dark"] .site-title .word {
+  color: var(--accent-warm);
 }
 
 * {
@@ -434,6 +440,7 @@ a.placeholder-link {
   border-radius: var(--radius-lg);
   padding: var(--space-5) var(--space-4);
   text-align: center;
+  box-shadow: 0 12px 28px rgba(20, 62, 102, 0.16);
 }
 
 .site-title {
@@ -456,7 +463,7 @@ a.placeholder-link {
   font-size: 130px;
   line-height: 1;
   font-variation-settings: "wght" var(--wght-regular);
-  color: var(--accent-warm);
+  color: var(--ink);
   -webkit-text-stroke: 2.5px var(--button-stroke);
   paint-order: stroke fill;
 }
@@ -605,7 +612,7 @@ a.placeholder-link {
 }
 
 .intro mark {
-  background: var(--accent-tint);
+  background: rgba(255, 246, 195, 0.45);
   color: var(--ink);
   padding: 0 2px;
   border-radius: var(--radius-sm);
