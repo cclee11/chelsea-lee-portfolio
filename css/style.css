@@ -589,7 +589,7 @@ a.placeholder-link {
   margin: 0 0 var(--space-4);
   font-size: 32px;
   line-height: 1.25;
-  text-align: center;
+  text-align: left;
   color: var(--text);
   font-variation-settings: "wght" var(--wght-medium);
   text-transform: uppercase;
