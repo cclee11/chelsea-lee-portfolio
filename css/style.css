@@ -529,13 +529,38 @@ a.placeholder-link {
 }
 
 /* quick-jump tabs, right-aligned directly under the hero image, linking
-   down to the process / solution / reflection sections below */
-.case-jumpnav {
+   down to the process / solution / reflection sections below. Wrapped in
+   a slightly-darker-blue bubble (--background, one step down from the
+   --accent-tint pills inside it) with a small "jump to..." title. */
+.case-jumpnav-wrap {
   display: flex;
   justify-content: flex-end;
-  flex-wrap: wrap;
-  gap: var(--space-2);
   margin: 0 0 var(--space-5);
+}
+
+.case-jumpnav-bubble {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--space-2);
+  background: var(--background);
+  border-radius: var(--radius-lg);
+  padding: var(--space-3) var(--space-4);
+}
+
+.jumpnav-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink);
+  font-variation-settings: "wght" var(--wght-medium);
+}
+
+.case-jumpnav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--space-2);
 }
 
 .case-jumpnav a {
@@ -557,19 +582,14 @@ a.placeholder-link {
   scroll-margin-top: 90px;
 }
 
-/* big, centered section heading with the same soft-yellow highlight used
-   behind the emphasized words in the home page intro (see .intro mark) */
+/* big, centered section heading */
 .case-heading {
-  display: table;
-  margin: 0 auto var(--space-4);
+  margin: 0 0 var(--space-4);
   font-size: 32px;
   line-height: 1.25;
   text-align: center;
-  color: var(--ink);
+  color: var(--text);
   font-variation-settings: "wght" var(--wght-medium);
-  background: rgba(255, 246, 195, 0.45);
-  padding: var(--space-1) var(--space-4);
-  border-radius: var(--radius-md);
 }
 
 .case-subheading {
@@ -720,7 +740,12 @@ a.placeholder-link {
   }
   .case-heading {
     font-size: 24px;
-    padding: var(--space-1) var(--space-3);
+  }
+  .case-jumpnav-wrap {
+    justify-content: center;
+  }
+  .case-jumpnav-bubble {
+    align-items: center;
   }
   .case-jumpnav {
     justify-content: center;
