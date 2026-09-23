@@ -215,6 +215,8 @@ main {
   font-variation-settings: "wght" var(--wght-medium);
   color: var(--text);
   margin: 0 0 var(--space-5);
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
 }
 
 /* -------------------------------------------------------------- footer */
@@ -590,6 +592,8 @@ a.placeholder-link {
   text-align: center;
   color: var(--text);
   font-variation-settings: "wght" var(--wght-medium);
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
 }
 
 .case-subheading {
@@ -597,6 +601,8 @@ a.placeholder-link {
   color: var(--text);
   font-variation-settings: "wght" var(--wght-medium);
   margin: var(--space-4) 0 var(--space-2);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
 
 .case-subheading:first-child {
