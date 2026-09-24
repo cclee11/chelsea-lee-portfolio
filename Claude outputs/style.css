@@ -1,0 +1,1850 @@
+/* ==========================================================================
+   chelsea lee — portfolio
+   Design tokens pulled from the "Chelsea Lee" design system.
+   ========================================================================== */
+
+:root {
+  --ink: #143e66;
+  --background: #a7d4e4;
+  --button-stroke: #6194c0;
+  --accent-warm: #fff6c3;
+  --accent-tint: #e0f7ff;
+  --page-bg: #f5fafd;
+  /* text sitting directly on the page background; kept separate from
+     --ink, which stays the fixed navy used for text on the colored bubble
+     / pill surfaces, so those stay legible when night mode flips --text */
+  --text: var(--ink);
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 16px;
+  --space-4: 24px;
+  --space-5: 40px;
+
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+  --radius-full: 999px;
+
+  --font-sans: "deuterium-variable", sans-serif;
+  --wght-light: 300;
+  --wght-regular: 400;
+  --wght-medium: 500;
+  --wght-bold: 700;
+
+  --header-size: 40px;
+  --header-line: 44px;
+  --subheader-size: 20px;
+  --subheader-line: 26px;
+  --body-size: 15px;
+  --body-line: 22px;
+
+  --content-max: 960px;
+}
+
+/* Night mode: only the page canvas and the plain running text on top of it
+   flip to dark. The colored bubbles, pills and buttons keep their usual
+   brand colors (and --ink stays put) so text on those surfaces is never
+   put at risk of low contrast. */
+:root[data-theme="dark"] {
+  --page-bg: #0a1828;
+  --text: var(--accent-tint);
+}
+
+/* dark mode restores the original pale-yellow title fill, since the
+   light-mode default is now navy (see .site-title .word) */
+:root[data-theme="dark"] .site-title .word {
+  color: var(--accent-warm);
+}
+
+/* every page title and section header switches to the same light blue
+   used in the logo (--background) rather than the paler --text value, so
+   titles read as a distinct, branded blue instead of blending toward
+   white against the dark canvas */
+:root[data-theme="dark"] .page-title,
+:root[data-theme="dark"] .case-heading,
+:root[data-theme="dark"] .case-subheading {
+  color: var(--background);
+}
+
+/* keeps the highlighted phrase in the home-page intro the same color as
+   the rest of the sentence in dark mode, instead of the fixed navy
+   --ink (which is meant only for text on light bubble surfaces) */
+:root[data-theme="dark"] .intro mark {
+  color: var(--text);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-variation-settings: "wght" var(--wght-light);
+  font-size: var(--body-size);
+  line-height: var(--body-line);
+  color: var(--text);
+  background: var(--page-bg);
+  -webkit-font-smoothing: antialiased;
+  transition: background 0.25s ease, color 0.25s ease;
+  /* the ring from the logo, standing in for the system pointer everywhere */
+  cursor: url("../assets/cursor-ring.png") 10 10, auto;
+}
+
+a,
+button,
+.placeholder,
+.icon-logo-link,
+.flip-tile,
+.bubble-intro,
+.letter,
+.theme-toggle {
+  cursor: url("../assets/cursor-ring.png") 10 10, pointer;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* generic yellow highlight for emphasis inside body copy (case studies use
+   this to call out the one or two most important phrases per section);
+   .intro mark below is more specific and keeps its own softer look for
+   the home page */
+mark {
+  background: var(--accent-warm);
+  color: var(--ink);
+  padding: 0 3px;
+  border-radius: var(--radius-sm);
+  font-variation-settings: "wght" var(--wght-medium);
+}
+
+/* a phrase bumped up in size instead of (or alongside) a yellow highlight,
+   for the rare sentence that deserves more visual weight than bold alone */
+.emph {
+  font-size: 1.2em;
+  color: var(--text);
+  font-variation-settings: "wght" var(--wght-medium);
+}
+
+/* ---------------------------------------------------------------- header */
+
+.site-header {
+  display: flex;
+  justify-content: flex-start;
+  /* extra left padding so the rings have room to slide outward on hover
+     without crowding the edge of the screen */
+  padding: var(--space-4) var(--space-3) var(--space-3) var(--space-5);
+}
+
+.icon-logo-link {
+  display: inline-block;
+}
+
+/* The logo is split into 3 pieces (left ring / symbol / right ring) so
+   they can be animated independently. .icon-logo-wrap is sized to the
+   full original mark's aspect ratio, and each piece is positioned inside
+   it with the exact percentages of where it sits in that original mark,
+   so at rest the three pieces reassemble into the same logo. On hover,
+   only the rings slide outward — the symbol in the middle never moves. */
+.icon-logo-wrap {
+  position: relative;
+  display: block;
+  /* smaller than the eyes-divider mark on the home page (see .eyes-icon) */
+  width: 58px;
+  height: calc(58px * 344 / 776);
+}
+
+.logo-piece {
+  position: absolute;
+  display: block;
+  width: auto;
+  height: auto;
+  transition: transform 0.3s ease;
+}
+
+.logo-ring-left {
+  left: 0.26%;
+  top: 2.62%;
+  width: 33.38%;
+  height: 75.29%;
+}
+
+.logo-symbol {
+  left: 33.76%;
+  top: 18.02%;
+  width: 32.99%;
+  height: 81.69%;
+}
+
+.logo-ring-right {
+  left: 66.49%;
+  top: 0.58%;
+  width: 33.38%;
+  height: 75.29%;
+}
+
+.icon-logo-link:hover .logo-ring-left {
+  transform: translateX(-10px);
+}
+
+.icon-logo-link:hover .logo-ring-right {
+  transform: translateX(10px);
+}
+
+/* ------------------------------------------------------------------ nav */
+
+.site-nav {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  padding: var(--space-3) 0;
+  border-top: 1px solid var(--background);
+  border-bottom: 1px solid var(--background);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--page-bg);
+}
+
+.site-nav a {
+  font-size: var(--body-size);
+  font-variation-settings: "wght" var(--wght-light);
+  color: var(--ink);
+  background: var(--background);
+  letter-spacing: 0.02em;
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid transparent;
+  border-radius: var(--radius-full);
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.site-nav a:hover {
+  background: var(--accent-warm);
+  color: var(--ink);
+}
+
+.site-nav a.active {
+  background: var(--accent-warm);
+  color: var(--ink);
+  border-color: var(--button-stroke);
+}
+
+/* -------------------------------------------------------------- layout */
+
+main {
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: var(--space-5) var(--space-4) var(--space-5);
+}
+
+/* case-study pages read as dense prose, so body copy inside them gets a
+   slightly more open line-height than the site default; only elements
+   that already reference var(--body-line) pick this up */
+.case-main {
+  --body-line: 24px;
+}
+
+/* gives the home page a wider stage than other pages, just for the
+   project cards below (see .projects-grid) */
+.home-main {
+  --content-max: 1200px;
+}
+
+.page-title {
+  font-size: var(--header-size);
+  line-height: var(--header-line);
+  font-variation-settings: "wght" var(--wght-medium);
+  color: var(--text);
+  margin: 0 0 var(--space-5);
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+}
+
+/* -------------------------------------------------------------- footer */
+
+.site-footer {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: var(--space-4);
+  border-top: 1px solid var(--background);
+}
+
+.footer-left {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.footer-credits {
+  margin: 0;
+  text-align: left;
+  font-size: 12px;
+  color: var(--button-stroke);
+}
+
+.footer-label {
+  font-size: var(--body-size);
+  color: var(--text);
+}
+
+.connect-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+}
+
+.connect-link {
+  color: var(--text);
+  font-size: var(--body-size);
+  transition: color 0.2s ease;
+}
+
+.connect-link:hover {
+  color: var(--button-stroke);
+}
+
+/* ---------------------------------------------------- placeholder tiles
+   Used on projects / design / fun grids. Hover: lift up + drop shadow.
+   Position handled with CSS vars so JS-driven dragging (fun page) and
+   the hover lift never fight over the transform property. */
+
+.placeholder {
+  --tx: 0px;
+  --ty: 0px;
+  --rot: 0deg;
+  background: #d9d9d9;
+  border-radius: var(--radius-lg);
+  transform: translate(var(--tx), var(--ty)) rotate(var(--rot));
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  will-change: transform;
+}
+
+.placeholder:hover {
+  --ty: -10px;
+  box-shadow: 0 18px 30px rgba(20, 62, 102, 0.22);
+}
+
+a.placeholder-link {
+  display: block;
+}
+
+/* an <img> standing in for a .placeholder tile (real artwork dropped into
+   a placeholder slot) needs object-fit to fill the box without distortion,
+   since a real image (unlike the flat grey placeholder div) has its own
+   intrinsic aspect ratio */
+img.placeholder {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ---------------------------------------------------------- grid pages */
+
+.grid-2col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-5) var(--space-4);
+}
+
+.grid-2col .placeholder {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+}
+
+/* fun page: three smaller squares per row, packed closer together than
+   the standard .grid-2col spacing */
+.grid-3col {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-3) var(--space-3);
+}
+
+.grid-3col .placeholder {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+}
+
+.grid-3col .flip-tile {
+  aspect-ratio: 1 / 1;
+}
+
+.stack-1col {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.stack-1col .placeholder {
+  width: 100%;
+  aspect-ratio: 16 / 8;
+}
+
+/* home page projects grid: big horizontal-rectangle tiles, centered on the
+   page, two-up. Each tile is wrapped in .project-card so a tilted little
+   bubble (name + quick description) can float on top of it. */
+.projects-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px 64px;
+  max-width: 1120px;
+  margin: 0 auto;
+}
+
+.project-card {
+  display: block;
+  position: relative;
+  /* reserves room up top so the tilted bubble has space to sit without
+     getting clipped by the row above it */
+  padding-top: 36px;
+}
+
+.project-card-image {
+  width: 100%;
+  aspect-ratio: 3 / 2;
+}
+
+/* slight idle bounce for a project-card image that's meant to catch the
+   eye (reuses the same bob keyframe as the home title / eyes-divider);
+   the hover-lift transform from .placeholder:hover is visually masked
+   while this runs, but the hover box-shadow (a separate property) still
+   comes through, so hovering still reads as an affordance */
+.project-card-bounce {
+  animation: title-bob 2.6s ease-in-out infinite;
+}
+
+.project-card-bubble {
+  position: absolute;
+  top: 0;
+  left: var(--space-4);
+  z-index: 2;
+  max-width: 75%;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  background: var(--background);
+  color: var(--ink);
+  border-radius: var(--radius-lg);
+  padding: var(--space-3) var(--space-4);
+  box-shadow: 0 12px 22px rgba(20, 62, 102, 0.2);
+  /* hidden at rest; pops up (fades + settles into its tilt) on hover */
+  opacity: 0;
+  pointer-events: none;
+  transform: rotate(var(--tilt, 0deg)) translateY(8px) scale(0.94);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.bubble-tilt-a {
+  --tilt: -4deg;
+}
+
+.bubble-tilt-b {
+  --tilt: 3deg;
+}
+
+.project-card:hover .project-card-bubble,
+.project-card:focus-visible .project-card-bubble {
+  opacity: 1;
+  transform: rotate(var(--tilt, 0deg)) translateY(0) scale(1);
+}
+
+.project-card-title {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  font-variation-settings: "wght" var(--wght-medium);
+}
+
+.project-card-desc {
+  font-size: 12px;
+  line-height: 16px;
+}
+
+@media (max-width: 640px) {
+  .grid-2col {
+    grid-template-columns: 1fr;
+  }
+  .grid-3col {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-2);
+  }
+  .projects-grid {
+    grid-template-columns: 1fr;
+    max-width: 460px;
+    gap: 48px;
+  }
+  .project-card-bubble {
+    max-width: 85%;
+  }
+}
+
+/* touch devices have no hover, so the bubble stays visible instead of
+   being permanently hidden with no way to reveal it */
+@media (hover: none) {
+  .project-card-bubble {
+    opacity: 1;
+    pointer-events: auto;
+    transform: rotate(var(--tilt, 0deg));
+  }
+}
+
+/* ------------------------------------------------------------ flip tiles
+   Used on the fun page. Click flips the tile with a 3D rotate; the front
+   face reuses .placeholder so it keeps the same hover tilt + shadow as
+   every other placeholder tile on the site until it's flipped. */
+
+.flip-tile {
+  position: relative;
+  width: 100%;
+  perspective: 1200px;
+}
+
+.grid-2col .flip-tile {
+  aspect-ratio: 1 / 1;
+}
+
+.flip-tile-inner {
+  position: absolute;
+  inset: 0;
+  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+  transform-style: preserve-3d;
+}
+
+.flip-tile.is-flipped .flip-tile-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-tile-face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--space-4);
+}
+
+.flip-tile-front {
+  margin: 0;
+}
+
+.flip-tile-back {
+  background: var(--background);
+  color: var(--ink);
+  font-style: italic;
+  font-size: 14px;
+  line-height: 20px;
+  transform: rotateY(180deg);
+}
+
+/* --------------------------------------------------------------- subnav
+   A second row of tabs under a page title (currently used on the "more"
+   page to switch between the UX and design panels). Mirrors the pill
+   look of .site-nav a, just centered and one step smaller. */
+
+.subnav {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-2);
+  margin: 0 0 var(--space-5);
+}
+
+.subnav-tab {
+  font-family: inherit;
+  font-size: var(--body-size);
+  font-variation-settings: "wght" var(--wght-light);
+  color: var(--ink);
+  background: var(--background);
+  border: 1px solid transparent;
+  border-radius: var(--radius-full);
+  padding: var(--space-2) var(--space-4);
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.subnav-tab:hover {
+  background: var(--accent-warm);
+}
+
+.subnav-tab.is-active {
+  background: var(--accent-warm);
+  border-color: var(--button-stroke);
+  font-variation-settings: "wght" var(--wght-medium);
+}
+
+/* ------------------------------------------------------------ sub-pages */
+
+.subpage-content {
+  min-height: 40vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: var(--button-stroke);
+  border: 2px dashed var(--background);
+  border-radius: var(--radius-lg);
+  font-size: var(--subheader-size);
+  line-height: var(--subheader-line);
+  padding: var(--space-5);
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: var(--space-4);
+  color: var(--button-stroke);
+  transition: color 0.2s ease;
+}
+
+.back-link:hover {
+  color: var(--ink);
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  align-items: start;
+  margin-bottom: var(--space-4);
+}
+
+.detail-image {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+}
+
+.bubble-note {
+  background: var(--accent-warm);
+  color: var(--button-stroke);
+}
+
+@media (max-width: 640px) {
+  .detail-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ------------------------------------------------------------ case study
+   Shared building blocks for the project-N.html deep-dive template:
+   a meta-pill row (role / team / timeline), an eyebrow-free section
+   heading, quick stats, alternating research/process blocks (reusing
+   .detail-grid), a numbered reflection list, and a prev/next footer nav.
+   .tbd marks inline prose Chelsea still needs to write; .placeholder-tbd
+   marks an image slot that still needs a real screenshot. Both read as
+   clearly unfinished (dashed, muted) so they're easy to find and swap. */
+
+.case-tagline {
+  font-size: var(--subheader-size);
+  line-height: var(--subheader-line);
+  color: var(--text);
+  font-variation-settings: "wght" var(--wght-regular);
+  margin: 0 0 var(--space-4);
+  max-width: 640px;
+}
+
+.case-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin: 0 0 var(--space-5);
+}
+
+.case-meta-pill {
+  background: var(--accent-tint);
+  border-radius: var(--radius-md);
+  padding: var(--space-2) var(--space-3);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 108px;
+}
+
+.case-meta-pill .meta-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--button-stroke);
+}
+
+.case-meta-pill .meta-value {
+  font-size: 14px;
+  color: var(--ink);
+  font-variation-settings: "wght" var(--wght-medium);
+}
+
+.case-hero {
+  /* matches the hero artwork's own ratio (1296 x 864) so the whole image
+     fits inside the card with no cropping, instead of forcing it into a
+     generic 16:9 box */
+  aspect-ratio: 1296 / 864;
+  width: 100%;
+  margin: 0 0 var(--space-5);
+  display: block;
+  object-fit: contain;
+  background: var(--page-bg);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 14px 28px rgba(20, 62, 102, 0.18);
+}
+
+/* quick-jump tabs, right-aligned directly under the hero image, linking
+   down to the process / solution / reflection sections below. Wrapped in
+   a slightly-darker-blue bubble (--background, one step down from the
+   --accent-tint pills inside it) with a small "jump to..." title. */
+.case-jumpnav-wrap {
+  display: flex;
+  justify-content: flex-end;
+  margin: 0 0 var(--space-5);
+}
+
+.case-jumpnav-bubble {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--space-2);
+  background: var(--background);
+  border-radius: var(--radius-lg);
+  padding: var(--space-3) var(--space-4);
+}
+
+.jumpnav-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink);
+  font-variation-settings: "wght" var(--wght-medium);
+}
+
+.case-jumpnav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--space-2);
+}
+
+.case-jumpnav a {
+  font-size: 13px;
+  color: var(--ink);
+  background: var(--accent-tint);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+  transition: background 0.2s ease;
+}
+
+.case-jumpnav a:hover {
+  background: var(--accent-warm);
+}
+
+.case-section {
+  margin: 0 0 64px;
+  /* offsets the jump so the sticky site-nav doesn't cover the heading */
+  scroll-margin-top: 90px;
+}
+
+.case-section > p {
+  margin: 0 0 var(--space-4);
+  line-height: var(--body-line);
+  max-width: 720px;
+}
+
+/* big, centered section heading */
+.case-heading {
+  margin: 0 0 var(--space-5);
+  font-size: 32px;
+  line-height: 1.25;
+  text-align: left;
+  color: var(--text);
+  font-variation-settings: "wght" var(--wght-medium);
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+}
+
+.case-subheading {
+  font-size: var(--body-size);
+  color: var(--text);
+  font-variation-settings: "wght" var(--wght-medium);
+  margin: var(--space-5) 0 var(--space-3);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.case-subheading:first-child {
+  margin-top: 0;
+}
+
+/* placeholder text still to be written */
+.tbd {
+  font-style: italic;
+  color: var(--button-stroke);
+  border-bottom: 1px dashed var(--button-stroke);
+}
+
+/* placeholder image slot: same grey tile as everywhere else, plus a
+   centered label so it's obvious what still needs a real screenshot */
+.placeholder-tbd {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--space-3);
+}
+
+.placeholder-tbd span {
+  font-size: 12px;
+  font-style: italic;
+  color: var(--button-stroke);
+  max-width: 70%;
+}
+
+.case-note {
+  background: var(--accent-tint);
+  color: var(--ink);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  font-size: var(--body-size);
+  line-height: var(--body-line);
+}
+
+.case-note p + p {
+  margin-top: var(--space-4);
+}
+
+.case-note ul {
+  margin: var(--space-3) 0 0;
+  padding-left: 1.1em;
+}
+
+.case-note li {
+  line-height: var(--body-line);
+}
+
+.case-note p + ul {
+  margin-top: var(--space-4);
+}
+
+.case-note li {
+  margin-bottom: var(--space-2);
+}
+
+.case-note li:last-child {
+  margin-bottom: 0;
+}
+
+.case-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-5);
+  margin: var(--space-4) 0 0;
+}
+
+.case-stat .stat-number {
+  display: block;
+  font-size: 32px;
+  line-height: 1.1;
+  color: var(--text);
+  font-variation-settings: "wght" var(--wght-medium);
+}
+
+.case-stat .stat-label {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--button-stroke);
+}
+
+.case-takeaways {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.takeaway {
+  display: flex;
+  gap: var(--space-3);
+  align-items: flex-start;
+  margin-bottom: var(--space-4);
+}
+
+.takeaway:last-child {
+  margin-bottom: 0;
+}
+
+.takeaway-num {
+  flex: 0 0 auto;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--accent-tint);
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-variation-settings: "wght" var(--wght-medium);
+}
+
+.takeaway p {
+  margin: 0;
+  padding-top: 4px;
+}
+
+/* --------------------------------------------------------- brand colors
+   Overview section: pitchbook's primary + secondary palette, pulled from
+   their brand guide. Small labeled swatches grouped by role, laid out as
+   a wrapping row of chips rather than the boxy grid-with-text-underneath
+   the source brand-guide slide used. */
+
+.brand-colors {
+  margin: var(--space-5) 0 0;
+}
+
+.color-group {
+  margin-bottom: var(--space-4);
+}
+
+.color-group:last-of-type {
+  margin-bottom: 0;
+}
+
+.color-group-label {
+  display: block;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--button-stroke);
+  margin-bottom: var(--space-2);
+}
+
+.swatch-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.swatch {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  background: var(--accent-tint);
+  border-radius: var(--radius-full);
+  padding: var(--space-1) var(--space-3) var(--space-1) var(--space-1);
+}
+
+.swatch-chip {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  border: 1px solid rgba(20, 62, 102, 0.15);
+}
+
+.swatch-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.swatch-name {
+  font-size: 12px;
+  color: var(--ink);
+  font-variation-settings: "wght" var(--wght-medium);
+  text-transform: capitalize;
+}
+
+.swatch-hex {
+  font-size: 10px;
+  color: var(--button-stroke);
+  letter-spacing: 0.02em;
+}
+
+.brand-colors .case-note {
+  margin-top: var(--space-3);
+}
+
+/* --------------------------------------------------- competitive analysis
+   The composite audit image already carries its own drop shadows and
+   overlap (see competitive-analysis.png), so it's dropped in as-is; a
+   small numbered legend underneath calls out which company is which,
+   top to bottom, without needing fragile pixel-perfect labels overlaid
+   on the image itself. */
+
+.competitor-legend {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: var(--space-3) 0 0;
+  padding: 0;
+}
+
+.competitor-legend li {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  background: var(--accent-tint);
+  color: var(--ink);
+  border-radius: var(--radius-full);
+  padding: var(--space-1) var(--space-3);
+  font-size: 12px;
+}
+
+.competitor-legend .legend-num {
+  font-size: 10px;
+  color: var(--button-stroke);
+  font-variation-settings: "wght" var(--wght-medium);
+}
+
+/* ------------------------------------------------------------- personas
+   Recreated natively in the site's own card style (rather than dropped
+   in as a screenshot) so it reads as part of the page, not a pasted-in
+   image. Two persona cards, each with a goals / pain-points split. */
+
+.persona-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+  margin: var(--space-5) 0 0;
+}
+
+.persona-card {
+  background: var(--accent-tint);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+}
+
+.persona-head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+
+.persona-avatar {
+  flex: 0 0 auto;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--ink);
+  color: var(--accent-tint);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-variation-settings: "wght" var(--wght-medium);
+}
+
+.persona-name {
+  margin: 0;
+  font-size: 16px;
+  color: var(--ink);
+  font-variation-settings: "wght" var(--wght-medium);
+  text-transform: capitalize;
+}
+
+.persona-role {
+  margin: 2px 0 0;
+  font-size: 12px;
+  color: var(--button-stroke);
+}
+
+.persona-blurb {
+  margin: 0 0 var(--space-4);
+  font-size: var(--body-size);
+  line-height: var(--body-line);
+  color: var(--ink);
+}
+
+.persona-cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+}
+
+.persona-col-label {
+  display: block;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--button-stroke);
+  margin-bottom: var(--space-1);
+}
+
+.persona-col ul {
+  margin: 0;
+  padding-left: 1.1em;
+  font-size: 12px;
+  line-height: 17px;
+  color: var(--ink);
+}
+
+.persona-col li {
+  margin-bottom: var(--space-1);
+}
+
+.persona-col li:last-child {
+  margin-bottom: 0;
+}
+
+/* --------------------------------------------------------- pain points
+   Six small bouncing bubble cards, light-yellow-on-navy, in a 3-up grid
+   under their own mini heading. Each card bounces on its own offset so
+   the grid doesn't bob in lockstep (reuses the idle bob keyframe defined
+   for the home title / eyes-divider). */
+
+.pain-points-heading {
+  text-align: center;
+}
+
+.pain-points-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-4);
+  max-width: 820px;
+  margin: var(--space-4) auto 0;
+}
+
+.pain-card {
+  background: var(--accent-warm);
+  color: var(--ink);
+  border-radius: var(--radius-lg);
+  padding: var(--space-3);
+  text-align: center;
+  box-shadow: 0 10px 18px rgba(20, 62, 102, 0.14);
+  animation: title-bob 2.6s ease-in-out infinite;
+}
+
+.pain-card:nth-child(2) { animation-delay: 0.2s; }
+.pain-card:nth-child(3) { animation-delay: 0.4s; }
+.pain-card:nth-child(4) { animation-delay: 0.6s; }
+.pain-card:nth-child(5) { animation-delay: 0.8s; }
+.pain-card:nth-child(6) { animation-delay: 1s; }
+
+.pain-card-num {
+  display: block;
+  font-size: 11px;
+  color: var(--button-stroke);
+  font-variation-settings: "wght" var(--wght-medium);
+  margin-bottom: 2px;
+}
+
+.pain-card-title {
+  display: block;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  font-variation-settings: "wght" var(--wght-medium);
+  margin-bottom: 4px;
+}
+
+.pain-card-desc {
+  display: block;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+/* ------------------------------------------------------ mockup captions
+   Used next to the lowfi / midfi mockup images: a vertical stack of
+   small caption cards (one per screen shown in the composite image),
+   each with its own background + gap so they never crowd each other. */
+
+.mockup-captions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin-top: var(--space-3);
+}
+
+.mockup-caption-card {
+  background: var(--accent-tint);
+  color: var(--ink);
+  border-radius: var(--radius-md);
+  padding: var(--space-3);
+}
+
+.mockup-caption-title {
+  display: block;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  font-variation-settings: "wght" var(--wght-medium);
+  margin-bottom: 4px;
+}
+
+.mockup-caption-desc {
+  display: block;
+  font-size: 12px;
+  line-height: 18px;
+}
+
+.mockup-note {
+  margin: 0 0 var(--space-4);
+  color: var(--text);
+  line-height: var(--body-line);
+}
+
+/* -------------------------------------------------------- solution video
+   Prototype walkthrough, sized down and centered right under the section
+   heading rather than running full width like the screen grid below. */
+
+.solution-video-wrap {
+  display: flex;
+  justify-content: center;
+  margin: 0 0 var(--space-5);
+}
+
+.solution-video {
+  width: 100%;
+  max-width: 520px;
+  border-radius: var(--radius-lg);
+  box-shadow: 0 14px 26px rgba(20, 62, 102, 0.2);
+}
+
+.solution-intro {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ---------------------------------------------------- dark-mode toggle
+   Local to the solution section only: flips the six final screens over
+   to their dark-mode counterparts. Separate from the site-wide night
+   mode toggle (.theme-toggle), which only affects the page canvas.
+   Reuses the same ring artwork as .theme-toggle so the two read as one
+   family, but inline/centered rather than fixed to the corner. */
+
+.mode-toggle-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 0 var(--space-5);
+}
+
+.solution-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: inherit;
+}
+
+.solution-toggle-ring {
+  display: inline-block;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--button-stroke);
+  background-color: var(--page-bg);
+  background-image: url("../assets/logo-ring-left.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 64%;
+  box-shadow: 0 6px 14px rgba(20, 62, 102, 0.18);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.solution-toggle:hover .solution-toggle-ring {
+  transform: scale(1.08);
+  box-shadow: 0 8px 18px rgba(20, 62, 102, 0.26);
+}
+
+.solution-toggle[aria-pressed="true"] .solution-toggle-ring {
+  transform: rotate(180deg);
+}
+
+.solution-toggle:focus-visible .solution-toggle-ring {
+  outline: 2px solid var(--button-stroke);
+  outline-offset: 2px;
+}
+
+.solution-toggle-label {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text);
+  font-variation-settings: "wght" var(--wght-medium);
+}
+
+/* ------------------------------------------------------- solution grid
+   Each final screen ships as a light + dark image stacked in the same
+   box; the toggle above crossfades between them by flipping .is-dark on
+   the grid wrapper. Captions sit underneath, permanently visible (unlike
+   the home-page project bubbles, which only show on hover). */
+
+.solution-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4) var(--space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.solution-card {
+  margin: 0;
+}
+
+.solution-img-wrap {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 864 / 603;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: 0 12px 22px rgba(20, 62, 102, 0.18);
+}
+
+.solution-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.solution-img-light {
+  opacity: 1;
+}
+
+.solution-grid.is-dark .solution-img-light {
+  opacity: 0;
+}
+
+.solution-grid.is-dark .solution-img-dark {
+  opacity: 1;
+}
+
+.solution-card figcaption {
+  margin-top: var(--space-2);
+}
+
+.solution-caption-title {
+  display: block;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: var(--text);
+  font-variation-settings: "wght" var(--wght-medium);
+}
+
+.solution-caption-desc {
+  display: block;
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--text);
+  margin-top: 2px;
+}
+
+@media (max-width: 640px) {
+  .persona-grid {
+    grid-template-columns: 1fr;
+  }
+  .pain-points-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .solution-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------------------------------------------------------- back to top
+   Small pill button after the reflection section, matching the look of
+   the jump-nav pills above the hero. */
+
+.back-to-top-wrap {
+  display: flex;
+  justify-content: center;
+  margin: var(--space-5) 0 0;
+}
+
+.back-to-top {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 13px;
+  color: var(--ink);
+  background: var(--accent-tint);
+  border: none;
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-full);
+  font-family: inherit;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.back-to-top:hover {
+  background: var(--accent-warm);
+  transform: translateY(-2px);
+}
+
+.project-nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-4);
+  margin: var(--space-5) 0 0;
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--background);
+}
+
+.project-nav a {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.project-nav .nav-next {
+  text-align: right;
+  align-items: flex-end;
+}
+
+.project-nav .nav-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--button-stroke);
+}
+
+.project-nav .nav-title {
+  font-size: 16px;
+  color: var(--text);
+  font-variation-settings: "wght" var(--wght-medium);
+  transition: color 0.2s ease;
+}
+
+.project-nav a:hover .nav-title {
+  color: var(--button-stroke);
+}
+
+@media (max-width: 640px) {
+  .case-stats {
+    gap: var(--space-4);
+  }
+  .case-heading {
+    font-size: 24px;
+  }
+  .case-jumpnav-wrap {
+    justify-content: center;
+  }
+  .case-jumpnav-bubble {
+    align-items: center;
+  }
+  .case-jumpnav {
+    justify-content: center;
+  }
+}
+
+/* ---------------------------------------------------------------- home */
+
+.home-hero {
+  position: relative;
+  width: 100%;
+  padding-bottom: var(--space-5);
+  margin-bottom: var(--space-4);
+}
+
+.hero-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  /* tall enough to fill most of the screen on first load, with some
+     breathing room left over so the eyes-divider below it doesn't feel
+     crammed against the bottom of the viewport */
+  min-height: calc(100vh - 420px);
+  border: 1px solid var(--button-stroke);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5) var(--space-4);
+  text-align: center;
+  box-shadow: 0 12px 28px rgba(20, 62, 102, 0.16);
+}
+
+@media (max-width: 640px) {
+  .hero-box {
+    /* mobile nav wraps to two rows, so more chrome sits above the hero */
+    min-height: calc(100vh - 490px);
+  }
+}
+
+.site-title {
+  margin: var(--space-3) 0 var(--space-4);
+  display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: baseline;
+  /* gap is set in px, not em: the words are sized way up via .word's own
+     font-size, so an em-based gap here (inherited from body's small
+     font-size) would end up nearly invisible next to 130px letters */
+  gap: 28px;
+  cursor: url("../assets/cursor-ring.png") 10 10, default;
+  /* idle bounce, always running, matching the eyes-divider logo below it */
+  animation: title-bob 2.6s ease-in-out infinite;
+}
+
+.site-title .word {
+  display: inline-flex;
+  font-size: 130px;
+  line-height: 1;
+  font-variation-settings: "wght" var(--wght-regular);
+  color: var(--ink);
+  -webkit-text-stroke: 2.5px var(--button-stroke);
+  paint-order: stroke fill;
+}
+
+@media (max-width: 640px) {
+  .site-title .word {
+    font-size: 64px;
+  }
+  .site-title {
+    gap: 14px;
+  }
+}
+
+@keyframes title-bob {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-6px); }
+}
+
+/* Each letter is independently clickable: clicking cycles its fill through
+   a small palette (see main.js), while the blue outline stroke (inherited
+   from .word) stays constant so every state still reads as one family.
+   .word is display:inline-flex (see above) so the whitespace between each
+   letter span in the HTML source doesn't render as a gap — but that also
+   means plain letter-spacing has no effect here, since flex layout doesn't
+   use it. A small negative margin pulls the letters in tight instead. */
+.letter {
+  display: inline-block;
+  margin-right: -0.01em;
+}
+
+.letter.color-lightblue {
+  color: var(--background);
+}
+
+.letter.color-yellow {
+  color: var(--accent-warm);
+}
+
+/* ------------------------------------------------- eyes-looking divider
+   Sits between the hero card and the project grid. Built as two stacked
+   layers so only the pupils move, never the rings/character: .eyes-base
+   is the mark with the pupils (fill + their own outline stroke) erased to
+   a plain disc, and .eyes-pupils is a transparent-everywhere-but-the-
+   pupils overlay — stroke included, so the outline travels with the fill
+   instead of being left behind — that slides left/right on hover, using
+   the exact left/center/right positions from the source artwork so the
+   pupils never clip outside their sockets. .eyes-pupils is drawn at the
+   "look left" position, so 0 / 1 / 2 step-units of --pupil-step land on
+   left / center / right respectively; resting state sits at 1 step
+   (center). The whole icon also has a gentle idle bob running all the
+   time, hover or not. */
+
+.eyes-divider {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  margin: var(--space-5) 0;
+}
+
+.eyes-icon {
+  --pupil-step: 6.37px;
+  position: relative;
+  display: inline-block;
+  width: 130px;
+  height: calc(130px * 342 / 776);
+  cursor: url("../assets/cursor-ring.png") 10 10, default;
+  animation: eyes-bob 2.6s ease-in-out infinite;
+}
+
+.eyes-base,
+.eyes-pupils {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.eyes-pupils {
+  transform: translateX(var(--pupil-step));
+  transition: transform 0.3s ease;
+}
+
+.eyes-icon:hover .eyes-pupils {
+  transition: none;
+  animation: pupils-look 2.4s ease-in-out infinite;
+}
+
+@keyframes eyes-bob {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-6px); }
+}
+
+@keyframes pupils-look {
+  0%   { transform: translateX(var(--pupil-step)); }
+  15%  { transform: translateX(var(--pupil-step)); }
+  25%  { transform: translateX(0); }
+  40%  { transform: translateX(0); }
+  50%  { transform: translateX(var(--pupil-step)); }
+  65%  { transform: translateX(calc(var(--pupil-step) * 2)); }
+  80%  { transform: translateX(calc(var(--pupil-step) * 2)); }
+  100% { transform: translateX(var(--pupil-step)); }
+}
+
+.eyes-caption {
+  margin: 0;
+  font-size: 12px;
+  font-style: italic;
+  color: var(--button-stroke);
+}
+
+/* -------------------------------------------------------- secret page
+   A hidden little "you found me" page linked from the fun-fact bubble on
+   about.html. No header/nav — just a back link up top and the same
+   eyes-looking mark from the home page, centered in the space below it. */
+
+.secret-page {
+  min-height: 70vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.secret-page .eyes-divider {
+  flex: 1;
+  justify-content: center;
+  margin: 0;
+}
+
+.secret-page .eyes-icon {
+  width: 240px;
+  height: calc(240px * 342 / 776);
+}
+
+.tagline {
+  font-style: italic;
+  font-size: var(--subheader-size);
+  line-height: var(--subheader-line);
+  margin: 0 0 var(--space-4);
+}
+
+.intro {
+  max-width: 620px;
+  margin: 0 auto;
+  font-size: var(--body-size);
+  line-height: var(--body-line);
+}
+
+.intro mark {
+  background: rgba(255, 246, 195, 0.45);
+  color: var(--ink);
+  padding: 0 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* --------------------------------------------------------------- about */
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+  position: relative;
+  align-items: start;
+  /* the speech bubble pokes up above the photo (see .bubble-intro), so
+     without this the nav ends up sitting right on top of it */
+  margin-top: var(--space-4);
+  /* extra breathing room before the footer, on top of main's own padding */
+  margin-bottom: var(--space-5);
+}
+
+.about-info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+/* Cards stay put in their left column; the text inside reads left-aligned
+   and a touch smaller than the rest of the site's body copy. */
+.about-info .bubble {
+  text-align: left;
+  font-size: 13px;
+}
+
+.about-photo-wrap {
+  position: relative;
+}
+
+.about-photo {
+  border-radius: var(--radius-lg);
+  width: 100%;
+  height: auto;
+}
+
+.bubble {
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  font-size: var(--body-size);
+  line-height: var(--body-line);
+}
+
+.bubble-bio {
+  background: var(--background);
+  color: var(--ink);
+}
+
+.bubble-quote {
+  background: var(--background);
+  color: var(--ink);
+}
+
+.bubble-fact {
+  position: absolute;
+  right: -30px;
+  bottom: -30px;
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  background: var(--accent-tint);
+  color: var(--button-stroke);
+  font-style: italic;
+  font-size: 12px;
+  line-height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--space-3);
+}
+
+.bubble-fact:hover {
+  background: var(--accent-warm);
+}
+
+/* A real speech bubble (rounded rect + tail) sitting over the top-left
+   corner of the photo, doubling as a click-to-cycle greeting. Clicking it
+   swaps .bubble-intro-text through a list of phrases (see main.js); the
+   "(click me)" hint only shows before the first click. */
+.bubble-intro {
+  position: absolute;
+  top: -30px;
+  left: -30px;
+  z-index: 2;
+  max-width: 260px;
+  padding: var(--space-4) var(--space-5);
+  background: var(--accent-warm);
+  color: var(--ink);
+  text-align: center;
+}
+
+.bubble-intro-text {
+  margin: 0;
+  font-size: 22px;
+  line-height: 1.25;
+  font-variation-settings: "wght" var(--wght-regular);
+}
+
+.bubble-intro-hint {
+  margin: var(--space-2) 0 0;
+  font-size: 11px;
+  font-style: italic;
+  color: var(--button-stroke);
+}
+
+.bubble-intro::after {
+  content: "";
+  position: absolute;
+  bottom: -14px;
+  left: 36px;
+  width: 0;
+  height: 0;
+  border-left: 12px solid transparent;
+  border-right: 12px solid transparent;
+  border-top: 16px solid var(--accent-warm);
+}
+
+.bubble-hobbies {
+  background: var(--background);
+  color: var(--ink);
+}
+
+.tilt-hover {
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+}
+
+.tilt-hover:hover {
+  box-shadow: 0 18px 30px rgba(20, 62, 102, 0.22);
+}
+
+.tilt-left:hover {
+  transform: rotate(-3deg);
+}
+
+.tilt-right:hover {
+  transform: rotate(3deg);
+}
+
+@media (max-width: 640px) {
+  .about-grid {
+    grid-template-columns: 1fr;
+  }
+  .bubble-fact {
+    position: static;
+    width: auto;
+    height: auto;
+    border-radius: var(--radius-lg);
+    margin-top: var(--space-3);
+  }
+}
+
+/* ---------------------------------------------------------- night mode
+   A small fixed toggle, sticky to the bottom-right corner on every page
+   (injected by main.js so it doesn't need to be added to every HTML
+   file). Uses the same ring artwork as the logo as its icon; the circle
+   it sits in follows the page background, so it blends in either theme. */
+
+.theme-toggle {
+  position: fixed;
+  right: var(--space-4);
+  bottom: var(--space-4);
+  z-index: 500;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid var(--button-stroke);
+  background-color: var(--page-bg);
+  background-image: url("../assets/logo-ring-left.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 64%;
+  box-shadow: 0 8px 20px rgba(20, 62, 102, 0.22);
+  transition: background-color 0.25s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.theme-toggle:hover {
+  transform: scale(1.08);
+  box-shadow: 0 10px 24px rgba(20, 62, 102, 0.3);
+}
