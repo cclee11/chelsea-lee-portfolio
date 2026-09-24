@@ -105,7 +105,9 @@ img {
 .site-header {
   display: flex;
   justify-content: flex-start;
-  padding: var(--space-4) var(--space-3) var(--space-3);
+  /* extra left padding so the rings have room to slide outward on hover
+     without crowding the edge of the screen */
+  padding: var(--space-4) var(--space-3) var(--space-3) var(--space-5);
 }
 
 .icon-logo-link {
@@ -892,11 +894,10 @@ a.placeholder-link {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  /* tall enough to fill most of the screen on first load; the fixed
-     offset accounts for the header, nav, and the eyes-divider below it,
-     so that logo lands right near the bottom of the viewport (see
-     measurements in the "home" section comment further down) */
-  min-height: calc(100vh - 350px);
+  /* tall enough to fill most of the screen on first load, with some
+     breathing room left over so the eyes-divider below it doesn't feel
+     crammed against the bottom of the viewport */
+  min-height: calc(100vh - 420px);
   border: 1px solid var(--button-stroke);
   border-radius: var(--radius-lg);
   padding: var(--space-5) var(--space-4);
@@ -907,7 +908,7 @@ a.placeholder-link {
 @media (max-width: 640px) {
   .hero-box {
     /* mobile nav wraps to two rows, so more chrome sits above the hero */
-    min-height: calc(100vh - 420px);
+    min-height: calc(100vh - 490px);
   }
 }
 
