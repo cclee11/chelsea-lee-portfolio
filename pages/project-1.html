@@ -377,17 +377,16 @@
         <video class="solution-video" src="../assets/pitchbook-prototype-walkthrough.mp4" poster="../assets/pitchbook-mockup.png" controls playsinline muted></video>
       </div>
 
-      <p>The final design gives PitchBook users <mark>one home for corporate events</mark>: a redesigned
-         events tab with all / upcoming / past filtering, a calendar toggle, a docked reminders panel,
-         and a full event-detail view — plus small touches like an unmissable "live now" badge and
-         named, one-click document downloads.</p>
+      <p class="solution-intro">The final design gives PitchBook users <mark>one home for corporate
+         events</mark>: a redesigned events tab with all / upcoming / past filtering, a calendar toggle,
+         a docked reminders panel, and a full event-detail view — plus small touches like an
+         unmissable "live now" badge and named, one-click document downloads.</p>
 
       <div class="mode-toggle-wrap">
-        <label class="mode-toggle">
-          <input type="checkbox" class="mode-toggle-input" id="solutionDarkToggle">
-          <span class="mode-toggle-track"><span class="mode-toggle-thumb"></span></span>
-          <span class="mode-toggle-label">View dark mode</span>
-        </label>
+        <button type="button" class="solution-toggle" id="solutionDarkToggle" aria-pressed="false">
+          <span class="solution-toggle-ring"></span>
+          <span class="solution-toggle-label">Click here to view in dark mode!</span>
+        </button>
       </div>
 
       <div class="solution-grid" id="solutionScreens">
@@ -479,6 +478,10 @@
         </li>
       </ol>
     </section>
+
+    <div class="back-to-top-wrap">
+      <button type="button" class="back-to-top">&uarr; Back to top</button>
+    </div>
 
     <nav class="project-nav">
       <a href="project-3.html" class="nav-prev">

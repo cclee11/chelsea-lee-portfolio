@@ -173,10 +173,18 @@
     var solutionDarkToggle = document.getElementById("solutionDarkToggle");
     var solutionScreens = document.getElementById("solutionScreens");
     if (solutionDarkToggle && solutionScreens) {
-      solutionDarkToggle.addEventListener("change", function () {
-        solutionScreens.classList.toggle("is-dark", solutionDarkToggle.checked);
+      solutionDarkToggle.addEventListener("click", function () {
+        var isDark = solutionScreens.classList.toggle("is-dark");
+        solutionDarkToggle.setAttribute("aria-pressed", isDark ? "true" : "false");
       });
     }
+
+    var backToTopButtons = document.querySelectorAll(".back-to-top");
+    backToTopButtons.forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+    });
 
     var themeToggle = document.createElement("button");
     themeToggle.type = "button";
