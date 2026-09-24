@@ -30,6 +30,7 @@
   --wght-light: 300;
   --wght-regular: 400;
   --wght-medium: 500;
+  --wght-bold: 700;
 
   --header-size: 40px;
   --header-line: 44px;
@@ -305,6 +306,23 @@ a.placeholder-link {
   aspect-ratio: 1 / 1;
 }
 
+/* fun page: three smaller squares per row, packed closer together than
+   the standard .grid-2col spacing */
+.grid-3col {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-3) var(--space-3);
+}
+
+.grid-3col .placeholder {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+}
+
+.grid-3col .flip-tile {
+  aspect-ratio: 1 / 1;
+}
+
 .stack-1col {
   display: flex;
   flex-direction: column;
@@ -390,6 +408,10 @@ a.placeholder-link {
 @media (max-width: 640px) {
   .grid-2col {
     grid-template-columns: 1fr;
+  }
+  .grid-3col {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-2);
   }
   .projects-grid {
     grid-template-columns: 1fr;
@@ -890,7 +912,7 @@ a.placeholder-link {
   display: inline-flex;
   font-size: 130px;
   line-height: 1;
-  font-variation-settings: "wght" var(--wght-regular);
+  font-variation-settings: "wght" var(--wght-bold);
   color: var(--ink);
   -webkit-text-stroke: 2.5px var(--button-stroke);
   paint-order: stroke fill;
@@ -912,9 +934,14 @@ a.placeholder-link {
 
 /* Each letter is independently clickable: clicking cycles its fill through
    a small palette (see main.js), while the blue outline stroke (inherited
-   from .word) stays constant so every state still reads as one family. */
+   from .word) stays constant so every state still reads as one family.
+   .word is display:inline-flex (see above) so the whitespace between each
+   letter span in the HTML source doesn't render as a gap — but that also
+   means plain letter-spacing has no effect here, since flex layout doesn't
+   use it. A small negative margin pulls the letters in tight instead. */
 .letter {
   display: inline-block;
+  margin-right: -0.04em;
 }
 
 .letter.color-lightblue {
