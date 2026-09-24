@@ -210,6 +210,12 @@ main {
   padding: var(--space-5) var(--space-4) var(--space-5);
 }
 
+/* gives the home page a wider stage than other pages, just for the
+   project cards below (see .projects-grid) */
+.home-main {
+  --content-max: 1200px;
+}
+
 .page-title {
   font-size: var(--header-size);
   line-height: var(--header-line);
@@ -340,8 +346,8 @@ a.placeholder-link {
 .projects-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 64px 56px;
-  max-width: 880px;
+  gap: 64px 64px;
+  max-width: 1120px;
   margin: 0 auto;
 }
 
@@ -415,7 +421,7 @@ a.placeholder-link {
   }
   .projects-grid {
     grid-template-columns: 1fr;
-    max-width: 420px;
+    max-width: 460px;
     gap: 48px;
   }
   .project-card-bubble {
