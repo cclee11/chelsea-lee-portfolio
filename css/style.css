@@ -316,18 +316,75 @@ a.placeholder-link {
   aspect-ratio: 16 / 8;
 }
 
-/* home page projects grid: a smaller, capped-width two-up grid instead of
-   full-bleed rectangles stacked one on top of the other */
+/* home page projects grid: big horizontal-rectangle tiles, centered on the
+   page, two-up. Each tile is wrapped in .project-card so a tilted little
+   bubble (name + quick description) can float on top of it. */
 .projects-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: var(--space-4) var(--space-4);
-  max-width: 620px;
+  gap: 64px 56px;
+  max-width: 880px;
+  margin: 0 auto;
 }
 
-.projects-grid .placeholder {
+.project-card {
+  display: block;
+  position: relative;
+  /* reserves room up top so the tilted bubble has space to sit without
+     getting clipped by the row above it */
+  padding-top: 36px;
+}
+
+.project-card-image {
   width: 100%;
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 3 / 2;
+}
+
+.project-card-bubble {
+  position: absolute;
+  top: 0;
+  left: var(--space-4);
+  z-index: 2;
+  max-width: 75%;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  background: var(--accent-warm);
+  color: var(--ink);
+  border-radius: var(--radius-lg);
+  padding: var(--space-3) var(--space-4);
+  box-shadow: 0 12px 22px rgba(20, 62, 102, 0.2);
+  /* hidden at rest; pops up (fades + settles into its tilt) on hover */
+  opacity: 0;
+  pointer-events: none;
+  transform: rotate(var(--tilt, 0deg)) translateY(8px) scale(0.94);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.bubble-tilt-a {
+  --tilt: -4deg;
+}
+
+.bubble-tilt-b {
+  --tilt: 3deg;
+}
+
+.project-card:hover .project-card-bubble,
+.project-card:focus-visible .project-card-bubble {
+  opacity: 1;
+  transform: rotate(var(--tilt, 0deg)) translateY(0) scale(1);
+}
+
+.project-card-title {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  font-variation-settings: "wght" var(--wght-medium);
+}
+
+.project-card-desc {
+  font-size: 12px;
+  line-height: 16px;
 }
 
 @media (max-width: 640px) {
@@ -337,6 +394,20 @@ a.placeholder-link {
   .projects-grid {
     grid-template-columns: 1fr;
     max-width: 420px;
+    gap: 48px;
+  }
+  .project-card-bubble {
+    max-width: 85%;
+  }
+}
+
+/* touch devices have no hover, so the bubble stays visible instead of
+   being permanently hidden with no way to reveal it */
+@media (hover: none) {
+  .project-card-bubble {
+    opacity: 1;
+    pointer-events: auto;
+    transform: rotate(var(--tilt, 0deg));
   }
 }
 
