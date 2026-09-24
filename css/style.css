@@ -104,7 +104,7 @@ img {
 
 .site-header {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   padding: var(--space-4) var(--space-3) var(--space-3);
 }
 
@@ -122,8 +122,8 @@ img {
   position: relative;
   display: block;
   /* smaller than the eyes-divider mark on the home page (see .eyes-icon) */
-  width: 72px;
-  height: calc(72px * 344 / 776);
+  width: 58px;
+  height: calc(58px * 344 / 776);
 }
 
 .logo-piece {
@@ -892,11 +892,25 @@ a.placeholder-link {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  /* tall enough to fill most of the screen on first load; the fixed
+     offset accounts for the header, nav, and the eyes-divider below it,
+     so that logo lands right near the bottom of the viewport (see
+     measurements in the "home" section comment further down) */
+  min-height: calc(100vh - 350px);
   border: 1px solid var(--button-stroke);
   border-radius: var(--radius-lg);
+  background: var(--background);
+  color: var(--ink);
   padding: var(--space-5) var(--space-4);
   text-align: center;
   box-shadow: 0 12px 28px rgba(20, 62, 102, 0.16);
+}
+
+@media (max-width: 640px) {
+  .hero-box {
+    /* mobile nav wraps to two rows, so more chrome sits above the hero */
+    min-height: calc(100vh - 420px);
+  }
 }
 
 .site-title {
