@@ -301,6 +301,17 @@ a.placeholder-link {
   display: block;
 }
 
+/* an <img> standing in for a .placeholder tile (real artwork dropped into
+   a placeholder slot) needs object-fit to fill the box without distortion,
+   since a real image (unlike the flat grey placeholder div) has its own
+   intrinsic aspect ratio */
+img.placeholder {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 /* ---------------------------------------------------------- grid pages */
 
 .grid-2col {
@@ -364,6 +375,15 @@ a.placeholder-link {
 .project-card-image {
   width: 100%;
   aspect-ratio: 3 / 2;
+}
+
+/* slight idle bounce for a project-card image that's meant to catch the
+   eye (reuses the same bob keyframe as the home title / eyes-divider);
+   the hover-lift transform from .placeholder:hover is visually masked
+   while this runs, but the hover box-shadow (a separate property) still
+   comes through, so hovering still reads as an affordance */
+.project-card-bounce {
+  animation: title-bob 2.6s ease-in-out infinite;
 }
 
 .project-card-bubble {
@@ -629,6 +649,11 @@ a.placeholder-link {
   aspect-ratio: 16 / 9;
   width: 100%;
   margin: 0 0 var(--space-4);
+  display: block;
+  object-fit: cover;
+  object-position: top center;
+  border-radius: var(--radius-lg);
+  box-shadow: 0 14px 28px rgba(20, 62, 102, 0.18);
 }
 
 /* quick-jump tabs, right-aligned directly under the hero image, linking
@@ -820,6 +845,466 @@ a.placeholder-link {
 .takeaway p {
   margin: 0;
   padding-top: 4px;
+}
+
+/* --------------------------------------------------------- brand colors
+   Overview section: pitchbook's primary + secondary palette, pulled from
+   their brand guide. Small labeled swatches grouped by role, laid out as
+   a wrapping row of chips rather than the boxy grid-with-text-underneath
+   the source brand-guide slide used. */
+
+.brand-colors {
+  margin: var(--space-4) 0 0;
+}
+
+.color-group {
+  margin-bottom: var(--space-3);
+}
+
+.color-group:last-of-type {
+  margin-bottom: 0;
+}
+
+.color-group-label {
+  display: block;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--button-stroke);
+  margin-bottom: var(--space-2);
+}
+
+.swatch-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.swatch {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  background: var(--accent-tint);
+  border-radius: var(--radius-full);
+  padding: var(--space-1) var(--space-3) var(--space-1) var(--space-1);
+}
+
+.swatch-chip {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  border: 1px solid rgba(20, 62, 102, 0.15);
+}
+
+.swatch-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.swatch-name {
+  font-size: 12px;
+  color: var(--ink);
+  font-variation-settings: "wght" var(--wght-medium);
+  text-transform: capitalize;
+}
+
+.swatch-hex {
+  font-size: 10px;
+  color: var(--button-stroke);
+  letter-spacing: 0.02em;
+}
+
+.brand-colors .case-note {
+  margin-top: var(--space-3);
+}
+
+/* --------------------------------------------------- competitive analysis
+   The composite audit image already carries its own drop shadows and
+   overlap (see competitive-analysis.png), so it's dropped in as-is; a
+   small numbered legend underneath calls out which company is which,
+   top to bottom, without needing fragile pixel-perfect labels overlaid
+   on the image itself. */
+
+.competitor-legend {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: var(--space-3) 0 0;
+  padding: 0;
+}
+
+.competitor-legend li {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  background: var(--accent-tint);
+  color: var(--ink);
+  border-radius: var(--radius-full);
+  padding: var(--space-1) var(--space-3);
+  font-size: 12px;
+}
+
+.competitor-legend .legend-num {
+  font-size: 10px;
+  color: var(--button-stroke);
+  font-variation-settings: "wght" var(--wght-medium);
+}
+
+/* ------------------------------------------------------------- personas
+   Recreated natively in the site's own card style (rather than dropped
+   in as a screenshot) so it reads as part of the page, not a pasted-in
+   image. Two persona cards, each with a goals / pain-points split. */
+
+.persona-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+  margin: var(--space-4) 0 0;
+}
+
+.persona-card {
+  background: var(--accent-tint);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+}
+
+.persona-head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-3);
+}
+
+.persona-avatar {
+  flex: 0 0 auto;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--ink);
+  color: var(--accent-tint);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-variation-settings: "wght" var(--wght-medium);
+}
+
+.persona-name {
+  margin: 0;
+  font-size: 16px;
+  color: var(--ink);
+  font-variation-settings: "wght" var(--wght-medium);
+  text-transform: capitalize;
+}
+
+.persona-role {
+  margin: 2px 0 0;
+  font-size: 12px;
+  color: var(--button-stroke);
+}
+
+.persona-blurb {
+  margin: 0 0 var(--space-3);
+  font-size: var(--body-size);
+  line-height: var(--body-line);
+  color: var(--ink);
+}
+
+.persona-cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+}
+
+.persona-col-label {
+  display: block;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--button-stroke);
+  margin-bottom: var(--space-1);
+}
+
+.persona-col ul {
+  margin: 0;
+  padding-left: 1.1em;
+  font-size: 12px;
+  line-height: 17px;
+  color: var(--ink);
+}
+
+.persona-col li {
+  margin-bottom: var(--space-1);
+}
+
+.persona-col li:last-child {
+  margin-bottom: 0;
+}
+
+/* --------------------------------------------------------- pain points
+   Six small bouncing bubble cards, light-yellow-on-navy, in a 3-up grid
+   under their own mini heading. Each card bounces on its own offset so
+   the grid doesn't bob in lockstep (reuses the idle bob keyframe defined
+   for the home title / eyes-divider). */
+
+.pain-points-heading {
+  text-align: center;
+}
+
+.pain-points-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-3);
+  max-width: 820px;
+  margin: var(--space-3) auto 0;
+}
+
+.pain-card {
+  background: var(--accent-warm);
+  color: var(--ink);
+  border-radius: var(--radius-lg);
+  padding: var(--space-3);
+  text-align: center;
+  box-shadow: 0 10px 18px rgba(20, 62, 102, 0.14);
+  animation: title-bob 2.6s ease-in-out infinite;
+}
+
+.pain-card:nth-child(2) { animation-delay: 0.2s; }
+.pain-card:nth-child(3) { animation-delay: 0.4s; }
+.pain-card:nth-child(4) { animation-delay: 0.6s; }
+.pain-card:nth-child(5) { animation-delay: 0.8s; }
+.pain-card:nth-child(6) { animation-delay: 1s; }
+
+.pain-card-num {
+  display: block;
+  font-size: 11px;
+  color: var(--button-stroke);
+  font-variation-settings: "wght" var(--wght-medium);
+  margin-bottom: 2px;
+}
+
+.pain-card-title {
+  display: block;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  font-variation-settings: "wght" var(--wght-medium);
+  margin-bottom: 4px;
+}
+
+.pain-card-desc {
+  display: block;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+/* ------------------------------------------------------ mockup captions
+   Used next to the lowfi / midfi mockup images: a vertical stack of
+   small caption cards (one per screen shown in the composite image),
+   each with its own background + gap so they never crowd each other. */
+
+.mockup-captions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.mockup-caption-card {
+  background: var(--accent-tint);
+  color: var(--ink);
+  border-radius: var(--radius-md);
+  padding: var(--space-2) var(--space-3);
+}
+
+.mockup-caption-title {
+  display: block;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  font-variation-settings: "wght" var(--wght-medium);
+  margin-bottom: 2px;
+}
+
+.mockup-caption-desc {
+  display: block;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.mockup-note {
+  margin: 0 0 var(--space-3);
+  color: var(--ink);
+}
+
+/* -------------------------------------------------------- solution video
+   Prototype walkthrough, sized down and centered right under the section
+   heading rather than running full width like the screen grid below. */
+
+.solution-video-wrap {
+  display: flex;
+  justify-content: center;
+  margin: 0 0 var(--space-4);
+}
+
+.solution-video {
+  width: 100%;
+  max-width: 520px;
+  border-radius: var(--radius-lg);
+  box-shadow: 0 14px 26px rgba(20, 62, 102, 0.2);
+}
+
+/* ---------------------------------------------------- dark-mode toggle
+   Local to the solution section only: flips the six final screens over
+   to their dark-mode counterparts. Separate from the site-wide night
+   mode toggle (.theme-toggle), which only affects the page canvas. */
+
+.mode-toggle-wrap {
+  display: flex;
+  justify-content: center;
+  margin: 0 0 var(--space-4);
+}
+
+.mode-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.mode-toggle-input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+}
+
+.mode-toggle-track {
+  position: relative;
+  width: 40px;
+  height: 22px;
+  border-radius: var(--radius-full);
+  background: var(--background);
+  flex-shrink: 0;
+  transition: background 0.2s ease;
+}
+
+.mode-toggle-thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(20, 62, 102, 0.35);
+  transition: transform 0.2s ease;
+}
+
+.mode-toggle-input:checked + .mode-toggle-track {
+  background: var(--ink);
+}
+
+.mode-toggle-input:checked + .mode-toggle-track .mode-toggle-thumb {
+  transform: translateX(18px);
+}
+
+.mode-toggle-input:focus-visible + .mode-toggle-track {
+  outline: 2px solid var(--button-stroke);
+  outline-offset: 2px;
+}
+
+.mode-toggle-label {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--ink);
+  font-variation-settings: "wght" var(--wght-medium);
+}
+
+/* ------------------------------------------------------- solution grid
+   Each final screen ships as a light + dark image stacked in the same
+   box; the toggle above crossfades between them by flipping .is-dark on
+   the grid wrapper. Captions sit underneath, permanently visible (unlike
+   the home-page project bubbles, which only show on hover). */
+
+.solution-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4) var(--space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.solution-card {
+  margin: 0;
+}
+
+.solution-img-wrap {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 864 / 603;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: 0 12px 22px rgba(20, 62, 102, 0.18);
+}
+
+.solution-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.solution-img-light {
+  opacity: 1;
+}
+
+.solution-grid.is-dark .solution-img-light {
+  opacity: 0;
+}
+
+.solution-grid.is-dark .solution-img-dark {
+  opacity: 1;
+}
+
+.solution-card figcaption {
+  margin-top: var(--space-2);
+}
+
+.solution-caption-title {
+  display: block;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: var(--ink);
+  font-variation-settings: "wght" var(--wght-medium);
+}
+
+.solution-caption-desc {
+  display: block;
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--text);
+  margin-top: 2px;
+}
+
+@media (max-width: 640px) {
+  .persona-grid {
+    grid-template-columns: 1fr;
+  }
+  .pain-points-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .solution-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .project-nav {

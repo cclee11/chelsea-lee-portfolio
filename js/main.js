@@ -20,6 +20,11 @@
       .subnav-panel with the matching data-panel and hides the rest.
       Generic by data-tab/data-panel, so any page can reuse the same
       markup for its own set of tabs.
+   6. Solution dark-mode toggle (pitchbook case study): a "view dark mode"
+      switch scoped to the six final-screen images only, independent of
+      the site-wide night mode toggle above. Flips .is-dark on the
+      #solutionScreens grid, which crossfades each screen's light/dark
+      image pair (see .solution-img-* in style.css).
 */
 
 (function () {
@@ -162,6 +167,14 @@
         tab.addEventListener("click", function () {
           activateSubnavTab(tab);
         });
+      });
+    }
+
+    var solutionDarkToggle = document.getElementById("solutionDarkToggle");
+    var solutionScreens = document.getElementById("solutionScreens");
+    if (solutionDarkToggle && solutionScreens) {
+      solutionDarkToggle.addEventListener("change", function () {
+        solutionScreens.classList.toggle("is-dark", solutionDarkToggle.checked);
       });
     }
 
