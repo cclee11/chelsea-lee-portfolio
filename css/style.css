@@ -651,27 +651,8 @@ img.placeholder {
   animation: title-bob 2.8s ease-in-out infinite;
 }
 
-/* small numbered circle overlaid on a corner of the competitive-audit
-   screenshot; alternates left/right per card so it reads top to bottom
-   without needing a separate "numbered top to bottom" caption */
 .competitor-shot-wrap {
   position: relative;
-}
-
-.shot-badge {
-  position: absolute;
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  background: var(--accent-warm);
-  color: var(--ink);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 13px;
-  font-variation-settings: "wght" var(--wght-medium);
-  box-shadow: 0 4px 10px rgba(20, 62, 102, 0.3);
-  z-index: 2;
 }
 
 /* ------------------------------------------------------------- midfi rows
