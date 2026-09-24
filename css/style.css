@@ -1284,7 +1284,11 @@ img.placeholder {
   box-shadow: 0 14px 26px rgba(20, 62, 102, 0.2);
 }
 
-.solution-intro {
+/* qualified as ".case-section > p.solution-intro" (not just ".solution-intro")
+   so this beats ".case-section > p"'s own "margin: 0 0 ..." shorthand, which
+   was quietly forcing margin-left/right back to 0 and keeping this block
+   pinned to the left even though its text was centered */
+.case-section > p.solution-intro {
   text-align: center;
   margin-left: auto;
   margin-right: auto;
