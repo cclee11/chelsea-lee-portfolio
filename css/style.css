@@ -349,7 +349,7 @@ a.placeholder-link {
   display: flex;
   flex-direction: column;
   gap: 2px;
-  background: var(--accent-warm);
+  background: var(--background);
   color: var(--ink);
   border-radius: var(--radius-lg);
   padding: var(--space-3) var(--space-4);
@@ -917,16 +917,12 @@ a.placeholder-link {
   display: inline-block;
 }
 
-.letter.color-blue {
-  color: var(--button-stroke);
-}
-
 .letter.color-lightblue {
   color: var(--background);
 }
 
-.letter.color-navy {
-  color: var(--ink);
+.letter.color-yellow {
+  color: var(--accent-warm);
 }
 
 /* ------------------------------------------------- eyes-looking divider

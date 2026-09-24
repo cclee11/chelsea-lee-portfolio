@@ -105,9 +105,9 @@
     }
 
     var titleLetters = document.querySelectorAll(".site-title .letter");
-    // "" (no class) is the default yellow fill from .word; each click steps
-    // to the next color and wraps back around to the default.
-    var letterColors = ["", "color-blue", "color-lightblue", "color-navy"];
+    // "" (no class) is the default navy fill from .word; each click steps
+    // to the next color and wraps back around to the default navy.
+    var letterColors = ["", "color-lightblue", "color-yellow"];
 
     var cycleLetterColor = function (letter) {
       var current = parseInt(letter.getAttribute("data-color-index") || "0", 10);
