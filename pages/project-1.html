@@ -8,7 +8,7 @@
   <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="../assets/favicon-16x16.png">
   <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
-  <title>project one — chelsea lee</title>
+  <title>pitchbook: corporate events — chelsea lee</title>
   <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
@@ -33,30 +33,30 @@
   <main>
     <a href="../index.html" class="back-link">&larr; back to projects</a>
 
-    <h1 class="page-title">project one</h1>
-    <p class="case-tagline tbd">[one-sentence project tagline — what it is and who it's for]</p>
+    <h1 class="page-title">pitchbook: corporate events</h1>
+    <p class="case-tagline">a redesigned home for corporate events on the pitchbook platform, so investors never miss the calls that move their portfolios.</p>
 
     <div class="case-meta">
       <div class="case-meta-pill">
         <span class="meta-label">role</span>
-        <span class="meta-value tbd">tbd</span>
+        <span class="meta-value">ux/ui designer</span>
       </div>
       <div class="case-meta-pill">
         <span class="meta-label">team</span>
-        <span class="meta-value tbd">tbd</span>
+        <span class="meta-value">4 designers</span>
       </div>
       <div class="case-meta-pill">
         <span class="meta-label">timeline</span>
-        <span class="meta-value tbd">tbd</span>
+        <span class="meta-value">spring 2026</span>
       </div>
       <div class="case-meta-pill">
         <span class="meta-label">tools</span>
-        <span class="meta-value tbd">tbd</span>
+        <span class="meta-value">figma, figjam</span>
       </div>
     </div>
 
     <div class="placeholder case-hero placeholder-tbd">
-      <span>hero image or video — the single shot that best sums up this project</span>
+      <span>hero shot — the redesigned corporate events list view, with live status, tabbed filters, and one-click actions front and center</span>
     </div>
 
     <div class="case-jumpnav-wrap">
@@ -72,28 +72,40 @@
 
     <section class="case-section">
       <h2 class="case-heading">overview</h2>
-      <p class="tbd">[a few sentences on the project's context: what it was, why it mattered, and what your
-         role was in bringing it to life.]</p>
+      <p>corporate events was a semester-long project with washu ux club, sponsored by pitchbook — a
+         platform that venture capital firms, private equity firms, investment banks, and corporates use
+         to research private and public markets. pitchbook came to us with a real product brief and
+         paired our four-person team (violet, lydia, sage, and me) with one of their senior product
+         designers, who met with us weekly to walk through our work and keep us grounded in how
+         pitchbook's users actually think. i worked across research, information architecture, and final
+         ui, helping take the project from a blank brief to a shippable-feeling redesign.</p>
       <div class="case-stats">
         <div class="case-stat">
-          <span class="stat-number tbd">—</span>
-          <span class="stat-label">metric one</span>
+          <span class="stat-number">4</span>
+          <span class="stat-label">student designers on the team</span>
         </div>
         <div class="case-stat">
-          <span class="stat-number tbd">—</span>
-          <span class="stat-label">metric two</span>
+          <span class="stat-number">6</span>
+          <span class="stat-label">ux pain points uncovered in research</span>
         </div>
         <div class="case-stat">
-          <span class="stat-number tbd">—</span>
-          <span class="stat-label">metric three</span>
+          <span class="stat-number">25%</span>
+          <span class="stat-label">target share of profile-page traffic</span>
         </div>
       </div>
     </section>
 
     <section class="case-section">
       <h2 class="case-heading">the problem</h2>
-      <p class="tbd">[what problem or opportunity kicked this project off? who was affected, and what
-         was broken or missing before you stepped in?]</p>
+      <p>pitchbook's users — investors, analysts, and bankers — rely on corporate events like earnings
+         calls, conferences, and investor presentations to make time-sensitive decisions. the problem:
+         that information lived across disparate sources outside (and even inside) the platform, which
+         cost people time and led to missed calls they actually cared about. pitchbook's ask was
+         straightforward but ambitious — give users a single, reliable home for corporate events, one
+         where they could find upcoming and historic events, tell at a glance which ones mattered to
+         them, join a live call in one click, and never lose track of something they wanted to catch. get
+         that right, and pitchbook believed it would deepen platform usage and make corporate events a
+         real part of how their users work every day.</p>
     </section>
 
     <section class="case-section" id="process">
@@ -102,36 +114,106 @@
       <h3 class="case-subheading">research</h3>
       <div class="detail-grid">
         <div class="placeholder detail-image placeholder-tbd">
-          <span>research artifact — interview notes, survey results, or competitive audit</span>
+          <span>competitive analysis board — a side-by-side audit of alphasense, preqin, s&amp;p capital iq, and workday</span>
         </div>
-        <div class="case-note tbd">
-          <p>[what did you learn from users, stakeholders, or existing solutions before you started
-             designing? call out the insight that shaped your direction.]</p>
+        <div class="case-note">
+          <p>we opened with a competitive audit of four platforms that handle corporate events or
+             financial data in some form. alphasense, preqin, and s&amp;p capital iq were our direct
+             competitors; workday, an indirect one, gave us a useful outside view on enterprise
+             information design.</p>
+          <ul>
+            <li><strong>alphasense</strong> — a clean event dashboard with calendar integration and
+                strong filtering across event types, though a document-centric view buried live vs.
+                upcoming status.</li>
+            <li><strong>preqin</strong> — leaned hard on visual contrast to signal event status, which
+                pointed us toward a similar "live now" treatment of our own.</li>
+            <li><strong>s&amp;p capital iq</strong> — offered sophisticated filtering and lived in two
+                places at once, the company profile and a dedicated events hub — a pattern we borrowed
+                directly.</li>
+            <li><strong>workday</strong> — an indirect reference, but its profile-integrated event view
+                and strong calendar precedent shaped how we thought about displaying dates.</li>
+          </ul>
+          <p>those four audits turned into three concrete design opportunities: build a dedicated event
+             hub with real filtering by date, type, company, and sector; use contrast and depth so a live
+             event reads instantly without scanning a whole list; and let corporate events live in two
+             places — inside a company's profile and in one global hub — since that's how pitchbook's
+             power users actually work.</p>
+        </div>
+      </div>
+
+      <div class="detail-grid">
+        <div class="placeholder detail-image placeholder-tbd">
+          <span>user personas and pain-point synthesis — lisa rock, alex chen, and the six issues that shaped our brief</span>
+        </div>
+        <div class="case-note">
+          <p>alongside the competitive audit, we built two personas to keep the work grounded in real
+             workflows. lisa rock is an investment manager at a mid-size hedge fund who manages 40+
+             public equities and needs real-time updates plus fast access to transcripts once a call
+             ends. alex chen is a credit analyst at a bulge-bracket bank who covers 15 tech companies and
+             needs to prep for, compare, and set reminders across several earnings calls at once.</p>
+          <p>between that research and pitchbook's brief, six problems kept surfacing: data overload with
+             no smart filtering, no clear live-status indicator for calls happening right now, a reminder
+             system that only worked one event at a time, no way to see events on a calendar instead of a
+             flat list, a jarring mismatch between calendar dates and pitchbook's dense financial-data
+             styling, and document downloads buried without any hierarchy. those six became our north
+             star for the redesign.</p>
         </div>
       </div>
 
       <h3 class="case-subheading">iteration</h3>
       <div class="detail-grid">
         <div class="placeholder detail-image placeholder-tbd">
-          <span>early sketches, wireframes, or a before/after comparison</span>
+          <span>low-fidelity wireframes — early sketches for the events list, filters, and reminder flow</span>
         </div>
-        <div class="case-note tbd">
-          <p>[how did the design evolve? mention a key pivot, a piece of feedback that changed your
-             approach, or a constraint you had to design around.]</p>
+        <div class="case-note">
+          <p>we started low-fidelity, sketching out where corporate events should even live in the
+             platform (a new tab? a new section on the company profile? both, it turned out) and how
+             someone would move between an all-events view, a single company's events, and their own
+             reminders. our mentor pushed us early to stop designing three separate flows and agree on
+             one shared system — colors, buttons, type — before going any further, which saved us from a
+             much messier merge later on.</p>
+        </div>
+      </div>
+
+      <div class="detail-grid">
+        <div class="placeholder detail-image placeholder-tbd">
+          <span>mid-fidelity wireframes — the events list, calendar toggle, and filterview sidebar taking shape</span>
+        </div>
+        <div class="case-note">
+          <p>from there we moved into mid-fidelity, testing a tabbed all / upcoming / past structure, a
+             toggle between list and calendar views, and a right-hand sidebar for filters and reminders.
+             every week we brought this back to our pitchbook mentor, and one piece of feedback stuck
+             with us the most: pitchbook's branding wasn't a suggestion, it was a requirement — which sent
+             us back to rebuild several components so they actually matched pitchbook's system instead of
+             just borrowing its color palette.</p>
         </div>
       </div>
     </section>
 
     <section class="case-section" id="solution">
       <h2 class="case-heading">the solution</h2>
-      <p class="tbd">[introduce the final design — what it does and how it solves the problem from
-         above.]</p>
+      <p>the final design gives pitchbook users one home for corporate events: a redesigned events tab,
+         a company-specific view, a global cross-portfolio hub, and a reminder system that works across
+         multiple events at once — plus the small details our research called out, like an unmissable
+         "live now" badge and named, one-click document downloads.</p>
       <div class="grid-2col">
         <div class="placeholder placeholder-tbd">
-          <span>final screen one</span>
+          <span>corporate events: list view — the redesigned events tab, with a live now badge, all / upcoming / past tabs, and one-click add-to-calendar + dial-in actions in every row</span>
         </div>
         <div class="placeholder placeholder-tbd">
-          <span>final screen two</span>
+          <span>corporate events: event detail view — clicking into an event opens the full call detail, dial-in info, an inline transcript excerpt, and linked materials to download</span>
+        </div>
+        <div class="placeholder placeholder-tbd">
+          <span>corporate events: calendar toggle — a calendar view of tracked events, with a running reminders list docked to the side</span>
+        </div>
+        <div class="placeholder placeholder-tbd">
+          <span>corporate events: filterview sidebar — collapsible filters next to a reminder-builder panel, so a user can set an alert without leaving the page</span>
+        </div>
+        <div class="placeholder placeholder-tbd">
+          <span>global corporate events — a cross-company watchlist dashboard surfacing events across everything a user follows, built for pitchbook's top-down use case</span>
+        </div>
+        <div class="placeholder placeholder-tbd">
+          <span>add a reminder — the reminder flow, with notify-via options (email, in-app, calendar) and a running list of upcoming reminders across companies</span>
         </div>
       </div>
     </section>
@@ -141,16 +223,27 @@
       <ol class="case-takeaways">
         <li class="takeaway">
           <span class="takeaway-num">01</span>
-          <p class="tbd">[first takeaway — a lesson learned or a decision you'd defend.]</p>
+          <p>build a shared system early — starting with four separate versions made it hard to merge
+             later. agreeing on one design system (colors, buttons, type) from day one would have saved
+             us real time.</p>
         </li>
         <li class="takeaway">
           <span class="takeaway-num">02</span>
-          <p class="tbd">[second takeaway.]</p>
+          <p>respect brand rules from the start — pitchbook's branding wasn't a suggestion, it was a
+             requirement. learning those rules early would have meant less work redone later to fit their
+             identity.</p>
         </li>
         <li class="takeaway">
           <span class="takeaway-num">03</span>
-          <p class="tbd">[third takeaway — what you'd do differently next time, or what's next for
-             this project.]</p>
+          <p>collaborate, don't work in silos — building separate versions in isolation led to clashing
+             styles. working together in the same file pushed us from four "my designs" toward one
+             unified solution.</p>
+        </li>
+        <li class="takeaway">
+          <span class="takeaway-num">04</span>
+          <p>stay curious and ask questions — we tried not to assume we had all the answers, and got in
+             the habit of asking "why" and "how does this fit the brand" before a small decision turned
+             into a last-minute problem.</p>
         </li>
       </ol>
     </section>

@@ -642,6 +642,27 @@ a.placeholder-link {
   line-height: var(--body-line);
 }
 
+.case-note p + p {
+  margin-top: var(--space-3);
+}
+
+.case-note ul {
+  margin: var(--space-2) 0 0;
+  padding-left: 1.1em;
+}
+
+.case-note p + ul {
+  margin-top: var(--space-3);
+}
+
+.case-note li {
+  margin-bottom: var(--space-2);
+}
+
+.case-note li:last-child {
+  margin-bottom: 0;
+}
+
 .case-stats {
   display: flex;
   flex-wrap: wrap;
