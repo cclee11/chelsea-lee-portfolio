@@ -1208,6 +1208,75 @@ img.placeholder {
   line-height: 16px;
 }
 
+/* ------------------------------------------------------ design opportunities
+   Three cards translating the competitive audit into concrete design
+   moves, one per benchmarked competitor. Each card keeps the same
+   accent-tint/ink treatment as .case-note (a colored surface, so the
+   text stays fixed navy regardless of theme) and is told apart from its
+   neighbors only by a left accent bar in one of the palette's existing
+   blues, rather than introducing new colors outside the system. */
+
+.opportunity-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-4);
+  margin-top: var(--space-3);
+}
+
+.opportunity-card {
+  background: var(--accent-tint);
+  color: var(--ink);
+  border-radius: var(--radius-md);
+  border-left: 4px solid var(--ink);
+  padding: var(--space-4);
+}
+
+.opportunity-source {
+  display: block;
+  font-size: 11px;
+  color: var(--button-stroke);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-variation-settings: "wght" var(--wght-medium);
+  margin-bottom: var(--space-2);
+}
+
+.opportunity-title {
+  font-size: var(--body-size);
+  line-height: var(--body-line);
+  font-variation-settings: "wght" var(--wght-medium);
+  margin: 0 0 var(--space-2);
+}
+
+.opportunity-desc {
+  font-size: 13px;
+  line-height: 19px;
+  margin: 0;
+}
+
+@media (max-width: 780px) {
+  .opportunity-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ------------------------------------------------------------ lowfi grid
+   The four low-fidelity wireframes cropped out of the original layered
+   mockup composite and laid out as their own 2x2 grid, matching the
+   column treatment used for the mid-fidelity screens below. */
+
+.lowfi-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-3);
+}
+
+@media (max-width: 640px) {
+  .lowfi-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* ------------------------------------------------------ mockup captions
    Used next to the lowfi / midfi mockup images: a vertical stack of
    small caption cards (one per screen shown in the composite image),
