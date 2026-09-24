@@ -912,7 +912,7 @@ a.placeholder-link {
   display: inline-flex;
   font-size: 130px;
   line-height: 1;
-  font-variation-settings: "wght" var(--wght-bold);
+  font-variation-settings: "wght" var(--wght-medium);
   color: var(--ink);
   -webkit-text-stroke: 2.5px var(--button-stroke);
   paint-order: stroke fill;
@@ -941,7 +941,7 @@ a.placeholder-link {
    use it. A small negative margin pulls the letters in tight instead. */
 .letter {
   display: inline-block;
-  margin-right: -0.04em;
+  margin-right: -0.01em;
 }
 
 .letter.color-lightblue {
