@@ -100,6 +100,26 @@ img {
   display: block;
 }
 
+/* generic yellow highlight for emphasis inside body copy (case studies use
+   this to call out the one or two most important phrases per section);
+   .intro mark below is more specific and keeps its own softer look for
+   the home page */
+mark {
+  background: var(--accent-warm);
+  color: var(--ink);
+  padding: 0 3px;
+  border-radius: var(--radius-sm);
+  font-variation-settings: "wght" var(--wght-medium);
+}
+
+/* a phrase bumped up in size instead of (or alongside) a yellow highlight,
+   for the rare sentence that deserves more visual weight than bold alone */
+.emph {
+  font-size: 1.2em;
+  color: var(--ink);
+  font-variation-settings: "wght" var(--wght-medium);
+}
+
 /* ---------------------------------------------------------------- header */
 
 .site-header {
@@ -210,6 +230,13 @@ main {
   max-width: var(--content-max);
   margin: 0 auto;
   padding: var(--space-5) var(--space-4) var(--space-5);
+}
+
+/* case-study pages read as dense prose, so body copy inside them gets a
+   slightly more open line-height than the site default; only elements
+   that already reference var(--body-line) pick this up */
+.case-main {
+  --body-line: 24px;
 }
 
 /* gives the home page a wider stage than other pages, just for the
@@ -577,8 +604,9 @@ img.placeholder {
 .detail-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: var(--space-4);
+  gap: 32px;
   align-items: start;
+  margin-bottom: var(--space-4);
 }
 
 .detail-image {
@@ -646,12 +674,15 @@ img.placeholder {
 }
 
 .case-hero {
-  aspect-ratio: 16 / 9;
+  /* matches the hero artwork's own ratio (1296 x 864) so the whole image
+     fits inside the card with no cropping, instead of forcing it into a
+     generic 16:9 box */
+  aspect-ratio: 1296 / 864;
   width: 100%;
-  margin: 0 0 var(--space-4);
+  margin: 0 0 var(--space-5);
   display: block;
-  object-fit: cover;
-  object-position: top center;
+  object-fit: contain;
+  background: var(--page-bg);
   border-radius: var(--radius-lg);
   box-shadow: 0 14px 28px rgba(20, 62, 102, 0.18);
 }
@@ -705,14 +736,20 @@ img.placeholder {
 }
 
 .case-section {
-  margin: 0 0 var(--space-5);
+  margin: 0 0 64px;
   /* offsets the jump so the sticky site-nav doesn't cover the heading */
   scroll-margin-top: 90px;
 }
 
+.case-section > p {
+  margin: 0 0 var(--space-4);
+  line-height: var(--body-line);
+  max-width: 720px;
+}
+
 /* big, centered section heading */
 .case-heading {
-  margin: 0 0 var(--space-4);
+  margin: 0 0 var(--space-5);
   font-size: 32px;
   line-height: 1.25;
   text-align: left;
@@ -726,7 +763,7 @@ img.placeholder {
   font-size: var(--body-size);
   color: var(--text);
   font-variation-settings: "wght" var(--wght-medium);
-  margin: var(--space-4) 0 var(--space-2);
+  margin: var(--space-5) 0 var(--space-3);
   text-transform: uppercase;
   letter-spacing: 0.04em;
 }
@@ -769,16 +806,20 @@ img.placeholder {
 }
 
 .case-note p + p {
-  margin-top: var(--space-3);
+  margin-top: var(--space-4);
 }
 
 .case-note ul {
-  margin: var(--space-2) 0 0;
+  margin: var(--space-3) 0 0;
   padding-left: 1.1em;
 }
 
+.case-note li {
+  line-height: var(--body-line);
+}
+
 .case-note p + ul {
-  margin-top: var(--space-3);
+  margin-top: var(--space-4);
 }
 
 .case-note li {
@@ -854,11 +895,11 @@ img.placeholder {
    the source brand-guide slide used. */
 
 .brand-colors {
-  margin: var(--space-4) 0 0;
+  margin: var(--space-5) 0 0;
 }
 
 .color-group {
-  margin-bottom: var(--space-3);
+  margin-bottom: var(--space-4);
 }
 
 .color-group:last-of-type {
@@ -962,20 +1003,20 @@ img.placeholder {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: var(--space-4);
-  margin: var(--space-4) 0 0;
+  margin: var(--space-5) 0 0;
 }
 
 .persona-card {
   background: var(--accent-tint);
   border-radius: var(--radius-lg);
-  padding: var(--space-4);
+  padding: 28px;
 }
 
 .persona-head {
   display: flex;
   align-items: center;
   gap: var(--space-3);
-  margin-bottom: var(--space-3);
+  margin-bottom: var(--space-4);
 }
 
 .persona-avatar {
@@ -1007,7 +1048,7 @@ img.placeholder {
 }
 
 .persona-blurb {
-  margin: 0 0 var(--space-3);
+  margin: 0 0 var(--space-4);
   font-size: var(--body-size);
   line-height: var(--body-line);
   color: var(--ink);
@@ -1016,7 +1057,7 @@ img.placeholder {
 .persona-cols {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: var(--space-3);
+  gap: var(--space-4);
 }
 
 .persona-col-label {
@@ -1057,9 +1098,9 @@ img.placeholder {
 .pain-points-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: var(--space-3);
+  gap: var(--space-4);
   max-width: 820px;
-  margin: var(--space-3) auto 0;
+  margin: var(--space-4) auto 0;
 }
 
 .pain-card {
@@ -1109,14 +1150,15 @@ img.placeholder {
 .mockup-captions {
   display: flex;
   flex-direction: column;
-  gap: var(--space-2);
+  gap: var(--space-3);
+  margin-top: var(--space-3);
 }
 
 .mockup-caption-card {
   background: var(--accent-tint);
   color: var(--ink);
   border-radius: var(--radius-md);
-  padding: var(--space-2) var(--space-3);
+  padding: var(--space-3);
 }
 
 .mockup-caption-title {
@@ -1125,18 +1167,19 @@ img.placeholder {
   text-transform: uppercase;
   letter-spacing: 0.02em;
   font-variation-settings: "wght" var(--wght-medium);
-  margin-bottom: 2px;
+  margin-bottom: 4px;
 }
 
 .mockup-caption-desc {
   display: block;
   font-size: 12px;
-  line-height: 16px;
+  line-height: 18px;
 }
 
 .mockup-note {
-  margin: 0 0 var(--space-3);
+  margin: 0 0 var(--space-4);
   color: var(--ink);
+  line-height: var(--body-line);
 }
 
 /* -------------------------------------------------------- solution video
@@ -1146,7 +1189,7 @@ img.placeholder {
 .solution-video-wrap {
   display: flex;
   justify-content: center;
-  margin: 0 0 var(--space-4);
+  margin: 0 0 var(--space-5);
 }
 
 .solution-video {
@@ -1164,7 +1207,7 @@ img.placeholder {
 .mode-toggle-wrap {
   display: flex;
   justify-content: center;
-  margin: 0 0 var(--space-4);
+  margin: 0 0 var(--space-5);
 }
 
 .mode-toggle {
