@@ -912,7 +912,7 @@ a.placeholder-link {
   display: inline-flex;
   font-size: 130px;
   line-height: 1;
-  font-variation-settings: "wght" var(--wght-medium);
+  font-variation-settings: "wght" var(--wght-regular);
   color: var(--ink);
   -webkit-text-stroke: 2.5px var(--button-stroke);
   paint-order: stroke fill;
