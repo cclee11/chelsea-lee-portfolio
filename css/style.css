@@ -406,7 +406,8 @@ video.placeholder {
 
 /* home page projects grid: big horizontal-rectangle tiles, centered on the
    page, two-up. Each tile is wrapped in .project-card so a little bubble
-   (name + quick description) can float on top of it. */
+   (name + quick description) and a small CTA pill can float on top of
+   it. */
 .projects-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -423,6 +424,15 @@ video.placeholder {
   padding-top: 36px;
 }
 
+/* the "more projects coming soon" tile isn't a link — turning off pointer
+   events on the whole card means it never receives :hover either, so none
+   of the link-affordance styles below (lift, blue stroke, CTA reveal)
+   accidentally fire on something that isn't clickable */
+.project-card-static {
+  pointer-events: none;
+  cursor: default;
+}
+
 .project-card-image {
   width: 100%;
   aspect-ratio: 3 / 2;
@@ -435,6 +445,12 @@ video.placeholder {
 .project-card:hover .project-card-image,
 .project-card:focus-visible .project-card-image {
   border-color: var(--background);
+}
+
+/* light-blue fill for the "more projects coming soon" tile, instead of the
+   usual grey placeholder background */
+.project-card-image-tint {
+  background: var(--background);
 }
 
 /* slight idle bounce for a project-card image that's meant to catch the
@@ -463,17 +479,6 @@ video.placeholder {
   border-radius: var(--radius-lg);
   padding: var(--space-3) var(--space-4);
   box-shadow: 0 12px 22px rgba(20, 62, 102, 0.2);
-  /* hidden at rest; fades + settles straight in (no tilt) on hover */
-  opacity: 0;
-  pointer-events: none;
-  transform: translateY(8px) scale(0.94);
-  transition: opacity 0.2s ease, transform 0.2s ease;
-}
-
-.project-card:hover .project-card-bubble,
-.project-card:focus-visible .project-card-bubble {
-  opacity: 1;
-  transform: translateY(0) scale(1);
 }
 
 .project-card-title {
@@ -486,6 +491,41 @@ video.placeholder {
 .project-card-desc {
   font-size: 12px;
   line-height: 16px;
+}
+
+/* small pill tucked in the bottom-right corner of the image, in a
+   translucent version of the site's blue. Hidden at rest and popped up on
+   hover/focus, so it reads as the card's "go look" affordance without
+   competing with the always-visible title/desc bubble up top. */
+.project-card-cta {
+  position: absolute;
+  right: var(--space-3);
+  bottom: var(--space-3);
+  z-index: 2;
+  max-width: calc(100% - var(--space-3) * 2);
+  font-size: 12px;
+  font-variation-settings: "wght" var(--wght-medium);
+  color: var(--accent-tint);
+  background: rgba(97, 148, 192, 0.6);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(6px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.project-card:hover .project-card-cta,
+.project-card:focus-visible .project-card-cta {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* the "more projects coming soon" card isn't a link, so there's no hover
+   to reveal its caption on — it stays visible all the time instead */
+.project-card-cta-static {
+  opacity: 1;
+  transform: none;
 }
 
 @media (max-width: 640px) {
@@ -506,10 +546,10 @@ video.placeholder {
   }
 }
 
-/* touch devices have no hover, so the bubble stays visible instead of
+/* touch devices have no hover, so the CTA pill stays visible instead of
    being permanently hidden with no way to reveal it */
 @media (hover: none) {
-  .project-card-bubble {
+  .project-card-cta {
     opacity: 1;
     pointer-events: auto;
     transform: none;
@@ -1655,8 +1695,10 @@ video.placeholder {
   color: var(--background);
   -webkit-text-stroke: 3px var(--button-stroke);
   paint-order: stroke fill;
-  /* soft light-blue glow radiating outward behind the letters */
-  text-shadow: 0 0 18px var(--background), 0 0 36px var(--background);
+  /* soft, semi-transparent light-blue glow radiating outward behind the
+     letters (rgba version of --background, since text-shadow needs an
+     alpha channel to look faint rather than solid) */
+  text-shadow: 0 0 18px rgba(167, 212, 228, 0.55), 0 0 36px rgba(167, 212, 228, 0.35);
 }
 
 @media (max-width: 640px) {
