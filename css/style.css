@@ -1620,9 +1620,8 @@ video.placeholder {
 }
 
 /* the title/tagline/eyes-divider intro stays centered (handled above), but
-   the projects heading and grid are full-width, left-aligned content, so
-   they opt out of the hero box's centering instead of inheriting it */
-.hero-box .page-title,
+   the projects grid is full-width, left-aligned content, so it opts out of
+   the hero box's centering instead of inheriting it */
 .hero-box .projects-grid {
   align-self: stretch;
   text-align: left;
@@ -1634,11 +1633,10 @@ video.placeholder {
   flex-wrap: wrap;
   justify-content: center;
   align-items: baseline;
-  text-transform: uppercase;
   /* gap is set in px, not em: the words are sized way up via .word's own
      font-size, so an em-based gap here (inherited from body's small
-     font-size) would end up nearly invisible next to 64px letters */
-  gap: 16px;
+     font-size) would end up nearly invisible next to 160px letters */
+  gap: 28px;
   cursor: url("../assets/cursor-ring.png") 10 10, default;
   /* idle bounce, always running, matching the eyes-divider logo below it */
   animation: title-bob 2.6s ease-in-out infinite;
@@ -1646,23 +1644,25 @@ video.placeholder {
 
 .site-title .word {
   display: inline-flex;
-  /* smaller than the old 130px display size now that the title sits above
-     the rest of the page's content inside the same hero box */
-  font-size: 64px;
+  /* big, lowercase display size for the hero title */
+  font-size: 160px;
   line-height: 1;
-  font-variation-settings: "wght" var(--wght-regular);
-  color: var(--button-stroke);
-  /* thinner stroke to stay proportional at the smaller font size */
-  -webkit-text-stroke: 1.5px var(--button-stroke);
+  font-style: italic;
+  /* a touch heavier than regular, short of full bold */
+  font-variation-settings: "wght" var(--wght-medium);
+  /* lighter fill than the outline so the stroke actually reads as its own
+     color instead of blending into the fill */
+  color: var(--background);
+  -webkit-text-stroke: 3px var(--button-stroke);
   paint-order: stroke fill;
 }
 
 @media (max-width: 640px) {
   .site-title .word {
-    font-size: var(--header-size);
+    font-size: 72px;
   }
   .site-title {
-    gap: 10px;
+    gap: 14px;
   }
 }
 
@@ -1710,7 +1710,9 @@ video.placeholder {
   flex-direction: column;
   align-items: center;
   gap: var(--space-2);
-  margin: var(--space-5) 0;
+  /* generous space above (below the tagline), but pulled in tight below so
+     the project gallery sits close underneath it */
+  margin: var(--space-5) 0 var(--space-3);
 }
 
 .eyes-icon {
