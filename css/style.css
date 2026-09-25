@@ -448,9 +448,11 @@ video.placeholder {
 
 .project-card-bubble {
   position: absolute;
-  /* sits flush in the top-left corner of the image rectangle */
+  /* sits at the top-left corner of the image rectangle; nudged right by
+     --space-2 so its rounded corner doesn't sit tangent to the card's own
+     rounded corner right at the same point */
   top: 0;
-  left: 0;
+  left: var(--space-2);
   z-index: 2;
   max-width: 75%;
   display: flex;
