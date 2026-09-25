@@ -1759,10 +1759,10 @@ video.placeholder {
   flex-direction: column;
   align-items: center;
   gap: var(--space-2);
-  /* generous space above (below the tagline); below, a bit more than a
-     bare minimum gap so the project gallery doesn't crowd right up
-     against the "take a look around..." caption */
-  margin: var(--space-5) 0 var(--space-4);
+  /* generous space above (below the tagline); even more below, so the
+     project gallery has clear room under the "take a look around..."
+     caption instead of crowding it */
+  margin: var(--space-5) 0 56px;
 }
 
 .eyes-icon {
@@ -1841,7 +1841,9 @@ video.placeholder {
 
 .tagline {
   font-style: italic;
-  font-size: var(--subheader-size);
+  /* smaller than the shared --subheader-size, since this paragraph reads
+     as supporting text under the big title rather than a subheading */
+  font-size: 16px;
   /* looser than the shared --subheader-line so the wrapped lines of this
      specific paragraph have more breathing room between them */
   line-height: 1.7;
