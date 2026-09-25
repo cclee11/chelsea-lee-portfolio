@@ -440,11 +440,16 @@ video.placeholder {
      doesn't shift the layout when its color appears */
   border: 2px solid transparent;
   transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  /* slight ambient glow at rest, echoing the hero title's light-blue glow */
+  box-shadow: 0 0 16px rgba(167, 212, 228, 0.5);
 }
 
 .project-card:hover .project-card-image,
 .project-card:focus-visible .project-card-image {
   border-color: var(--background);
+  /* layer the lift shadow .placeholder:hover already adds on top of the
+     resting glow instead of replacing it */
+  box-shadow: 0 18px 30px rgba(20, 62, 102, 0.22), 0 0 16px rgba(167, 212, 228, 0.5);
 }
 
 /* light-blue fill for the "more projects coming soon" tile, instead of the
@@ -1754,9 +1759,10 @@ video.placeholder {
   flex-direction: column;
   align-items: center;
   gap: var(--space-2);
-  /* generous space above (below the tagline), but pulled in tight below so
-     the project gallery sits close underneath it */
-  margin: var(--space-5) 0 var(--space-3);
+  /* generous space above (below the tagline); below, a bit more than a
+     bare minimum gap so the project gallery doesn't crowd right up
+     against the "take a look around..." caption */
+  margin: var(--space-5) 0 var(--space-4);
 }
 
 .eyes-icon {
