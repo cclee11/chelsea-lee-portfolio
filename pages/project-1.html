@@ -55,15 +55,15 @@
       </div>
     </div>
 
-    <img class="case-hero" src="../assets/pitchbook-mockup.png" alt="PitchBook corporate events, shown across desktop and mobile">
+    <video class="case-hero" src="../assets/pitchbook-mockup.mp4" autoplay muted loop playsinline aria-label="PitchBook corporate events, shown across desktop and mobile"></video>
 
 
     <div class="case-jumpnav-wrap">
       <div class="case-jumpnav-bubble">
         <span class="jumpnav-label">Jump to...</span>
         <nav class="case-jumpnav">
-          <a href="#process">Process</a>
           <a href="#solution">Solution</a>
+          <a href="#process">How We Did It</a>
           <a href="#reflection">Reflection</a>
         </nav>
       </div>
@@ -163,8 +163,91 @@
          one click, and never lose track of what they wanted to catch.</p>
     </section>
 
+    <section class="case-section" id="solution">
+      <h2 class="case-heading">The Solution</h2>
+
+      <div class="solution-video-wrap">
+        <video class="solution-video" src="../assets/pitchbook-prototype-walkthrough.mp4" poster="../assets/pitchbook-mockup.png" controls playsinline muted></video>
+      </div>
+
+      <p class="solution-intro">The final design gives PitchBook users <mark>one home for corporate
+         events</mark>: a redesigned events tab with all / upcoming / past filtering, a calendar toggle,
+         a docked reminders panel, and a full event-detail view (plus small touches like an
+         unmissable "live now" badge and named, one-click document downloads).</p>
+
+      <div class="mode-toggle-wrap">
+        <button type="button" class="solution-toggle" id="solutionDarkToggle" aria-pressed="false">
+          <span class="solution-toggle-ring"></span>
+          <span class="solution-toggle-label">Click here to view in dark mode!</span>
+        </button>
+      </div>
+
+      <div class="solution-grid" id="solutionScreens">
+        <figure class="solution-card">
+          <span class="solution-img-wrap">
+            <img class="solution-img solution-img-light" src="../assets/screen-all-events.png" alt="corporate events, all tab">
+            <img class="solution-img solution-img-dark" src="../assets/screen-all-events-dark.png" alt="corporate events, all tab, dark mode">
+          </span>
+          <figcaption>
+            <span class="solution-caption-title">All events</span>
+            <span class="solution-caption-desc">The default tab, blending upcoming and past with a live-now banner and quick actions in every row.</span>
+          </figcaption>
+        </figure>
+        <figure class="solution-card">
+          <span class="solution-img-wrap">
+            <img class="solution-img solution-img-light" src="../assets/screen-upcoming.png" alt="corporate events, upcoming tab">
+            <img class="solution-img solution-img-dark" src="../assets/screen-upcoming-dark.png" alt="corporate events, upcoming tab, dark mode">
+          </span>
+          <figcaption>
+            <span class="solution-caption-title">Upcoming</span>
+            <span class="solution-caption-desc">The upcoming-only filter, so what's next isn't crowded out by past events.</span>
+          </figcaption>
+        </figure>
+        <figure class="solution-card">
+          <span class="solution-img-wrap">
+            <img class="solution-img solution-img-light" src="../assets/screen-reminders.png" alt="reminders panel">
+            <img class="solution-img solution-img-dark" src="../assets/screen-reminders-dark.png" alt="reminders panel, dark mode">
+          </span>
+          <figcaption>
+            <span class="solution-caption-title">Reminders panel</span>
+            <span class="solution-caption-desc">A docked panel to add a reminder and see every upcoming one across companies at a glance.</span>
+          </figcaption>
+        </figure>
+        <figure class="solution-card">
+          <span class="solution-img-wrap">
+            <img class="solution-img solution-img-light" src="../assets/screen-past.png" alt="corporate events, past tab">
+            <img class="solution-img solution-img-dark" src="../assets/screen-past-dark.png" alt="corporate events, past tab, dark mode">
+          </span>
+          <figcaption>
+            <span class="solution-caption-title">Past</span>
+            <span class="solution-caption-desc">Past events paired with materials and a one-click transcript or recording link.</span>
+          </figcaption>
+        </figure>
+        <figure class="solution-card">
+          <span class="solution-img-wrap">
+            <img class="solution-img solution-img-light" src="../assets/screen-event-detail.png" alt="event detail page">
+            <img class="solution-img solution-img-dark" src="../assets/screen-event-detail-dark.png" alt="event detail page, dark mode">
+          </span>
+          <figcaption>
+            <span class="solution-caption-title">Event detail</span>
+            <span class="solution-caption-desc">Dial-in info, a transcript excerpt, materials, and related events, all in one page.</span>
+          </figcaption>
+        </figure>
+        <figure class="solution-card">
+          <span class="solution-img-wrap">
+            <img class="solution-img solution-img-light" src="../assets/screen-calendar.png" alt="calendar toggle view">
+            <img class="solution-img solution-img-dark" src="../assets/screen-calendar-dark.png" alt="calendar toggle view, dark mode">
+          </span>
+          <figcaption>
+            <span class="solution-caption-title">Calendar toggle</span>
+            <span class="solution-caption-desc">The events tab as a calendar, with search and the full reminders list docked beside it.</span>
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
     <section class="case-section" id="process">
-      <h2 class="case-heading">Process</h2>
+      <h2 class="case-heading">How We Did It</h2>
 
       <h3 class="case-subheading">Research</h3>
       <div class="detail-grid">
@@ -387,89 +470,6 @@
             <span class="mockup-caption-desc">The global list paired with a collapsible filter panel for type, industry, and status.</span>
           </div>
         </div>
-      </div>
-    </section>
-
-    <section class="case-section" id="solution">
-      <h2 class="case-heading">The Solution</h2>
-
-      <div class="solution-video-wrap">
-        <video class="solution-video" src="../assets/pitchbook-prototype-walkthrough.mp4" poster="../assets/pitchbook-mockup.png" controls playsinline muted></video>
-      </div>
-
-      <p class="solution-intro">The final design gives PitchBook users <mark>one home for corporate
-         events</mark>: a redesigned events tab with all / upcoming / past filtering, a calendar toggle,
-         a docked reminders panel, and a full event-detail view (plus small touches like an
-         unmissable "live now" badge and named, one-click document downloads).</p>
-
-      <div class="mode-toggle-wrap">
-        <button type="button" class="solution-toggle" id="solutionDarkToggle" aria-pressed="false">
-          <span class="solution-toggle-ring"></span>
-          <span class="solution-toggle-label">Click here to view in dark mode!</span>
-        </button>
-      </div>
-
-      <div class="solution-grid" id="solutionScreens">
-        <figure class="solution-card">
-          <span class="solution-img-wrap">
-            <img class="solution-img solution-img-light" src="../assets/screen-all-events.png" alt="corporate events, all tab">
-            <img class="solution-img solution-img-dark" src="../assets/screen-all-events-dark.png" alt="corporate events, all tab, dark mode">
-          </span>
-          <figcaption>
-            <span class="solution-caption-title">All events</span>
-            <span class="solution-caption-desc">The default tab, blending upcoming and past with a live-now banner and quick actions in every row.</span>
-          </figcaption>
-        </figure>
-        <figure class="solution-card">
-          <span class="solution-img-wrap">
-            <img class="solution-img solution-img-light" src="../assets/screen-upcoming.png" alt="corporate events, upcoming tab">
-            <img class="solution-img solution-img-dark" src="../assets/screen-upcoming-dark.png" alt="corporate events, upcoming tab, dark mode">
-          </span>
-          <figcaption>
-            <span class="solution-caption-title">Upcoming</span>
-            <span class="solution-caption-desc">The upcoming-only filter, so what's next isn't crowded out by past events.</span>
-          </figcaption>
-        </figure>
-        <figure class="solution-card">
-          <span class="solution-img-wrap">
-            <img class="solution-img solution-img-light" src="../assets/screen-reminders.png" alt="reminders panel">
-            <img class="solution-img solution-img-dark" src="../assets/screen-reminders-dark.png" alt="reminders panel, dark mode">
-          </span>
-          <figcaption>
-            <span class="solution-caption-title">Reminders panel</span>
-            <span class="solution-caption-desc">A docked panel to add a reminder and see every upcoming one across companies at a glance.</span>
-          </figcaption>
-        </figure>
-        <figure class="solution-card">
-          <span class="solution-img-wrap">
-            <img class="solution-img solution-img-light" src="../assets/screen-past.png" alt="corporate events, past tab">
-            <img class="solution-img solution-img-dark" src="../assets/screen-past-dark.png" alt="corporate events, past tab, dark mode">
-          </span>
-          <figcaption>
-            <span class="solution-caption-title">Past</span>
-            <span class="solution-caption-desc">Past events paired with materials and a one-click transcript or recording link.</span>
-          </figcaption>
-        </figure>
-        <figure class="solution-card">
-          <span class="solution-img-wrap">
-            <img class="solution-img solution-img-light" src="../assets/screen-event-detail.png" alt="event detail page">
-            <img class="solution-img solution-img-dark" src="../assets/screen-event-detail-dark.png" alt="event detail page, dark mode">
-          </span>
-          <figcaption>
-            <span class="solution-caption-title">Event detail</span>
-            <span class="solution-caption-desc">Dial-in info, a transcript excerpt, materials, and related events, all in one page.</span>
-          </figcaption>
-        </figure>
-        <figure class="solution-card">
-          <span class="solution-img-wrap">
-            <img class="solution-img solution-img-light" src="../assets/screen-calendar.png" alt="calendar toggle view">
-            <img class="solution-img solution-img-dark" src="../assets/screen-calendar-dark.png" alt="calendar toggle view, dark mode">
-          </span>
-          <figcaption>
-            <span class="solution-caption-title">Calendar toggle</span>
-            <span class="solution-caption-desc">The events tab as a calendar, with search and the full reminders list docked beside it.</span>
-          </figcaption>
-        </figure>
       </div>
     </section>
 

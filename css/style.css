@@ -249,7 +249,10 @@ mark {
 main {
   max-width: var(--content-max);
   margin: 0 auto;
-  padding: var(--space-5) var(--space-4) var(--space-5);
+  /* side padding scales with viewport width (24px on narrow phones up to
+     64px on wide desktops) so content never sits flush against the edge
+     of the screen the way a fixed small value did */
+  padding: var(--space-5) clamp(24px, 5vw, 64px) var(--space-5);
 }
 
 /* case-study pages read as dense prose, so body copy inside them gets a
@@ -285,7 +288,7 @@ main {
   gap: var(--space-3);
   max-width: var(--content-max);
   margin: 0 auto;
-  padding: var(--space-4);
+  padding: var(--space-4) clamp(24px, 5vw, 64px);
   border-top: 1px solid var(--background);
 }
 
@@ -348,11 +351,12 @@ a.placeholder-link {
   display: block;
 }
 
-/* an <img> standing in for a .placeholder tile (real artwork dropped into
-   a placeholder slot) needs object-fit to fill the box without distortion,
-   since a real image (unlike the flat grey placeholder div) has its own
-   intrinsic aspect ratio */
-img.placeholder {
+/* an <img> (or <video>) standing in for a .placeholder tile (real artwork
+   dropped into a placeholder slot) needs object-fit to fill the box
+   without distortion, since real media (unlike the flat grey placeholder
+   div) has its own intrinsic aspect ratio */
+img.placeholder,
+video.placeholder {
   display: block;
   width: 100%;
   height: 100%;
@@ -1782,6 +1786,11 @@ img.placeholder {
   font-size: var(--subheader-size);
   line-height: var(--subheader-line);
   margin: 0 0 var(--space-4);
+  text-align: center;
+  /* narrowed so the wrapped lines read as a single centered column lined
+     up under "chelsea lee" above it, instead of stretching wide and
+     drifting off both sides of the title */
+  max-width: 480px;
 }
 
 .intro {
