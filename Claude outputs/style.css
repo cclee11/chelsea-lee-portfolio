@@ -259,7 +259,7 @@ main {
 /* gives the home page a wider stage than other pages, just for the
    project cards below (see .projects-grid) */
 .home-main {
-  --content-max: 1200px;
+  --content-max: 1320px;
 }
 
 .page-title {
@@ -403,8 +403,8 @@ img.placeholder {
 .projects-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 64px 64px;
-  max-width: 1120px;
+  gap: 16px 32px;
+  max-width: 1272px;
   margin: 0 auto;
 }
 
