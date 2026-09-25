@@ -1659,7 +1659,10 @@ video.placeholder {
   justify-content: center;
   border: 1px solid var(--button-stroke);
   border-radius: var(--radius-lg);
-  padding: var(--space-5) var(--space-4);
+  /* extra bottom padding so the last row of project cards (with their own
+     glow/shadow) has real breathing room before the box's own border,
+     instead of ending nearly flush against it */
+  padding: var(--space-5) var(--space-4) 64px;
   text-align: center;
   box-shadow: 0 12px 28px rgba(20, 62, 102, 0.16);
 }
