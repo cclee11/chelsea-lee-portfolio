@@ -52,7 +52,7 @@
 }
 
 /* dark mode restores the original pale-yellow title fill, since the
-   light-mode default is now navy (see .site-title .word) */
+   light-mode default is now blue (see .site-title .word) */
 :root[data-theme="dark"] .site-title .word {
   color: var(--accent-warm);
 }
@@ -1612,10 +1612,6 @@ video.placeholder {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  /* tall enough to fill most of the screen on first load, with some
-     breathing room left over so the eyes-divider below it doesn't feel
-     crammed against the bottom of the viewport */
-  min-height: calc(100vh - 420px);
   border: 1px solid var(--button-stroke);
   border-radius: var(--radius-lg);
   padding: var(--space-5) var(--space-4);
@@ -1623,11 +1619,13 @@ video.placeholder {
   box-shadow: 0 12px 28px rgba(20, 62, 102, 0.16);
 }
 
-@media (max-width: 640px) {
-  .hero-box {
-    /* mobile nav wraps to two rows, so more chrome sits above the hero */
-    min-height: calc(100vh - 490px);
-  }
+/* the title/tagline/eyes-divider intro stays centered (handled above), but
+   the projects heading and grid are full-width, left-aligned content, so
+   they opt out of the hero box's centering instead of inheriting it */
+.hero-box .page-title,
+.hero-box .projects-grid {
+  align-self: stretch;
+  text-align: left;
 }
 
 .site-title {
@@ -1636,10 +1634,11 @@ video.placeholder {
   flex-wrap: wrap;
   justify-content: center;
   align-items: baseline;
+  text-transform: uppercase;
   /* gap is set in px, not em: the words are sized way up via .word's own
      font-size, so an em-based gap here (inherited from body's small
-     font-size) would end up nearly invisible next to 130px letters */
-  gap: 28px;
+     font-size) would end up nearly invisible next to 64px letters */
+  gap: 16px;
   cursor: url("../assets/cursor-ring.png") 10 10, default;
   /* idle bounce, always running, matching the eyes-divider logo below it */
   animation: title-bob 2.6s ease-in-out infinite;
@@ -1647,20 +1646,23 @@ video.placeholder {
 
 .site-title .word {
   display: inline-flex;
-  font-size: 130px;
+  /* smaller than the old 130px display size now that the title sits above
+     the rest of the page's content inside the same hero box */
+  font-size: 64px;
   line-height: 1;
   font-variation-settings: "wght" var(--wght-regular);
-  color: var(--ink);
-  -webkit-text-stroke: 2.5px var(--button-stroke);
+  color: var(--button-stroke);
+  /* thinner stroke to stay proportional at the smaller font size */
+  -webkit-text-stroke: 1.5px var(--button-stroke);
   paint-order: stroke fill;
 }
 
 @media (max-width: 640px) {
   .site-title .word {
-    font-size: 64px;
+    font-size: var(--header-size);
   }
   .site-title {
-    gap: 14px;
+    gap: 10px;
   }
 }
 
