@@ -1648,13 +1648,15 @@ video.placeholder {
   font-size: 160px;
   line-height: 1;
   font-style: italic;
-  /* a touch heavier than regular, short of full bold */
-  font-variation-settings: "wght" var(--wght-medium);
+  /* a step lighter than the previous medium weight */
+  font-variation-settings: "wght" var(--wght-regular);
   /* lighter fill than the outline so the stroke actually reads as its own
      color instead of blending into the fill */
   color: var(--background);
   -webkit-text-stroke: 3px var(--button-stroke);
   paint-order: stroke fill;
+  /* soft light-blue glow radiating outward behind the letters */
+  text-shadow: 0 0 18px var(--background), 0 0 36px var(--background);
 }
 
 @media (max-width: 640px) {
