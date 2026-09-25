@@ -1661,8 +1661,10 @@ video.placeholder {
   border-radius: var(--radius-lg);
   /* extra bottom padding so the last row of project cards (with their own
      glow/shadow) has real breathing room before the box's own border,
-     instead of ending nearly flush against it */
-  padding: var(--space-5) var(--space-4) 64px;
+     instead of ending nearly flush against it; sides widened to match now
+     that the grid actually stretches to fill this box (see
+     .hero-box .projects-grid) instead of sitting at a shrink-to-fit width */
+  padding: var(--space-5) var(--space-5) 64px;
   text-align: center;
   box-shadow: 0 12px 28px rgba(20, 62, 102, 0.16);
 }
@@ -1673,6 +1675,14 @@ video.placeholder {
 .hero-box .projects-grid {
   align-self: stretch;
   text-align: left;
+  /* .projects-grid's own margin:auto (below) cancels align-self:stretch
+     per spec, which was leaving the grid at its shrink-to-fit width and
+     making the side gap to the hero box's border balloon or shrink
+     unpredictably depending on viewport width. Zeroing it out here lets
+     the grid actually fill the box, so the gap is always just the box's
+     own padding. */
+  margin-left: 0;
+  margin-right: 0;
 }
 
 .site-title {
