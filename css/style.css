@@ -789,7 +789,7 @@ video.placeholder {
   width: 100%;
   max-width: 600px;
   margin: 0 auto;
-  text-align: center;
+  text-align: left;
 }
 
 /* ------------------------------------------------------------ case study
