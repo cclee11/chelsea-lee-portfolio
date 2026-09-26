@@ -1558,6 +1558,163 @@ video.placeholder {
   margin-top: 2px;
 }
 
+/* ------------------------------------------------------- rebrand logos
+   The two final WUX lockups, delivered as background-removed PNGs set
+   loose on the page rather than sitting inside a colored circle plate:
+   a drop-shadow (not box-shadow, since the artwork itself is now the
+   silhouette) plus the site's shared idle bob keeps them feeling alive
+   instead of static. */
+.rebrand-logos {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-5);
+  margin: 0 0 var(--space-4);
+  padding: 0;
+  list-style: none;
+}
+
+.rebrand-logo-card {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.rebrand-logo-img {
+  width: 100%;
+  max-width: 280px;
+  height: auto;
+  filter: drop-shadow(0 14px 20px rgba(20, 62, 102, 0.28));
+  animation: title-bob 2.8s ease-in-out infinite;
+}
+
+.rebrand-logo-card:nth-child(2) .rebrand-logo-img {
+  animation-delay: 0.2s;
+}
+
+.rebrand-logo-card figcaption {
+  margin-top: var(--space-3);
+}
+
+@media (max-width: 640px) {
+  .rebrand-logos {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ------------------------------------------------------ iterate gallery
+   Every individual logo-exploration badge, carved out of its circular
+   backing and set loose on the page: a wrapping row of differently
+   sized cutouts, each with its own drop shadow and bob, staggered so
+   the whole row doesn't bounce in unison. */
+.iterate-gallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-5) var(--space-4);
+  align-items: flex-end;
+  margin: 0 0 var(--space-4);
+  padding: 0;
+  list-style: none;
+}
+
+.iterate-item {
+  margin: 0;
+  flex: 0 1 160px;
+  display: flex;
+  justify-content: center;
+}
+
+.iterate-item img {
+  width: 100%;
+  max-width: 160px;
+  height: auto;
+  filter: drop-shadow(0 10px 16px rgba(20, 62, 102, 0.22));
+  animation: title-bob 2.6s ease-in-out infinite;
+}
+
+/* one round-one badge (the sky/pink gradient background) has a
+   near-white wordmark, so with its background removed it needs a small
+   dark plate behind it to stay legible against the page — every other
+   badge stays fully transparent. */
+.iterate-item-dark img {
+  background: var(--ink);
+  border-radius: var(--radius-md);
+  padding: var(--space-3);
+  box-sizing: border-box;
+}
+
+.iterate-item:nth-child(2n) img { animation-delay: 0.15s; }
+.iterate-item:nth-child(3n) img { animation-delay: 0.3s; }
+.iterate-item:nth-child(4n) img { animation-delay: 0.45s; }
+.iterate-item:nth-child(5n) img { animation-delay: 0.6s; }
+
+@media (max-width: 640px) {
+  .iterate-item {
+    flex: 0 1 120px;
+  }
+}
+
+/* ----------------------------------------------------- typographic scale
+   Poppins hierarchy showcase for the color-system section: each row set
+   in its actual weight and size so the scale is legible at a glance
+   instead of just listed as numbers in a table. */
+.type-scale {
+  margin: var(--space-5) 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.type-scale-row {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-4);
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid rgba(20, 62, 102, 0.12);
+}
+
+.type-scale-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.type-scale-label {
+  flex: 0 0 96px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--button-stroke);
+}
+
+.type-scale-sample {
+  font-family: 'Poppins', sans-serif;
+  color: var(--ink);
+  flex: 1 1 auto;
+}
+
+.type-scale-meta {
+  flex: 0 0 auto;
+  font-size: 11px;
+  color: var(--button-stroke);
+  white-space: nowrap;
+}
+
+.type-display .type-scale-sample { font-size: 56px; line-height: 64px; font-weight: 700; }
+.type-h1 .type-scale-sample { font-size: 40px; line-height: 48px; font-weight: 700; }
+.type-h2 .type-scale-sample { font-size: 32px; line-height: 40px; font-weight: 700; }
+.type-h3 .type-scale-sample { font-size: 24px; line-height: 32px; font-weight: 500; }
+.type-h4 .type-scale-sample { font-size: 19px; line-height: 28px; font-weight: 500; }
+.type-body .type-scale-sample { font-size: 16px; line-height: 26px; font-weight: 400; }
+.type-caption .type-scale-sample { font-size: 13px; line-height: 20px; font-weight: 400; }
+
+@media (max-width: 640px) {
+  .type-display .type-scale-sample { font-size: 40px; line-height: 48px; }
+  .type-h1 .type-scale-sample { font-size: 30px; line-height: 38px; }
+  .type-h2 .type-scale-sample { font-size: 26px; line-height: 34px; }
+}
+
 @media (max-width: 640px) {
   .persona-grid {
     grid-template-columns: 1fr;
