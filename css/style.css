@@ -720,11 +720,12 @@ video.placeholder {
   animation: title-bob 2.8s ease-in-out infinite;
 }
 
-/* a case-shot whose background has been removed (transparent PNG) gets a
-   soft drop-shadow so it doesn't read as floating flat against the page,
-   the same treatment used on the rebrand and iteration cutouts. */
-.case-shot-cutout {
-  filter: drop-shadow(0 12px 20px rgba(20, 62, 102, 0.22));
+/* a case-shot whose surrounding rectangle has been keyed out (so only
+   its circular badges remain opaque) sits on the site's own page
+   background instead of a hardcoded color, so it swaps automatically
+   between light and dark mode along with the rest of the page. */
+.case-shot-pagebg {
+  background: var(--page-bg);
 }
 
 .competitor-shot-wrap {
@@ -1675,17 +1676,6 @@ video.placeholder {
   animation: title-bob 2.6s ease-in-out infinite;
 }
 
-/* one round-one badge (the sky/pink gradient background) has a
-   near-white wordmark, so with its background removed it needs a small
-   dark plate behind it to stay legible against the page — every other
-   badge stays fully transparent. */
-.iterate-item-dark img {
-  background: var(--ink);
-  border-radius: var(--radius-md);
-  padding: var(--space-3);
-  box-sizing: border-box;
-}
-
 .iterate-item:nth-child(2n) img { animation-delay: 0.15s; }
 .iterate-item:nth-child(3n) img { animation-delay: 0.3s; }
 .iterate-item:nth-child(4n) img { animation-delay: 0.45s; }
@@ -1755,6 +1745,25 @@ video.placeholder {
   .type-display .type-scale-sample { font-size: 40px; line-height: 48px; }
   .type-h1 .type-scale-sample { font-size: 30px; line-height: 38px; }
   .type-h2 .type-scale-sample { font-size: 26px; line-height: 34px; }
+}
+
+/* ---------------------------------------------------------- closing shot
+   The sticker mockup that closes out the case study: rounded corners,
+   a drop shadow, and the same idle bob used everywhere else on this
+   page, so the page ends on the same lightly-alive note it opens on. */
+.closing-shot-wrap {
+  display: flex;
+  justify-content: center;
+  margin: 0 0 var(--space-5);
+}
+
+.closing-shot {
+  width: 100%;
+  max-width: 640px;
+  height: auto;
+  border-radius: var(--radius-lg);
+  box-shadow: 0 18px 32px rgba(20, 62, 102, 0.3);
+  animation: title-bob 3s ease-in-out infinite;
 }
 
 @media (max-width: 640px) {
