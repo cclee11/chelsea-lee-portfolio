@@ -720,6 +720,13 @@ video.placeholder {
   animation: title-bob 2.8s ease-in-out infinite;
 }
 
+/* a case-shot whose background has been removed (transparent PNG) gets a
+   soft drop-shadow so it doesn't read as floating flat against the page,
+   the same treatment used on the rebrand and iteration cutouts. */
+.case-shot-cutout {
+  filter: drop-shadow(0 12px 20px rgba(20, 62, 102, 0.22));
+}
+
 .competitor-shot-wrap {
   position: relative;
 }
@@ -757,6 +764,31 @@ video.placeholder {
   .detail-grid {
     grid-template-columns: 1fr;
   }
+}
+
+/* ------------------------------------------------------- detail (stacked)
+   Same building block as .detail-grid, but for a single image that should
+   run bigger and centered with its caption underneath instead of split
+   into two side-by-side columns. */
+.detail-stack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+  margin-bottom: var(--space-4);
+}
+
+.detail-stack .detail-image {
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.detail-stack .case-note {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
 }
 
 /* ------------------------------------------------------------ case study
@@ -1559,11 +1591,11 @@ video.placeholder {
 }
 
 /* ------------------------------------------------------- rebrand logos
-   The two final WUX lockups, delivered as background-removed PNGs set
-   loose on the page rather than sitting inside a colored circle plate:
-   a drop-shadow (not box-shadow, since the artwork itself is now the
-   silhouette) plus the site's shared idle bob keeps them feeling alive
-   instead of static. */
+   The two final WUX lockups, back on their brand-colored circle plates
+   (dark navy / off-white, matching each lockup) so they read the way
+   they'll actually ship — as an icon on a colored disc, not floating
+   free. The drop shadow sits under the circle itself, and the circle
+   (not just the mark) does the site's shared idle bob. */
 .rebrand-logos {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1581,16 +1613,26 @@ video.placeholder {
   text-align: center;
 }
 
-.rebrand-logo-img {
+.rebrand-logo-plate {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
   max-width: 280px;
-  height: auto;
-  filter: drop-shadow(0 14px 20px rgba(20, 62, 102, 0.28));
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  box-shadow: 0 16px 26px rgba(20, 62, 102, 0.3);
   animation: title-bob 2.8s ease-in-out infinite;
 }
 
-.rebrand-logo-card:nth-child(2) .rebrand-logo-img {
+.rebrand-logo-card:nth-child(2) .rebrand-logo-plate {
   animation-delay: 0.2s;
+}
+
+.rebrand-logo-img {
+  width: 62%;
+  height: 62%;
+  object-fit: contain;
 }
 
 .rebrand-logo-card figcaption {
