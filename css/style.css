@@ -411,7 +411,8 @@ video.placeholder {
 .projects-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 16px 32px;
+  /* closer together than before */
+  gap: 12px 24px;
   max-width: 1272px;
   margin: 0 auto;
 }
@@ -465,6 +466,21 @@ video.placeholder {
    comes through, so hovering still reads as an affordance */
 .project-card-bounce {
   animation: title-bob 2.6s ease-in-out infinite;
+}
+
+/* stagger each card's bounce out of phase with the others so the whole
+   gallery reads as bouncing "around" instead of every card bobbing up and
+   down in lockstep */
+.project-card:nth-child(2) .project-card-bounce {
+  animation-delay: 0.3s;
+}
+
+.project-card:nth-child(3) .project-card-bounce {
+  animation-delay: 0.6s;
+}
+
+.project-card:nth-child(4) .project-card-bounce {
+  animation-delay: 0.9s;
 }
 
 .project-card-bubble {
@@ -1673,16 +1689,14 @@ video.placeholder {
    the projects grid is full-width, left-aligned content, so it opts out of
    the hero box's centering instead of inheriting it */
 .hero-box .projects-grid {
-  align-self: stretch;
   text-align: left;
-  /* .projects-grid's own margin:auto (below) cancels align-self:stretch
-     per spec, which was leaving the grid at its shrink-to-fit width and
-     making the side gap to the hero box's border balloon or shrink
-     unpredictably depending on viewport width. Zeroing it out here lets
-     the grid actually fill the box, so the gap is always just the box's
-     own padding. */
-  margin-left: 0;
-  margin-right: 0;
+  /* an explicit width (rather than align-self: stretch, which .projects-
+     grid's own margin: auto cancels out per spec anyway) both fixes the
+     grid at a predictable size relative to the box and insets it a little
+     further than the box's own padding, so the cards read as slightly
+     smaller instead of filling the box edge-to-edge */
+  width: calc(100% - 48px);
+  margin: 0 auto;
 }
 
 .site-title {
