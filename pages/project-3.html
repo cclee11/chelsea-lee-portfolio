@@ -79,56 +79,89 @@
       <p class="mockup-note">Before redesigning anything, I recorded and audited the app as it actually
          exists today, screen by screen, color by color, so the redesign would be fixing real problems
          instead of imagined ones.</p>
-      <div class="solution-video-wrap">
-        <video class="solution-video solution-video-compact" src="../assets/grubhub-original-app.mp4" poster="../assets/grubhub-original-app-poster.png" controls playsinline muted></video>
-      </div>
 
-      <div class="brand-colors">
-        <div class="color-group">
-          <span class="color-group-label">Colors In The Original App</span>
-          <div class="swatch-row">
-            <div class="swatch">
-              <span class="swatch-chip" style="background:#1A1A1A"></span>
-              <span class="swatch-text"><span class="swatch-name">Near-black</span><span class="swatch-hex">#1A1A1A</span></span>
-            </div>
-            <div class="swatch">
-              <span class="swatch-chip" style="background:#FF5500"></span>
-              <span class="swatch-text"><span class="swatch-name">Orange</span><span class="swatch-hex">#FF5500</span></span>
-            </div>
-            <div class="swatch">
-              <span class="swatch-chip" style="background:#84BFA0"></span>
-              <span class="swatch-text"><span class="swatch-name">Mint Green</span><span class="swatch-hex">#84BFA0</span></span>
-            </div>
-            <div class="swatch">
-              <span class="swatch-chip" style="background:#8F80FF"></span>
-              <span class="swatch-text"><span class="swatch-name">Purple</span><span class="swatch-hex">#8F80FF</span></span>
-            </div>
-            <div class="swatch">
-              <span class="swatch-chip" style="background:#FFB060"></span>
-              <span class="swatch-text"><span class="swatch-name">Light Orange</span><span class="swatch-hex">#FFB060</span></span>
-            </div>
-            <div class="swatch">
-              <span class="swatch-chip" style="background:#FF8878"></span>
-              <span class="swatch-text"><span class="swatch-name">Salmon</span><span class="swatch-hex">#FF8878</span></span>
-            </div>
-            <div class="swatch">
-              <span class="swatch-chip" style="background:#FFC94A"></span>
-              <span class="swatch-text"><span class="swatch-name">GrubHub+ Yellow</span><span class="swatch-hex">#FFC94A</span></span>
+      <div class="detail-grid" style="align-items: center;">
+        <div class="solution-video-side-wrap">
+          <video class="solution-video solution-video-side" src="../assets/grubhub-original-app.mp4" poster="../assets/grubhub-original-app-poster.png" controls playsinline muted></video>
+        </div>
+        <div class="brand-colors" style="margin-top: 0;">
+          <div class="color-group">
+            <span class="color-group-label">Colors In The Original App</span>
+            <div class="swatch-row">
+              <div class="swatch">
+                <span class="swatch-chip" style="background:#1A1A1A"></span>
+                <span class="swatch-text"><span class="swatch-name">Near-black</span><span class="swatch-hex">#1A1A1A</span></span>
+              </div>
+              <div class="swatch">
+                <span class="swatch-chip" style="background:#FF5500"></span>
+                <span class="swatch-text"><span class="swatch-name">Orange</span><span class="swatch-hex">#FF5500</span></span>
+              </div>
+              <div class="swatch">
+                <span class="swatch-chip" style="background:#84BFA0"></span>
+                <span class="swatch-text"><span class="swatch-name">Mint Green</span><span class="swatch-hex">#84BFA0</span></span>
+              </div>
+              <div class="swatch">
+                <span class="swatch-chip" style="background:#8F80FF"></span>
+                <span class="swatch-text"><span class="swatch-name">Purple</span><span class="swatch-hex">#8F80FF</span></span>
+              </div>
+              <div class="swatch">
+                <span class="swatch-chip" style="background:#FFB060"></span>
+                <span class="swatch-text"><span class="swatch-name">Light Orange</span><span class="swatch-hex">#FFB060</span></span>
+              </div>
+              <div class="swatch">
+                <span class="swatch-chip" style="background:#FF8878"></span>
+                <span class="swatch-text"><span class="swatch-name">Salmon</span><span class="swatch-hex">#FF8878</span></span>
+              </div>
+              <div class="swatch">
+                <span class="swatch-chip" style="background:#FFC94A"></span>
+                <span class="swatch-text"><span class="swatch-name">GrubHub+ Yellow</span><span class="swatch-hex">#FFC94A</span></span>
+              </div>
             </div>
           </div>
+          <div class="case-note">
+            <p>Seven colors, plus a dark green offer tag, with several doing the same job: orange is both
+               the brand color and an error-like "Closed" status; mint is both the main "Add to bag"
+               action and the "Open now" status. Meanwhile <mark>purple</mark>, the color already
+               driving every real interaction in the app, links, Reorder, radio buttons, the back
+               chevron, is never used for the main call to action.</p>
+          </div>
         </div>
-        <div class="case-note">
-          <p>Seven colors, plus a dark green offer tag, with several doing the same job: orange is both
-             the brand color and an error-like "Closed" status; mint is both the main "Add to bag" action
-             and the "Open now" status. Meanwhile <mark>purple</mark>, the color already driving every
-             real interaction in the app, links, Reorder, radio buttons, the back chevron, is never
-             used for the main call to action.</p>
-        </div>
-        <div class="audit-callout">
-          <span class="audit-callout-label">Biggest finding</span>
-          <p>Purple already drives most interactions in the current app. Making it the primary color
-             consolidates what's already there instead of rebranding from scratch.</p>
-        </div>
+      </div>
+
+      <div class="audit-callout">
+        <span class="audit-callout-label">Biggest finding</span>
+        <p>Purple already drives most interactions in the current app. Making it the primary color
+           consolidates what's already there instead of rebranding from scratch.</p>
+      </div>
+
+      <h3 class="case-subheading">Research</h3>
+      <p class="mockup-note">Since there was no team and no time for a full research phase, I leaned on two fast, parallel tracks: a short survey of WashU students about their actual GrubHub habits and frustrations, and a competitive audit of apps that already solve pieces of this problem well.</p>
+
+      <h4 class="case-subheading">Student Survey</h4>
+      <p class="mockup-note">Twelve questions, under three minutes, meant to travel through class group
+         chats, residence hall GroupMes, and club Slacks.</p>
+      <ol class="survey-questions">
+        <li><strong>What year are you?</strong><span class="survey-question-hint">First year, sophomore, junior, senior, grad</span></li>
+        <li><strong>How many times a week do you order through Grubhub?</strong><span class="survey-question-hint">0–2, 3–5, 6–10, 10+</span></li>
+        <li><strong>When do you usually order?</strong><span class="survey-question-hint">Before class, between classes, lunch, dinner, late night (select all)</span></li>
+        <li><strong>When you open the app, do you usually already know what you want?</strong><span class="survey-question-hint">Always, usually, sometimes, rarely</span></li>
+        <li><strong>How often do you order the same item from the same place?</strong><span class="survey-question-hint">Almost always, often, sometimes, rarely</span></li>
+        <li><strong>Have you ever found out about a new menu item from something other than the app?</strong><span class="survey-question-hint">Yes, no, not sure</span></li>
+        <li><strong>How easy is it to find a specific item on a long menu?</strong><span class="survey-question-hint">1–5 scale</span></li>
+        <li><strong>Have you ever wanted to reorder something from more than a week ago?</strong><span class="survey-question-hint">Yes and I found it, yes and I couldn't, no</span></li>
+        <li><strong>What matters most when you choose where to eat?</strong><span class="survey-question-hint">Wait time, meal swipe eligible, price, distance, craving (rank top 3)</span></li>
+        <li><strong>How would you describe the app's look in one word?</strong><span class="survey-question-hint">Open text</span></li>
+        <li><strong>What's the most frustrating part of ordering?</strong><span class="survey-question-hint">Open text</span></li>
+        <li><strong>If you could add one feature, what would it be?</strong><span class="survey-question-hint">Open text</span></li>
+      </ol>
+
+      <div class="case-note" style="margin-top: var(--space-4);">
+        <p><strong>How I planned to analyze it:</strong> group the open-text answers into themes,
+           decision fatigue, time pressure, discovery, order history, visual clutter, and count
+           responses per theme to turn them into research stats.</p>
+      </div>
+      <div class="placeholder placeholder-tbd" style="margin-top: var(--space-4);">
+        <span>Real student responses — survey built, not yet distributed</span>
       </div>
 
       <h3 class="case-subheading pain-points-heading">The Pain Points</h3>
@@ -166,21 +199,9 @@
         </div>
       </div>
 
-      <h3 class="case-subheading">Research</h3>
-      <p class="mockup-note">Since there was no team and no time for a full research phase, I leaned on two fast, parallel tracks: a short survey of WashU students about their actual GrubHub habits and frustrations, and a competitive audit of apps that already solve pieces of this problem well.</p>
-
-      <div class="detail-grid">
-        <div class="placeholder detail-image placeholder-tbd">
-          <span>Survey results from WashU students on their GrubHub app experience — coming soon</span>
-        </div>
-        <div class="case-note">
-          <p>The informal survey confirmed what the pain points already suggested: students wanted faster reordering of go-to items, clearer real-time order status, and a menu that didn't feel like scrolling through a spreadsheet. That gave me a rough hierarchy of what to fix first versus what to polish if time allowed.</p>
-        </div>
-      </div>
-
       <h4 class="case-subheading">Design System Opportunities From Other Apps</h4>
       <p class="mockup-note">I audited three apps students already use for food ordering, looking specifically for patterns worth borrowing rather than a full competitive teardown.</p>
-      <div class="research-shots">
+      <div class="research-shots research-shots-3col">
         <figure class="research-shot">
           <span class="research-shot-app">Yelp</span>
           <img src="../assets/research-yelp-restaurant.png" alt="Yelp restaurant page for Tikka Tangy, showing rating, price range, and category tags">
@@ -487,11 +508,6 @@
           </div>
         </div>
 
-        <h4 class="case-subheading">Icons</h4>
-        <div class="placeholder placeholder-tbd">
-          <span>Icon set reference — coming soon</span>
-        </div>
-
         <h4 class="case-subheading">Buttons</h4>
         <div class="button-specimen-row">
           <div class="button-specimen">
@@ -533,12 +549,6 @@
              research, wireframes, and UI across, I had to decide early which fidelity stages actually
              needed to exist versus which ones I could compress, so the highest-impact screens got the
              most iteration instead of spreading effort evenly and finishing nothing all the way.</p>
-        </li>
-        <li class="takeaway">
-          <span class="takeaway-num">04</span>
-          <p><strong>Next step: close the research gaps.</strong> The student survey is still a
-             placeholder here, real numbers from a wider WashU survey would sharpen the case for exactly
-             which pain points to prioritize next.</p>
         </li>
       </ol>
     </section>
