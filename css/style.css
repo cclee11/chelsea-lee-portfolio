@@ -998,6 +998,55 @@ video.placeholder {
   margin-bottom: 0;
 }
 
+/* real quotes pulled from the WashU student survey, styled like the
+   pain-point cards above but sized for a sentence or two of quoted text
+   plus an optional one-line callout (a one-word app description, a
+   feature ask) */
+.survey-responses-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-4);
+  margin-top: var(--space-3);
+}
+
+.response-card {
+  background: var(--accent-tint);
+  color: var(--ink);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  font-size: var(--body-size);
+  line-height: var(--body-line);
+}
+
+.response-card p {
+  margin: 0;
+}
+
+.response-meta {
+  display: block;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--button-stroke);
+  margin-bottom: var(--space-2);
+}
+
+.response-tag {
+  display: block;
+  margin-top: var(--space-3);
+  font-size: 13px;
+}
+
+.response-tag strong {
+  font-variation-settings: "wght" var(--wght-medium);
+}
+
+@media (max-width: 640px) {
+  .survey-responses-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 .case-stats {
   display: flex;
   flex-wrap: wrap;
@@ -1456,9 +1505,27 @@ video.placeholder {
 .solution-video-side {
   width: auto;
   max-width: 100%;
-  max-height: 46vh;
+  max-height: 52vh;
   border-radius: var(--radius-lg);
   box-shadow: 0 14px 26px rgba(20, 62, 102, 0.2);
+}
+
+/* Original App row: .detail-grid's default 1fr/1fr split leaves the
+   (much narrower) portrait video stranded far from the color audit
+   beside it. Shrinking both columns down to their own content width
+   and centering the pair as one unit pulls them right next to each
+   other instead of stretching across the full section width. */
+.original-app-grid {
+  grid-template-columns: max-content minmax(0, 560px);
+  justify-content: center;
+  gap: var(--space-5);
+}
+
+@media (max-width: 640px) {
+  .original-app-grid {
+    grid-template-columns: 1fr;
+    justify-content: stretch;
+  }
 }
 
 /* a caption card meant to sit beside (not below) the thing it describes,
