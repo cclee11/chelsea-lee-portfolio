@@ -1747,6 +1747,160 @@ video.placeholder {
   .type-h2 .type-scale-sample { font-size: 26px; line-height: 34px; }
 }
 
+/* ------------------------------------------------------ phone shot gallery
+   A row of natural-aspect-ratio screenshots (not force-cropped like
+   .solution-img-wrap, which assumes a landscape 864x603 box) — used for
+   a walkthrough's "main screens" and for competitor-research shots. Each
+   one bounces gently and carries its own caption underneath. */
+.phone-shots-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-5) var(--space-4);
+  margin: 0 0 var(--space-4);
+  padding: 0;
+  list-style: none;
+}
+
+.phone-shot {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 170px;
+}
+
+.phone-shot img {
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-lg);
+  box-shadow: 0 12px 22px rgba(20, 62, 102, 0.2);
+  animation: title-bob 2.8s ease-in-out infinite;
+}
+
+.phone-shot:nth-child(2n) img { animation-delay: 0.15s; }
+.phone-shot:nth-child(3n) img { animation-delay: 0.3s; }
+.phone-shot:nth-child(4n) img { animation-delay: 0.45s; }
+
+.phone-shot figcaption {
+  margin-top: var(--space-3);
+}
+
+/* research shots: same bouncing screenshot, but the caption is a short
+   bullet list of the specific thing being borrowed from that app,
+   rather than a title/desc pair */
+.research-shots {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-5) var(--space-4);
+  margin: var(--space-4) 0;
+  padding: 0;
+  list-style: none;
+}
+
+.research-shot {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 190px;
+}
+
+.research-shot img {
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-lg);
+  box-shadow: 0 12px 22px rgba(20, 62, 102, 0.2);
+  animation: title-bob 2.8s ease-in-out infinite;
+}
+
+.research-shot:nth-child(2n) img { animation-delay: 0.15s; }
+.research-shot:nth-child(3n) img { animation-delay: 0.3s; }
+
+.research-shot figcaption {
+  margin-top: var(--space-3);
+  width: 100%;
+}
+
+.research-shot-app {
+  display: block;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--button-stroke);
+  margin-bottom: var(--space-2);
+}
+
+.research-shot ul {
+  margin: 0;
+  padding-left: 1.1em;
+  text-align: left;
+}
+
+.research-shot li {
+  font-size: 13px;
+  line-height: 18px;
+  color: var(--text);
+  margin-bottom: var(--space-1);
+}
+
+/* -------------------------------------------------------- button specimens
+   Small live examples of the redesign's primary / secondary / disabled
+   button states, built from the actual palette rather than a screenshot
+   so they always render crisp and theme-appropriate. */
+.button-specimen-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  align-items: center;
+  margin: var(--space-4) 0 0;
+}
+
+.button-specimen {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-2);
+}
+
+.button-specimen-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--button-stroke);
+}
+
+.btn-demo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: var(--radius-full);
+  padding: var(--space-2) var(--space-4);
+  font-family: inherit;
+  font-size: 14px;
+  font-variation-settings: "wght" var(--wght-medium);
+  cursor: default;
+}
+
+.btn-demo-primary {
+  background: #6A5AE0;
+  color: #FFFFFF;
+}
+
+.btn-demo-secondary {
+  background: #ECE9FF;
+  color: #3E3391;
+}
+
+.btn-demo-disabled {
+  background: var(--accent-tint);
+  color: var(--button-stroke);
+  opacity: 0.6;
+}
+
 /* ---------------------------------------------------------- closing shot
    The sticker mockup that closes out the case study: rounded corners,
    a drop shadow, and the same idle bob used everywhere else on this
