@@ -58,7 +58,7 @@
       </div>
     </div>
 
-    <video class="case-hero" src="../assets/grubhub-prototype.mp4" poster="../assets/grubhub-prototype-poster.png" autoplay muted loop playsinline aria-label="Redesigned GrubHub mobile app, prototype walkthrough"></video>
+    <video class="case-hero" src="../assets/grubhub-hero-card.mp4" autoplay muted loop playsinline aria-label="Redesigned GrubHub mobile app, hero shot"></video>
 
     <div class="case-jumpnav-wrap">
       <div class="case-jumpnav-bubble">
@@ -74,58 +74,128 @@
     <section class="case-section">
       <h2 class="case-heading">Overview</h2>
       <p>This project came from <strong>Product Space</strong>, a product design organization at WashU, as a one-week solo sprint with a single, wide-open prompt: <mark>redesign the UI of our campus GrubHub app</mark>. No feature brief, no stakeholder requirements, just an interface that every student on campus already used daily and had opinions about. With one week and no team to split the work with, I owned research, wireframes, and final UI myself, start to finish.</p>
-      <div class="case-stats">
-        <div class="case-stat">
-          <span class="stat-number">1</span>
-          <span class="stat-label">Designer, start to finish</span>
-        </div>
-        <div class="case-stat">
-          <span class="stat-number">6</span>
-          <span class="stat-label">Pain points identified in the original app</span>
-        </div>
-        <div class="case-stat">
-          <span class="stat-number">7</span>
-          <span class="stat-label">Days from prompt to final prototype</span>
-        </div>
-      </div>
 
       <h3 class="case-subheading">The Original App</h3>
-      <div class="placeholder placeholder-tbd">
-        <span>Screenshots of the original campus GrubHub app, for side-by-side comparison — coming soon</span>
+      <p class="mockup-note">Before redesigning anything, I recorded and audited the app as it actually
+         exists today, screen by screen, color by color, so the redesign would be fixing real problems
+         instead of imagined ones.</p>
+      <div class="solution-video-wrap">
+        <video class="solution-video" src="../assets/grubhub-original-app.mp4" poster="../assets/grubhub-original-app-poster.png" controls playsinline muted></video>
+      </div>
+
+      <div class="brand-colors">
+        <div class="color-group">
+          <span class="color-group-label">Colors In The Original App</span>
+          <div class="swatch-row">
+            <div class="swatch">
+              <span class="swatch-chip" style="background:#1A1A1A"></span>
+              <span class="swatch-text"><span class="swatch-name">Near-black</span><span class="swatch-hex">#1A1A1A</span></span>
+            </div>
+            <div class="swatch">
+              <span class="swatch-chip" style="background:#FF5500"></span>
+              <span class="swatch-text"><span class="swatch-name">Orange</span><span class="swatch-hex">#FF5500</span></span>
+            </div>
+            <div class="swatch">
+              <span class="swatch-chip" style="background:#84BFA0"></span>
+              <span class="swatch-text"><span class="swatch-name">Mint Green</span><span class="swatch-hex">#84BFA0</span></span>
+            </div>
+            <div class="swatch">
+              <span class="swatch-chip" style="background:#8F80FF"></span>
+              <span class="swatch-text"><span class="swatch-name">Purple</span><span class="swatch-hex">#8F80FF</span></span>
+            </div>
+            <div class="swatch">
+              <span class="swatch-chip" style="background:#FFB060"></span>
+              <span class="swatch-text"><span class="swatch-name">Light Orange</span><span class="swatch-hex">#FFB060</span></span>
+            </div>
+            <div class="swatch">
+              <span class="swatch-chip" style="background:#FF8878"></span>
+              <span class="swatch-text"><span class="swatch-name">Salmon</span><span class="swatch-hex">#FF8878</span></span>
+            </div>
+            <div class="swatch">
+              <span class="swatch-chip" style="background:#FFC94A"></span>
+              <span class="swatch-text"><span class="swatch-name">GrubHub+ Yellow</span><span class="swatch-hex">#FFC94A</span></span>
+            </div>
+          </div>
+        </div>
+        <div class="case-note">
+          <p>Seven colors, plus a dark green offer tag, with several doing the same job: orange is both
+             the brand color and an error-like "Closed" status; mint is both the main "Add to bag" action
+             and the "Open now" status. Meanwhile <mark>purple</mark>, the color already driving every
+             real interaction in the app, links, Reorder, radio buttons, the back chevron, is never
+             used for the main call to action.</p>
+        </div>
+        <div class="audit-callout">
+          <span class="audit-callout-label">Biggest finding</span>
+          <p>Purple already drives most interactions in the current app. Making it the primary color
+             consolidates what's already there instead of rebranding from scratch.</p>
+        </div>
+
+        <p>Type has the same problem: a heavy rounded display face for headings paired with a plain sans
+           for body copy, set in <mark>six different casing styles</mark> for one kind of text, "Curated
+           Offers" in Title Case, "Past orders" in Sentence case, "americano" in lowercase, "HOT / ICED /
+           SMALL" in ALL CAPS, with no consistent size scale tying any of it together.</p>
+
+        <p>Layout has no shared rules either: row heights differ between the account list and the orders
+           list, a lone Sort button floats under search on Home with no filter partner, and restaurants
+           and menus are single long vertical lists. Imagery is just as inconsistent, home and restaurant
+           pages show storefronts and counters instead of food, the same photo repeats twice under recent
+           orders, and photo ratios differ from screen to screen. Buttons come in three unrelated styles
+           that never establish one primary action:</p>
+
+        <div class="button-specimen-row">
+          <div class="button-specimen">
+            <span class="button-specimen-label">Filled mint</span>
+            <button type="button" class="btn-demo" style="background:#84BFA0; color:#173226;" tabindex="-1">Add to bag · $7.30</button>
+          </div>
+          <div class="button-specimen">
+            <span class="button-specimen-label">Ghost purple</span>
+            <button type="button" class="btn-demo" style="background:transparent; border:1px solid #8F80FF; color:#8F80FF;" tabindex="-1">Reorder</button>
+          </div>
+          <div class="button-specimen">
+            <span class="button-specimen-label">White outline</span>
+            <button type="button" class="btn-demo" style="background:transparent; border:1px solid var(--ink); color:var(--ink);" tabindex="-1">Manage plan</button>
+          </div>
+        </div>
+
+        <div class="case-note">
+          <p><strong>What was already working, so I kept it:</strong> an "8 min, no line" wait time shown
+             right on the restaurant card, a one-tap "Order again" shortcut, a campus card balance
+             surfaced at the top of Home, and a simple WashU Dining / Off-campus / Show all split.</p>
+        </div>
       </div>
 
       <h3 class="case-subheading pain-points-heading">The Pain Points</h3>
-      <p class="mockup-note" style="text-align:center; max-width:560px; margin-left:auto; margin-right:auto;">Six recurring pain points pulled from using the app myself and hearing other students complain about it.</p>
+      <p class="mockup-note" style="text-align:center; max-width:560px; margin-left:auto; margin-right:auto;">Six recurring pain points pulled directly from the audit above.</p>
       <div class="pain-points-grid">
         <div class="pain-card">
           <span class="pain-card-num">01</span>
-          <span class="pain-card-title">Cluttered home screen</span>
-          <span class="pain-card-desc">Dense text, low white space, and no clear visual hierarchy for what to look at first.</span>
+          <span class="pain-card-title">No shared color system</span>
+          <span class="pain-card-desc">Seven-plus colors, several doing the same job, so nothing reads as "the" action color.</span>
         </div>
         <div class="pain-card">
           <span class="pain-card-num">02</span>
-          <span class="pain-card-title">Inconsistent components</span>
-          <span class="pain-card-desc">Buttons, cards, and list rows all styled slightly differently from screen to screen.</span>
+          <span class="pain-card-title">Six casing styles, one text style</span>
+          <span class="pain-card-desc">Headings and labels shift between Sentence case, Title Case, and ALL CAPS with no clear scale.</span>
         </div>
         <div class="pain-card">
           <span class="pain-card-num">03</span>
-          <span class="pain-card-title">Hard-to-scan menus</span>
-          <span class="pain-card-desc">Long, flat lists of dining hall items with no grouping, filtering, or search.</span>
+          <span class="pain-card-title">Three unrelated button styles</span>
+          <span class="pain-card-desc">Filled mint, ghost purple, and white outline buttons never establish one primary action.</span>
         </div>
         <div class="pain-card">
           <span class="pain-card-num">04</span>
-          <span class="pain-card-title">Buried order tracking</span>
-          <span class="pain-card-desc">Checking where an order stood took several taps instead of one glance.</span>
+          <span class="pain-card-title">Inconsistent layout and spacing</span>
+          <span class="pain-card-desc">Row heights, gaps, and photo ratios all vary from screen to screen.</span>
         </div>
         <div class="pain-card">
           <span class="pain-card-num">05</span>
-          <span class="pain-card-title">Low-contrast color system</span>
-          <span class="pain-card-desc">Muted orange-and-gray palette made key actions (like "add to bag") easy to miss.</span>
+          <span class="pain-card-title">Low-effort, inconsistent imagery</span>
+          <span class="pain-card-desc">Storefronts and counters stand in for food photos, sometimes the same photo twice.</span>
         </div>
         <div class="pain-card">
           <span class="pain-card-num">06</span>
-          <span class="pain-card-title">Clunky customization flow</span>
-          <span class="pain-card-desc">Modifying an order item felt like a form, not a fast, tappable flow.</span>
+          <span class="pain-card-title">Competing decorative elements</span>
+          <span class="pain-card-desc">A large yellow Grubhub+ shape and orange status labels fight with real content for attention.</span>
         </div>
       </div>
 
@@ -185,8 +255,8 @@
           </figcaption>
         </figure>
         <figure class="research-shot">
-          <span class="research-shot-app">Starbucks</span>
-          <img src="../assets/research-starbucks-item.png" alt="Starbucks-style item detail screen for a Matcha Cheese Milk Tea">
+          <span class="research-shot-app">Heytea</span>
+          <img src="../assets/research-starbucks-item.png" alt="Heytea-style item detail screen for a Matcha Cheese Milk Tea">
           <figcaption>
             <ul>
               <li>Large hero image and price anchored at the top of the item-detail screen</li>
@@ -195,8 +265,8 @@
           </figcaption>
         </figure>
         <figure class="research-shot">
-          <span class="research-shot-app">Starbucks</span>
-          <img src="../assets/research-starbucks-customize.png" alt="Starbucks-style More Options customization submenu">
+          <span class="research-shot-app">Heytea</span>
+          <img src="../assets/research-starbucks-customize.png" alt="Heytea-style More Options customization submenu">
           <figcaption>
             <ul>
               <li>Customization submenu grouped by option type, each with clear selected-state styling</li>
@@ -207,7 +277,7 @@
       </div>
 
       <h4 class="case-subheading">User Persona</h4>
-      <div class="persona-grid">
+      <div class="persona-grid persona-grid-solo">
         <div class="persona-card">
           <div class="persona-head">
             <span class="persona-avatar">JK</span>
@@ -248,47 +318,47 @@
          to scan. Below is the full prototype walkthrough, followed by the main screens.</p>
 
       <div class="solution-video-wrap">
-        <video class="solution-video" src="../assets/grubhub-prototype.mp4" poster="../assets/grubhub-prototype-poster.png" controls playsinline muted></video>
+        <video class="solution-video" src="../assets/grubhub-prototype-cropped.mp4" poster="../assets/grubhub-prototype-cropped-poster.png" controls playsinline muted></video>
       </div>
 
-      <div class="phone-shots-grid">
+      <div class="phone-shots-grid phone-shots-grid-3col">
         <figure class="phone-shot">
-          <img src="../assets/app-home.png" alt="Redesigned home screen, Choose Your Grub">
+          <img src="../assets/app-home-transparent.png" alt="Redesigned home screen, Choose Your Grub">
           <figcaption>
             <span class="mockup-caption-title">Home</span>
             <span class="mockup-caption-desc">"Choose Your Grub" — the redesigned home screen, with dining options surfaced up front.</span>
           </figcaption>
         </figure>
         <figure class="phone-shot">
-          <img src="../assets/app-restaurant.png" alt="Redesigned restaurant page for Corner 17">
+          <img src="../assets/app-restaurant-transparent.png" alt="Redesigned restaurant page for Corner 17">
           <figcaption>
             <span class="mockup-caption-title">Restaurant page</span>
             <span class="mockup-caption-desc">Corner 17's menu, restyled with clearer grouping and item photography.</span>
           </figcaption>
         </figure>
         <figure class="phone-shot">
-          <img src="../assets/app-item-detail.png" alt="Redesigned item detail modal for a Vanilla Latte">
+          <img src="../assets/app-item-detail-transparent.png" alt="Redesigned item detail modal for a Vanilla Latte">
           <figcaption>
             <span class="mockup-caption-title">Item detail</span>
             <span class="mockup-caption-desc">A Vanilla Latte's detail modal, with customization options exposed inline.</span>
           </figcaption>
         </figure>
         <figure class="phone-shot">
-          <img src="../assets/app-trending.png" alt="Redesigned trending screen">
+          <img src="../assets/app-trending-transparent.png" alt="Redesigned trending screen">
           <figcaption>
             <span class="mockup-caption-title">Trending</span>
             <span class="mockup-caption-desc">What's popular on campus right now, pulled into its own dedicated tab.</span>
           </figcaption>
         </figure>
         <figure class="phone-shot">
-          <img src="../assets/app-orders.png" alt="Redesigned orders screen">
+          <img src="../assets/app-orders-transparent.png" alt="Redesigned orders screen">
           <figcaption>
             <span class="mockup-caption-title">Orders</span>
             <span class="mockup-caption-desc">Past and current orders in one unified, easy-to-reorder-from list.</span>
           </figcaption>
         </figure>
         <figure class="phone-shot">
-          <img src="../assets/app-track-order.png" alt="Redesigned track order screen">
+          <img src="../assets/app-track-order-transparent.png" alt="Redesigned track order screen">
           <figcaption>
             <span class="mockup-caption-title">Track order</span>
             <span class="mockup-caption-desc">A clearer, single-glance status view for exactly where an order stands.</span>
@@ -304,87 +374,52 @@
       <p class="mockup-note">With only a week, I started fast and rough: paper-thin wireframes to lock
          down the core navigation (home, menu, cart, orders, account) and confirm the campus-dining
          mental model before touching any color or type.</p>
-      <div class="placeholder placeholder-tbd">
-        <span>Low-fidelity wireframes — coming soon</span>
+      <div style="margin: 0 0 var(--space-4);">
+        <img class="case-shot bounce-img" style="aspect-ratio: 5635 / 1642; border-radius: var(--radius-lg);" src="../assets/lowfi-wireframes.png" alt="Eight low-fidelity grayscale wireframes for the redesigned GrubHub app, covering home, browse, restaurant list, restaurant detail, item detail, cart and checkout, order confirmation, and account">
       </div>
 
       <h3 class="case-subheading">Mid-Fidelity Wireframes</h3>
-      <p class="mockup-note">From there I moved into mid-fidelity screens: real layout proportions and
-         spacing, still in grayscale, so I could pressure-test the information hierarchy (what's a
-         header, what's a card, what's an action) before any branding decisions locked it in place.</p>
-      <div class="placeholder placeholder-tbd">
-        <span>Mid-fidelity wireframes, with captions and reasoning — coming soon</span>
+      <p class="mockup-note">From there I moved into mid-fidelity screens: real content and the new
+         purple palette already in place, so I could pressure-test the full ordering flow, home to
+         checkout, before polishing every visual detail.</p>
+      <div style="margin: 0 0 var(--space-4);">
+        <img class="case-shot bounce-img" style="aspect-ratio: 4238 / 1252; border-radius: var(--radius-lg);" src="../assets/midfi-composite.png" alt="Eight mid-fidelity screens for the redesigned GrubHub app: home, trending, all dining with filter, item detail, customize modal, cart, orders, and account">
+      </div>
+      <p class="mockup-note">A few of those screens, called out individually:</p>
+      <div class="keyframe-row">
+        <figure class="phone-shot">
+          <img src="../assets/midfi-key-home.png" alt="Mid-fidelity home screen with the Choose Your Grub banner and dining cards">
+          <figcaption>
+            <span class="mockup-caption-title">Home</span>
+            <span class="mockup-caption-desc">The "Choose Your Grub" banner and dining cards in place before spacing was finalized.</span>
+          </figcaption>
+        </figure>
+        <figure class="phone-shot">
+          <img src="../assets/midfi-key-trending.png" alt="Mid-fidelity Trending tab with This Month's Favorites and New Additions">
+          <figcaption>
+            <span class="mockup-caption-title">Trending</span>
+            <span class="mockup-caption-desc">The new Trending tab taking shape, with a ranked favorites list and a New Additions row.</span>
+          </figcaption>
+        </figure>
+        <figure class="phone-shot">
+          <img src="../assets/midfi-key-orders.png" alt="Mid-fidelity Orders screen with past orders and reorder buttons">
+          <figcaption>
+            <span class="mockup-caption-title">Orders</span>
+            <span class="mockup-caption-desc">Past orders consolidated into one list, each with a one-tap Reorder action.</span>
+          </figcaption>
+        </figure>
       </div>
 
       <h3 class="case-subheading">Why Purple Instead of Orange</h3>
       <p>GrubHub's own brand orange is great for a national delivery app competing for attention in a
          crowded app store, but it fought with itself on a smaller, single-purpose campus ordering app:
          at high density (long menus, dense order lists) it read as loud and a little fatiguing rather
-         than energetic. I moved the primary palette to a <mark>softer purple</mark> instead, which held
-         up better across long scrolling menus, still felt warm and appetizing, and gave "add to bag" and
-         other key actions more contrast to stand out against, since nothing else on the redesigned
-         screens competes with it in the same hue.</p>
-
-      <h3 class="case-subheading">High-Fidelity Screens</h3>
-      <p class="mockup-note">The full flow, from browsing to checkout to order tracking, in final fidelity.</p>
-      <div class="phone-shots-grid">
-        <figure class="phone-shot">
-          <img src="../assets/hifi-home.png" alt="High-fidelity home screen">
-          <figcaption>
-            <span class="mockup-caption-title">Home</span>
-            <span class="mockup-caption-desc">Main change: dining options as clear, tappable cards instead of a dense list.</span>
-          </figcaption>
-        </figure>
-        <figure class="phone-shot">
-          <img src="../assets/hifi-trending.png" alt="High-fidelity trending screen">
-          <figcaption>
-            <span class="mockup-caption-title">Trending</span>
-            <span class="mockup-caption-desc">Main change: a dedicated tab for what's popular, pulled out of the home feed.</span>
-          </figcaption>
-        </figure>
-        <figure class="phone-shot">
-          <img src="../assets/hifi-all-dining-filter.png" alt="High-fidelity all-dining screen with filter modal open">
-          <figcaption>
-            <span class="mockup-caption-title">All dining + filters</span>
-            <span class="mockup-caption-desc">Main change: a filter modal, so students can narrow dining options instead of scrolling everything.</span>
-          </figcaption>
-        </figure>
-        <figure class="phone-shot">
-          <img src="../assets/hifi-restaurant.png" alt="High-fidelity restaurant item-add screen">
-          <figcaption>
-            <span class="mockup-caption-title">Restaurant / add item</span>
-            <span class="mockup-caption-desc">Main change: grouped menu sections with photos, instead of a flat text list.</span>
-          </figcaption>
-        </figure>
-        <figure class="phone-shot">
-          <img src="../assets/hifi-customize.png" alt="High-fidelity customize modal">
-          <figcaption>
-            <span class="mockup-caption-title">Customize</span>
-            <span class="mockup-caption-desc">Main change: customization options exposed inline with clear selected states.</span>
-          </figcaption>
-        </figure>
-        <figure class="phone-shot">
-          <img src="../assets/hifi-cart.png" alt="High-fidelity cart and checkout screen">
-          <figcaption>
-            <span class="mockup-caption-title">Cart / checkout</span>
-            <span class="mockup-caption-desc">Main change: a sticky checkout action and clearer order summary.</span>
-          </figcaption>
-        </figure>
-        <figure class="phone-shot">
-          <img src="../assets/hifi-orders.png" alt="High-fidelity orders screen">
-          <figcaption>
-            <span class="mockup-caption-title">Orders</span>
-            <span class="mockup-caption-desc">Main change: past and current orders unified into one list, with one-tap reorder.</span>
-          </figcaption>
-        </figure>
-        <figure class="phone-shot">
-          <img src="../assets/hifi-account.png" alt="High-fidelity account screen">
-          <figcaption>
-            <span class="mockup-caption-title">Account</span>
-            <span class="mockup-caption-desc">Main change: settings-style rows restyled for consistency with the rest of the app.</span>
-          </figcaption>
-        </figure>
-      </div>
+         than energetic. This wasn't an arbitrary swap, either: the audit above found that purple was
+         already the color driving every real interaction in the old app, so I moved the primary palette
+         to a <mark>softer purple</mark> instead, consolidating what was already there rather than
+         rebranding from scratch. It held up better across long scrolling menus, still felt warm and
+         appetizing, and gave "add to bag" and other key actions more contrast to stand out against,
+         since nothing else on the redesigned screens competes with it in the same hue.</p>
 
       <h3 class="case-subheading">Full Design System</h3>
       <p class="mockup-note">Rebuilt from scratch around the new purple palette: a light and dark role
@@ -534,9 +569,9 @@
         </li>
         <li class="takeaway">
           <span class="takeaway-num">04</span>
-          <p><strong>Next step: close the research gaps.</strong> The survey data and original-app
-             screenshots are still placeholders here, real numbers from a wider student survey would
-             sharpen the case for exactly which pain points to prioritize next.</p>
+          <p><strong>Next step: close the research gaps.</strong> The student survey is still a
+             placeholder here, real numbers from a wider WashU survey would sharpen the case for exactly
+             which pain points to prioritize next.</p>
         </li>
       </ol>
     </section>

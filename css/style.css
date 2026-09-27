@@ -1901,6 +1901,76 @@ video.placeholder {
   opacity: 0.6;
 }
 
+/* ------------------------------------------------------- persona, solo
+   When only one persona card exists (vs. the 2-up grid elsewhere), keep
+   it from stretching half-width and stranding empty space beside it. */
+.persona-grid-solo {
+  grid-template-columns: minmax(0, 480px);
+  justify-content: center;
+}
+
+/* -------------------------------------------------- 3-per-row phone grid
+   A tighter variant of .phone-shots-grid for a gallery that should lock
+   to exactly three columns (vs. that one's loose flex-wrap), collapsing
+   to two and then one column as the viewport narrows. */
+.phone-shots-grid-3col {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-5) var(--space-4);
+  justify-items: center;
+  margin: 0 0 var(--space-4);
+}
+
+.phone-shots-grid-3col .phone-shot {
+  width: 100%;
+  max-width: 220px;
+}
+
+@media (max-width: 760px) {
+  .phone-shots-grid-3col { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 460px) {
+  .phone-shots-grid-3col { grid-template-columns: 1fr; }
+}
+
+/* --------------------------------------------------- mid-fi key frames
+   A handful of individual mid-fidelity screens called out below the
+   full composite, each with a one-line caption for what it's showing. */
+.keyframe-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-5) var(--space-4);
+  margin: var(--space-4) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.keyframe-row .phone-shot {
+  width: 180px;
+}
+
+/* ------------------------------------------------------- audit callout
+   A flagged insight pulled straight out of the original-app audit,
+   visually distinct from the surrounding .case-note blocks. */
+.audit-callout {
+  background: var(--accent-tint);
+  border-left: 3px solid var(--button-stroke);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
+  margin: var(--space-4) 0 0;
+}
+
+.audit-callout-label {
+  display: block;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--button-stroke);
+  margin-bottom: var(--space-1);
+}
+
 /* ---------------------------------------------------------- closing shot
    The sticker mockup that closes out the case study: rounded corners,
    a drop shadow, and the same idle bob used everywhere else on this
