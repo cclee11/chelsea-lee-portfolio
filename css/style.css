@@ -2420,11 +2420,11 @@ video.placeholder {
 }
 
 .eyes-icon {
-  --pupil-step: 6.37px;
+  --pupil-step: 5.49px;
   position: relative;
   display: inline-block;
-  width: 130px;
-  height: calc(130px * 342 / 776);
+  width: 112px;
+  height: calc(112px * 342 / 776);
   cursor: url("../assets/cursor-ring.png") 10 10, default;
   animation: eyes-bob 2.6s ease-in-out infinite;
 }
