@@ -25,6 +25,13 @@
       the site-wide night mode toggle above. Flips .is-dark on the
       #solutionScreens grid, which crossfades each screen's light/dark
       image pair (see .solution-img-* in style.css).
+   7. Image lightbox (design tab + fun page): clicking one of the plain
+      image cards opens it bigger in an overlay, with a sheer light-blue
+      layer over the rest of the page (the sticky nav sits above it and
+      stays usable). Closes on Escape, on clicking the backdrop, or via
+      the close button. Flip-tile posters are excluded on purpose —
+      clicking those still flips the tile instead of opening the
+      lightbox.
 */
 
 (function () {
@@ -185,6 +192,66 @@
         window.scrollTo({ top: 0, behavior: "smooth" });
       });
     });
+
+    // Image lightbox: only the plain image cards on the Design tab and
+    // the Fun page (never a flip-tile's front/back faces, which keep
+    // their own click-to-flip behavior).
+    var lightboxImages = document.querySelectorAll(
+      ".grid-design > img.placeholder, .bw-spread-group img.placeholder, .photo-collage img.placeholder"
+    );
+
+    if (lightboxImages.length) {
+      var lightboxOverlay = document.createElement("div");
+      lightboxOverlay.className = "lightbox-overlay";
+      lightboxOverlay.setAttribute("role", "dialog");
+      lightboxOverlay.setAttribute("aria-modal", "true");
+      lightboxOverlay.setAttribute("aria-label", "Enlarged image");
+
+      var lightboxImg = document.createElement("img");
+      lightboxOverlay.appendChild(lightboxImg);
+
+      var lightboxClose = document.createElement("button");
+      lightboxClose.type = "button";
+      lightboxClose.className = "lightbox-close";
+      lightboxClose.setAttribute("aria-label", "Close enlarged image");
+      lightboxClose.innerHTML = "&times;";
+      lightboxOverlay.appendChild(lightboxClose);
+
+      document.body.appendChild(lightboxOverlay);
+
+      var closeLightbox = function () {
+        lightboxOverlay.classList.remove("is-open");
+        lightboxImg.src = "";
+      };
+
+      var openLightbox = function (img) {
+        lightboxImg.src = img.getAttribute("src");
+        lightboxImg.alt = img.getAttribute("alt") || "";
+        lightboxOverlay.classList.add("is-open");
+      };
+
+      lightboxImages.forEach(function (img) {
+        img.addEventListener("click", function () {
+          openLightbox(img);
+        });
+      });
+
+      lightboxClose.addEventListener("click", closeLightbox);
+
+      // Close on backdrop click, but not when the click is on the image
+      // or close button themselves.
+      lightboxOverlay.addEventListener("click", function (e) {
+        if (e.target === lightboxOverlay) {
+          closeLightbox();
+        }
+      });
+
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape" && lightboxOverlay.classList.contains("is-open")) {
+          closeLightbox();
+        }
+      });
+    }
 
     var themeToggle = document.createElement("button");
     themeToggle.type = "button";
