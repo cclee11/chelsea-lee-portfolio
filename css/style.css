@@ -278,6 +278,12 @@ main {
   letter-spacing: 0.01em;
 }
 
+/* tighter gap when a page title sits directly above the subnav tabs
+   (the "more" page), instead of the usual generous title spacing */
+.page-title:has(+ .subnav) {
+  margin-bottom: var(--space-3);
+}
+
 /* -------------------------------------------------------------- footer */
 
 .site-footer {
@@ -363,12 +369,14 @@ video.placeholder {
   object-fit: cover;
 }
 
-/* the FocusGhost card's video is a full scene (product mockup + wordmark)
+/* the UX cards' videos are each a full scene (product mockup/wordmark)
    rather than art meant to bleed off the edges, so contain (not cover)
-   keeps the whole frame visible in the card no matter how the box rounds */
+   keeps the whole frame visible in the card no matter how the box rounds.
+   Fallback background stays a neutral, near-white page tone since it's
+   shared by videos with very different backgrounds of their own. */
 .card-media video.placeholder {
   object-fit: contain;
-  background: #536282;
+  background: var(--page-bg);
 }
 
 /* ---------------------------------------------------------- grid pages */
@@ -382,6 +390,15 @@ video.placeholder {
 .grid-2col .placeholder {
   width: 100%;
   aspect-ratio: 1 / 1;
+}
+
+/* More page, UX tab only: match the cards' aspect ratio to the videos
+   they hold (both encoded at 900x600, i.e. 3:2) instead of the default
+   square .grid-2col ratio, which the Design tab below keeps. Same
+   specificity as the rule above, so source order (this being later)
+   is what makes it win. */
+.grid-2col-cards .project-card-image {
+  aspect-ratio: 3 / 2;
 }
 
 /* caption under each UX card: a centered, rounded "bubble" in the site's
@@ -690,24 +707,24 @@ video.placeholder {
 /* --------------------------------------------------------------- subnav
    A second row of tabs under a page title (currently used on the "more"
    page to switch between the UX and design panels). Mirrors the pill
-   look of .site-nav a, just centered and one step smaller. */
+   look of .site-nav a, left-aligned under the title and a size smaller. */
 
 .subnav {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   gap: var(--space-2);
   margin: 0 0 var(--space-5);
 }
 
 .subnav-tab {
   font-family: inherit;
-  font-size: var(--body-size);
+  font-size: 13px;
   font-variation-settings: "wght" var(--wght-light);
   color: var(--ink);
   background: var(--background);
   border: 1px solid transparent;
   border-radius: var(--radius-full);
-  padding: var(--space-2) var(--space-4);
+  padding: var(--space-1) var(--space-3);
   transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
 
