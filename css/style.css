@@ -451,6 +451,19 @@ video.placeholder {
   box-shadow: 0 18px 30px rgba(20, 62, 102, 0.22), 0 0 16px rgba(167, 212, 228, 0.5);
 }
 
+/* UX cards only: drop the lift + elevated drop-shadow ("pop out") that
+   the homepage project cards use, keeping just the border highlight and
+   resting ambient glow so hover still reads as an affordance */
+.grid-2col-cards .placeholder:hover {
+  --ty: 0px;
+}
+
+.grid-2col-cards .placeholder-link:hover .project-card-image,
+.grid-2col-cards .placeholder-link:focus-visible .project-card-image {
+  border-color: var(--background);
+  box-shadow: 0 0 16px rgba(167, 212, 228, 0.5);
+}
+
 /* fun page: three smaller squares per row, packed closer together than
    the standard .grid-2col spacing */
 .grid-3col {
