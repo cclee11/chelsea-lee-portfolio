@@ -433,6 +433,21 @@ video.placeholder {
   }
 }
 
+/* Design tab: the three halftone zine-spread photos read as one set,
+   so they're wrapped as a single collage item (a direct child of
+   .grid-design) instead of three separate ones — this keeps the
+   masonry layout from splitting them across different columns while
+   still stacking each spread at its own true aspect ratio. */
+.bw-spread-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.bw-spread-group .placeholder {
+  width: 100%;
+}
+
 /* Design tab: the site's usual hover pop (big -10px lift + heavy
    shadow) reads as too dramatic across a dense collage of many cards —
    soften both the lift and the shadow/glow, for the plain image cards
