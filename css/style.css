@@ -391,14 +391,31 @@ video.placeholder {
   aspect-ratio: 3 / 2;
 }
 
-/* stand-in caption line under each UX card, in the site's usual
-   "still needs real content" muted-italic style (see .placeholder-tbd) */
-.card-caption-placeholder {
-  display: block;
-  margin-top: var(--space-2);
+/* caption under each UX card: a centered, rounded "bubble" in the site's
+   light-blue tint, holding a bigger project title over a smaller
+   description line */
+.card-caption-bubble {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+  margin-top: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  background: var(--accent-tint);
+  border-radius: var(--radius-lg);
+  text-align: center;
+}
+
+.card-caption-title {
+  font-size: 18px;
+  font-variation-settings: "wght" var(--wght-medium);
+  color: var(--ink);
+}
+
+.card-caption-desc {
   font-size: 13px;
-  font-style: italic;
-  color: var(--button-stroke);
+  line-height: 1.5;
+  color: var(--text);
 }
 
 /* wraps just the video/image tile (not the caption below it) so a
