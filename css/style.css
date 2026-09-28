@@ -520,7 +520,10 @@ video.placeholder {
   margin-top: var(--space-3);
   padding: var(--space-3) var(--space-4);
   background: var(--accent-tint);
+  color: var(--ink);
+  border: 1px solid var(--background);
   border-radius: var(--radius-lg);
+  box-shadow: 0 0 14px rgba(167, 212, 228, 0.5);
   text-align: left;
 }
 
@@ -533,7 +536,10 @@ video.placeholder {
 .card-caption-desc {
   font-size: 13px;
   line-height: 1.5;
-  color: var(--text);
+  /* fixed navy, not var(--text): this sits on the bubble's always-light
+     accent-tint background, so it needs to stay legible in dark mode too
+     instead of flipping to the pale text color meant for the dark canvas */
+  color: var(--ink);
 }
 
 /* wraps just the video/image tile (not the caption below it) so a
@@ -691,11 +697,12 @@ video.placeholder {
   display: flex;
   flex-direction: column;
   gap: 2px;
-  background: var(--background);
+  background: var(--accent-tint);
   color: var(--ink);
+  border: 1px solid var(--background);
   border-radius: var(--radius-lg);
   padding: var(--space-3) var(--space-4);
-  box-shadow: 0 12px 22px rgba(20, 62, 102, 0.2);
+  box-shadow: 0 12px 22px rgba(20, 62, 102, 0.2), 0 0 14px rgba(167, 212, 228, 0.5);
 }
 
 .project-card-title {
@@ -2180,7 +2187,11 @@ video.placeholder {
 
 .type-scale-sample {
   font-family: 'Poppins', sans-serif;
-  color: var(--ink);
+  /* var(--text), not the fixed --ink: these big type samples sit right on
+     the plain page canvas (no bubble behind them), so they need to switch
+     to the pale white-blue text color in dark mode instead of staying a
+     near-invisible navy against the dark background */
+  color: var(--text);
   flex: 1 1 auto;
 }
 
@@ -2359,6 +2370,7 @@ video.placeholder {
    visually distinct from the surrounding .case-note blocks. */
 .audit-callout {
   background: var(--accent-tint);
+  color: var(--ink);
   border-left: 3px solid var(--button-stroke);
   border-radius: var(--radius-md);
   padding: var(--space-3) var(--space-4);
@@ -2929,7 +2941,10 @@ video.placeholder {
   border: none;
   border-radius: 50%;
   background: var(--page-bg);
-  color: var(--ink);
+  /* var(--text), not the fixed --ink: this button's own background is
+     --page-bg, which goes dark in dark mode, so the × needs to switch to
+     the pale white-blue text color to stay legible against it */
+  color: var(--text);
   font-size: 22px;
   line-height: 1;
   display: flex;
