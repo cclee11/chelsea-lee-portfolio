@@ -383,6 +383,16 @@ video.placeholder {
   aspect-ratio: 3 / 2;
 }
 
+/* stand-in caption line under each UX card, in the site's usual
+   "still needs real content" muted-italic style (see .placeholder-tbd) */
+.card-caption-placeholder {
+  display: block;
+  margin-top: var(--space-2);
+  font-size: 13px;
+  font-style: italic;
+  color: var(--button-stroke);
+}
+
 /* fun page: three smaller squares per row, packed closer together than
    the standard .grid-2col spacing */
 .grid-3col {
