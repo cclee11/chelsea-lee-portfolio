@@ -2951,6 +2951,13 @@ video.placeholder {
   display: flex;
 }
 
+/* dark mode: the sheer backdrop switches from light blue to navy so it
+   reads as a dim, sheer layer over the dark canvas instead of a pale
+   wash that would fight with it */
+:root[data-theme="dark"] .lightbox-overlay {
+  background: rgba(20, 62, 102, 0.55);
+}
+
 .lightbox-overlay img {
   display: block;
   max-width: min(90vw, 1100px);
