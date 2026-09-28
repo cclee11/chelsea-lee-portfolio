@@ -448,6 +448,35 @@ video.placeholder {
   width: 100%;
 }
 
+/* Generic photo collage (currently used on the Fun page): a masonry-
+   style layout like the Design tab's, but not tied to .grid-2col, for
+   any set of images that should ignore the standard square placeholder
+   ratio and pack together with an even gap regardless of height. */
+.photo-collage {
+  display: block;
+  column-count: 3;
+  column-gap: var(--space-3);
+}
+
+.photo-collage > * {
+  break-inside: avoid;
+  -webkit-column-break-inside: avoid;
+  width: 100%;
+  margin: 0 0 var(--space-3);
+}
+
+@media (max-width: 900px) {
+  .photo-collage {
+    column-count: 2;
+  }
+}
+
+@media (max-width: 640px) {
+  .photo-collage {
+    column-count: 1;
+  }
+}
+
 /* Design tab: the site's usual hover pop (big -10px lift + heavy
    shadow) reads as too dramatic across a dense collage of many cards —
    soften both the lift and the shadow/glow, for the plain image cards
