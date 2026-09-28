@@ -27,11 +27,10 @@
       image pair (see .solution-img-* in style.css).
    7. Image lightbox (design tab + fun page): clicking one of the plain
       image cards opens it bigger in an overlay, with a sheer light-blue
-      layer over the rest of the page (the sticky nav sits above it and
-      stays usable). Closes on Escape, on clicking the backdrop, or via
-      the close button. Flip-tile posters are excluded on purpose —
-      clicking those still flips the tile instead of opening the
-      lightbox.
+      layer over the whole page, including the sticky nav. Closes on
+      Escape, on clicking the backdrop, or via the close button.
+      Flip-tile posters are excluded on purpose — clicking those still
+      flips the tile instead of opening the lightbox.
 */
 
 (function () {

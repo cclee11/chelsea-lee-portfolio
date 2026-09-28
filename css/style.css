@@ -2871,16 +2871,16 @@ video.placeholder {
 
 /* --------------------------------------------------------- image lightbox
    Click a plain image card on the Design tab or Fun page to see it
-   bigger. A sheer light-blue layer covers the rest of the page while
-   it's open; the sticky nav pills sit at z-index 100, so this stays
-   below that and the nav remains visible and clickable throughout.
+   bigger. A sheer light-blue layer covers the whole page while it's
+   open, including the sticky nav pills (z-index 100) — the overlay
+   sits above them so the tint reaches the very top of the page too.
    Flip-tile posters are left out of this (see main.js) — clicking
    those still flips the tile the way it always has. */
 .lightbox-overlay {
   position: fixed;
   inset: 0;
   background: rgba(167, 212, 228, 0.55);
-  z-index: 95;
+  z-index: 150;
   display: none;
   align-items: center;
   justify-content: center;
