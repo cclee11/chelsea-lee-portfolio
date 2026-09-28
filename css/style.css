@@ -433,6 +433,22 @@ video.placeholder {
   }
 }
 
+/* Design tab: the site's usual hover pop (big -10px lift + heavy
+   shadow) reads as too dramatic across a dense collage of many cards —
+   soften both the lift and the shadow/glow, for the plain image cards
+   and for the flip-tile posters' shared hover treatment alike. Higher
+   specificity than each rule being toned down wins regardless of
+   source order. */
+.grid-design .placeholder:hover {
+  --ty: -4px;
+  box-shadow: 0 8px 16px rgba(20, 62, 102, 0.16);
+}
+
+.grid-design .flip-tile:hover .project-card-image,
+.grid-design .flip-tile:focus-visible .project-card-image {
+  box-shadow: 0 8px 16px rgba(20, 62, 102, 0.16), 0 0 10px rgba(167, 212, 228, 0.35);
+}
+
 /* caption under each UX card: a centered, rounded "bubble" in the site's
    light-blue tint, holding a bigger project title over a smaller
    description line */
