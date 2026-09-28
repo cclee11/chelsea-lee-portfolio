@@ -400,6 +400,28 @@ video.placeholder {
   aspect-ratio: 3 / 2;
 }
 
+/* Design tab: three cards per row instead of two, packed a bit closer
+   together. Stays on the same element as .grid-2col (so all the
+   flip-tile-poster rules further down, which key off .grid-2col, still
+   apply) — this just overrides the column count and gap; higher
+   specificity than .grid-2col alone wins regardless of source order. */
+.grid-2col.grid-design {
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-3) var(--space-3);
+}
+
+@media (max-width: 900px) {
+  .grid-2col.grid-design {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .grid-2col.grid-design {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* caption under each UX card: a centered, rounded "bubble" in the site's
    light-blue tint, holding a bigger project title over a smaller
    description line */
