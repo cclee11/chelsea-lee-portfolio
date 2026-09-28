@@ -376,6 +376,13 @@ video.placeholder {
   aspect-ratio: 1 / 1;
 }
 
+/* More page, UX tab only: match the projects page's card aspect ratio
+   (3:2) instead of the default square .grid-2col placeholder, which the
+   Design tab below keeps */
+.grid-2col-cards .placeholder {
+  aspect-ratio: 3 / 2;
+}
+
 /* fun page: three smaller squares per row, packed closer together than
    the standard .grid-2col spacing */
 .grid-3col {
