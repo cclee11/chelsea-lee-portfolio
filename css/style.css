@@ -363,6 +363,14 @@ video.placeholder {
   object-fit: cover;
 }
 
+/* the FocusGhost card's video is a full scene (product mockup + wordmark)
+   rather than art meant to bleed off the edges, so contain (not cover)
+   keeps the whole frame visible in the card no matter how the box rounds */
+.card-media video.placeholder {
+  object-fit: contain;
+  background: #536282;
+}
+
 /* ---------------------------------------------------------- grid pages */
 
 .grid-2col {
@@ -391,6 +399,20 @@ video.placeholder {
   font-size: 13px;
   font-style: italic;
   color: var(--button-stroke);
+}
+
+/* wraps just the video/image tile (not the caption below it) so a
+   .project-card-cta pill overlaid on it, reused from the homepage
+   project cards, sits at the tile's own bottom-right corner instead of
+   the whole card+caption block's */
+.card-media {
+  position: relative;
+}
+
+.placeholder-link:hover .project-card-cta,
+.placeholder-link:focus-visible .project-card-cta {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* fun page: three smaller squares per row, packed closer together than
@@ -1543,27 +1565,27 @@ video.placeholder {
 }
 
 /* real, clickable CTA under the prototype video, linking out to the
-   interactive Figma prototype (unlike .btn-demo further down, which is
-   a non-interactive design-system specimen, not a working link) */
+   interactive Figma prototype. Styled like the site's own .back-to-top
+   pill (accent-tint fill, accent-warm hover) rather than GrubHub's own
+   in-case-study purple, so it reads as "Chelsea's site" not "GrubHub". */
 .prototype-cta {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: #6A5AE0;
-  color: #FFFFFF;
+  background: var(--accent-tint);
+  color: var(--ink);
   border-radius: var(--radius-full);
   padding: var(--space-2) var(--space-4);
   font-size: 14px;
   font-variation-settings: "wght" var(--wght-medium);
   text-decoration: none;
-  box-shadow: 0 10px 18px rgba(20, 62, 102, 0.14);
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  transition: background 0.2s ease, transform 0.15s ease;
 }
 
 .prototype-cta:hover,
 .prototype-cta:focus-visible {
+  background: var(--accent-warm);
   transform: translateY(-2px);
-  box-shadow: 0 14px 24px rgba(20, 62, 102, 0.2);
 }
 
 /* Original App row: .detail-grid's default 1fr/1fr split leaves the
@@ -2056,61 +2078,6 @@ video.placeholder {
   line-height: 18px;
   color: var(--text);
   margin-bottom: var(--space-1);
-}
-
-/* -------------------------------------------------------- button specimens
-   Small live examples of the redesign's primary / secondary / disabled
-   button states, built from the actual palette rather than a screenshot
-   so they always render crisp and theme-appropriate. */
-.button-specimen-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-4);
-  align-items: center;
-  margin: var(--space-4) 0 0;
-}
-
-.button-specimen {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--space-2);
-}
-
-.button-specimen-label {
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--button-stroke);
-}
-
-.btn-demo {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border: none;
-  border-radius: var(--radius-full);
-  padding: var(--space-2) var(--space-4);
-  font-family: inherit;
-  font-size: 14px;
-  font-variation-settings: "wght" var(--wght-medium);
-  cursor: default;
-}
-
-.btn-demo-primary {
-  background: #6A5AE0;
-  color: #FFFFFF;
-}
-
-.btn-demo-secondary {
-  background: #ECE9FF;
-  color: #3E3391;
-}
-
-.btn-demo-disabled {
-  background: var(--accent-tint);
-  color: var(--button-stroke);
-  opacity: 0.6;
 }
 
 /* ------------------------------------------------------- persona, solo
