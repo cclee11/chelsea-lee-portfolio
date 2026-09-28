@@ -1510,6 +1510,15 @@ video.placeholder {
   box-shadow: 0 14px 26px rgba(20, 62, 102, 0.2);
 }
 
+/* the prototype-walkthrough recording (The App section): its mockup frame
+   has a deeper corner curve than the original-app recording above, so the
+   shared .solution-video-side radius isn't enough to clip its corners
+   clean of the tiny black triangle left over from the device frame -
+   this one needs a bigger radius on top of it. */
+.solution-video-app {
+  border-radius: 36px;
+}
+
 /* Original App row: .detail-grid's default 1fr/1fr split leaves the
    (much narrower) portrait video stranded far from the color audit
    beside it. Shrinking both columns down to their own content width
@@ -1519,6 +1528,17 @@ video.placeholder {
   grid-template-columns: max-content minmax(0, 560px);
   justify-content: center;
   gap: var(--space-5);
+}
+
+/* reused by The App section's own video+caption row, so its intro
+   paragraph needs to drop the centered, narrow-column styling
+   ".case-section > p.solution-intro" gives it as a direct child of
+   .case-section (it no longer qualifies for that selector once nested
+   in this grid, but the leftover default paragraph margin still needs
+   zeroing to line up with the video beside it) */
+.original-app-grid > p.solution-intro {
+  margin: 0;
+  text-align: left;
 }
 
 @media (max-width: 640px) {
