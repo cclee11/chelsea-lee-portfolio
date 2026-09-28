@@ -1495,10 +1495,16 @@ video.placeholder {
 }
 
 /* a smaller, left-aligned video paired with a caption card beside it
-   (instead of the centered, full-width solution-video treatment above) */
+   (instead of the centered, full-width solution-video treatment above).
+   Column + centered so a CTA link stacked below the video (The App
+   section's "Try Prototype" button) lines up under it instead of
+   beside it; harmless for the single-child original-app usage, where
+   there's nothing else in the wrap to reposition. */
 .solution-video-side-wrap {
   display: flex;
-  justify-content: flex-start;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
   margin: 0 0 var(--space-5);
 }
 
@@ -1517,6 +1523,30 @@ video.placeholder {
    this one needs a bigger radius on top of it. */
 .solution-video-app {
   border-radius: 36px;
+}
+
+/* real, clickable CTA under the prototype video, linking out to the
+   interactive Figma prototype (unlike .btn-demo further down, which is
+   a non-interactive design-system specimen, not a working link) */
+.prototype-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #6A5AE0;
+  color: #FFFFFF;
+  border-radius: var(--radius-full);
+  padding: var(--space-2) var(--space-4);
+  font-size: 14px;
+  font-variation-settings: "wght" var(--wght-medium);
+  text-decoration: none;
+  box-shadow: 0 10px 18px rgba(20, 62, 102, 0.14);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.prototype-cta:hover,
+.prototype-cta:focus-visible {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 24px rgba(20, 62, 102, 0.2);
 }
 
 /* Original App row: .detail-grid's default 1fr/1fr split leaves the
