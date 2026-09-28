@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://use.typekit.net/nli4aly.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="../assets/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../assets/favicon-16x16.png">
+  <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+  <title>Redesigning GrubHub Mobile — Chelsea Lee</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <a href="../index.html" class="icon-logo-link" aria-label="Go to home page">
+      <span class="icon-logo-wrap">
+        <img src="../assets/logo-ring-left.png" alt="" class="logo-piece logo-ring-left" aria-hidden="true">
+        <img src="../assets/logo-symbol.png" alt="" class="logo-piece logo-symbol" aria-hidden="true">
+        <img src="../assets/logo-ring-right.png" alt="" class="logo-piece logo-ring-right" aria-hidden="true">
+      </span>
+    </a>
+  </header>
+
+  <nav class="site-nav">
+    <a href="../index.html" class="active">Projects</a>
+    <a href="../design.html">More</a>
+    <a href="../fun.html">Fun!</a>
+    <a href="../about.html">About</a>
+  </nav>
+
+  <main class="case-main">
+    <a href="../index.html" class="back-link">&larr; Back to projects</a>
+
+    <h1 class="page-title">Redesigning GrubHub Mobile</h1>
+    <p class="case-tagline">A one-week solo UI/UX sprint reimagining <mark>WashU's campus GrubHub app</mark>, from a cluttered, orange-and-gray interface into a calmer, more legible ordering experience.</p>
+
+    <div class="case-meta">
+      <div class="case-meta-pill">
+        <span class="meta-label">Role</span>
+        <span class="meta-value">UI/UX Designer</span>
+      </div>
+      <div class="case-meta-pill">
+        <span class="meta-label">Team</span>
+        <span class="meta-value">1 Designer</span>
+      </div>
+      <div class="case-meta-pill">
+        <span class="meta-label">Timeline</span>
+        <span class="meta-value">1 week</span>
+      </div>
+      <div class="case-meta-pill">
+        <span class="meta-label">Tools</span>
+        <span class="meta-value">Figma, Figma Motion</span>
+      </div>
+    </div>
+
+    <video class="case-hero" src="../assets/grubhub-hero-card.mp4" autoplay muted loop playsinline aria-label="Redesigned GrubHub mobile app, hero shot"></video>
+
+    <div class="case-jumpnav-wrap">
+      <div class="case-jumpnav-bubble">
+        <span class="jumpnav-label">Jump to...</span>
+        <nav class="case-jumpnav">
+          <a href="#the-app">The App</a>
+          <a href="#process">The Process</a>
+          <a href="#reflection">Reflection</a>
+        </nav>
+      </div>
+    </div>
+
+    <section class="case-section">
+      <h2 class="case-heading">Overview</h2>
+      <p>This project came from <strong>Product Space</strong>, a product design organization at WashU, as a one-week solo sprint with a single, wide-open prompt: <mark>redesign the UI of our campus GrubHub app</mark>. No feature brief, no stakeholder requirements, just an interface that every student on campus already used daily and had opinions about. With one week and no team to split the work with, I owned research, wireframes, and final UI myself, start to finish.</p>
+    </section>
+
+    <section class="case-section" id="the-app">
+      <h2 class="case-heading">The App</h2>
+
+      <div class="detail-grid original-app-grid" style="align-items: center;">
+        <div class="solution-video-side-wrap">
+          <video class="solution-video-side solution-video-app" src="../assets/grubhub-prototype-cropped.mp4" poster="../assets/grubhub-prototype-cropped-poster.png" controls playsinline muted></video>
+          <a class="prototype-cta" href="https://www.figma.com/proto/xpI1QVXK2mLzIUCzlhEYLt/Portfolio-Content?node-id=176-5910&viewport=218%2C-1319%2C0.15&t=U6DQSzTWBVrwLzlu-1&scaling=scale-down&content-scaling=fixed&starting-point-node-id=176%3A5910&page-id=150%3A1558" target="_blank" rel="noopener noreferrer">Try Prototype</a>
+        </div>
+        <p class="solution-intro">The final design keeps GrubHub's core ordering flow intact but rebuilds
+           it around a calmer purple-and-white system, clearer hierarchy, and a menu that's actually easy
+           to scan. Below is the full prototype walkthrough, followed by the main screens.</p>
+      </div>
+
+      <div class="phone-shots-grid phone-shots-grid-3col">
+        <figure class="phone-shot">
+          <img src="../assets/app-home-transparent.png" alt="Redesigned home screen, Choose Your Grub">
+          <figcaption>
+            <span class="mockup-caption-title">Home</span>
+            <span class="mockup-caption-desc">"Choose Your Grub" — the redesigned home screen, with dining options surfaced up front.</span>
+          </figcaption>
+        </figure>
+        <figure class="phone-shot">
+          <img src="../assets/app-restaurant-transparent.png" alt="Redesigned restaurant page for Corner 17">
+          <figcaption>
+            <span class="mockup-caption-title">Restaurant page</span>
+            <span class="mockup-caption-desc">Corner 17's menu, restyled with clearer grouping and item photography.</span>
+          </figcaption>
+        </figure>
+        <figure class="phone-shot">
+          <img src="../assets/app-item-detail-transparent.png" alt="Redesigned item detail modal for a Vanilla Latte">
+          <figcaption>
+            <span class="mockup-caption-title">Item detail</span>
+            <span class="mockup-caption-desc">A Vanilla Latte's detail modal, with customization options exposed inline.</span>
+          </figcaption>
+        </figure>
+        <figure class="phone-shot">
+          <img src="../assets/app-trending-transparent.png" alt="Redesigned trending screen">
+          <figcaption>
+            <span class="mockup-caption-title">Trending</span>
+            <span class="mockup-caption-desc">What's popular on campus right now, pulled into its own dedicated tab.</span>
+          </figcaption>
+        </figure>
+        <figure class="phone-shot">
+          <img src="../assets/app-orders-transparent.png" alt="Redesigned orders screen">
+          <figcaption>
+            <span class="mockup-caption-title">Orders</span>
+            <span class="mockup-caption-desc">Past and current orders in one unified, easy-to-reorder-from list.</span>
+          </figcaption>
+        </figure>
+        <figure class="phone-shot">
+          <img src="../assets/app-track-order-transparent.png" alt="Redesigned track order screen">
+          <figcaption>
+            <span class="mockup-caption-title">Track order</span>
+            <span class="mockup-caption-desc">A clearer, single-glance status view for exactly where an order stands.</span>
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="case-section">
+      <h3 class="case-subheading">The Original App</h3>
+      <p class="mockup-note">Before redesigning anything, I recorded and audited the app as it actually
+         exists today, screen by screen, color by color, so the redesign would be fixing real problems
+         instead of imagined ones.</p>
+
+      <div class="detail-grid original-app-grid" style="align-items: center;">
+        <div class="solution-video-side-wrap">
+          <video class="solution-video solution-video-side" src="../assets/grubhub-original-app.mp4" poster="../assets/grubhub-original-app-poster.png" controls playsinline muted></video>
+        </div>
+        <div class="brand-colors" style="margin-top: 0;">
+          <div class="color-group">
+            <span class="color-group-label">Colors In The Original App</span>
+            <div class="swatch-row">
+              <div class="swatch">
+                <span class="swatch-chip" style="background:#1A1A1A"></span>
+                <span class="swatch-text"><span class="swatch-name">Near-black</span><span class="swatch-hex">#1A1A1A</span></span>
+              </div>
+              <div class="swatch">
+                <span class="swatch-chip" style="background:#FF5500"></span>
+                <span class="swatch-text"><span class="swatch-name">Orange</span><span class="swatch-hex">#FF5500</span></span>
+              </div>
+              <div class="swatch">
+                <span class="swatch-chip" style="background:#84BFA0"></span>
+                <span class="swatch-text"><span class="swatch-name">Mint Green</span><span class="swatch-hex">#84BFA0</span></span>
+              </div>
+              <div class="swatch">
+                <span class="swatch-chip" style="background:#8F80FF"></span>
+                <span class="swatch-text"><span class="swatch-name">Purple</span><span class="swatch-hex">#8F80FF</span></span>
+              </div>
+              <div class="swatch">
+                <span class="swatch-chip" style="background:#FFB060"></span>
+                <span class="swatch-text"><span class="swatch-name">Light Orange</span><span class="swatch-hex">#FFB060</span></span>
+              </div>
+              <div class="swatch">
+                <span class="swatch-chip" style="background:#FF8878"></span>
+                <span class="swatch-text"><span class="swatch-name">Salmon</span><span class="swatch-hex">#FF8878</span></span>
+              </div>
+              <div class="swatch">
+                <span class="swatch-chip" style="background:#FFC94A"></span>
+                <span class="swatch-text"><span class="swatch-name">GrubHub+ Yellow</span><span class="swatch-hex">#FFC94A</span></span>
+              </div>
+            </div>
+          </div>
+          <div class="case-note">
+            <p>Seven colors, plus a dark green offer tag, with several doing the same job: orange is both
+               the brand color and an error-like "Closed" status; mint is both the main "Add to bag"
+               action and the "Open now" status. Meanwhile <mark>purple</mark>, the color already
+               driving every real interaction in the app, links, Reorder, radio buttons, the back
+               chevron, is never used for the main call to action.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="audit-callout">
+        <span class="audit-callout-label">Biggest finding</span>
+        <p>Purple already drives most interactions in the current app. Making it the primary color
+           consolidates what's already there instead of rebranding from scratch.</p>
+      </div>
+
+      <h3 class="case-subheading">Research</h3>
+      <p class="mockup-note">Since there was no team and no time for a full research phase, I leaned on two fast, parallel tracks: a short survey of WashU students about their actual GrubHub habits and frustrations, and a competitive audit of apps that already solve pieces of this problem well.</p>
+
+      <h4 class="case-subheading">Student Survey</h4>
+      <p class="mockup-note">Twelve questions, under three minutes, meant to travel through class group
+         chats, residence hall GroupMes, and club Slacks.</p>
+      <ol class="survey-questions">
+        <li><strong>What year are you?</strong><span class="survey-question-hint">First year, sophomore, junior, senior, grad</span></li>
+        <li><strong>How many times a week do you order through Grubhub?</strong><span class="survey-question-hint">0–2, 3–5, 6–10, 10+</span></li>
+        <li><strong>When do you usually order?</strong><span class="survey-question-hint">Before class, between classes, lunch, dinner, late night (select all)</span></li>
+        <li><strong>When you open the app, do you usually already know what you want?</strong><span class="survey-question-hint">Always, usually, sometimes, rarely</span></li>
+        <li><strong>How often do you order the same item from the same place?</strong><span class="survey-question-hint">Almost always, often, sometimes, rarely</span></li>
+        <li><strong>Have you ever found out about a new menu item from something other than the app?</strong><span class="survey-question-hint">Yes, no, not sure</span></li>
+        <li><strong>How easy is it to find a specific item on a long menu?</strong><span class="survey-question-hint">1–5 scale</span></li>
+        <li><strong>Have you ever wanted to reorder something from more than a week ago?</strong><span class="survey-question-hint">Yes and I found it, yes and I couldn't, no</span></li>
+        <li><strong>What matters most when you choose where to eat?</strong><span class="survey-question-hint">Wait time, meal swipe eligible, price, distance, craving (rank top 3)</span></li>
+        <li><strong>How would you describe the app's look in one word?</strong><span class="survey-question-hint">Open text</span></li>
+        <li><strong>What's the most frustrating part of ordering?</strong><span class="survey-question-hint">Open text</span></li>
+        <li><strong>If you could add one feature, what would it be?</strong><span class="survey-question-hint">Open text</span></li>
+      </ol>
+
+      <div class="case-note" style="margin-top: var(--space-4);">
+        <p><strong>How I planned to analyze it:</strong> group the open-text answers into themes,
+           decision fatigue, time pressure, discovery, order history, visual clutter, and count
+           responses per theme to turn them into research stats.</p>
+      </div>
+      <div class="survey-responses" style="margin-top: var(--space-4);">
+        <span class="color-group-label">A Few Real Responses</span>
+        <div class="survey-responses-grid">
+          <div class="response-card">
+            <span class="response-meta">Junior · 6–10 orders a week</span>
+            <p>"I get the same Subway order literally every day because scrolling through everything else takes too long. I didn't know LaJoy's had new drinks until my roommate told me."</p>
+          </div>
+          <div class="response-card">
+            <span class="response-meta">Sophomore · 3–5 orders a week</span>
+            <p>"I wanted to reorder a wrap from like two weeks ago and it just wasn't in my orders anymore. I had to rebuild it from memory."</p>
+            <span class="response-tag"><strong>Word for the app:</strong> "Cluttered"</span>
+          </div>
+          <div class="response-card">
+            <span class="response-meta">First year · 10+ orders a week</span>
+            <p>"I only have 15 minutes between classes, so I just want to see what's open and fast. Half the time I pick somewhere and the wait is 25 minutes."</p>
+            <span class="response-tag"><strong>Feature wish:</strong> "Filter by what's ready soonest"</span>
+          </div>
+          <div class="response-card">
+            <span class="response-meta">Senior · 0–2 orders a week</span>
+            <p>"Menus are super long and everything is in weird caps. I give up and just walk to the dining hall."</p>
+            <span class="response-tag"><strong>Word for the app:</strong> "Confusing"</span>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="case-subheading pain-points-heading">The Pain Points</h3>
+      <p class="mockup-note" style="text-align:center; max-width:560px; margin-left:auto; margin-right:auto;">Six recurring pain points pulled directly from the audit above.</p>
+      <div class="pain-points-grid">
+        <div class="pain-card">
+          <span class="pain-card-num">01</span>
+          <span class="pain-card-title">No shared color system</span>
+          <span class="pain-card-desc">Seven-plus colors, several doing the same job, so nothing reads as "the" action color.</span>
+        </div>
+        <div class="pain-card">
+          <span class="pain-card-num">02</span>
+          <span class="pain-card-title">Six casing styles, one text style</span>
+          <span class="pain-card-desc">Headings and labels shift between Sentence case, Title Case, and ALL CAPS with no clear scale.</span>
+        </div>
+        <div class="pain-card">
+          <span class="pain-card-num">03</span>
+          <span class="pain-card-title">Three unrelated button styles</span>
+          <span class="pain-card-desc">Filled mint, ghost purple, and white outline buttons never establish one primary action.</span>
+        </div>
+        <div class="pain-card">
+          <span class="pain-card-num">04</span>
+          <span class="pain-card-title">Inconsistent layout and spacing</span>
+          <span class="pain-card-desc">Row heights, gaps, and photo ratios all vary from screen to screen.</span>
+        </div>
+        <div class="pain-card">
+          <span class="pain-card-num">05</span>
+          <span class="pain-card-title">Low-effort, inconsistent imagery</span>
+          <span class="pain-card-desc">Storefronts and counters stand in for food photos, sometimes the same photo twice.</span>
+        </div>
+        <div class="pain-card">
+          <span class="pain-card-num">06</span>
+          <span class="pain-card-title">Competing decorative elements</span>
+          <span class="pain-card-desc">A large yellow Grubhub+ shape and orange status labels fight with real content for attention.</span>
+        </div>
+      </div>
+
+      <h4 class="case-subheading">Design System Opportunities From Other Apps</h4>
+      <p class="mockup-note">I audited three apps students already use for food ordering, looking specifically for patterns worth borrowing rather than a full competitive teardown.</p>
+      <div class="research-shots research-shots-3col">
+        <figure class="research-shot">
+          <span class="research-shot-app">Yelp</span>
+          <img src="../assets/research-yelp-restaurant.png" alt="Yelp restaurant page for Tikka Tangy, showing rating, price range, and category tags">
+          <figcaption>
+            <ul>
+              <li>Rating, price range, and cuisine tags surfaced right at the top of a restaurant page</li>
+              <li>Photo-forward layout that makes a menu feel appetizing, not just functional</li>
+            </ul>
+          </figcaption>
+        </figure>
+        <figure class="research-shot">
+          <span class="research-shot-app">Uber Eats</span>
+          <img src="../assets/research-ubereats-home.png" alt="Uber Eats home screen with category tabs and a promotional banner">
+          <figcaption>
+            <ul>
+              <li>Horizontal category tabs let users filter by cuisine without leaving the home screen</li>
+              <li>A single hero promo banner instead of competing banners fighting for attention</li>
+            </ul>
+          </figcaption>
+        </figure>
+        <figure class="research-shot">
+          <span class="research-shot-app">Uber Eats</span>
+          <img src="../assets/research-ubereats-orders.png" alt="Uber Eats orders screen listing past and current orders with reorder buttons">
+          <figcaption>
+            <ul>
+              <li>Past orders and current orders live in one unified list, sorted by recency</li>
+              <li>A one-tap "reorder" action on every past order, no rebuilding a cart from scratch</li>
+            </ul>
+          </figcaption>
+        </figure>
+        <figure class="research-shot">
+          <span class="research-shot-app">Uber Eats</span>
+          <img src="../assets/research-ubereats-account.png" alt="Uber Eats account page showing favorites, wallet, and orders">
+          <figcaption>
+            <ul>
+              <li>Account hub organized into clear destinations: favorites, wallet, and orders</li>
+              <li>Consistent row style and iconography across every settings-style list</li>
+            </ul>
+          </figcaption>
+        </figure>
+        <figure class="research-shot">
+          <span class="research-shot-app">Heytea</span>
+          <img src="../assets/research-starbucks-item.png" alt="Heytea-style item detail screen for a Matcha Cheese Milk Tea">
+          <figcaption>
+            <ul>
+              <li>Large hero image and price anchored at the top of the item-detail screen</li>
+              <li>Customization options exposed inline instead of hidden behind a second tap</li>
+            </ul>
+          </figcaption>
+        </figure>
+        <figure class="research-shot">
+          <span class="research-shot-app">Heytea</span>
+          <img src="../assets/research-starbucks-customize.png" alt="Heytea-style More Options customization submenu">
+          <figcaption>
+            <ul>
+              <li>Customization submenu grouped by option type, each with clear selected-state styling</li>
+              <li>Sticky bottom action button so "add to order" never scrolls out of reach</li>
+            </ul>
+          </figcaption>
+        </figure>
+      </div>
+
+      <h4 class="case-subheading">User Persona</h4>
+      <div class="persona-grid persona-grid-solo">
+        <div class="persona-card">
+          <div class="persona-head">
+            <span class="persona-avatar">JK</span>
+            <div>
+              <h4 class="persona-name"><mark>Jordan Kim</mark></h4>
+              <p class="persona-role">Sophomore, WashU</p>
+            </div>
+          </div>
+          <p class="persona-blurb">Jordan orders GrubHub between classes almost every day, usually while
+             walking across campus. She wants to order fast, reorder her usual without thinking, and
+             know exactly when her food will be ready without checking three different screens.</p>
+          <div class="persona-cols">
+            <div class="persona-col">
+              <span class="persona-col-label">Goals</span>
+              <ul>
+                <li>Order in under a minute between classes</li>
+                <li>Reorder go-to items with minimal taps</li>
+                <li>See real-time order status at a glance</li>
+              </ul>
+            </div>
+            <div class="persona-col">
+              <span class="persona-col-label">Pain points</span>
+              <ul>
+                <li>Cluttered menus slow down quick decisions</li>
+                <li>Hard to tell when an order is actually ready</li>
+                <li>Customizing an item feels like filling out a form</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="case-section" id="process">
+      <h2 class="case-heading">The Process</h2>
+
+      <h3 class="case-subheading">Low-Fidelity Wireframes</h3>
+      <p class="mockup-note">With only a week, I started fast and rough: paper-thin wireframes to lock
+         down the core navigation (home, menu, cart, orders, account) and confirm the campus-dining
+         mental model before touching any color or type.</p>
+      <div style="margin: 0 0 var(--space-4);">
+        <img class="case-shot bounce-img" style="aspect-ratio: 5635 / 1642; border-radius: var(--radius-lg);" src="../assets/lowfi-wireframes.png" alt="Eight low-fidelity grayscale wireframes for the redesigned GrubHub app, covering home, browse, restaurant list, restaurant detail, item detail, cart and checkout, order confirmation, and account">
+      </div>
+
+      <h3 class="case-subheading">Mid-Fidelity Wireframes</h3>
+      <p class="mockup-note">From there I moved into mid-fidelity screens: real content and the new
+         purple palette already in place, so I could pressure-test the full ordering flow, home to
+         checkout, before polishing every visual detail.</p>
+      <div style="margin: 0 0 var(--space-4);">
+        <img class="case-shot bounce-img" style="aspect-ratio: 4238 / 1252; border-radius: var(--radius-lg);" src="../assets/midfi-composite.png" alt="Eight mid-fidelity screens for the redesigned GrubHub app: home, trending, all dining with filter, item detail, customize modal, cart, orders, and account">
+      </div>
+      <p class="mockup-note">A few of those screens, called out individually:</p>
+      <div class="keyframe-row">
+        <figure class="phone-shot">
+          <img src="../assets/midfi-key-home.png" alt="Mid-fidelity home screen with the Choose Your Grub banner and dining cards">
+          <figcaption>
+            <span class="mockup-caption-title">Home</span>
+            <span class="mockup-caption-desc">The "Choose Your Grub" banner and dining cards in place before spacing was finalized.</span>
+          </figcaption>
+        </figure>
+        <figure class="phone-shot">
+          <img src="../assets/midfi-key-trending.png" alt="Mid-fidelity Trending tab with This Month's Favorites and New Additions">
+          <figcaption>
+            <span class="mockup-caption-title">Trending</span>
+            <span class="mockup-caption-desc">The new Trending tab taking shape, with a ranked favorites list and a New Additions row.</span>
+          </figcaption>
+        </figure>
+        <figure class="phone-shot">
+          <img src="../assets/midfi-key-orders.png" alt="Mid-fidelity Orders screen with past orders and reorder buttons">
+          <figcaption>
+            <span class="mockup-caption-title">Orders</span>
+            <span class="mockup-caption-desc">Past orders consolidated into one list, each with a one-tap Reorder action.</span>
+          </figcaption>
+        </figure>
+      </div>
+
+      <h3 class="case-subheading">Why Purple Instead of Orange</h3>
+      <p>GrubHub's own brand orange is great for a national delivery app competing for attention in a
+         crowded app store, but it fought with itself on a smaller, single-purpose campus ordering app:
+         at high density (long menus, dense order lists) it read as loud and a little fatiguing rather
+         than energetic. This wasn't an arbitrary swap, either: the audit above found that purple was
+         already the color driving every real interaction in the old app, so I moved the primary palette
+         to a <mark>softer purple</mark> instead, consolidating what was already there rather than
+         rebranding from scratch. It held up better across long scrolling menus, still felt warm and
+         appetizing, and gave "add to bag" and other key actions more contrast to stand out against,
+         since nothing else on the redesigned screens competes with it in the same hue.</p>
+
+      <h3 class="case-subheading">Full Design System</h3>
+      <p class="mockup-note">Rebuilt from scratch around the new purple palette: a light and dark role
+         system, a two-typeface hierarchy, and a small set of consistent button states.</p>
+
+      <div class="brand-colors">
+        <div class="color-group">
+          <span class="color-group-label">Purple</span>
+          <div class="swatch-row">
+            <div class="swatch">
+              <span class="swatch-chip" style="background:#ECE9FF"></span>
+              <span class="swatch-text"><span class="swatch-name">Purple 400</span><span class="swatch-hex">#ECE9FF</span></span>
+            </div>
+            <div class="swatch">
+              <span class="swatch-chip" style="background:#6A5AE0"></span>
+              <span class="swatch-text"><span class="swatch-name">Purple 600</span><span class="swatch-hex">#6A5AE0</span></span>
+            </div>
+            <div class="swatch">
+              <span class="swatch-chip" style="background:#3E3391"></span>
+              <span class="swatch-text"><span class="swatch-name">Purple 800</span><span class="swatch-hex">#3E3391</span></span>
+            </div>
+          </div>
+        </div>
+        <div class="color-group">
+          <span class="color-group-label">Light-Mode Roles</span>
+          <div class="swatch-row">
+            <div class="swatch">
+              <span class="swatch-chip" style="background:#FFFFFF; border:1px solid rgba(20,62,102,0.15);"></span>
+              <span class="swatch-text"><span class="swatch-name">Surface</span><span class="swatch-hex">#FFFFFF</span></span>
+            </div>
+            <div class="swatch">
+              <span class="swatch-chip" style="background:#F6F5FF"></span>
+              <span class="swatch-text"><span class="swatch-name">Surface Tint</span><span class="swatch-hex">#F6F5FF</span></span>
+            </div>
+            <div class="swatch">
+              <span class="swatch-chip" style="background:#1A1625"></span>
+              <span class="swatch-text"><span class="swatch-name">Text</span><span class="swatch-hex">#1A1625</span></span>
+            </div>
+          </div>
+        </div>
+        <div class="color-group">
+          <span class="color-group-label">Dark-Mode Roles</span>
+          <div class="swatch-row">
+            <div class="swatch">
+              <span class="swatch-chip" style="background:#1A1625; border:1px solid rgba(255,255,255,0.15);"></span>
+              <span class="swatch-text"><span class="swatch-name">Surface</span><span class="swatch-hex">#1A1625</span></span>
+            </div>
+            <div class="swatch">
+              <span class="swatch-chip" style="background:#241F33; border:1px solid rgba(255,255,255,0.15);"></span>
+              <span class="swatch-text"><span class="swatch-name">Surface Tint</span><span class="swatch-hex">#241F33</span></span>
+            </div>
+            <div class="swatch">
+              <span class="swatch-chip" style="background:#F2F0FA"></span>
+              <span class="swatch-text"><span class="swatch-name">Text</span><span class="swatch-hex">#F2F0FA</span></span>
+            </div>
+          </div>
+        </div>
+
+        <h4 class="case-subheading">Typography</h4>
+        <p>Two typefaces split the hierarchy cleanly: <strong>Archivo</strong> for headers, where its
+           weight and structure carry the most visual authority, and <strong>Poppins</strong> for body
+           copy and micro-text, where its rounder, friendlier shapes stay easy to read at small sizes.</p>
+        <div class="type-scale">
+          <div class="type-scale-row type-display" style="font-family:'Archivo', sans-serif;">
+            <span class="type-scale-label">Display</span>
+            <span class="type-scale-sample" style="font-family:'Archivo', sans-serif;">Archivo</span>
+            <span class="type-scale-meta">Bold · 56 / 64</span>
+          </div>
+          <div class="type-scale-row type-h1">
+            <span class="type-scale-label">Heading 1</span>
+            <span class="type-scale-sample" style="font-family:'Archivo', sans-serif;">Archivo</span>
+            <span class="type-scale-meta">Bold · 40 / 48</span>
+          </div>
+          <div class="type-scale-row type-h2">
+            <span class="type-scale-label">Heading 2</span>
+            <span class="type-scale-sample" style="font-family:'Archivo', sans-serif;">Archivo</span>
+            <span class="type-scale-meta">SemiBold · 32 / 40</span>
+          </div>
+          <div class="type-scale-row type-h3">
+            <span class="type-scale-label">Heading 3</span>
+            <span class="type-scale-sample" style="font-family:'Archivo', sans-serif;">Archivo</span>
+            <span class="type-scale-meta">SemiBold · 24 / 32</span>
+          </div>
+          <div class="type-scale-row type-h4">
+            <span class="type-scale-label">Heading 4</span>
+            <span class="type-scale-sample" style="font-family:'Archivo', sans-serif;">Archivo</span>
+            <span class="type-scale-meta">Medium · 19 / 28</span>
+          </div>
+          <div class="type-scale-row type-body">
+            <span class="type-scale-label">Body</span>
+            <span class="type-scale-sample">Poppins — the quick brown fox jumps over the lazy dog</span>
+            <span class="type-scale-meta">Regular · 16 / 26</span>
+          </div>
+          <div class="type-scale-row type-caption">
+            <span class="type-scale-label">Micro / Caption</span>
+            <span class="type-scale-sample">Poppins — the quick brown fox jumps over the lazy dog</span>
+            <span class="type-scale-meta">Regular · 13 / 20</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="case-section" id="reflection">
+      <h2 class="case-heading">Reflection</h2>
+      <ol class="case-takeaways">
+        <li class="takeaway">
+          <span class="takeaway-num">01</span>
+          <p><strong>An open-ended prompt is still a prompt.</strong> "Redesign the UI" sounds like total
+             freedom, but working solo forced me to write my own brief in week one, pain points, a
+             persona, a rough scope, before I let myself touch a single screen. Skipping that step would
+             have meant redesigning based on my own assumptions instead of real friction points.</p>
+        </li>
+        <li class="takeaway">
+          <span class="takeaway-num">02</span>
+          <p><strong>Color decisions need a real reason, not just a preference.</strong> Swapping orange
+             for purple was tempting to do purely for differentiation, but it only earned its place once
+             I could point to a concrete problem, orange's contrast breaking down at high menu density,
+             that the new palette actually solved.</p>
+        </li>
+        <li class="takeaway">
+          <span class="takeaway-num">03</span>
+          <p><strong>A one-week solo timeline rewards ruthless scoping.</strong> Without a team to divide
+             research, wireframes, and UI across, I had to decide early which fidelity stages actually
+             needed to exist versus which ones I could compress, so the highest-impact screens got the
+             most iteration instead of spreading effort evenly and finishing nothing all the way.</p>
+        </li>
+      </ol>
+    </section>
+
+    <div class="back-to-top-wrap">
+      <button type="button" class="back-to-top">&uarr; Back to top</button>
+    </div>
+
+    <nav class="project-nav">
+      <a href="project-2.html" class="nav-prev">
+        <span class="nav-label">&larr; Previous project</span>
+        <span class="nav-title">WashUX Rebrand</span>
+      </a>
+      <a href="project-1.html" class="nav-next">
+        <span class="nav-label">Next project &rarr;</span>
+        <span class="nav-title">PitchBook: Corporate Events</span>
+      </a>
+    </nav>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-left">
+      <span class="footer-label">Let's connect!</span>
+      <p class="footer-credits">&copy; 2026 Chelsea Lee</p>
+    </div>
+    <div class="connect-links">
+      <a class="connect-link" href="mailto:chelsleee911@gmail.com">chelsleee911@gmail.com</a>
+      <a class="connect-link" href="https://www.instagram.com/clartchive/" target="_blank" rel="noopener">@clartchive</a>
+      <a class="connect-link" href="https://www.linkedin.com/in/chelsea-lee-79109835a" target="_blank" rel="noopener">My LinkedIn</a>
+    </div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+</body>
+</html>
