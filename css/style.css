@@ -77,6 +77,37 @@
   color: var(--text);
 }
 
+/* ...except inside a colored bubble (case notes, persona cards, the
+   competitor legend, etc.) — those surfaces stay the same light blue in
+   both themes, so a <mark> inside one needs to keep its ordinary navy-on
+   -yellow treatment too, instead of the pale --text color meant for a
+   highlight sitting on the dark page canvas (which was unreadable against
+   the bubble's always-light background). */
+:root[data-theme="dark"] .case-note mark,
+:root[data-theme="dark"] .response-card mark,
+:root[data-theme="dark"] .opportunity-card mark,
+:root[data-theme="dark"] .persona-card mark,
+:root[data-theme="dark"] .pain-card mark,
+:root[data-theme="dark"] .mockup-caption-card mark,
+:root[data-theme="dark"] .takeaway mark,
+:root[data-theme="dark"] .card-caption-bubble mark,
+:root[data-theme="dark"] .audit-callout mark,
+:root[data-theme="dark"] .competitor-legend mark,
+:root[data-theme="dark"] .swatch mark,
+:root[data-theme="dark"] .case-meta-pill mark,
+:root[data-theme="dark"] .case-jumpnav-bubble mark,
+:root[data-theme="dark"] .bubble-bio mark,
+:root[data-theme="dark"] .bubble-quote mark,
+:root[data-theme="dark"] .bubble-hobbies mark,
+:root[data-theme="dark"] .bubble-fact mark,
+:root[data-theme="dark"] .bubble-intro mark,
+:root[data-theme="dark"] .bubble-note mark,
+:root[data-theme="dark"] .flip-tile-back mark,
+:root[data-theme="dark"] .project-card-bubble mark {
+  background: var(--accent-warm);
+  color: var(--ink);
+}
+
 * {
   box-sizing: border-box;
 }
