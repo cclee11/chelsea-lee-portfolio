@@ -369,14 +369,13 @@ video.placeholder {
   object-fit: cover;
 }
 
-/* the UX cards' videos are each a full scene (product mockup/wordmark)
-   rather than art meant to bleed off the edges, so contain (not cover)
-   keeps the whole frame visible in the card no matter how the box rounds.
-   Fallback background stays a neutral, near-white page tone since it's
-   shared by videos with very different backgrounds of their own. */
+/* both UX card videos are encoded at the same 3:2 ratio as the card
+   itself, so cover fills the tile edge-to-edge with no visible letterbox
+   gap (contain was leaving a hairline gap: the tile's own 2px hover
+   border is inset from the border-box the aspect-ratio is set on, which
+   nudges the content-box just off 3:2) */
 .card-media video.placeholder {
-  object-fit: contain;
-  background: var(--page-bg);
+  object-fit: cover;
 }
 
 /* ---------------------------------------------------------- grid pages */
@@ -407,13 +406,13 @@ video.placeholder {
 .card-caption-bubble {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   gap: var(--space-1);
   margin-top: var(--space-3);
   padding: var(--space-3) var(--space-4);
   background: var(--accent-tint);
   border-radius: var(--radius-lg);
-  text-align: center;
+  text-align: left;
 }
 
 .card-caption-title {
