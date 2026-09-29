@@ -27,6 +27,10 @@
   --radius-full: 999px;
 
   --font-sans: "deuterium-variable", sans-serif;
+  /* used only for page titles / section headings and other title-labeled
+     text (project card titles, case-study headings, nav card titles, the
+     "chelsea lee" hero name) — never for running body copy */
+  --font-display: "roca", sans-serif;
   --wght-light: 300;
   --wght-regular: 400;
   --wght-medium: 500;
@@ -315,10 +319,11 @@ main {
 .page-title {
   font-size: var(--header-size);
   line-height: var(--header-line);
-  font-variation-settings: "wght" var(--wght-medium);
+  font-family: var(--font-display);
+  font-weight: 700;
   color: var(--text);
   margin: 0 0 var(--space-5);
-  text-transform: uppercase;
+  text-transform: lowercase;
   letter-spacing: 0.01em;
 }
 
@@ -335,7 +340,8 @@ main {
   font-style: italic;
   font-size: var(--subheader-size);
   line-height: var(--subheader-line);
-  font-variation-settings: "wght" var(--wght-regular);
+  font-family: var(--font-display);
+  font-weight: 400;
   color: var(--text);
   margin: 0 0 var(--space-5);
 }
@@ -585,7 +591,8 @@ video.placeholder {
 
 .card-caption-title {
   font-size: 18px;
-  font-variation-settings: "wght" var(--wght-medium);
+  font-family: var(--font-display);
+  font-weight: 700;
   color: var(--ink);
 }
 
@@ -763,9 +770,10 @@ video.placeholder {
 
 .project-card-title {
   font-size: 13px;
-  text-transform: uppercase;
+  text-transform: lowercase;
   letter-spacing: 0.03em;
-  font-variation-settings: "wght" var(--wght-medium);
+  font-family: var(--font-display);
+  font-weight: 700;
 }
 
 .project-card-desc {
@@ -1248,17 +1256,19 @@ video.placeholder {
   line-height: 1.25;
   text-align: left;
   color: var(--text);
-  font-variation-settings: "wght" var(--wght-medium);
-  text-transform: uppercase;
+  font-family: var(--font-display);
+  font-weight: 700;
+  text-transform: lowercase;
   letter-spacing: 0.01em;
 }
 
 .case-subheading {
   font-size: var(--body-size);
   color: var(--text);
-  font-variation-settings: "wght" var(--wght-medium);
+  font-family: var(--font-display);
+  font-weight: 700;
   margin: var(--space-5) 0 var(--space-3);
-  text-transform: uppercase;
+  text-transform: lowercase;
   letter-spacing: 0.04em;
 }
 
@@ -1673,9 +1683,10 @@ video.placeholder {
 .pain-card-title {
   display: block;
   font-size: 13px;
-  text-transform: uppercase;
+  text-transform: lowercase;
   letter-spacing: 0.02em;
-  font-variation-settings: "wght" var(--wght-medium);
+  font-family: var(--font-display);
+  font-weight: 700;
   margin-bottom: 4px;
 }
 
@@ -1721,7 +1732,8 @@ video.placeholder {
 .opportunity-title {
   font-size: var(--body-size);
   line-height: var(--body-line);
-  font-variation-settings: "wght" var(--wght-medium);
+  font-family: var(--font-display);
+  font-weight: 700;
   margin: 0 0 var(--space-2);
 }
 
@@ -1776,9 +1788,10 @@ video.placeholder {
 .mockup-caption-title {
   display: block;
   font-size: 12px;
-  text-transform: uppercase;
+  text-transform: lowercase;
   letter-spacing: 0.02em;
-  font-variation-settings: "wght" var(--wght-medium);
+  font-family: var(--font-display);
+  font-weight: 700;
   margin-bottom: 4px;
 }
 
@@ -2098,10 +2111,11 @@ video.placeholder {
 .solution-caption-title {
   display: block;
   font-size: 13px;
-  text-transform: uppercase;
+  text-transform: lowercase;
   letter-spacing: 0.02em;
   color: var(--text);
-  font-variation-settings: "wght" var(--wght-medium);
+  font-family: var(--font-display);
+  font-weight: 700;
 }
 
 .solution-caption-desc {
@@ -2536,7 +2550,8 @@ video.placeholder {
 .project-nav .nav-title {
   font-size: 16px;
   color: var(--text);
-  font-variation-settings: "wght" var(--wght-medium);
+  font-family: var(--font-display);
+  font-weight: 700;
   transition: color 0.2s ease;
 }
 
@@ -2623,8 +2638,8 @@ video.placeholder {
   font-size: 136px;
   line-height: 1;
   font-style: italic;
-  /* a step lighter than the previous medium weight */
-  font-variation-settings: "wght" var(--wght-regular);
+  font-family: var(--font-display);
+  font-weight: 400;
   /* lighter fill than the outline so the stroke actually reads as its own
      color instead of blending into the fill */
   color: var(--background);
