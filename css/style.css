@@ -2596,8 +2596,10 @@ video.placeholder {
      glow/shadow) has real breathing room before the box's own border,
      instead of ending nearly flush against it; sides widened to match now
      that the grid actually stretches to fill this box (see
-     .hero-box .projects-grid) instead of sitting at a shrink-to-fit width */
-  padding: var(--space-5) var(--space-5) 64px;
+     .hero-box .projects-grid) instead of sitting at a shrink-to-fit width;
+     top padding doubled so the title/tagline content sits lower inside
+     the box instead of starting right at the border */
+  padding: 80px var(--space-5) 64px;
   text-align: center;
   box-shadow: 0 12px 28px rgba(20, 62, 102, 0.16);
 }
@@ -2639,7 +2641,7 @@ video.placeholder {
   line-height: 1;
   font-style: normal;
   font-family: var(--font-display);
-  font-weight: 400;
+  font-weight: 300;
   /* lighter fill than the outline so the stroke actually reads as its own
      color instead of blending into the fill */
   color: var(--background);
@@ -2674,7 +2676,7 @@ video.placeholder {
    use it. A small negative margin pulls the letters in tight instead. */
 .letter {
   display: inline-block;
-  margin-right: -0.01em;
+  margin-right: -0.04em;
 }
 
 .letter.color-lightblue {
