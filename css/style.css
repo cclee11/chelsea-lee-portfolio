@@ -270,12 +270,14 @@ mark {
 }
 
 .site-nav a {
-  font-size: var(--body-size);
+  /* smaller than the shared --body-size so the pills read as compact
+     navigation rather than body-copy-sized buttons */
+  font-size: 13px;
   font-variation-settings: "wght" var(--wght-light);
   color: var(--ink);
   background: var(--background);
   letter-spacing: 0.02em;
-  padding: var(--space-2) var(--space-4);
+  padding: var(--space-1) var(--space-3);
   border: 1px solid transparent;
   border-radius: var(--radius-full);
   transition: background 0.2s ease, color 0.2s ease;
@@ -638,9 +640,12 @@ video.placeholder {
   gap: var(--space-1);
   margin-top: var(--space-3);
   padding: var(--space-3) var(--space-4);
-  background: var(--accent-tint);
-  color: var(--ink);
-  border: 1px solid var(--background);
+  /* navy card, white-blue text in light mode; flips to a white-blue card
+     with navy text in dark mode (see the :root[data-theme="dark"] rules
+     below) — inverted from the old always-light accent-tint card */
+  background: var(--ink);
+  color: var(--accent-tint);
+  border: 1px solid var(--button-stroke);
   border-radius: var(--radius-lg);
   box-shadow: 0 0 14px rgba(167, 212, 228, 0.5);
   text-align: left;
@@ -650,15 +655,21 @@ video.placeholder {
   font-size: 21px;
   font-family: var(--font-display);
   font-weight: 700;
-  color: var(--ink);
+  color: var(--accent-tint);
 }
 
 .card-caption-desc {
   font-size: 15px;
   line-height: 1.5;
-  /* fixed navy, not var(--text): this sits on the bubble's always-light
-     accent-tint background, so it needs to stay legible in dark mode too
-     instead of flipping to the pale text color meant for the dark canvas */
+  color: var(--accent-tint);
+}
+
+:root[data-theme="dark"] .card-caption-bubble {
+  background: var(--accent-tint);
+}
+
+:root[data-theme="dark"] .card-caption-title,
+:root[data-theme="dark"] .card-caption-desc {
   color: var(--ink);
 }
 
@@ -817,12 +828,20 @@ video.placeholder {
   display: flex;
   flex-direction: column;
   gap: 2px;
-  background: var(--accent-tint);
-  color: var(--ink);
-  border: 1px solid var(--background);
+  /* navy card, white-blue text in light mode; flips to a white-blue card
+     with navy text in dark mode (see the :root[data-theme="dark"] rule
+     below) — inverted from the old always-light accent-tint card */
+  background: var(--ink);
+  color: var(--accent-tint);
+  border: 1px solid var(--button-stroke);
   border-radius: var(--radius-lg);
   padding: var(--space-3) var(--space-4);
   box-shadow: 0 12px 22px rgba(20, 62, 102, 0.2), 0 0 14px rgba(167, 212, 228, 0.5);
+}
+
+:root[data-theme="dark"] .project-card-bubble {
+  background: var(--accent-tint);
+  color: var(--ink);
 }
 
 .project-card-title {
@@ -1918,10 +1937,18 @@ video.placeholder {
 }
 
 .mockup-caption-card {
-  background: var(--accent-tint);
-  color: var(--ink);
+  /* navy card, white-blue text in light mode; flips to a white-blue card
+     with navy text in dark mode — inverted from the old always-light
+     accent-tint card */
+  background: var(--ink);
+  color: var(--accent-tint);
   border-radius: var(--radius-md);
   padding: var(--space-3);
+}
+
+:root[data-theme="dark"] .mockup-caption-card {
+  background: var(--accent-tint);
+  color: var(--ink);
 }
 
 .mockup-caption-title {
@@ -2740,13 +2767,13 @@ video.placeholder {
      top padding doubled so the title/tagline content sits lower inside
      the box instead of starting right at the border */
   padding: 80px var(--space-5) 64px;
-  text-align: center;
+  text-align: left;
   box-shadow: 0 12px 28px rgba(20, 62, 102, 0.16);
 }
 
-/* the title/tagline/eyes-divider intro stays centered (handled above), but
-   the projects grid is full-width, left-aligned content, so it opts out of
-   the hero box's centering instead of inheriting it */
+/* the title/tagline now read left-aligned (see .hero-intro), so the
+   projects grid below just needs the same shared width/inset — no longer
+   opting out of a centered default the way it used to. */
 .hero-box .projects-grid {
   text-align: left;
   /* an explicit width (rather than align-self: stretch, which .projects-
@@ -2758,17 +2785,43 @@ video.placeholder {
   margin: 0 auto;
 }
 
+/* Name/tagline on the left, the "take a look around..." mark on the right
+   — a single row across the hero box, both children vertically centered
+   against each other. Stacks back to a left-aligned column on narrow
+   viewports so the two never get cramped side by side. */
+.hero-intro {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-5);
+  width: calc(100% - 48px);
+  margin: 0 auto var(--space-5);
+}
+
+.hero-intro-text {
+  text-align: left;
+}
+
+@media (max-width: 640px) {
+  .hero-intro {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-4);
+    margin-bottom: var(--space-4);
+  }
+}
+
 .site-title {
   /* pulled closer to the tagline below it than the old generous gap */
   margin: var(--space-3) 0 var(--space-2);
   display: inline-flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: baseline;
   /* gap is set in px, not em: the words are sized way up via .word's own
      font-size, so an em-based gap here (inherited from body's small
-     font-size) would end up nearly invisible next to 160px letters */
-  gap: 28px;
+     font-size) would end up nearly invisible next to the letters */
+  gap: 16px;
   cursor: url("../assets/cursor-ring.png") 10 10, default;
   /* idle bounce, always running, matching the eyes-divider logo below it */
   animation: title-bob 2.6s ease-in-out infinite;
@@ -2776,29 +2829,36 @@ video.placeholder {
 
 .site-title .word {
   display: inline-flex;
-  /* big, lowercase display size for the hero title */
-  font-size: 136px;
+  /* scaled down from the old 136px now that the name reads as a left-
+     aligned lockup next to the tagline, rather than a huge centerpiece */
+  font-size: 72px;
   line-height: 1;
   font-style: normal;
   font-family: var(--font-display);
   font-weight: 300;
-  /* lighter fill than the outline so the stroke actually reads as its own
-     color instead of blending into the fill */
-  color: var(--background);
-  -webkit-text-stroke: 3px var(--button-stroke);
+  /* solid navy fill in light mode (was the pale --background fill kept
+     legible only by its outline); dark mode restores the old pale-yellow
+     fill just below */
+  color: var(--ink);
+  /* thinner outline than the old 3px, so the letterforms read lighter
+     overall even though roca itself only ships in two static weights */
+  -webkit-text-stroke: 1.5px var(--button-stroke);
   paint-order: stroke fill;
-  /* soft, semi-transparent light-blue glow radiating outward behind the
-     letters (rgba version of --background, since text-shadow needs an
-     alpha channel to look faint rather than solid) */
+}
+
+/* the soft glow behind the letters is a dark-mode-only effect now — it
+   read as too heavy against a plain white canvas once the fill went
+   solid navy, but still works well against the dark page background. */
+:root[data-theme="dark"] .site-title .word {
   text-shadow: 0 0 18px rgba(167, 212, 228, 0.55), 0 0 36px rgba(167, 212, 228, 0.35);
 }
 
 @media (max-width: 640px) {
   .site-title .word {
-    font-size: 61px;
+    font-size: 40px;
   }
   .site-title {
-    gap: 14px;
+    gap: 10px;
   }
 }
 
@@ -2846,10 +2906,11 @@ video.placeholder {
   flex-direction: column;
   align-items: center;
   gap: var(--space-2);
-  /* generous space above (below the tagline); even more below, so the
-     project gallery has clear room under the "take a look around..."
-     caption instead of crowding it */
-  margin: var(--space-5) 0 56px;
+  /* now sits beside the name/tagline (see .hero-intro) instead of
+     stacked below it, so it no longer needs its own vertical margin —
+     the gap before the projects grid comes from .hero-intro instead. */
+  margin: 0;
+  flex-shrink: 0;
 }
 
 .eyes-icon {
@@ -2935,11 +2996,26 @@ video.placeholder {
      specific paragraph have more breathing room between them */
   line-height: 1.7;
   margin: 0 0 var(--space-4);
-  text-align: center;
-  /* narrowed so the wrapped lines read as a single centered column lined
-     up under "chelsea lee" above it, instead of stretching wide and
-     drifting off both sides of the title */
+  text-align: left;
+  /* narrowed so the wrapped lines read as a single left-aligned column
+     under "chelsea lee" above it, instead of stretching wide */
   max-width: 480px;
+}
+
+/* the "product designer" / "artist" marks read as plain text here — no
+   highlight pill, in either theme — since the hero tagline is meant to
+   stay quiet rather than call those two words out the way an inline
+   <mark> does everywhere else on the site. */
+.tagline mark {
+  background: none;
+  color: inherit;
+  padding: 0;
+  font-variation-settings: inherit;
+}
+
+:root[data-theme="dark"] .tagline mark {
+  background: none;
+  color: inherit;
 }
 
 .intro {
