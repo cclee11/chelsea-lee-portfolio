@@ -328,6 +328,25 @@ main {
   margin-bottom: var(--space-3);
 }
 
+/* subtitle sitting directly under a bare page title (currently the Fun
+   page): styled like the home page's supporting tagline text rather than
+   a plain heading, so it doesn't read as a second big title */
+.page-subtitle {
+  font-style: italic;
+  font-size: var(--subheader-size);
+  line-height: var(--subheader-line);
+  font-variation-settings: "wght" var(--wght-regular);
+  color: var(--text);
+  margin: 0 0 var(--space-5);
+}
+
+/* pull the title down closer to its subtitle instead of the usual
+   generous title spacing, which was meant for a title with nothing
+   sitting directly beneath it */
+.page-title:has(+ .page-subtitle) {
+  margin-bottom: var(--space-2);
+}
+
 /* -------------------------------------------------------------- footer */
 
 .site-footer {
