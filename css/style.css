@@ -292,6 +292,52 @@ mark {
   color: var(--ink);
 }
 
+/* ------------------------------------------------------------ loading screen
+   A brief intro overlay on the homepage only (see #loading-screen in
+   index.html): a small looping video of the logo mark, with a caption
+   beneath that fades through a few phrases (see main.js) before the whole
+   overlay fades out and removes itself, revealing the hero page. Always a
+   plain white background regardless of light/dark mode, since it's meant
+   to read as a blank "loading" moment rather than themed page content. */
+
+.loading-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  background: #fff;
+  transition: opacity 0.6s ease;
+}
+
+.loading-screen.is-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.loading-video {
+  width: 140px;
+  height: auto;
+  display: block;
+}
+
+.loading-caption {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  color: var(--button-stroke);
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.loading-caption.is-visible {
+  opacity: 1;
+}
+
 /* -------------------------------------------------------------- layout */
 
 main {

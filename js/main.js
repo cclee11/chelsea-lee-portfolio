@@ -43,6 +43,12 @@
       the user scrolls. A small ring-logo marker sits in the sidebar's
       left gutter and animates to whichever entry is current. Clicking a
       link uses the browser's native anchor scroll.
+   9. Homepage loading screen (#loading-screen, index.html only): a plain
+      white overlay with a small looping logo video, captioned with three
+      phrases that fade in and out in turn ("nice to meet you!", "just
+      getting set up...", "welcome!"). After the last phrase, the whole
+      overlay fades out and removes itself from the DOM, revealing the
+      hero page underneath.
 */
 
 (function () {
@@ -73,6 +79,45 @@
   }
 
   document.addEventListener("DOMContentLoaded", function () {
+    var loadingScreen = document.getElementById("loading-screen");
+    if (loadingScreen) {
+      var loadingCaption = loadingScreen.querySelector(".loading-caption");
+      var loadingPhrases = [
+        "nice to meet you!",
+        "just getting set up...",
+        "welcome!"
+      ];
+      var PHRASE_HOLD_MS = 1300;
+      var FADE_MS = 400;
+
+      var advanceLoadingScreen = function (index) {
+        loadingCaption.textContent = loadingPhrases[index];
+        requestAnimationFrame(function () {
+          loadingCaption.classList.add("is-visible");
+        });
+
+        var isLastPhrase = index === loadingPhrases.length - 1;
+
+        setTimeout(function () {
+          if (isLastPhrase) {
+            // leave "welcome!" showing and fade the whole screen away,
+            // rather than blanking the caption first
+            loadingScreen.classList.add("is-hidden");
+            setTimeout(function () {
+              loadingScreen.remove();
+            }, 650);
+          } else {
+            loadingCaption.classList.remove("is-visible");
+            setTimeout(function () {
+              advanceLoadingScreen(index + 1);
+            }, FADE_MS);
+          }
+        }, PHRASE_HOLD_MS);
+      };
+
+      advanceLoadingScreen(0);
+    }
+
     var flipTiles = document.querySelectorAll(".flip-tile");
     flipTiles.forEach(function (tile) {
       tile.setAttribute("role", "button");
