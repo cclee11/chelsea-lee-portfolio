@@ -2786,34 +2786,40 @@ video.placeholder {
 }
 
 /* Name/tagline on the left, the "take a look around..." mark on the right
-   — a single row across the hero box, both children vertically centered
-   against each other. Stacks back to a left-aligned column on narrow
-   viewports so the two never get cramped side by side. */
+   — a row lined up directly against the name itself (see .hero-name-row),
+   with the tagline running full-width underneath. Stacks back to a
+   left-aligned column on narrow viewports so the two never get cramped
+   side by side. */
 .hero-intro {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-5);
   width: calc(100% - 48px);
   margin: 0 auto var(--space-5);
 }
 
-.hero-intro-text {
-  text-align: left;
+.hero-name-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-5);
+  /* replaces the old gap that used to come from .site-title's own
+     bottom margin, now that .site-title carries no margin of its own */
+  margin-bottom: var(--space-2);
 }
 
 @media (max-width: 640px) {
-  .hero-intro {
+  .hero-name-row {
     flex-direction: column;
     align-items: flex-start;
     gap: var(--space-4);
-    margin-bottom: var(--space-4);
   }
 }
 
 .site-title {
-  /* pulled closer to the tagline below it than the old generous gap */
-  margin: var(--space-3) 0 var(--space-2);
+  /* no margin of its own: it now sits in a flex row with .eyes-divider
+     (see .hero-name-row), and any margin here would throw off centering
+     them against each other since flex alignment counts each item's
+     margin box. The gap before the tagline comes from .hero-name-row's
+     own margin-bottom instead. */
+  margin: 0;
   display: inline-flex;
   flex-wrap: wrap;
   justify-content: flex-start;
@@ -2917,8 +2923,10 @@ video.placeholder {
   --pupil-step: 5.49px;
   position: relative;
   display: inline-block;
-  width: 112px;
-  height: calc(112px * 342 / 776);
+  /* bigger now that it sits beside the (now smaller) name instead of
+     stacked below the full title+tagline block */
+  width: 150px;
+  height: calc(150px * 342 / 776);
   cursor: url("../assets/cursor-ring.png") 10 10, default;
   animation: eyes-bob 2.6s ease-in-out infinite;
 }

@@ -44,11 +44,16 @@
       left gutter and animates to whichever entry is current. Clicking a
       link uses the browser's native anchor scroll.
    9. Homepage loading screen (#loading-screen, index.html only): a plain
-      white overlay with a small looping logo video, captioned with three
-      phrases that fade in and out in turn ("nice to meet you!", "just
-      getting set up...", "welcome!"). After the last phrase, the whole
-      overlay fades out and removes itself from the DOM, revealing the
-      hero page underneath.
+      white overlay with a small looping logo video, captioned with two
+      phrases that fade in and out in turn ("just getting set up...",
+      "welcome!"). After the last phrase, the whole overlay fades out and
+      removes itself from the DOM, revealing the hero page underneath.
+      Only ever runs on an actual page reload (an inline script right
+      after #loading-screen in index.html checks the Navigation Timing
+      API and removes the element immediately, before this script even
+      runs, on a plain in-site navigation — clicking the "projects" nav
+      tab or the header logo back to the homepage — so it doesn't replay
+      every time someone lands back on index.html).
 */
 
 (function () {
@@ -83,7 +88,6 @@
     if (loadingScreen) {
       var loadingCaption = loadingScreen.querySelector(".loading-caption");
       var loadingPhrases = [
-        "nice to meet you!",
         "just getting set up...",
         "welcome!"
       ];

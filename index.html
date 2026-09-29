@@ -20,6 +20,28 @@
     </video>
     <p class="loading-caption"></p>
   </div>
+  <script>
+    // only ever show the loading screen on an actual page reload (Cmd/Ctrl+R,
+    // F5, the browser's reload button) — not on a plain in-site navigation
+    // back to the homepage, like clicking the "projects" tab or the header
+    // logo. Runs synchronously, immediately after #loading-screen above, so
+    // it's removed before the rest of the page (and before paint) on every
+    // other kind of visit.
+    (function () {
+      var nav = window.performance && performance.getEntriesByType
+        ? performance.getEntriesByType("navigation")[0]
+        : null;
+      var isReload = nav
+        ? nav.type === "reload"
+        : !!(window.performance && performance.navigation && performance.navigation.type === 1);
+      if (!isReload) {
+        var el = document.getElementById("loading-screen");
+        if (el) {
+          el.remove();
+        }
+      }
+    })();
+  </script>
 
   <header class="site-header">
     <a href="index.html" class="icon-logo-link" aria-label="Go to home page">
@@ -42,7 +64,7 @@
     <section class="home-hero">
       <div class="hero-box">
         <div class="hero-intro">
-          <div class="hero-intro-text">
+          <div class="hero-name-row">
             <h1 class="site-title">
               <span class="word word-chelsea">
                 <span class="letter">c</span>
@@ -59,16 +81,17 @@
                 <span class="letter">e</span>
               </span>
             </h1>
-            <p class="tagline">A <mark>product designer</mark> and <mark>artist</mark> making complex things feel simple, and simple things feel a little more fun!</p>
+
+            <div class="eyes-divider">
+              <span class="eyes-icon" role="img" aria-label="Chelsea Lee logo, eyes glancing side to side">
+                <img class="eyes-base" src="assets/eyes-base.png" alt="" aria-hidden="true">
+                <img class="eyes-pupils" src="assets/eyes-pupils.png" alt="" aria-hidden="true">
+              </span>
+              <p class="eyes-caption">take a look around...</p>
+            </div>
           </div>
 
-          <div class="eyes-divider">
-            <span class="eyes-icon" role="img" aria-label="Chelsea Lee logo, eyes glancing side to side">
-              <img class="eyes-base" src="assets/eyes-base.png" alt="" aria-hidden="true">
-              <img class="eyes-pupils" src="assets/eyes-pupils.png" alt="" aria-hidden="true">
-            </span>
-            <p class="eyes-caption">take a look around...</p>
-          </div>
+          <p class="tagline">A <mark>product designer</mark> and <mark>artist</mark> making complex things feel simple, and simple things feel a little more fun!</p>
         </div>
 
         <div class="projects-grid">
