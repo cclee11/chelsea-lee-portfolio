@@ -331,12 +331,18 @@ main {
 /* -------------------------------------------------------------- footer */
 
 .site-footer {
+  /* since body became a flex column (for the sticky-footer layout), this
+     element's own auto side-margins would otherwise make it shrink to
+     fit its content instead of stretching to fill/center within
+     --content-max, which is what bunched footer-left and .connect-links
+     together in the middle instead of spreading to opposite edges */
+  width: 100%;
   flex-shrink: 0;
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
   flex-wrap: wrap;
-  gap: var(--space-3);
+  gap: var(--space-4) var(--space-5);
   max-width: var(--content-max);
   margin: 0 auto;
   padding: var(--space-4) clamp(24px, 5vw, 64px);
