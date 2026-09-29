@@ -31,6 +31,15 @@
       Escape, on clicking the backdrop, or via the close button.
       Flip-tile posters are excluded on purpose — clicking those still
       flips the tile instead of opening the lightbox.
+   8. Case study side TOC (project-N.html pages only): built entirely
+      from whatever .case-heading/.case-subheading elements exist on the
+      page, so it never needs hand-maintaining as case study content
+      changes. Assigns each heading a stable id (skipping any it already
+      has), lists them all in a fixed sidebar (see .case-toc in
+      style.css, hidden below 1440px so it can never overlap the page's
+      960px-max content column), and highlights whichever section is
+      currently in view via IntersectionObserver as the user scrolls.
+      Clicking a link uses the browser's native anchor scroll.
 */
 
 (function () {
@@ -250,6 +259,107 @@
           closeLightbox();
         }
       });
+    }
+
+    var caseMain = document.querySelector(".case-main");
+    var caseHeadings = caseMain
+      ? caseMain.querySelectorAll(".case-heading, .case-subheading")
+      : [];
+
+    if (caseHeadings.length) {
+      var usedIds = {};
+      document.querySelectorAll("[id]").forEach(function (el) {
+        usedIds[el.id] = true;
+      });
+
+      var slugify = function (text) {
+        var base = "cs-" + text
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, "-")
+          .replace(/^-+|-+$/g, "");
+        if (base === "cs-") {
+          base = "cs-section";
+        }
+        var slug = base;
+        var i = 2;
+        while (usedIds[slug]) {
+          slug = base + "-" + i;
+          i++;
+        }
+        usedIds[slug] = true;
+        return slug;
+      };
+
+      var tocList = document.createElement("ul");
+
+      caseHeadings.forEach(function (heading) {
+        if (!heading.id) {
+          heading.id = slugify(heading.textContent || "");
+        } else {
+          usedIds[heading.id] = true;
+        }
+
+        var li = document.createElement("li");
+        if (heading.classList.contains("case-subheading")) {
+          li.className = "case-toc-sub";
+        }
+
+        var link = document.createElement("a");
+        link.href = "#" + heading.id;
+        link.textContent = heading.textContent;
+        li.appendChild(link);
+        tocList.appendChild(li);
+      });
+
+      var caseToc = document.createElement("nav");
+      caseToc.className = "case-toc";
+      caseToc.setAttribute("aria-label", "Case study sections");
+      caseToc.appendChild(tocList);
+      document.body.appendChild(caseToc);
+
+      var tocLinks = caseToc.querySelectorAll("a");
+      var linkByHeadingId = {};
+      tocLinks.forEach(function (link) {
+        linkByHeadingId[link.getAttribute("href").slice(1)] = link;
+      });
+
+      var setActiveHeading = function (id) {
+        var target = linkByHeadingId[id];
+        if (!target) {
+          return;
+        }
+        tocLinks.forEach(function (link) {
+          link.classList.toggle("is-active", link === target);
+        });
+      };
+
+      // the first heading is active by default (e.g. on load, before the
+      // user has scrolled far enough for the observer below to fire)
+      setActiveHeading(caseHeadings[0].id);
+
+      if ("IntersectionObserver" in window) {
+        var headingObserver = new IntersectionObserver(
+          function (entries) {
+            var visible = entries.filter(function (entry) {
+              return entry.isIntersecting;
+            });
+            if (visible.length) {
+              visible.sort(function (a, b) {
+                return a.boundingClientRect.top - b.boundingClientRect.top;
+              });
+              setActiveHeading(visible[0].target.id);
+            }
+          },
+          // a heading counts as "current" once it's scrolled past the
+          // sticky nav, and stays current until it's most of the way up
+          // the viewport, so the topmost visible section wins ties
+          { rootMargin: "-100px 0px -70% 0px", threshold: 0 }
+        );
+
+        caseHeadings.forEach(function (heading) {
+          headingObserver.observe(heading);
+        });
+      }
     }
 
     var themeToggle = document.createElement("button");

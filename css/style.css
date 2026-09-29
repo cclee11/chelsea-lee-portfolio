@@ -71,6 +71,12 @@
   color: var(--background);
 }
 
+/* the case-toc sidebar's active link gets the same branded-blue
+   treatment in dark mode as the headings it points to */
+:root[data-theme="dark"] .case-toc a.is-active {
+  color: var(--background);
+}
+
 /* dark mode swaps the yellow highlight for a sheer pale-blue wash, so the
    marked phrase can keep reading in the same white-blue --text color as
    the rest of the sentence, instead of needing a fixed navy --ink to stay
@@ -284,7 +290,6 @@ mark {
 .site-nav a.active {
   background: var(--accent-warm);
   color: var(--ink);
-  border-color: var(--button-stroke);
 }
 
 /* -------------------------------------------------------------- layout */
@@ -999,7 +1004,6 @@ video.placeholder {
 
 .subnav-tab.is-active {
   background: var(--accent-warm);
-  border-color: var(--button-stroke);
   font-variation-settings: "wght" var(--wght-medium);
 }
 
@@ -1249,6 +1253,65 @@ video.placeholder {
   scroll-margin-top: 90px;
 }
 
+/* ------------------------------------------------------------ case-toc
+   A persistent sidebar table of contents for case study pages, built and
+   kept in sync automatically by main.js from every .case-heading/
+   .case-subheading on the page (so it never needs hand-maintaining here).
+   Only shown once the viewport is wide enough that it fits in the margin
+   beside the (960px-max) case content without ever overlapping it. */
+
+.case-toc {
+  display: none;
+}
+
+@media (min-width: 1440px) {
+  .case-toc {
+    display: block;
+    position: fixed;
+    left: 40px;
+    top: 140px;
+    width: 180px;
+    max-height: calc(100vh - 180px);
+    overflow-y: auto;
+    z-index: 40;
+  }
+}
+
+.case-toc ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.case-toc a {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--button-stroke);
+  text-transform: lowercase;
+  transition: color 0.2s ease;
+}
+
+.case-toc a:hover {
+  color: var(--ink);
+}
+
+.case-toc a.is-active {
+  color: var(--ink);
+  font-variation-settings: "wght" var(--wght-medium);
+}
+
+/* a .case-subheading entry nests slightly under its parent .case-heading
+   entry, so the flat list still reads with a light sense of hierarchy */
+.case-toc li.case-toc-sub a {
+  padding-left: var(--space-3);
+  font-size: 11px;
+}
+
 .case-section > p {
   margin: 0 0 var(--space-4);
   line-height: var(--body-line);
@@ -1266,6 +1329,10 @@ video.placeholder {
   font-weight: 700;
   text-transform: lowercase;
   letter-spacing: 0.01em;
+  /* offsets the scroll target so the sticky site-nav (and the case-toc
+     sidebar's own top offset) doesn't cover the heading when a case-toc
+     link jumps straight to it */
+  scroll-margin-top: 90px;
 }
 
 .case-subheading {
@@ -1276,6 +1343,7 @@ video.placeholder {
   margin: var(--space-5) 0 var(--space-3);
   text-transform: lowercase;
   letter-spacing: 0.04em;
+  scroll-margin-top: 90px;
 }
 
 .case-subheading:first-child {
@@ -2921,13 +2989,15 @@ video.placeholder {
   margin: 0;
   font-size: 22px;
   line-height: 1.25;
-  font-variation-settings: "wght" var(--wght-regular);
+  font-family: var(--font-display);
+  font-weight: 700;
 }
 
 .bubble-intro-hint {
   margin: var(--space-2) 0 0;
   font-size: 11px;
   font-style: italic;
+  font-family: var(--font-sans);
   color: var(--button-stroke);
 }
 
