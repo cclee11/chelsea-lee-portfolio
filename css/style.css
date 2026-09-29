@@ -338,10 +338,9 @@ main {
    a plain heading, so it doesn't read as a second big title */
 .page-subtitle {
   font-style: italic;
-  font-size: var(--subheader-size);
-  line-height: var(--subheader-line);
-  font-family: var(--font-display);
-  font-weight: 400;
+  font-family: var(--font-sans);
+  font-size: var(--body-size);
+  line-height: var(--body-line);
   color: var(--text);
   margin: 0 0 var(--space-5);
 }
@@ -590,14 +589,14 @@ video.placeholder {
 }
 
 .card-caption-title {
-  font-size: 18px;
+  font-size: 21px;
   font-family: var(--font-display);
   font-weight: 700;
   color: var(--ink);
 }
 
 .card-caption-desc {
-  font-size: 13px;
+  font-size: 15px;
   line-height: 1.5;
   /* fixed navy, not var(--text): this sits on the bubble's always-light
      accent-tint background, so it needs to stay legible in dark mode too
@@ -769,7 +768,7 @@ video.placeholder {
 }
 
 .project-card-title {
-  font-size: 13px;
+  font-size: 16px;
   text-transform: lowercase;
   letter-spacing: 0.03em;
   font-family: var(--font-display);
@@ -2618,7 +2617,8 @@ video.placeholder {
 }
 
 .site-title {
-  margin: var(--space-3) 0 var(--space-4);
+  /* pulled closer to the tagline below it than the old generous gap */
+  margin: var(--space-3) 0 var(--space-2);
   display: inline-flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -2637,7 +2637,7 @@ video.placeholder {
   /* big, lowercase display size for the hero title */
   font-size: 136px;
   line-height: 1;
-  font-style: italic;
+  font-style: normal;
   font-family: var(--font-display);
   font-weight: 400;
   /* lighter fill than the outline so the stroke actually reads as its own
