@@ -1258,7 +1258,10 @@ video.placeholder {
    kept in sync automatically by main.js from every .case-heading/
    .case-subheading on the page (so it never needs hand-maintaining here).
    Only shown once the viewport is wide enough that it fits in the margin
-   beside the (960px-max) case content without ever overlapping it. */
+   beside the (960px-max) case content without ever overlapping it. Stays
+   vertically centered in the viewport (not scroll-anchored), and a small
+   ring-logo marker (.case-toc-marker) sits in the left gutter, jumping to
+   whichever entry is current as main.js updates the active link. */
 
 .case-toc {
   display: none;
@@ -1269,10 +1272,12 @@ video.placeholder {
     display: block;
     position: fixed;
     left: 40px;
-    top: 140px;
-    width: 180px;
-    max-height: calc(100vh - 180px);
+    top: 50%;
+    transform: translateY(-50%);
+    width: 200px;
+    max-height: 80vh;
     overflow-y: auto;
+    padding-left: 24px;
     z-index: 40;
   }
 }
@@ -1303,6 +1308,20 @@ video.placeholder {
 .case-toc a.is-active {
   color: var(--ink);
   font-variation-settings: "wght" var(--wght-medium);
+}
+
+/* the ring-logo indicator that tracks the active entry. Positioned
+   relative to .case-toc's own (fixed) box, in the padding-left gutter
+   reserved above so it never overlaps the link text. main.js sets its
+   "top" to the vertical center of whichever <li> is current; the
+   transition is what makes it visibly "jump" between entries. */
+.case-toc-marker {
+  position: absolute;
+  left: 2px;
+  width: 14px;
+  height: 14px;
+  transition: top 0.3s ease;
+  pointer-events: none;
 }
 
 /* a .case-subheading entry nests slightly under its parent .case-heading

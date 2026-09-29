@@ -37,9 +37,12 @@
       changes. Assigns each heading a stable id (skipping any it already
       has), lists them all in a fixed sidebar (see .case-toc in
       style.css, hidden below 1440px so it can never overlap the page's
-      960px-max content column), and highlights whichever section is
-      currently in view via IntersectionObserver as the user scrolls.
-      Clicking a link uses the browser's native anchor scroll.
+      960px-max content column, and always vertically centered in the
+      viewport rather than anchored near the top), and highlights
+      whichever section is currently in view via IntersectionObserver as
+      the user scrolls. A small ring-logo marker sits in the sidebar's
+      left gutter and animates to whichever entry is current. Clicking a
+      link uses the browser's native anchor scroll.
 */
 
 (function () {
@@ -315,6 +318,17 @@
       caseToc.className = "case-toc";
       caseToc.setAttribute("aria-label", "Case study sections");
       caseToc.appendChild(tocList);
+
+      // small ring-logo marker that jumps to sit beside whichever entry
+      // is current; lives in the padding-left gutter set aside for it
+      // in .case-toc's CSS.
+      var tocMarker = document.createElement("img");
+      tocMarker.className = "case-toc-marker";
+      tocMarker.src = "../assets/logo-ring-left.png";
+      tocMarker.alt = "";
+      tocMarker.setAttribute("aria-hidden", "true");
+      caseToc.appendChild(tocMarker);
+
       document.body.appendChild(caseToc);
 
       var tocLinks = caseToc.querySelectorAll("a");
@@ -323,15 +337,35 @@
         linkByHeadingId[link.getAttribute("href").slice(1)] = link;
       });
 
+      var positionTocMarker = function (link) {
+        if (!link) {
+          return;
+        }
+        var li = link.parentElement;
+        var top = li.offsetTop + li.offsetHeight / 2 - tocMarker.offsetHeight / 2;
+        tocMarker.style.top = top + "px";
+      };
+
+      var activeLink = null;
+
       var setActiveHeading = function (id) {
         var target = linkByHeadingId[id];
         if (!target) {
           return;
         }
+        activeLink = target;
         tocLinks.forEach(function (link) {
           link.classList.toggle("is-active", link === target);
         });
+        positionTocMarker(target);
       };
+
+      // the list's layout can shift after fonts load or on resize;
+      // re-align the marker to whatever is current without changing
+      // which entry is active.
+      window.addEventListener("resize", function () {
+        positionTocMarker(activeLink);
+      });
 
       // the first heading is active by default (e.g. on load, before the
       // user has scrolled far enough for the observer below to fire)
