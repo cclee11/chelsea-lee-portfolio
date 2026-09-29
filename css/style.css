@@ -316,10 +316,10 @@ main {
   --content-max: 1320px;
 }
 
-/* wider stage for the More page too, so the UX tab's cards and the
-   Design tab's masonry grid both render noticeably bigger instead of
-   sharing the narrower default content width */
-.more-main {
+/* wider stage shared by any page whose grid should render bigger than
+   the narrower default content width (currently the More page's UX/
+   Design grids and the Fun page's photo collage) */
+.wide-main {
   --content-max: 1200px;
 }
 
