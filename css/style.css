@@ -9,7 +9,7 @@
   --button-stroke: #6194c0;
   --accent-warm: #fff6c3;
   --accent-tint: #e0f7ff;
-  --page-bg: #f5fafd;
+  --page-bg: #ffffff;
   /* text sitting directly on the page background; kept separate from
      --ink, which stays the fixed navy used for text on the colored bubble
      / pill surfaces, so those stay legible when night mode flips --text */
