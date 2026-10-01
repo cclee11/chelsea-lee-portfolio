@@ -630,24 +630,17 @@ video.placeholder {
   box-shadow: 0 8px 16px rgba(20, 62, 102, 0.16), 0 0 10px rgba(167, 212, 228, 0.35);
 }
 
-/* caption under each UX card: a centered, rounded "bubble" in the site's
-   light-blue tint, holding a bigger project title over a smaller
-   description line */
+/* caption under each UX card: plain text sitting directly on the page
+   background (no card/bubble surface) — title, then a row of little
+   tag pills, then the description line. Color comes from --text so it
+   stays legible against the page canvas in both themes without its own
+   background. */
 .card-caption-bubble {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: var(--space-1);
   margin-top: var(--space-3);
-  padding: var(--space-3) var(--space-4);
-  /* navy card, white-blue text in light mode; flips to a white-blue card
-     with navy text in dark mode (see the :root[data-theme="dark"] rules
-     below) — inverted from the old always-light accent-tint card */
-  background: var(--ink);
-  color: var(--accent-tint);
-  border: 1px solid var(--button-stroke);
-  border-radius: var(--radius-lg);
-  box-shadow: 0 0 14px rgba(167, 212, 228, 0.5);
   text-align: left;
 }
 
@@ -655,22 +648,14 @@ video.placeholder {
   font-size: 21px;
   font-family: var(--font-display);
   font-weight: 700;
-  color: var(--accent-tint);
+  color: var(--text);
 }
 
 .card-caption-desc {
   font-size: 15px;
   line-height: 1.5;
-  color: var(--accent-tint);
-}
-
-:root[data-theme="dark"] .card-caption-bubble {
-  background: var(--accent-tint);
-}
-
-:root[data-theme="dark"] .card-caption-title,
-:root[data-theme="dark"] .card-caption-desc {
-  color: var(--ink);
+  color: var(--text);
+  margin-top: var(--space-1);
 }
 
 /* wraps just the video/image tile (not the caption below it) so a
@@ -753,9 +738,6 @@ video.placeholder {
 .project-card {
   display: block;
   position: relative;
-  /* reserves room up top so the tilted bubble has space to sit without
-     getting clipped by the row above it */
-  padding-top: 36px;
 }
 
 /* the "more projects coming soon" tile isn't a link — turning off pointer
@@ -816,32 +798,16 @@ video.placeholder {
   animation-delay: 0.9s;
 }
 
+/* caption sitting below each homepage project tile — plain text on the
+   page background instead of the old overlaid navy bubble, so it reads
+   the same way the "more" cards' captions do (see .card-caption-bubble) */
 .project-card-bubble {
-  position: absolute;
-  /* sits at the top-left corner of the image rectangle; nudged right by
-     --space-2 so its rounded corner doesn't sit tangent to the card's own
-     rounded corner right at the same point */
-  top: 0;
-  left: var(--space-2);
-  z-index: 2;
-  max-width: 75%;
   display: flex;
   flex-direction: column;
-  gap: 2px;
-  /* navy card, white-blue text in light mode; flips to a white-blue card
-     with navy text in dark mode (see the :root[data-theme="dark"] rule
-     below) — inverted from the old always-light accent-tint card */
-  background: var(--ink);
-  color: var(--accent-tint);
-  border: 1px solid var(--button-stroke);
-  border-radius: var(--radius-lg);
-  padding: var(--space-3) var(--space-4);
-  box-shadow: 0 12px 22px rgba(20, 62, 102, 0.2), 0 0 14px rgba(167, 212, 228, 0.5);
-}
-
-:root[data-theme="dark"] .project-card-bubble {
-  background: var(--accent-tint);
-  color: var(--ink);
+  align-items: flex-start;
+  gap: var(--space-1);
+  margin-top: var(--space-3);
+  text-align: left;
 }
 
 .project-card-title {
@@ -850,11 +816,35 @@ video.placeholder {
   letter-spacing: 0.03em;
   font-family: var(--font-display);
   font-weight: 700;
+  color: var(--text);
 }
 
 .project-card-desc {
   font-size: 12px;
   line-height: 16px;
+  color: var(--text);
+}
+
+/* little tag pills shared by the homepage project captions and the
+   "more" page's UX captions — sit right under the title. A thin outline
+   in the site's muted blue with no fill of its own, so it stays legible
+   on the plain page background in both themes without needing its own
+   dark-mode override (color/border both come from theme-aware tokens). */
+.project-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+  margin-top: 2px;
+}
+
+.project-tag {
+  font-size: 11px;
+  line-height: 1;
+  text-transform: lowercase;
+  color: var(--text);
+  border: 1px solid var(--button-stroke);
+  border-radius: var(--radius-full);
+  padding: var(--space-1) var(--space-2);
 }
 
 /* small pill tucked in the bottom-right corner of the image, in a
@@ -904,9 +894,6 @@ video.placeholder {
     grid-template-columns: 1fr;
     max-width: 460px;
     gap: 48px;
-  }
-  .project-card-bubble {
-    max-width: 85%;
   }
 }
 
@@ -2923,10 +2910,10 @@ video.placeholder {
   --pupil-step: 5.49px;
   position: relative;
   display: inline-block;
-  /* bigger now that it sits beside the (now smaller) name instead of
-     stacked below the full title+tagline block */
-  width: 150px;
-  height: calc(150px * 342 / 776);
+  /* a little smaller than before, now that the caption above it reads as
+     its own speech-bubble mark instead of plain text sharing its space */
+  width: 124px;
+  height: calc(124px * 342 / 776);
   cursor: url("../assets/cursor-ring.png") 10 10, default;
   animation: eyes-bob 2.6s ease-in-out infinite;
 }
@@ -2966,11 +2953,57 @@ video.placeholder {
   100% { transform: translateX(var(--pupil-step)); }
 }
 
+/* "take a look around..." reads as a small speech bubble floating above
+   and to the right of the eyes mark, with a little triangular tail
+   pointing back down at it — thin white fill with a blue stroke, same
+   blue as the rest of the icon's own outline, so the two feel like one
+   character. Nested inside .eyes-icon in the markup (rather than sitting
+   beside it) and positioned absolutely against it, so the bubble always
+   anchors to the icon itself — not however tall .eyes-divider happens to
+   be, which varies on the secret page where the divider stretches to
+   fill the space below the back link. */
 .eyes-caption {
+  position: absolute;
+  top: -6px;
+  right: -22px;
+  transform: translateY(-100%);
+  z-index: 3;
   margin: 0;
+  max-width: 150px;
+  padding: 6px 14px;
+  background: #ffffff;
+  color: var(--ink);
+  border: 1.5px solid var(--button-stroke);
+  border-radius: var(--radius-full);
   font-size: 12px;
   font-style: italic;
-  color: var(--button-stroke);
+  line-height: 1.3;
+  white-space: nowrap;
+  box-shadow: 0 6px 14px rgba(20, 62, 102, 0.16);
+}
+
+/* the tail: a small square rotated into a diamond, straddling the
+   bubble's bottom edge near its left side (closer to the icon below) so
+   only its lower-left corner pokes out — the two bordered sides read as
+   a little triangle pointing down toward the eyes mark */
+.eyes-caption::after {
+  content: "";
+  position: absolute;
+  bottom: -6px;
+  left: 20px;
+  width: 11px;
+  height: 11px;
+  background: #ffffff;
+  border-right: 1.5px solid var(--button-stroke);
+  border-bottom: 1.5px solid var(--button-stroke);
+  transform: rotate(45deg);
+}
+
+/* the secret page reuses this same mark at nearly double the size (see
+   .secret-page .eyes-icon below), so its speech bubble is nudged out a
+   little further to keep sitting clear of the bigger icon */
+.secret-page .eyes-caption {
+  right: -30px;
 }
 
 /* -------------------------------------------------------- secret page
