@@ -293,6 +293,26 @@
       var openLightbox = function (img) {
         lightboxImg.src = img.getAttribute("src");
         lightboxImg.alt = img.getAttribute("alt") || "";
+
+        // Cap the enlarged image at its own native resolution (adjusted
+        // for the screen's device pixel ratio) on top of the usual
+        // 90vw/1100px/88vh caps below. Without this, a modest-resolution
+        // source file gets stretched past the point where it's sharp on
+        // a retina/HiDPI screen — that stretching, not the CSS or the
+        // lightbox logic, is what reads as "blurry". A source image with
+        // enough native resolution is unaffected and still fills out to
+        // the normal caps.
+        var dpr = window.devicePixelRatio || 1;
+        if (img.naturalWidth && img.naturalHeight) {
+          var capW = img.naturalWidth / dpr;
+          var capH = img.naturalHeight / dpr;
+          lightboxImg.style.maxWidth = "min(90vw, 1100px, " + capW + "px)";
+          lightboxImg.style.maxHeight = "min(88vh, " + capH + "px)";
+        } else {
+          lightboxImg.style.maxWidth = "";
+          lightboxImg.style.maxHeight = "";
+        }
+
         lightboxOverlay.classList.add("is-open");
       };
 
