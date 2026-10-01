@@ -680,7 +680,7 @@ img.fragment-card {
   flex-direction: column;
   align-items: flex-start;
   gap: var(--space-1);
-  margin-top: var(--space-3);
+  margin-top: var(--space-5);
   text-align: left;
 }
 
@@ -846,7 +846,7 @@ img.fragment-card {
   flex-direction: column;
   align-items: flex-start;
   gap: var(--space-1);
-  margin-top: var(--space-3);
+  margin-top: var(--space-5);
   text-align: left;
 }
 
@@ -884,7 +884,7 @@ img.fragment-card {
   color: var(--text);
   border: 1px solid var(--button-stroke);
   border-radius: var(--radius-full);
-  padding: var(--space-1) var(--space-2);
+  padding: var(--space-2) var(--space-3);
 }
 
 /* small pill tucked in the bottom-right corner of the image, in a
@@ -3004,8 +3004,8 @@ img.fragment-card {
    fill the space below the back link. */
 .eyes-caption {
   position: absolute;
-  top: -6px;
-  right: -22px;
+  top: -16px;
+  right: -32px;
   transform: translateY(-100%);
   z-index: 3;
   margin: 0;
@@ -3013,7 +3013,7 @@ img.fragment-card {
   padding: 6px 14px;
   background: #ffffff;
   color: var(--ink);
-  border: 1.5px solid var(--button-stroke);
+  border: 1px solid var(--button-stroke);
   border-radius: var(--radius-full);
   font-size: 12px;
   font-style: italic;
@@ -3034,8 +3034,8 @@ img.fragment-card {
   width: 11px;
   height: 11px;
   background: #ffffff;
-  border-right: 1.5px solid var(--button-stroke);
-  border-bottom: 1.5px solid var(--button-stroke);
+  border-right: 1px solid var(--button-stroke);
+  border-bottom: 1px solid var(--button-stroke);
   transform: rotate(45deg);
 }
 
@@ -3043,7 +3043,7 @@ img.fragment-card {
    .secret-page .eyes-icon below), so its speech bubble is nudged out a
    little further to keep sitting clear of the bigger icon */
 .secret-page .eyes-caption {
-  right: -30px;
+  right: -42px;
 }
 
 /* -------------------------------------------------------- secret page
