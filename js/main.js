@@ -54,6 +54,12 @@
       runs, on a plain in-site navigation — clicking the "projects" nav
       tab or the header logo back to the homepage — so it doesn't replay
       every time someone lands back on index.html).
+  10. Draggable fragment cards (fun.html only, see js/fragments.js): each
+      card in #fragmentsStage can be picked up and dropped anywhere,
+      reusing the same --tx/--ty/--rot transform vars every .placeholder
+      tile already understands (see style.css). A plain click (no real
+      pointer movement) still opens the image lightbox above instead of
+      counting as a drag.
 */
 
 (function () {
@@ -257,7 +263,7 @@
     // the Fun page (never a flip-tile's front/back faces, which keep
     // their own click-to-flip behavior).
     var lightboxImages = document.querySelectorAll(
-      ".grid-design > img.placeholder, .bw-spread-group img.placeholder, .photo-collage img.placeholder"
+      ".grid-design > img.placeholder, .bw-spread-group img.placeholder, .fragments-stage img.placeholder"
     );
 
     if (lightboxImages.length) {

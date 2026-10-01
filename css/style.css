@@ -585,32 +585,72 @@ video.placeholder {
   width: 100%;
 }
 
-/* Generic photo collage (currently used on the Fun page): a masonry-
-   style layout like the Design tab's, but not tied to .grid-2col, for
-   any set of images that should ignore the standard square placeholder
-   ratio and pack together with an even gap regardless of height. */
-.photo-collage {
-  display: block;
-  column-count: 3;
-  column-gap: var(--space-3);
+/* Fun page: a loose, hand-scattered stack of cards instead of a tidy
+   grid — each one rotated a few degrees (--rot, authored per card in the
+   HTML) and overlapping its neighbors via negative margins, so the whole
+   thing reads like a pile of photos dropped on a desk. Every card reuses
+   .placeholder's existing --tx/--ty/--rot transform (see that rule near
+   the top of the file) so js/fragments.js can drag one around just by
+   setting --tx/--ty directly, the same mechanism .placeholder:hover
+   already uses for its lift — the two never have to fight over the
+   transform property itself. */
+.fragments-stage {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: var(--space-4) var(--space-4) var(--space-5);
 }
 
-.photo-collage > * {
-  break-inside: avoid;
-  -webkit-column-break-inside: avoid;
-  width: 100%;
-  margin: 0 0 var(--space-3);
+/* "img.fragment-card" (tag + class), not just ".fragment-card": the
+   width here needs to out-specificity the shared "img.placeholder,
+   video.placeholder { width: 100% }" rule near the top of the file,
+   which would otherwise win the tie (same 0-1-1 specificity either way)
+   by source order and stretch every card to its row's full width. */
+img.fragment-card {
+  position: relative;
+  width: clamp(130px, 17vw, 220px);
+  margin: -14px -22px;
+  border: 1px solid var(--button-stroke);
+  box-shadow: 0 10px 22px rgba(20, 62, 102, 0.2);
+  cursor: grab;
+  touch-action: none;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
-@media (max-width: 900px) {
-  .photo-collage {
-    column-count: 2;
-  }
+/* a loose stagger so cards read as scattered rows rather than a strict
+   grid — four-item cycle, applied by position in the markup */
+.fragment-card:nth-child(4n+2) {
+  margin-top: 34px;
+}
+
+.fragment-card:nth-child(4n+3) {
+  margin-top: -18px;
+}
+
+.fragment-card:nth-child(4n) {
+  margin-top: 14px;
+}
+
+/* while a card is actively being dragged (see js/fragments.js): no
+   transition (so it tracks the pointer with zero lag), a stronger shadow
+   to read as "picked up", and a z-index high enough to clear every other
+   card regardless of source order — JS sets the exact value per pick-up.
+   Same specificity as .placeholder:hover, so it only wins because it's
+   declared later in this file. */
+.fragment-card.is-dragging {
+  cursor: grabbing;
+  transition: none;
+  box-shadow: 0 22px 36px rgba(20, 62, 102, 0.32);
 }
 
 @media (max-width: 640px) {
-  .photo-collage {
-    column-count: 1;
+  img.fragment-card {
+    width: clamp(120px, 38vw, 170px);
+    margin: -10px -16px;
   }
 }
 
@@ -3294,10 +3334,12 @@ video.placeholder {
 }
 
 /* signal the new click-to-enlarge behavior on the images it applies to,
-   in place of the site's usual custom ring cursor */
+   in place of the site's usual custom ring cursor. The fun page's
+   fragment cards opt out of this — they get their own grab/grabbing
+   cursor instead (see .fragment-card), since dragging is their primary
+   affordance and a plain click still opens the same lightbox underneath. */
 .grid-design > img.placeholder,
-.bw-spread-group img.placeholder,
-.photo-collage img.placeholder {
+.bw-spread-group img.placeholder {
   cursor: zoom-in;
 }
 
