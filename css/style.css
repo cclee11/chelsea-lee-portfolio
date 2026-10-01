@@ -680,7 +680,7 @@ img.fragment-card {
   flex-direction: column;
   align-items: flex-start;
   gap: var(--space-1);
-  margin-top: var(--space-5);
+  margin-top: var(--space-3);
   text-align: left;
 }
 
@@ -769,8 +769,9 @@ img.fragment-card {
 .projects-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  /* closer together than before */
-  gap: 12px 24px;
+  /* row-gap widened so the first row's tags sit clear of the second
+     row's images; column-gap unchanged */
+  gap: 48px 24px;
   max-width: 1272px;
   margin: 0 auto;
 }
@@ -787,6 +788,13 @@ img.fragment-card {
 .project-card-static {
   pointer-events: none;
   cursor: default;
+  /* this card has no caption/tags below its image like its siblings do,
+     so left to the grid default (stretch) it would stretch taller to
+     fill the row — which also stretches its img.placeholder's height:
+     100% past the image's real 3:2 ratio. align-self: start keeps it
+     sized by its own image alone, matching the other cards' image
+     height exactly. */
+  align-self: start;
 }
 
 .project-card-image {
@@ -846,7 +854,7 @@ img.fragment-card {
   flex-direction: column;
   align-items: flex-start;
   gap: var(--space-1);
-  margin-top: var(--space-5);
+  margin-top: var(--space-3);
   text-align: left;
 }
 
