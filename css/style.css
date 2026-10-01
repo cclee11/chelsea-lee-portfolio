@@ -3285,7 +3285,10 @@ img.fragment-card {
    main content. Native overflow scrolling (not JS) — on a trackpad or a
    touch screen it just works, and a mouse-only visitor can still drag the
    native scrollbar. Each photo reuses .placeholder for the same rounded
-   corners + hover lift as every other image on the site. */
+   corners as every other image on the site, but the lift/shadow hover
+   (see .placeholder:hover) is switched off just here — these are plain
+   snapshots, not clickable project tiles, so that hover affordance would
+   be misleading. */
 .recently-heading {
   font-size: 13px;
   color: var(--ink);
@@ -3297,10 +3300,13 @@ img.fragment-card {
   display: flex;
   gap: var(--space-4);
   overflow-x: auto;
-  /* bit of bottom padding so the hover-lift shadow on each photo (see
-     .placeholder:hover) doesn't get clipped by the scroll container */
   padding: var(--space-1) var(--space-1) var(--space-3);
   -webkit-overflow-scrolling: touch;
+}
+
+.recently-photo .placeholder:hover {
+  --ty: 0px;
+  box-shadow: none;
 }
 
 .recently-item {
