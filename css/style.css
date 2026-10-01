@@ -1104,7 +1104,10 @@ img.fragment-card {
 
 .subnav-tab.is-active {
   background: var(--accent-warm);
-  font-variation-settings: "wght" var(--wght-medium);
+  /* no weight change here on purpose — switching tabs used to also jump
+     the label to a heavier weight, which read as the text going bold.
+     Keeping the same --wght-light as the inactive state means only the
+     background pill moves, not the letterforms. */
 }
 
 /* ------------------------------------------------------------ sub-pages */
