@@ -2895,10 +2895,6 @@ img.fragment-card {
      legible only by its outline); dark mode restores the old pale-yellow
      fill just below */
   color: var(--ink);
-  /* thinner outline than the old 3px, so the letterforms read lighter
-     overall even though roca itself only ships in two static weights */
-  -webkit-text-stroke: 1.5px var(--button-stroke);
-  paint-order: stroke fill;
 }
 
 /* the soft glow behind the letters is a dark-mode-only effect now — it
@@ -2943,18 +2939,22 @@ img.fragment-card {
 }
 
 /* ------------------------------------------------- eyes-looking divider
-   Sits between the hero card and the project grid. Built as two stacked
-   layers so only the pupils move, never the rings/character: .eyes-base
-   is the mark with the pupils (fill + their own outline stroke) erased to
-   a plain disc, and .eyes-pupils is a transparent-everywhere-but-the-
-   pupils overlay — stroke included, so the outline travels with the fill
-   instead of being left behind — that slides left/right on hover, using
-   the exact left/center/right positions from the source artwork so the
-   pupils never clip outside their sockets. .eyes-pupils is drawn at the
-   "look left" position, so 0 / 1 / 2 step-units of --pupil-step land on
-   left / center / right respectively; resting state sits at 1 step
-   (center). The whole icon also has a gentle idle bob running all the
-   time, hover or not. */
+   Sits between the hero card and the project grid. The home page (see
+   .eyes-icon-animated below) plays the same looping clip as the loading
+   screen (#loading-screen's video, assets/loading-logo), so the eyes
+   glance side to side on their own — no hover required. The secret page
+   still uses the original hover-triggered version just below: built as
+   two stacked layers so only the pupils move, never the rings/character:
+   .eyes-base is the mark with the pupils (fill + their own outline
+   stroke) erased to a plain disc, and .eyes-pupils is a transparent-
+   everywhere-but-the-pupils overlay — stroke included, so the outline
+   travels with the fill instead of being left behind — that slides
+   left/right on hover, using the exact left/center/right positions from
+   the source artwork so the pupils never clip outside their sockets.
+   .eyes-pupils is drawn at the "look left" position, so 0 / 1 / 2
+   step-units of --pupil-step land on left / center / right respectively;
+   resting state sits at 1 step (center). The whole icon also has a
+   gentle idle bob running all the time, hover or not. */
 
 .eyes-divider {
   display: flex;
@@ -2980,6 +2980,20 @@ img.fragment-card {
   height: calc(124px * 342 / 776);
   cursor: url("../assets/cursor-ring.png") 10 10, default;
   animation: eyes-bob 2.6s ease-in-out infinite;
+}
+
+/* the home page's mark: same box, but sized for the wider loading-logo
+   video (rings + walking character) instead of the close-cropped eyes-
+   only artwork, so it isn't squashed */
+.eyes-icon-animated {
+  height: calc(124px * 488 / 944);
+}
+
+.eyes-video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 .eyes-base,
