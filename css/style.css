@@ -1200,25 +1200,26 @@ img.fragment-card {
   /* matches .site-nav a's weight so the More page's own tabs read as the
      same "weight" of navigation as the primary nav above them */
   font-variation-settings: "wght" var(--wght-regular);
-  color: var(--accent-warm);
-  background: var(--background);
-  border: 1px solid transparent;
+  /* same treatment as .site-nav a: plain blue text with no pill behind
+     it when inactive, filled blue pill with yellow text on hover/active.
+     border: none (rather than the old 1px solid transparent) clears the
+     browser's default button border, since .subnav-tab is a <button>,
+     not a link like .site-nav a. */
+  color: var(--background);
+  background: none;
+  border: none;
   border-radius: var(--radius-full);
   padding: var(--space-1) var(--space-3);
-  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  transition: background 0.2s ease, color 0.2s ease;
   /* same convention as .site-nav a: the HTML keeps readable casing
      ("UI/UX", "Design") for accessibility, lowercased visually here */
   text-transform: lowercase;
 }
 
-.subnav-tab:hover {
-  background: var(--accent-warm);
-  color: var(--background);
-}
-
+.subnav-tab:hover,
 .subnav-tab.is-active {
-  background: var(--accent-warm);
-  color: var(--background);
+  background: var(--background);
+  color: var(--accent-warm);
   /* no weight change here on purpose — switching tabs used to also jump
      the label to a heavier weight, which read as the text going bold.
      Keeping the same --wght-light as the inactive state means only the
