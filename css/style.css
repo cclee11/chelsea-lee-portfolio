@@ -126,8 +126,6 @@ body {
   font-size: var(--body-size);
   line-height: var(--body-line);
   color: var(--text);
-  /* flat, literal page color — no grain/texture overlay, so light mode
-     reads as true white instead of a slightly dulled off-white haze */
   background-color: var(--page-bg);
   -webkit-font-smoothing: antialiased;
   transition: background-color 0.25s ease, color 0.25s ease;
@@ -148,6 +146,25 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+}
+
+/* a faint grain texture over the whole site, fixed to the viewport so it
+   doesn't scroll or tile-shift with the page beneath it. Kept subtle (low
+   opacity + "overlay" blend) and non-interactive (pointer-events: none)
+   so it reads as paper texture rather than dulling light mode toward
+   gray or muddying dark mode — the thing the old, heavier version of
+   this did, which is why it was removed before. Pure CSS (an inline SVG
+   feTurbulence filter as a data URI), so it works identically on every
+   page without needing a markup change or an image asset. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  pointer-events: none;
+  opacity: 0.035;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
 a,
@@ -258,8 +275,8 @@ mark {
   flex-wrap: wrap;
   gap: var(--space-3);
   padding: var(--space-3) 0;
-  border-top: 1px dotted var(--background);
-  border-bottom: 1px dotted var(--background);
+  border-top: 2px dotted var(--background);
+  border-bottom: 2px dotted var(--background);
   position: sticky;
   top: 0;
   z-index: 100;
@@ -400,6 +417,7 @@ main {
 .case-main .page-title {
   font-family: var(--font-serif);
   font-weight: 400;
+  letter-spacing: -0.005em;
 }
 
 /* subtitle sitting directly under a bare page title (currently the Fun
@@ -454,6 +472,14 @@ main {
 /* the opening, slightly whimsical sign-off line, now the lead element
    of the footer's left column instead of trailing under the connect
    links on the right */
+/* a small yellow dotted accent under a specific word/phrase — used under
+   "Chelsea" in the hero title and under "chai lattes" / "snoozing" in
+   the footer signoff */
+.underline-accent {
+  border-bottom: 2px dotted var(--accent-warm);
+  padding-bottom: 2px;
+}
+
 .footer-signoff {
   margin: 0;
   font-family: var(--font-serif);
@@ -651,7 +677,7 @@ img.fragment-card {
   position: relative;
   width: clamp(130px, 17vw, 220px);
   margin: -14px -22px;
-  border: 1px dotted var(--button-stroke);
+  border: 2px dotted var(--button-stroke);
   box-shadow: 0 10px 22px rgba(58, 58, 58, 0.2);
   cursor: grab;
   touch-action: none;
@@ -839,7 +865,7 @@ img.fragment-card {
   aspect-ratio: 3 / 2;
   /* permanent blue stroke, not just a hover-triggered one — a small
      dotted line rather than a solid rule */
-  border: 1px dotted var(--background);
+  border: 2px dotted var(--background);
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
@@ -929,7 +955,7 @@ img.fragment-card {
   line-height: 1;
   text-transform: lowercase;
   color: var(--text);
-  border: 1px dotted var(--button-stroke);
+  border: 2px dotted var(--button-stroke);
   border-radius: var(--radius-full);
   padding: var(--space-2) var(--space-3);
 }
@@ -1135,7 +1161,9 @@ img.fragment-card {
 .subnav-tab {
   font-family: inherit;
   font-size: 13px;
-  font-variation-settings: "wght" var(--wght-light);
+  /* matches .site-nav a's weight so the More page's own tabs read as the
+     same "weight" of navigation as the primary nav above them */
+  font-variation-settings: "wght" var(--wght-regular);
   color: var(--accent-warm);
   background: var(--background);
   border: 1px solid transparent;
@@ -1355,7 +1383,7 @@ img.fragment-card {
   flex-direction: column;
   gap: 4px;
   padding-bottom: var(--space-2);
-  border-bottom: 1px dotted var(--background);
+  border-bottom: 2px dotted var(--background);
 }
 
 .case-meta-item .meta-label {
@@ -1564,6 +1592,7 @@ img.fragment-card {
   font-family: var(--font-display);
   font-weight: 700;
   font-style: italic;
+  letter-spacing: -0.01em;
   letter-spacing: 0.01em;
   /* offsets the scroll target so the sticky site-nav (and the case-toc
      sidebar's own top offset) doesn't cover the heading when a case-toc
@@ -1580,7 +1609,7 @@ img.fragment-card {
   font-weight: 700;
   font-style: italic;
   margin: var(--space-5) 0 var(--space-3);
-  letter-spacing: 0.04em;
+  letter-spacing: 0.02em;
   scroll-margin-top: 90px;
 }
 
@@ -1621,7 +1650,7 @@ img.fragment-card {
 .case-note {
   background: #ffffff;
   color: var(--ink);
-  border: 1px dotted var(--background);
+  border: 2px dotted var(--background);
   border-radius: var(--radius-lg);
   padding: var(--space-4);
   font-size: var(--body-size);
@@ -1672,7 +1701,7 @@ img.fragment-card {
 .response-card {
   background: #ffffff;
   color: var(--ink);
-  border: 1px dotted var(--background);
+  border: 2px dotted var(--background);
   border-radius: var(--radius-lg);
   padding: var(--space-4);
   font-size: var(--body-size);
@@ -1902,13 +1931,23 @@ img.fragment-card {
 
 .persona-card {
   background: #ffffff;
-  border: 1px dotted var(--background);
+  border: 2px dotted var(--background);
   border-radius: var(--radius-lg);
   padding: 28px;
 }
 
 :root[data-theme="dark"] .persona-card {
   background: var(--page-bg);
+}
+
+/* .persona-name / .persona-blurb / .persona-col ul all read literal
+   --ink, which is the same value as --page-bg in dark mode — without
+   this override that text goes fully invisible once the card's
+   background flips to match the page above */
+:root[data-theme="dark"] .persona-name,
+:root[data-theme="dark"] .persona-blurb,
+:root[data-theme="dark"] .persona-col ul {
+  color: var(--off-white);
 }
 
 .persona-head {
@@ -2058,7 +2097,7 @@ img.fragment-card {
 .opportunity-card {
   background: #ffffff;
   color: var(--ink);
-  border: 1px dotted var(--background);
+  border: 2px dotted var(--background);
   border-radius: var(--radius-md);
   padding: var(--space-4);
 }
@@ -2132,7 +2171,7 @@ img.fragment-card {
 .mockup-caption-card {
   background: #ffffff;
   color: var(--ink);
-  border: 1px dotted var(--background);
+  border: 2px dotted var(--background);
   border-radius: var(--radius-md);
   padding: var(--space-3);
 }
@@ -2399,7 +2438,7 @@ img.fragment-card {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  border: 1px dotted var(--button-stroke);
+  border: 2px dotted var(--button-stroke);
   background-color: var(--page-bg);
   background-image: url("../assets/cursor-ring.png");
   background-repeat: no-repeat;
@@ -2832,7 +2871,7 @@ img.fragment-card {
 .audit-callout {
   background: #ffffff;
   color: var(--ink);
-  border: 1px dotted var(--background);
+  border: 2px dotted var(--background);
   border-radius: var(--radius-md);
   padding: var(--space-3) var(--space-4);
   margin: var(--space-4) 0 0;
@@ -2923,7 +2962,7 @@ img.fragment-card {
   gap: var(--space-4);
   margin: var(--space-5) 0 0;
   padding-top: var(--space-4);
-  border-top: 1px dotted var(--background);
+  border-top: 2px dotted var(--background);
 }
 
 .project-nav a {
@@ -3395,21 +3434,20 @@ img.fragment-card {
 }
 
 /* the plain text cards (bio / quote / hobbies): white fill with a blue
-   stroke and blue text in light mode; dark mode flips to a solid blue
-   fill with white text and no stroke — see the dark-mode overrides just
-   below .bubble-hobbies. Both themes get a slight drop shadow. */
+   stroke and blue text in light mode; dark mode flips to the page's own
+   dark background with white text, keeping the same blue dotted stroke
+   (see the dark-mode overrides just below .bubble-hobbies) — no drop
+   shadow in either theme, per the About page's flatter, shadow-free look. */
 .bubble-bio {
   background: #ffffff;
   color: var(--background);
-  border: 1px dotted var(--background);
-  box-shadow: 0 6px 14px rgba(58, 58, 58, 0.14);
+  border: 2px dotted var(--background);
 }
 
 .bubble-quote {
   background: #ffffff;
   color: var(--background);
-  border: 1px dotted var(--background);
-  box-shadow: 0 6px 14px rgba(58, 58, 58, 0.14);
+  border: 2px dotted var(--background);
 }
 
 .bubble-fact {
@@ -3483,28 +3521,21 @@ img.fragment-card {
 .bubble-hobbies {
   background: #ffffff;
   color: var(--background);
-  border: 1px dotted var(--background);
-  box-shadow: 0 6px 14px rgba(58, 58, 58, 0.14);
+  border: 2px dotted var(--background);
 }
 
-/* dark mode: the text cards swap to a solid blue fill with white text and
-   no stroke (kept as a transparent border, same width, so the card's
-   dimensions don't shift when the theme toggles) */
+/* dark mode: the text cards swap to the page's own dark background with
+   white text, keeping the blue dotted stroke instead of going transparent */
 :root[data-theme="dark"] .bubble-bio,
 :root[data-theme="dark"] .bubble-quote,
 :root[data-theme="dark"] .bubble-hobbies {
-  background: var(--background);
-  border: 1px dotted transparent;
+  background: var(--page-bg);
+  border: 2px dotted var(--background);
   color: #ffffff;
-  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.3);
 }
 
 .tilt-hover {
-  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
-}
-
-.tilt-hover:hover {
-  box-shadow: 0 18px 30px rgba(58, 58, 58, 0.22);
+  transition: transform 0.25s ease, background 0.25s ease;
 }
 
 .tilt-left:hover {
@@ -3525,11 +3556,23 @@ img.fragment-card {
    snapshots, not clickable project tiles, so that hover affordance would
    be misleading. */
 .recently-heading {
-  font-size: 28px;
+  font-size: 22px;
   font-family: var(--font-serif);
   color: var(--background);
   font-variation-settings: "wght" var(--wght-medium);
-  margin: 0 0 var(--space-3);
+  margin: 0;
+  /* a thin dotted rule above it to separate the "recently..." strip from
+     the bio/photo content above, instead of relying on margin alone */
+  border-top: 2px dotted var(--background);
+  padding-top: var(--space-4);
+}
+
+.recently-section {
+  margin-top: var(--space-4);
+}
+
+.recently-heading + .recently-scroll {
+  margin-top: var(--space-3);
 }
 
 .recently-scroll {
@@ -3670,7 +3713,7 @@ img.fragment-card {
   height: 48px;
   padding: 0;
   border-radius: 50%;
-  border: 1px dotted var(--button-stroke);
+  border: 2px dotted var(--button-stroke);
   background-color: var(--page-bg);
   background-image: url("../assets/cursor-ring.png");
   background-repeat: no-repeat;
