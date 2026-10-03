@@ -404,14 +404,18 @@ main {
 
 /* -------------------------------------------------------------- footer */
 
+/* full-bleed blue band, framed by a dashed top/bottom edge, with its own
+   inner max-width wrapper (.footer-inner) so the content still lines up
+   with the rest of the page's content column */
 .site-footer {
-  /* since body became a flex column (for the sticky-footer layout), this
-     element's own auto side-margins would otherwise make it shrink to
-     fit its content instead of stretching to fill/center within
-     --content-max, which is what bunched footer-left and .connect-links
-     together in the middle instead of spreading to opposite edges */
   width: 100%;
   flex-shrink: 0;
+  background: var(--background);
+  border-top: 1px dashed var(--accent-warm);
+  border-bottom: 1px dashed var(--accent-warm);
+}
+
+.footer-inner {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
@@ -419,11 +423,10 @@ main {
   gap: var(--space-4) var(--space-5);
   max-width: var(--content-max);
   margin: 0 auto;
-  padding: var(--space-4) clamp(24px, 5vw, 64px);
-  border-top: 1px solid var(--background);
+  padding: var(--space-5) clamp(24px, 5vw, 64px);
 }
 
-/* left side of the footer: the whimsical sign-off line (serif, blue,
+/* left side of the footer: the whimsical sign-off line (serif, yellow,
    the biggest text in the footer) sits above the small copyright line,
    both left-aligned against the footer's own left edge */
 .footer-left {
@@ -442,14 +445,14 @@ main {
   /* bigger than .footer-label's 22px so this reads as the footer's
      lead line */
   font-size: 24px;
-  color: var(--background);
+  color: var(--accent-warm);
 }
 
 .footer-credits {
   margin: 0;
   text-align: left;
   font-size: 12px;
-  color: var(--button-stroke);
+  color: var(--off-white);
 }
 
 /* right side of the footer: "Let's connect!" heading (serif) sits above
@@ -467,7 +470,7 @@ main {
   font-family: var(--font-serif);
   font-size: 22px;
   font-style: italic;
-  color: var(--background);
+  color: var(--accent-warm);
 }
 
 .connect-links {
@@ -478,14 +481,14 @@ main {
 }
 
 .connect-link {
-  color: var(--text);
+  color: var(--off-white);
   font-size: var(--body-size);
   transition: color 0.2s ease;
   text-transform: lowercase;
 }
 
 .connect-link:hover {
-  color: var(--button-stroke);
+  color: var(--accent-warm);
 }
 
 /* ---------------------------------------------------- placeholder tiles
