@@ -399,7 +399,7 @@
       // in .case-toc's CSS.
       var tocMarker = document.createElement("img");
       tocMarker.className = "case-toc-marker";
-      tocMarker.src = "../assets/logo-ring-left.png";
+      tocMarker.src = "../assets/cursor-ring.png";
       tocMarker.alt = "";
       tocMarker.setAttribute("aria-hidden", "true");
       caseToc.appendChild(tocMarker);

@@ -14,7 +14,10 @@
   --button-stroke: #afafaf;
   --accent-warm: #fff6c3;
   --off-white: #f3f3f3;
-  --page-bg: var(--off-white);
+  /* the light-mode canvas is plain white, kept separate from --off-white
+     (still used for meta pills, note cards, and dark-mode text) so this
+     one value can be pure white without touching those other roles */
+  --page-bg: #ffffff;
   /* text sitting directly on the page background; its own gray, distinct
      from both --ink (headers) and --button-stroke (borders/strokes), kept
      separate so night mode can flip just this one without touching the
@@ -40,7 +43,7 @@
   /* used sparingly for a couple of warm, handwritten-feeling footer lines
      (see .footer-label / .footer-signoff) — a system serif stack, no new
      webfont to load */
-  --font-serif: Georgia, "Iowan Old Style", "Palatino Linotype", "Book Antiqua", serif;
+  --font-serif: "gelica", Georgia, "Iowan Old Style", "Palatino Linotype", "Book Antiqua", serif;
   --wght-light: 300;
   --wght-regular: 400;
   --wght-medium: 500;
@@ -66,13 +69,13 @@
   --text: var(--off-white);
 }
 
-/* every page title and section header switches to the palette's dark-mode
-   "headers" color (the warm yellow) instead of the paler --text value, so
-   titles read as a distinct, branded accent instead of blending toward
-   white against the dark canvas */
-:root[data-theme="dark"] .page-title,
-:root[data-theme="dark"] .case-heading,
-:root[data-theme="dark"] .case-subheading {
+/* the page title switches to the palette's dark-mode "headers" color (the
+   warm yellow) instead of the paler --text value, so it reads as a
+   distinct, branded accent instead of blending toward white against the
+   dark canvas. Case-study headings stay their own fixed blue in both
+   themes (see .case-heading / .case-subheading) instead of picking up
+   this yellow swap. */
+:root[data-theme="dark"] .page-title {
   color: var(--accent-warm);
 }
 
@@ -120,7 +123,7 @@
 :root[data-theme="dark"] .flip-tile-back mark,
 :root[data-theme="dark"] .project-card-bubble mark {
   background: var(--accent-warm);
-  color: var(--ink);
+  color: var(--background);
 }
 
 * {
@@ -193,7 +196,7 @@ img {
    the home page */
 mark {
   background: var(--accent-warm);
-  color: var(--ink);
+  color: var(--background);
   padding: 0 3px;
   border-radius: var(--radius-sm);
   font-variation-settings: "wght" var(--wght-medium);
@@ -261,7 +264,7 @@ mark {
      navigation rather than body-copy-sized buttons */
   font-size: 13px;
   font-variation-settings: "wght" var(--wght-light);
-  color: var(--ink);
+  color: var(--accent-warm);
   background: var(--background);
   letter-spacing: 0.02em;
   padding: var(--space-1) var(--space-3);
@@ -273,12 +276,12 @@ mark {
 
 .site-nav a:hover {
   background: var(--accent-warm);
-  color: var(--ink);
+  color: var(--background);
 }
 
 .site-nav a.active {
   background: var(--accent-warm);
-  color: var(--ink);
+  color: var(--background);
 }
 
 /* ------------------------------------------------------------ loading screen
@@ -423,10 +426,26 @@ main {
   border-top: 1px solid var(--background);
 }
 
+/* left side of the footer: the whimsical sign-off line (serif, blue,
+   the biggest text in the footer) sits above the small copyright line,
+   both left-aligned against the footer's own left edge */
 .footer-left {
   display: flex;
   flex-direction: column;
   gap: var(--space-1);
+}
+
+/* the opening, slightly whimsical sign-off line, now the lead element
+   of the footer's left column instead of trailing under the connect
+   links on the right */
+.footer-signoff {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-style: italic;
+  /* bigger than .footer-label's 22px so this reads as the footer's
+     lead line */
+  font-size: 24px;
+  color: var(--background);
 }
 
 .footer-credits {
@@ -436,9 +455,8 @@ main {
   color: var(--button-stroke);
 }
 
-/* right side of the footer: "Let's connect!" heading (serif, larger) sits
-   above the link row, with the serif sign-off line below it — the whole
-   column right-aligned against the footer's own right edge */
+/* right side of the footer: "Let's connect!" heading (serif) sits above
+   the link row, right-aligned against the footer's own right edge */
 .footer-right {
   display: flex;
   flex-direction: column;
@@ -452,7 +470,7 @@ main {
   font-family: var(--font-serif);
   font-size: 22px;
   font-style: italic;
-  color: var(--text);
+  color: var(--background);
 }
 
 .connect-links {
@@ -467,15 +485,6 @@ main {
   font-size: var(--body-size);
   transition: color 0.2s ease;
   text-transform: lowercase;
-}
-
-/* the closing, slightly whimsical sign-off line under the links */
-.footer-signoff {
-  margin: 0;
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-size: 13px;
-  color: var(--button-stroke);
 }
 
 .connect-link:hover {
@@ -680,7 +689,7 @@ img.fragment-card {
 
 .grid-design .flip-tile:hover .project-card-image,
 .grid-design .flip-tile:focus-visible .project-card-image {
-  box-shadow: 0 8px 16px rgba(58, 58, 58, 0.16), 0 0 10px rgba(114, 196, 255, 0.35);
+  box-shadow: 0 8px 16px rgba(58, 58, 58, 0.16);
 }
 
 /* caption under each UX card: plain text sitting directly on the page
@@ -734,8 +743,7 @@ img.fragment-card {
    rule but triggered off .placeholder-link instead of .project-card */
 .placeholder-link:hover .project-card-image,
 .placeholder-link:focus-visible .project-card-image {
-  border-color: var(--background);
-  box-shadow: 0 18px 30px rgba(58, 58, 58, 0.22), 0 0 16px rgba(114, 196, 255, 0.5);
+  box-shadow: 0 18px 30px rgba(58, 58, 58, 0.22);
 }
 
 /* UX cards only: drop the lift + elevated drop-shadow ("pop out") that
@@ -743,12 +751,6 @@ img.fragment-card {
    resting ambient glow so hover still reads as an affordance */
 .grid-2col-cards .placeholder:hover {
   --ty: 0px;
-}
-
-.grid-2col-cards .placeholder-link:hover .project-card-image,
-.grid-2col-cards .placeholder-link:focus-visible .project-card-image {
-  border-color: var(--background);
-  box-shadow: 0 0 16px rgba(114, 196, 255, 0.5);
 }
 
 /* fun page: three smaller squares per row, packed closer together than
@@ -819,20 +821,14 @@ img.fragment-card {
 .project-card-image {
   width: 100%;
   aspect-ratio: 3 / 2;
-  /* transparent border reserves the space now so the hover stroke below
-     doesn't shift the layout when its color appears */
-  border: 2px solid transparent;
-  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
-  /* slight ambient glow at rest, echoing the hero title's light-blue glow */
-  box-shadow: 0 0 16px rgba(114, 196, 255, 0.5);
+  /* permanent blue stroke, not just a hover-triggered one */
+  border: 2px solid var(--background);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .project-card:hover .project-card-image,
 .project-card:focus-visible .project-card-image {
-  border-color: var(--background);
-  /* layer the lift shadow .placeholder:hover already adds on top of the
-     resting glow instead of replacing it */
-  box-shadow: 0 18px 30px rgba(58, 58, 58, 0.22), 0 0 16px rgba(114, 196, 255, 0.5);
+  box-shadow: 0 18px 30px rgba(58, 58, 58, 0.22);
 }
 
 /* light-blue fill for the "more projects coming soon" tile, instead of the
@@ -1026,7 +1022,7 @@ img.fragment-card {
 
 .flip-tile-back {
   background: var(--background);
-  color: var(--ink);
+  color: var(--accent-warm);
   font-style: italic;
   font-size: 14px;
   line-height: 20px;
@@ -1096,8 +1092,7 @@ img.fragment-card {
    since this one isn't wrapped in a .project-card or .placeholder-link */
 .flip-tile:hover .project-card-image,
 .flip-tile:focus-visible .project-card-image {
-  border-color: var(--background);
-  box-shadow: 0 18px 30px rgba(58, 58, 58, 0.22), 0 0 16px rgba(114, 196, 255, 0.5);
+  box-shadow: 0 18px 30px rgba(58, 58, 58, 0.22);
 }
 
 /* --------------------------------------------------------------- subnav
@@ -1124,7 +1119,7 @@ img.fragment-card {
   font-family: inherit;
   font-size: 13px;
   font-variation-settings: "wght" var(--wght-light);
-  color: var(--ink);
+  color: var(--accent-warm);
   background: var(--background);
   border: 1px solid transparent;
   border-radius: var(--radius-full);
@@ -1137,10 +1132,12 @@ img.fragment-card {
 
 .subnav-tab:hover {
   background: var(--accent-warm);
+  color: var(--background);
 }
 
 .subnav-tab.is-active {
   background: var(--accent-warm);
+  color: var(--background);
   /* no weight change here on purpose — switching tabs used to also jump
      the label to a heavier weight, which read as the text going bold.
      Keeping the same --wght-light as the inactive state means only the
@@ -1242,7 +1239,7 @@ img.fragment-card {
 
 .bubble-note {
   background: var(--accent-warm);
-  color: var(--button-stroke);
+  color: var(--background);
 }
 
 @media (max-width: 640px) {
@@ -1365,7 +1362,7 @@ img.fragment-card {
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: var(--ink);
+  color: var(--accent-warm);
   font-variation-settings: "wght" var(--wght-medium);
 }
 
@@ -1387,6 +1384,7 @@ img.fragment-card {
 
 .case-jumpnav a:hover {
   background: var(--accent-warm);
+  color: var(--background);
 }
 
 .case-section {
@@ -1482,13 +1480,15 @@ img.fragment-card {
 /* big, centered section heading */
 .case-heading {
   margin: 0 0 var(--space-5);
-  font-size: 32px;
+  /* bumped up from 32px now that the heading is a branded blue accent
+     rather than plain ink text */
+  font-size: 38px;
   line-height: 1.25;
   text-align: left;
-  color: var(--ink);
+  color: var(--background);
   font-family: var(--font-display);
   font-weight: 700;
-  text-transform: lowercase;
+  font-style: italic;
   letter-spacing: 0.01em;
   /* offsets the scroll target so the sticky site-nav (and the case-toc
      sidebar's own top offset) doesn't cover the heading when a case-toc
@@ -1497,12 +1497,14 @@ img.fragment-card {
 }
 
 .case-subheading {
-  font-size: var(--body-size);
-  color: var(--ink);
+  /* bumped up from --body-size now that this is a branded blue accent
+     rather than plain ink text */
+  font-size: 20px;
+  color: var(--background);
   font-family: var(--font-display);
   font-weight: 700;
+  font-style: italic;
   margin: var(--space-5) 0 var(--space-3);
-  text-transform: lowercase;
   letter-spacing: 0.04em;
   scroll-margin-top: 90px;
 }
@@ -1897,7 +1899,7 @@ img.fragment-card {
 
 .pain-card {
   background: var(--accent-warm);
-  color: var(--ink);
+  color: var(--background);
   border-radius: var(--radius-lg);
   padding: var(--space-3);
   text-align: center;
@@ -2132,6 +2134,7 @@ img.fragment-card {
 .prototype-cta:hover,
 .prototype-cta:focus-visible {
   background: var(--accent-warm);
+  color: var(--background);
   transform: translateY(-2px);
 }
 
@@ -2263,7 +2266,7 @@ img.fragment-card {
   border-radius: 50%;
   border: 1px solid var(--button-stroke);
   background-color: var(--page-bg);
-  background-image: url("../assets/logo-ring-left.png");
+  background-image: url("../assets/cursor-ring.png");
   background-repeat: no-repeat;
   background-position: center;
   background-size: 64%;
@@ -2766,6 +2769,7 @@ img.fragment-card {
 
 .back-to-top:hover {
   background: var(--accent-warm);
+  color: var(--background);
   transform: translateY(-2px);
 }
 
@@ -3126,9 +3130,8 @@ img.fragment-card {
   /* smaller than the shared --subheader-size, since this paragraph reads
      as supporting text under the big title rather than a subheading */
   font-size: 16px;
-  /* looser than the shared --subheader-line so the wrapped lines of this
-     specific paragraph have more breathing room between them */
-  line-height: 1.7;
+  /* tightened from the old 1.7 so the wrapped lines sit closer together */
+  line-height: 1.3;
   margin: 0 0 var(--space-4);
   text-align: left;
   /* narrowed so the wrapped lines read as a single left-aligned column
@@ -3214,18 +3217,22 @@ img.fragment-card {
   line-height: var(--body-line);
 }
 
-/* the plain text cards (bio / quote / hobbies): light gray fill with blue
-   text in light mode; dark mode flips to a dark gray fill with a blue
-   stroke and light gray (off-white) text — see the dark-mode overrides
-   just below .bubble-hobbies */
+/* the plain text cards (bio / quote / hobbies): white fill with a blue
+   stroke and blue text in light mode; dark mode flips to a solid blue
+   fill with white text and no stroke — see the dark-mode overrides just
+   below .bubble-hobbies. Both themes get a slight drop shadow. */
 .bubble-bio {
-  background: var(--button-stroke);
+  background: #ffffff;
   color: var(--background);
+  border: 2px solid var(--background);
+  box-shadow: 0 6px 14px rgba(58, 58, 58, 0.14);
 }
 
 .bubble-quote {
-  background: var(--button-stroke);
+  background: #ffffff;
   color: var(--background);
+  border: 2px solid var(--background);
+  box-shadow: 0 6px 14px rgba(58, 58, 58, 0.14);
 }
 
 .bubble-fact {
@@ -3249,6 +3256,7 @@ img.fragment-card {
 
 .bubble-fact:hover {
   background: var(--accent-warm);
+  color: var(--background);
 }
 
 /* A real speech bubble (rounded rect + tail) sitting over the top-left
@@ -3279,7 +3287,7 @@ img.fragment-card {
 }
 
 .bubble-intro-hint {
-  margin: var(--space-2) 0 0;
+  margin: 2px 0 0;
   font-size: 11px;
   font-style: italic;
   font-family: var(--font-sans);
@@ -3301,19 +3309,22 @@ img.fragment-card {
 }
 
 .bubble-hobbies {
-  background: var(--button-stroke);
+  background: #ffffff;
   color: var(--background);
+  border: 2px solid var(--background);
+  box-shadow: 0 6px 14px rgba(58, 58, 58, 0.14);
 }
 
-/* dark mode: the text cards swap to a dark gray fill with a blue stroke
-   and light gray (off-white) running text, instead of light mode's light
-   gray fill with blue text */
+/* dark mode: the text cards swap to a solid blue fill with white text and
+   no stroke (kept as a transparent border, same width, so the card's
+   dimensions don't shift when the theme toggles) */
 :root[data-theme="dark"] .bubble-bio,
 :root[data-theme="dark"] .bubble-quote,
 :root[data-theme="dark"] .bubble-hobbies {
-  background: var(--ink);
-  border: 1px solid var(--background);
-  color: var(--off-white);
+  background: var(--background);
+  border: 2px solid transparent;
+  color: #ffffff;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.3);
 }
 
 .tilt-hover {
@@ -3488,7 +3499,7 @@ img.fragment-card {
   border-radius: 50%;
   border: 1px solid var(--button-stroke);
   background-color: var(--page-bg);
-  background-image: url("../assets/logo-ring-left.png");
+  background-image: url("../assets/cursor-ring.png");
   background-repeat: no-repeat;
   background-position: center;
   background-size: 64%;
