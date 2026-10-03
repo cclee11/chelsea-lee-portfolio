@@ -493,7 +493,10 @@ main {
 .footer-left {
   display: flex;
   flex-direction: column;
-  gap: var(--space-1);
+  /* more room between the sign-off line and the copyright credit below
+     it than a tight stack would give — they read as two distinct lines,
+     not one paragraph */
+  gap: var(--space-3);
   /* claims its own share of the footer row (rather than being sized to
      its own content inside the space-between row), so the sign-off line
      has real room to run larger without immediately wrapping or crowding
@@ -506,10 +509,17 @@ main {
    of the footer's left column instead of trailing under the connect
    links on the right */
 /* a small yellow dotted accent under a specific word/phrase — used under
-   "Chelsea" in the hero title and under "chai lattes" / "snoozing" in
-   the footer signoff */
+   "chai lattes" / "snoozing" in the footer signoff */
 .underline-accent {
   border-bottom: 2px dotted var(--accent-warm);
+  padding-bottom: 2px;
+}
+
+/* same dotted-underline treatment as .underline-accent above, but in the
+   site's brand blue instead of yellow — used under "Chelsea" in the home
+   hero title and under the "More" / "Fragments" page titles */
+.underline-accent-blue {
+  border-bottom: 2px dotted var(--background);
   padding-bottom: 2px;
 }
 
@@ -521,7 +531,9 @@ main {
      lead line — bumped up further now that .footer-left has the room
      to let it run larger without crowding .footer-right */
   font-size: 32px;
-  line-height: 1.35;
+  /* tighter than the old 1.35 so the two lines (see the manual <br> in
+     the markup) sit close together instead of reading as loosely spaced */
+  line-height: 1.15;
   color: var(--accent-warm);
 }
 
@@ -3203,7 +3215,10 @@ img.fragment-card {
   pointer-events: none;
   opacity: 0.85;
   z-index: 5;
-  transition: opacity 0.9s ease, transform 0.9s ease;
+  /* slower fade (was 0.9s) — matches FADE_MS in main.js, which also
+     controls how long the dot stays in the DOM before JS removes it, so
+     the two have to move together or the dot gets yanked out mid-fade */
+  transition: opacity 1.8s ease, transform 1.8s ease;
   will-change: opacity, transform;
 }
 
@@ -3763,7 +3778,12 @@ img.fragment-card {
   padding: 4px;
   border-radius: var(--radius-full);
   border: 2px dotted var(--button-stroke);
-  background-color: var(--off-white);
+  /* see-through track (rather than a flat opaque fill) so the page
+     behind shows through clearly, same idea as the glass-dotted cards
+     elsewhere on the site */
+  background-color: rgba(243, 243, 243, 0.2);
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
   transition: background-color 0.25s ease, border-color 0.25s ease,
     transform 0.2s ease;
 }
@@ -3772,12 +3792,12 @@ img.fragment-card {
   transform: scale(1.05);
 }
 
-/* dark mode flips the track to a dark gray (rather than reusing
-   --page-bg, which would make the track invisible against the toggle's
-   own dark-mode surroundings) with a blue dotted stroke, same convention
-   as every other dotted-bordered surface on the site. */
+/* dark mode flips the track to a translucent dark gray (rather than
+   reusing --page-bg, which would make the track invisible against the
+   toggle's own dark-mode surroundings) with a blue dotted stroke, same
+   convention as every other dotted-bordered surface on the site. */
 :root[data-theme="dark"] .theme-toggle {
-  background-color: #3a3a3a;
+  background-color: rgba(58, 58, 58, 0.25);
   border-color: var(--background);
 }
 
@@ -3803,8 +3823,13 @@ img.fragment-card {
   transform: translateX(30px);
 }
 
-/* fills the knob completely (no gap of white showing around it) and
-   centered via the knob's own flex centering above */
+/* fills the knob completely (no gap of white showing around it). Uses
+   logo-ring-toggle.png rather than the plain logo-ring.png crop (used
+   for the favicon) — that source is cropped with a bit more room below
+   the ring than above it, to compensate for the ring artwork's own
+   baked-in drop shadow (which sits under the inner circle and pulls the
+   visual "center of mass" down from the geometric center), so it reads
+   as centered in the knob instead of looking low. */
 .theme-toggle-ring-icon {
   display: block;
   width: 100%;

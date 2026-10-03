@@ -483,7 +483,7 @@
     var siteTitle = document.querySelector(".site-title");
     if (siteTitle) {
       var SPAWN_INTERVAL_MS = 35;
-      var FADE_MS = 900;
+      var FADE_MS = 1800;
       var lastSpawn = 0;
 
       siteTitle.addEventListener("mousemove", function (e) {
@@ -544,7 +544,7 @@
       var logoSrc = existingLogoImg.getAttribute("src") || "";
       assetPrefix = logoSrc.slice(0, logoSrc.lastIndexOf("/") + 1);
     }
-    themeToggleIcon.src = assetPrefix + "logo-ring.png";
+    themeToggleIcon.src = assetPrefix + "logo-ring-toggle.png";
 
     themeToggleKnob.appendChild(themeToggleIcon);
     themeToggle.appendChild(themeToggleKnob);
