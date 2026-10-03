@@ -234,48 +234,21 @@ mark {
   font-variation-settings: inherit;
 }
 
-/* ---------------------------------------------------------------- header */
+/* ---------------------------------------------------------------- header
+   The logo and the nav tabs used to be two stacked strips (a plain header
+   row, then a separate sticky pill-bar underneath). They're now one
+   single sticky bar — logo flush left, nav pills flush right, both
+   vertically centered — so there's only ever one bar pinned to the top
+   of the viewport. */
 
 .site-header {
   display: flex;
-  justify-content: flex-start;
-  /* extra left padding so the rings have room to slide outward on hover
-     without crowding the edge of the screen */
-  padding: var(--space-4) var(--space-3) var(--space-3) var(--space-5);
-}
-
-.icon-logo-link {
-  display: inline-block;
-}
-
-/* Single flat logo mark (eyes + walking figure). .icon-logo-wrap is sized
-   to the mark's own aspect ratio; the image fills it via object-fit so it
-   scales cleanly wherever the wrap's width changes (see .bs-cover
-   .icon-logo-wrap for a larger instance on the brand-system page). */
-.icon-logo-wrap {
-  position: relative;
-  display: block;
-  /* smaller than the eyes-divider mark on the home page (see .eyes-icon) */
-  width: 58px;
-  height: calc(58px * 353 / 787);
-}
-
-.logo-piece {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-
-/* ------------------------------------------------------------------ nav */
-
-.site-nav {
-  display: flex;
-  justify-content: center;
+  align-items: center;
+  justify-content: space-between;
   flex-wrap: wrap;
+  row-gap: var(--space-2);
   gap: var(--space-3);
-  padding: var(--space-3) 0;
-  border-top: 2px dotted var(--background);
+  padding: var(--space-3) var(--space-3) var(--space-3) var(--space-5);
   border-bottom: 2px dotted var(--background);
   position: sticky;
   top: 0;
@@ -283,30 +256,84 @@ mark {
   background: var(--page-bg);
 }
 
+.icon-logo-link {
+  display: inline-block;
+  /* room for the rings to slide outward on hover without immediately
+     bumping into the nav pills sitting right next to it */
+  padding-right: var(--space-3);
+}
+
+/* The logo mark used to be a single flat image. It's now three layers —
+   left ring, center figure, right ring — each cropped from that same
+   artwork to an identical canvas (so plain inset: 0 stacks them back into
+   the exact original mark with no extra alignment math) and layered via
+   .icon-logo-wrap. That split is what lets the two rings slide apart from
+   the figure on hover and spring back into place once the cursor leaves
+   (see .logo-ring-piece below). */
+.icon-logo-wrap {
+  position: relative;
+  display: block;
+  width: 64px;
+  height: calc(64px * 340 / 774);
+}
+
+.logo-piece {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Both rings share this bouncy "spring back" easing — it's what actually
+   plays when the cursor leaves and :hover stops matching, since the
+   transform then resets to translateX(0) under THIS rule's transition,
+   not the hover rule's. The hover rule below overrides it with a quicker,
+   plain ease-out so the separating motion itself stays smooth and only
+   the return overshoots and settles. */
+.logo-ring-piece {
+  transition: transform 0.55s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.icon-logo-link:hover .logo-ring-left {
+  transform: translateX(-9px);
+  transition: transform 0.25s ease-out;
+}
+
+.icon-logo-link:hover .logo-ring-right {
+  transform: translateX(9px);
+  transition: transform 0.25s ease-out;
+}
+
+/* ------------------------------------------------------------------ nav */
+
+.site-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
 .site-nav a {
-  /* smaller than the shared --body-size so the pills read as compact
+  /* smaller than the shared --body-size so the tabs read as compact
      navigation rather than body-copy-sized buttons; a touch bolder than
-     --wght-light for legibility against the blue nav strip */
+     --wght-light for legibility. Unselected tabs are plain blue text with
+     no pill behind them; the active tab (and hover, as a preview of that
+     same state) gets the filled blue pill with yellow text. */
   font-size: 13px;
   font-variation-settings: "wght" var(--wght-regular);
-  color: var(--accent-warm);
-  background: var(--background);
+  color: var(--background);
+  background: none;
   letter-spacing: 0.02em;
   padding: var(--space-1) var(--space-3);
-  border: 1px solid transparent;
   border-radius: var(--radius-full);
   transition: background 0.2s ease, color 0.2s ease;
   text-transform: lowercase;
 }
 
-.site-nav a:hover {
-  background: var(--accent-warm);
-  color: var(--background);
-}
-
+.site-nav a:hover,
 .site-nav a.active {
-  background: var(--accent-warm);
-  color: var(--background);
+  background: var(--background);
+  color: var(--accent-warm);
 }
 
 /* ------------------------------------------------------------ loading screen
@@ -863,9 +890,10 @@ img.fragment-card {
 .project-card-image {
   width: 100%;
   aspect-ratio: 3 / 2;
-  /* permanent blue stroke, not just a hover-triggered one — a small
-     dotted line rather than a solid rule */
-  border: 2px dotted var(--background);
+  /* permanent blue stroke, not just a hover-triggered one — a solid rule,
+     unlike the dotted strokes used elsewhere on the site, so the project
+     and "more" cards (both reuse this class) read as solid framed tiles */
+  border: 2px solid var(--background);
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
@@ -3355,7 +3383,6 @@ img.fragment-card {
 
 :root[data-theme="dark"] .tagline {
   color: var(--accent-warm);
-  text-shadow: 0 0 18px rgba(114, 196, 255, 0.55), 0 0 36px rgba(114, 196, 255, 0.35);
 }
 
 /* the "product designer" / "artist" marks read as plain text here — no
@@ -3433,21 +3460,22 @@ img.fragment-card {
   line-height: var(--body-line);
 }
 
-/* the plain text cards (bio / quote / hobbies): white fill with a blue
-   stroke and blue text in light mode; dark mode flips to the page's own
-   dark background with white text, keeping the same blue dotted stroke
-   (see the dark-mode overrides just below .bubble-hobbies) — no drop
-   shadow in either theme, per the About page's flatter, shadow-free look. */
+/* the plain text cards (bio / quote / hobbies): white fill with a
+   black-gray stroke and black-gray text in light mode; dark mode flips
+   to the page's own dark background with blue text, keeping a blue
+   dotted stroke (see the dark-mode overrides just below .bubble-hobbies)
+   — no drop shadow in either theme, per the About page's flatter,
+   shadow-free look. */
 .bubble-bio {
   background: #ffffff;
-  color: var(--background);
-  border: 2px dotted var(--background);
+  color: var(--ink);
+  border: 2px dotted var(--ink);
 }
 
 .bubble-quote {
   background: #ffffff;
-  color: var(--background);
-  border: 2px dotted var(--background);
+  color: var(--ink);
+  border: 2px dotted var(--ink);
 }
 
 .bubble-fact {
@@ -3457,8 +3485,9 @@ img.fragment-card {
   width: 140px;
   height: 140px;
   border-radius: 50%;
-  background: var(--accent-warm);
-  color: var(--background);
+  background: var(--background);
+  color: var(--accent-warm);
+  font-family: var(--font-serif);
   font-style: italic;
   font-size: 12px;
   line-height: 16px;
@@ -3520,18 +3549,18 @@ img.fragment-card {
 
 .bubble-hobbies {
   background: #ffffff;
-  color: var(--background);
-  border: 2px dotted var(--background);
+  color: var(--ink);
+  border: 2px dotted var(--ink);
 }
 
 /* dark mode: the text cards swap to the page's own dark background with
-   white text, keeping the blue dotted stroke instead of going transparent */
+   blue text, keeping the blue dotted stroke instead of going transparent */
 :root[data-theme="dark"] .bubble-bio,
 :root[data-theme="dark"] .bubble-quote,
 :root[data-theme="dark"] .bubble-hobbies {
   background: var(--page-bg);
   border: 2px dotted var(--background);
-  color: #ffffff;
+  color: var(--background);
 }
 
 .tilt-hover {
@@ -3568,7 +3597,10 @@ img.fragment-card {
 }
 
 .recently-section {
-  margin-top: var(--space-4);
+  /* extra breathing room above the dotted divider, beyond the usual
+     --space-4 gap used elsewhere, so the "recently..." strip reads as
+     clearly separated from the bio/photo content above it */
+  margin-top: calc(var(--space-5) + var(--space-3));
 }
 
 .recently-heading + .recently-scroll {
@@ -3699,31 +3731,72 @@ img.fragment-card {
 }
 
 /* ---------------------------------------------------------- night mode
-   A small fixed toggle, sticky to the bottom-right corner on every page
+   A small fixed switch, pinned to the bottom-right corner on every page
    (injected by main.js so it doesn't need to be added to every HTML
-   file). Uses the same ring artwork as the logo as its icon; the circle
-   it sits in follows the page background, so it blends in either theme. */
+   file): a sliding track + knob, the same shape as any light/dark
+   switch, with the knob carrying the same ring mark as the logo instead
+   of a plain circle. The ring is cropped from the logo artwork at a much
+   higher resolution than it's ever shown at here, so it stays crisp at
+   this small a size — the old version stretched the tiny 20px
+   cursor-ring cursor asset up to fill the button, which is what made it
+   look blurry. */
 
 .theme-toggle {
   position: fixed;
   right: var(--space-4);
   bottom: var(--space-4);
   z-index: 500;
-  width: 48px;
-  height: 48px;
-  padding: 0;
-  border-radius: 50%;
+  display: block;
+  width: 64px;
+  height: 34px;
+  padding: 4px;
+  border-radius: var(--radius-full);
   border: 2px dotted var(--button-stroke);
-  background-color: var(--page-bg);
-  background-image: url("../assets/cursor-ring.png");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 64%;
+  background-color: var(--off-white);
   box-shadow: 0 8px 20px rgba(58, 58, 58, 0.22);
-  transition: background-color 0.25s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  transition: background-color 0.25s ease, border-color 0.25s ease,
+    box-shadow 0.2s ease, transform 0.2s ease;
 }
 
 .theme-toggle:hover {
-  transform: scale(1.08);
+  transform: scale(1.05);
   box-shadow: 0 10px 24px rgba(58, 58, 58, 0.3);
+}
+
+/* dark mode flips the track to a dark gray (rather than reusing
+   --page-bg, which would make the track invisible against the toggle's
+   own dark-mode surroundings) with a blue dotted stroke, same convention
+   as every other dotted-bordered surface on the site. */
+:root[data-theme="dark"] .theme-toggle {
+  background-color: #3a3a3a;
+  border-color: var(--background);
+}
+
+/* the knob: a plain white circle (readable against either track color)
+   that slides from left to right when night mode is on, with the same
+   bouncy spring-back easing used elsewhere on the site (see
+   .logo-ring-piece) so the slide has a little life to it instead of
+   landing flat. */
+.theme-toggle-knob {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+  transform: translateX(0);
+  transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+:root[data-theme="dark"] .theme-toggle-knob {
+  transform: translateX(30px);
+}
+
+.theme-toggle-ring-icon {
+  display: block;
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
 }

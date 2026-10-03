@@ -527,6 +527,28 @@
     themeToggle.className = "theme-toggle";
     themeToggle.setAttribute("aria-label", "Toggle night mode");
 
+    var themeToggleKnob = document.createElement("span");
+    themeToggleKnob.className = "theme-toggle-knob";
+    themeToggleKnob.setAttribute("aria-hidden", "true");
+
+    var themeToggleIcon = document.createElement("img");
+    themeToggleIcon.className = "theme-toggle-ring-icon";
+    themeToggleIcon.alt = "";
+    // reuses whatever relative path the header logo is already using to
+    // reach /assets (e.g. "assets/" on a root page, "../assets/" one
+    // level down in /pages), so this works unchanged on every page
+    // without needing to hardcode a folder depth here.
+    var existingLogoImg = document.querySelector(".icon-logo-wrap img");
+    var assetPrefix = "assets/";
+    if (existingLogoImg) {
+      var logoSrc = existingLogoImg.getAttribute("src") || "";
+      assetPrefix = logoSrc.slice(0, logoSrc.lastIndexOf("/") + 1);
+    }
+    themeToggleIcon.src = assetPrefix + "logo-ring.png";
+
+    themeToggleKnob.appendChild(themeToggleIcon);
+    themeToggle.appendChild(themeToggleKnob);
+
     themeToggle.addEventListener("click", function () {
       var isDark = document.documentElement.getAttribute("data-theme") === "dark";
       var next = isDark ? "light" : "dark";
