@@ -1010,7 +1010,7 @@ img.fragment-card {
   line-height: 1;
   text-transform: lowercase;
   color: var(--text);
-  border: 2px dotted var(--button-stroke);
+  border: 1px solid var(--button-stroke);
   border-radius: var(--radius-full);
   padding: var(--space-2) var(--space-3);
 }
@@ -2344,21 +2344,23 @@ img.fragment-card {
 }
 
 /* real, clickable CTA under the prototype video, linking out to the
-   interactive Figma prototype. Styled like the site's own .back-to-top
-   pill (off-white fill, accent-warm hover) rather than GrubHub's own
-   in-case-study purple, so it reads as "Chelsea's site" not "GrubHub". */
+   interactive Figma prototype. Now matches the site's own nav-button
+   convention (blue pill, yellow text, lowercase label) instead of the
+   old off-white/ink scheme, so it reads consistently with the header
+   nav and subnav tabs elsewhere on the site. */
 .prototype-cta {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: var(--off-white);
-  color: var(--ink);
+  background: var(--background);
+  color: var(--accent-warm);
   border-radius: var(--radius-full);
   padding: var(--space-2) var(--space-4);
   font-size: 14px;
   font-variation-settings: "wght" var(--wght-medium);
   text-decoration: none;
-  transition: background 0.2s ease, transform 0.15s ease;
+  text-transform: lowercase;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.15s ease;
 }
 
 .prototype-cta:hover,
@@ -2384,9 +2386,15 @@ img.fragment-card {
    ".case-section > p.solution-intro" gives it as a direct child of
    .case-section (it no longer qualifies for that selector once nested
    in this grid, but the leftover default paragraph margin still needs
-   zeroing to line up with the video beside it) */
+   zeroing to line up with the video beside it). The grid's own
+   align-items: center centers this paragraph against the FULL opposite
+   column (video + gap + "Try Prototype" button), which visually reads as
+   off-center against the video itself. The margin-bottom here pads out
+   this item's own margin box so the centering lands against the video,
+   not the taller video+button column — shifting the visible text up by
+   half of the added margin. */
 .original-app-grid > p.solution-intro {
-  margin: 0;
+  margin: 0 0 94px;
   text-align: left;
 }
 
@@ -2394,6 +2402,12 @@ img.fragment-card {
   .original-app-grid {
     grid-template-columns: 1fr;
     justify-content: stretch;
+  }
+
+  /* the desktop-only centering offset above would otherwise leave a big
+     dead gap once the columns stack into a single one on mobile */
+  .original-app-grid > p.solution-intro {
+    margin: 0;
   }
 }
 
@@ -3784,7 +3798,7 @@ img.fragment-card {
   height: 34px;
   padding: 4px;
   border-radius: var(--radius-full);
-  border: 2px dotted var(--button-stroke);
+  border: 2px solid var(--button-stroke);
   /* see-through track (rather than a flat opaque fill) so the page
      behind shows through clearly, same idea as the glass-dotted cards
      elsewhere on the site */
@@ -3821,6 +3835,9 @@ img.fragment-card {
   width: 26px;
   height: 26px;
   border-radius: 50%;
+  /* clips the ring icon's own 2px upward nudge below to a clean circular
+     edge instead of letting it poke past the knob's bottom boundary */
+  overflow: hidden;
   background: #ffffff;
   transform: translateX(0);
   transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -3842,4 +3859,8 @@ img.fragment-card {
   width: 100%;
   height: 100%;
   object-fit: contain;
+  /* one more small nudge up, on top of the asymmetric logo-ring-toggle.png
+     crop above — the knob's overflow: hidden keeps this from poking past
+     its circular edge */
+  transform: translateY(-2px);
 }
