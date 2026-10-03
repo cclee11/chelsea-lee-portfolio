@@ -9,7 +9,7 @@
      (they're the fixed "brand" colors used on colored bubble/pill
      surfaces, buttons and highlights); --page-bg and --text are the two
      that flip between light and dark mode just below. */
-  --ink: #3a3a3a;
+  --ink: #202020;
   --background: #72c4ff;
   --button-stroke: #afafaf;
   --accent-warm: #fff6c3;
@@ -2942,6 +2942,9 @@ img.fragment-card {
      own margin-bottom instead. */
   margin: 0;
   display: inline-block;
+  /* positions the cursor-trail dots (see .title-trail-dot and main.js)
+     relative to the title itself instead of the document */
+  position: relative;
   /* scaled down from the old 136px now that the name reads as a left-
      aligned lockup next to the tagline, rather than a huge centerpiece */
   font-size: 72px;
@@ -2975,6 +2978,30 @@ img.fragment-card {
 @keyframes title-bob {
   0%, 100% { transform: translateY(0); }
   50%      { transform: translateY(-6px); }
+}
+
+/* little blue dashes that spawn at the cursor while it hovers the hero
+   title (see main.js), then fade and drift away — spawned/removed by JS,
+   this just defines the resting + fading look of each one. Each dash
+   gets a random rotation inline (see main.js) so the trail reads as a
+   scatter of small dotted marks rather than a uniform line. */
+.title-trail-dot {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 7px;
+  height: 2px;
+  border-radius: 1px;
+  background: var(--background);
+  pointer-events: none;
+  opacity: 0.85;
+  z-index: 5;
+  transition: opacity 0.9s ease, transform 0.9s ease;
+  will-change: opacity, transform;
+}
+
+.title-trail-dot.is-fading {
+  opacity: 0;
 }
 
 /* ------------------------------------------------- eyes-looking divider
