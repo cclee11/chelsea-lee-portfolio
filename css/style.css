@@ -69,20 +69,10 @@
   --text: var(--off-white);
 }
 
-/* the page title switches to the palette's dark-mode "headers" color (the
-   warm yellow) instead of the paler --text value, so it reads as a
-   distinct, branded accent instead of blending toward white against the
-   dark canvas. Case-study headings — and the case-study's own main
-   title, .case-main .page-title — stay their own fixed brand colors in
-   both themes instead of picking up this yellow swap (see .case-heading
-   / .case-subheading and the .case-main .page-title rule further down). */
-:root[data-theme="dark"] .page-title {
-  color: var(--accent-warm);
-}
-
-:root[data-theme="dark"] .case-main .page-title {
-  color: var(--background);
-}
+/* every page title (not just case-study titles) is a fixed brand blue in
+   both themes — see the .page-title rule itself, which sets this color
+   directly instead of picking up the dark-mode "headers" yellow swap, so
+   no dark-mode override is needed here at all. */
 
 /* the case-toc sidebar's active link gets the same branded-yellow
    treatment in dark mode as the headings it points to */
@@ -100,25 +90,15 @@
   color: var(--text);
 }
 
-/* ...except inside a colored bubble (case notes, persona cards, the
-   competitor legend, etc.) — those surfaces stay the same light blue in
-   both themes, so a <mark> inside one needs to keep its ordinary dark gray-on
-   -yellow treatment too, instead of the pale --text color meant for a
-   highlight sitting on the dark page canvas (which was unreadable against
-   the bubble's always-light background). */
-:root[data-theme="dark"] .case-note mark,
-:root[data-theme="dark"] .response-card mark,
-:root[data-theme="dark"] .opportunity-card mark,
-:root[data-theme="dark"] .persona-card mark,
-:root[data-theme="dark"] .pain-card mark,
-:root[data-theme="dark"] .mockup-caption-card mark,
-:root[data-theme="dark"] .takeaway mark,
-:root[data-theme="dark"] .card-caption-bubble mark,
-:root[data-theme="dark"] .audit-callout mark,
-:root[data-theme="dark"] .competitor-legend mark,
-:root[data-theme="dark"] .swatch mark,
-:root[data-theme="dark"] .case-meta-pill mark,
-:root[data-theme="dark"] .case-jumpnav-bubble mark,
+/* ...except inside a colored bubble outside the case studies (the About
+   page speech bubbles, the homepage project-card caption, a flip-tile
+   back) — those surfaces stay the same light blue in both themes, so a
+   <mark> inside one needs to keep its ordinary dark gray-on-yellow
+   treatment too, instead of the pale --text color meant for a highlight
+   sitting on the dark page canvas (which was unreadable against the
+   bubble's always-light background). Every case-study component used to
+   be listed here too, but case studies now opt out of the yellow <mark>
+   highlight entirely (see .case-main mark / the dark override below). */
 :root[data-theme="dark"] .bubble-bio mark,
 :root[data-theme="dark"] .bubble-quote mark,
 :root[data-theme="dark"] .bubble-hobbies mark,
@@ -212,6 +192,31 @@ mark {
   font-variation-settings: "wght" var(--wght-medium);
 }
 
+/* case studies opt out of the sitewide yellow <mark> highlight entirely —
+   those phrases just read as plain body copy (black ink in light mode,
+   gray/off-white in dark) instead of a yellow-background callout, which
+   stays reserved for the home page tagline and the About-page bubbles. */
+.case-main mark {
+  background: none;
+  color: inherit;
+  padding: 0;
+  border-radius: 0;
+  font-variation-settings: inherit;
+}
+
+/* beats the bare :root[data-theme="dark"] mark rule above (its :root +
+   [data-theme] selector otherwise outranks the plain .case-main mark
+   rule), so case studies stay opted out of the highlight in dark mode
+   too instead of picking up the pale-blue wash meant for everywhere
+   else. */
+:root[data-theme="dark"] .case-main mark {
+  background: none;
+  color: inherit;
+  padding: 0;
+  border-radius: 0;
+  font-variation-settings: inherit;
+}
+
 /* ---------------------------------------------------------------- header */
 
 .site-header {
@@ -253,8 +258,8 @@ mark {
   flex-wrap: wrap;
   gap: var(--space-3);
   padding: var(--space-3) 0;
-  border-top: 1px solid var(--background);
-  border-bottom: 1px solid var(--background);
+  border-top: 1px dotted var(--background);
+  border-bottom: 1px dotted var(--background);
   position: sticky;
   top: 0;
   z-index: 100;
@@ -263,9 +268,10 @@ mark {
 
 .site-nav a {
   /* smaller than the shared --body-size so the pills read as compact
-     navigation rather than body-copy-sized buttons */
+     navigation rather than body-copy-sized buttons; a touch bolder than
+     --wght-light for legibility against the blue nav strip */
   font-size: 13px;
-  font-variation-settings: "wght" var(--wght-light);
+  font-variation-settings: "wght" var(--wght-regular);
   color: var(--accent-warm);
   background: var(--background);
   letter-spacing: 0.02em;
@@ -373,12 +379,11 @@ main {
   line-height: var(--header-line);
   font-family: var(--font-display);
   font-weight: 700;
-  /* headers role (--ink), not --text's body-text gray — flips to the
-     dark-mode headers color via the :root[data-theme="dark"] .page-title
-     rule above */
-  color: var(--ink);
+  font-style: italic;
+  /* fixed brand blue in both themes (not a dark-mode-swapping "headers"
+     role) — see the dark-mode comment above */
+  color: var(--background);
   margin: 0 0 var(--space-5);
-  text-transform: lowercase;
   letter-spacing: 0.01em;
 }
 
@@ -388,11 +393,12 @@ main {
   margin-bottom: var(--space-3);
 }
 
-/* the case-study's own main title swaps to fixed brand blue in both
-   themes (see the dark-mode override above), distinct from every other
-   page's plain-ink .page-title */
+/* the case-study's own main title additionally switches to the serif
+   display face (Gelica) to match the case-study header layout (see the
+   GoFundMe-style reference), distinct from every other page's sans-serif
+   .page-title */
 .case-main .page-title {
-  color: var(--background);
+  font-family: var(--font-serif);
 }
 
 /* subtitle sitting directly under a bare page title (currently the Fun
@@ -885,10 +891,10 @@ img.fragment-card {
 
 .project-card-title {
   font-size: 16px;
-  text-transform: lowercase;
   letter-spacing: 0.03em;
   font-family: var(--font-display);
   font-weight: 700;
+  font-style: italic;
   /* a title/heading, not running body copy, so it uses the "headers" role
      (--ink) rather than --text's body-text gray; flips to the dark-mode
      headers color just below, same as .page-title and friends */
@@ -1309,34 +1315,70 @@ img.fragment-card {
   color: var(--text);
 }
 
-.case-meta {
+/* top-of-case-study layout: title/tagline/meta in a left column, the
+   hero image/video in a right column, matching the two-column reference
+   layout (title+copy+details beside a single photo) instead of the old
+   stacked title/meta/full-width-hero arrangement. Stacks on narrow
+   screens (see the mobile breakpoint below). */
+.case-top {
   display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-3);
+  align-items: flex-start;
+  gap: var(--space-5);
   margin: 0 0 var(--space-5);
 }
 
-.case-meta-pill {
-  background: var(--off-white);
-  border-radius: var(--radius-md);
-  padding: var(--space-2) var(--space-3);
+.case-top-left {
+  flex: 1 1 380px;
+  min-width: 0;
+}
+
+.case-top-left .case-tagline,
+.case-top-left .case-meta {
+  margin-bottom: var(--space-4);
+}
+
+.case-top-left .case-meta:last-child {
+  margin-bottom: 0;
+}
+
+.case-meta {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-4) var(--space-4);
+}
+
+/* each category (label + value) is underlined with a thin blue dotted
+   rule instead of sitting in a solid gray pill/card */
+.case-meta-item {
   display: flex;
   flex-direction: column;
-  gap: 2px;
-  min-width: 108px;
+  gap: 4px;
+  padding-bottom: var(--space-2);
+  border-bottom: 1px dotted var(--background);
 }
 
-.case-meta-pill .meta-label {
-  font-size: 10px;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--button-stroke);
-}
-
-.case-meta-pill .meta-value {
+.case-meta-item .meta-label {
+  font-family: var(--font-serif);
   font-size: 14px;
+  color: var(--button-stroke);
+  font-variation-settings: "wght" var(--wght-regular);
+}
+
+.case-meta-item .meta-value {
+  font-family: var(--font-sans);
+  font-size: 15px;
   color: var(--ink);
-  font-variation-settings: "wght" var(--wght-medium);
+  font-variation-settings: "wght" var(--wght-bold);
+}
+
+:root[data-theme="dark"] .case-meta-item .meta-value {
+  color: var(--off-white);
+}
+
+.case-top .case-hero {
+  flex: 1 1 480px;
+  min-width: 0;
+  margin: 0;
 }
 
 .case-hero {
@@ -1345,7 +1387,6 @@ img.fragment-card {
      generic 16:9 box */
   aspect-ratio: 1296 / 864;
   width: 100%;
-  margin: 0 0 var(--space-5);
   display: block;
   object-fit: contain;
   background: var(--page-bg);
@@ -1354,10 +1395,19 @@ img.fragment-card {
   animation: title-bob 3.2s ease-in-out infinite;
 }
 
+@media (max-width: 860px) {
+  .case-top {
+    flex-direction: column;
+  }
+}
+
 /* quick-jump tabs, right-aligned directly under the hero image, linking
    down to the process / solution / reflection sections below. Wrapped in
-   a slightly-darker-blue bubble (--background, one step down from the
-   --off-white pills inside it) with a small "jump to..." title. */
+   a slightly-darker-blue bubble (--background) with a small "jump to..."
+   title, both set in the serif Gelica face with their natural upper/
+   lowercase casing (no uppercase/lowercase transform), and the tab
+   "buttons" filled with the brand yellow and blue text instead of the
+   old off-white/ink pills. */
 .case-jumpnav-wrap {
   display: flex;
   justify-content: flex-end;
@@ -1372,12 +1422,12 @@ img.fragment-card {
   background: var(--background);
   border-radius: var(--radius-lg);
   padding: var(--space-3) var(--space-4);
+  font-family: var(--font-serif);
 }
 
 .jumpnav-label {
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
+  font-size: 13px;
+  letter-spacing: 0.01em;
   color: var(--accent-warm);
   font-variation-settings: "wght" var(--wght-medium);
 }
@@ -1391,16 +1441,16 @@ img.fragment-card {
 
 .case-jumpnav a {
   font-size: 13px;
-  color: var(--ink);
-  background: var(--off-white);
+  color: var(--background);
+  background: var(--accent-warm);
   padding: var(--space-1) var(--space-3);
   border-radius: var(--radius-full);
-  transition: background 0.2s ease;
+  transition: background 0.2s ease, color 0.2s ease;
 }
 
 .case-jumpnav a:hover {
-  background: var(--accent-warm);
-  color: var(--background);
+  background: var(--off-white);
+  color: var(--ink);
 }
 
 .case-section {
@@ -1553,13 +1603,25 @@ img.fragment-card {
   max-width: 70%;
 }
 
+/* "gray caption card" treatment, shared by every plain callout/caption
+   box in a case study (.case-note, .response-card, .opportunity-card,
+   .audit-callout, .persona-card, .mockup-caption-card): white fill with
+   a thin blue dotted outline in light mode, flips to a solid black fill
+   in dark mode (still with the same dotted outline) instead of the old
+   plain off-white/ink fill in both themes. */
 .case-note {
-  background: var(--off-white);
+  background: #ffffff;
   color: var(--ink);
+  border: 1px dotted var(--background);
   border-radius: var(--radius-lg);
   padding: var(--space-4);
   font-size: var(--body-size);
   line-height: var(--body-line);
+}
+
+:root[data-theme="dark"] .case-note {
+  background: #000000;
+  color: var(--off-white);
 }
 
 .case-note p + p {
@@ -1599,12 +1661,18 @@ img.fragment-card {
 }
 
 .response-card {
-  background: var(--off-white);
+  background: #ffffff;
   color: var(--ink);
+  border: 1px dotted var(--background);
   border-radius: var(--radius-lg);
   padding: var(--space-4);
   font-size: var(--body-size);
   line-height: var(--body-line);
+}
+
+:root[data-theme="dark"] .response-card {
+  background: #000000;
+  color: var(--off-white);
 }
 
 .response-card p {
@@ -1817,9 +1885,14 @@ img.fragment-card {
 }
 
 .persona-card {
-  background: var(--off-white);
+  background: #ffffff;
+  border: 1px dotted var(--background);
   border-radius: var(--radius-lg);
   padding: 28px;
+}
+
+:root[data-theme="dark"] .persona-card {
+  background: #000000;
 }
 
 .persona-head {
@@ -1932,7 +2005,7 @@ img.fragment-card {
 .pain-card-num {
   display: block;
   font-size: 11px;
-  color: var(--button-stroke);
+  color: var(--background);
   font-variation-settings: "wght" var(--wght-medium);
   margin-bottom: 2px;
 }
@@ -1955,11 +2028,9 @@ img.fragment-card {
 
 /* ------------------------------------------------------ design opportunities
    Three cards translating the competitive audit into concrete design
-   moves, one per benchmarked competitor. Each card keeps the same
-   off-white/ink treatment as .case-note (a colored surface, so the
-   text stays fixed dark gray regardless of theme) and is told apart from its
-   neighbors only by a left accent bar in one of the palette's existing
-   blues, rather than introducing new colors outside the system. */
+   moves, one per benchmarked competitor. Shares the same "gray caption
+   card" treatment as .case-note (see that rule's comment) instead of
+   the old off-white fill with a per-card left accent bar. */
 
 .opportunity-grid {
   display: grid;
@@ -1969,11 +2040,16 @@ img.fragment-card {
 }
 
 .opportunity-card {
-  background: var(--off-white);
+  background: #ffffff;
   color: var(--ink);
+  border: 1px dotted var(--background);
   border-radius: var(--radius-md);
-  border-left: 4px solid var(--ink);
   padding: var(--space-4);
+}
+
+:root[data-theme="dark"] .opportunity-card {
+  background: #000000;
+  color: var(--off-white);
 }
 
 .opportunity-source {
@@ -2035,19 +2111,19 @@ img.fragment-card {
   margin-top: var(--space-3);
 }
 
+/* shares the same "gray caption card" treatment as .case-note (see that
+   rule's comment) instead of the old dark-gray/off-white inverted fill */
 .mockup-caption-card {
-  /* dark gray card, white-blue text in light mode; flips to a white-blue card
-     with dark gray text in dark mode — inverted from the old always-light
-     off-white card */
-  background: var(--ink);
-  color: var(--off-white);
+  background: #ffffff;
+  color: var(--ink);
+  border: 1px dotted var(--background);
   border-radius: var(--radius-md);
   padding: var(--space-3);
 }
 
 :root[data-theme="dark"] .mockup-caption-card {
-  background: var(--off-white);
-  color: var(--ink);
+  background: #000000;
+  color: var(--off-white);
 }
 
 .mockup-caption-title {
@@ -2706,15 +2782,21 @@ img.fragment-card {
 }
 
 /* ------------------------------------------------------- audit callout
-   A flagged insight pulled straight out of the original-app audit,
-   visually distinct from the surrounding .case-note blocks. */
+   A flagged insight pulled straight out of the original-app audit.
+   Shares the same "gray caption card" treatment as .case-note (see that
+   rule's comment) instead of the old off-white fill with a left bar. */
 .audit-callout {
-  background: var(--off-white);
+  background: #ffffff;
   color: var(--ink);
-  border-left: 3px solid var(--button-stroke);
+  border: 1px dotted var(--background);
   border-radius: var(--radius-md);
   padding: var(--space-3) var(--space-4);
   margin: var(--space-4) 0 0;
+}
+
+:root[data-theme="dark"] .audit-callout {
+  background: #000000;
+  color: var(--off-white);
 }
 
 .audit-callout-label {
@@ -2797,7 +2879,7 @@ img.fragment-card {
   gap: var(--space-4);
   margin: var(--space-5) 0 0;
   padding-top: var(--space-4);
-  border-top: 1px solid var(--background);
+  border-top: 1px dotted var(--background);
 }
 
 .project-nav a {
@@ -2980,18 +3062,16 @@ img.fragment-card {
   50%      { transform: translateY(-6px); }
 }
 
-/* little blue dashes that spawn at the cursor while it hovers the hero
+/* little blue circles that spawn at the cursor while it hovers the hero
    title (see main.js), then fade and drift away — spawned/removed by JS,
-   this just defines the resting + fading look of each one. Each dash
-   gets a random rotation inline (see main.js) so the trail reads as a
-   scatter of small dotted marks rather than a uniform line. */
+   this just defines the resting + fading look of each one. */
 .title-trail-dot {
   position: absolute;
   top: 0;
   left: 0;
-  width: 7px;
-  height: 2px;
-  border-radius: 1px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
   background: var(--background);
   pointer-events: none;
   opacity: 0.85;
@@ -3039,13 +3119,13 @@ img.fragment-card {
 }
 
 .eyes-icon {
-  --pupil-step: 5.49px;
+  --pupil-step: 7.08px;
   position: relative;
   display: inline-block;
-  /* a little smaller than before, now that the caption above it reads as
-     its own speech-bubble mark instead of plain text sharing its space */
-  width: 124px;
-  height: calc(124px * 342 / 776);
+  /* bigger than the original size now that it's a standalone focal point
+     next to the hero title rather than a small supporting mark */
+  width: 160px;
+  height: calc(160px * 342 / 776);
   cursor: url("../assets/cursor-ring.png") 10 10, default;
   cursor: -webkit-image-set(url("../assets/cursor-ring.png") 1x, url("../assets/cursor-ring@2x.png") 2x, url("../assets/cursor-ring@3x.png") 3x) 10 10, default;
   cursor: image-set(url("../assets/cursor-ring.png") 1x, url("../assets/cursor-ring@2x.png") 2x, url("../assets/cursor-ring@3x.png") 3x) 10 10, default;
@@ -3395,8 +3475,9 @@ img.fragment-card {
    snapshots, not clickable project tiles, so that hover affordance would
    be misleading. */
 .recently-heading {
-  font-size: 13px;
-  color: var(--ink);
+  font-size: 28px;
+  font-family: var(--font-serif);
+  color: var(--background);
   font-variation-settings: "wght" var(--wght-medium);
   margin: 0 0 var(--space-3);
 }

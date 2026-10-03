@@ -67,11 +67,11 @@
       pointer movement) still opens the image lightbox above instead of
       counting as a drag.
   11. Hero title cursor trail (home page only): hovering the mouse over
-      .site-title spawns small blue dashes (.title-trail-dot) at the
+      .site-title spawns small blue circles (.title-trail-dot) at the
       cursor's position, each fading out and removing itself a moment
       later (see .title-trail-dot in style.css). Spawning is throttled
-      to roughly one dash every 35ms so a fast sweep of the mouse doesn't
-      flood the DOM with elements.
+      to roughly one circle every 35ms so a fast sweep of the mouse
+      doesn't flood the DOM with elements.
 */
 
 (function () {
@@ -478,7 +478,7 @@
     }
 
     // hero title cursor trail (see main.js doc comment #11): small blue
-    // dashes that spawn at the cursor while it hovers .site-title, then
+    // circles that spawn at the cursor while it hovers .site-title, then
     // fade out and remove themselves.
     var siteTitle = document.querySelector(".site-title");
     if (siteTitle) {
@@ -500,9 +500,8 @@
         var dot = document.createElement("span");
         dot.className = "title-trail-dot";
         dot.setAttribute("aria-hidden", "true");
-        var angle = Math.random() * 360;
         var drift = 10 + Math.random() * 10;
-        dot.style.transform = "translate(" + x + "px, " + y + "px) rotate(" + angle + "deg)";
+        dot.style.transform = "translate(" + x + "px, " + y + "px)";
         siteTitle.appendChild(dot);
 
         // one frame to let the dot paint at full opacity before switching
@@ -511,7 +510,7 @@
           requestAnimationFrame(function () {
             dot.classList.add("is-fading");
             dot.style.transform =
-              "translate(" + x + "px, " + (y - drift) + "px) rotate(" + angle + "deg)";
+              "translate(" + x + "px, " + (y - drift) + "px)";
           });
         });
 
