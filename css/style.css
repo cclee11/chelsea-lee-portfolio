@@ -72,11 +72,16 @@
 /* the page title switches to the palette's dark-mode "headers" color (the
    warm yellow) instead of the paler --text value, so it reads as a
    distinct, branded accent instead of blending toward white against the
-   dark canvas. Case-study headings stay their own fixed blue in both
-   themes (see .case-heading / .case-subheading) instead of picking up
-   this yellow swap. */
+   dark canvas. Case-study headings — and the case-study's own main
+   title, .case-main .page-title — stay their own fixed brand colors in
+   both themes instead of picking up this yellow swap (see .case-heading
+   / .case-subheading and the .case-main .page-title rule further down). */
 :root[data-theme="dark"] .page-title {
   color: var(--accent-warm);
+}
+
+:root[data-theme="dark"] .case-main .page-title {
+  color: var(--background);
 }
 
 /* the case-toc sidebar's active link gets the same branded-yellow
@@ -383,6 +388,13 @@ main {
   margin-bottom: var(--space-3);
 }
 
+/* the case-study's own main title swaps to fixed brand blue in both
+   themes (see the dark-mode override above), distinct from every other
+   page's plain-ink .page-title */
+.case-main .page-title {
+  color: var(--background);
+}
+
 /* subtitle sitting directly under a bare page title (currently the Fun
    page): styled like the home page's supporting tagline text rather than
    a plain heading, so it doesn't read as a second big title */
@@ -404,15 +416,14 @@ main {
 
 /* -------------------------------------------------------------- footer */
 
-/* full-bleed blue band, framed by a dashed top/bottom edge, with its own
-   inner max-width wrapper (.footer-inner) so the content still lines up
-   with the rest of the page's content column */
+/* full-bleed blue band, no framing border — the inner content runs edge
+   to edge (just the side gutter below) instead of sitting inside the
+   narrower --content-max column, so the right-hand block actually
+   reaches the band's right edge instead of stopping mid-way */
 .site-footer {
   width: 100%;
   flex-shrink: 0;
   background: var(--background);
-  border-top: 1px dashed var(--accent-warm);
-  border-bottom: 1px dashed var(--accent-warm);
 }
 
 .footer-inner {
@@ -421,8 +432,6 @@ main {
   justify-content: space-between;
   flex-wrap: wrap;
   gap: var(--space-4) var(--space-5);
-  max-width: var(--content-max);
-  margin: 0 auto;
   padding: var(--space-5) clamp(24px, 5vw, 64px);
 }
 
@@ -452,7 +461,7 @@ main {
   margin: 0;
   text-align: left;
   font-size: 12px;
-  color: var(--off-white);
+  color: var(--accent-warm);
 }
 
 /* right side of the footer: "Let's connect!" heading (serif) sits above
@@ -481,14 +490,14 @@ main {
 }
 
 .connect-link {
-  color: var(--off-white);
+  color: var(--accent-warm);
   font-size: var(--body-size);
-  transition: color 0.2s ease;
+  transition: opacity 0.2s ease;
   text-transform: lowercase;
 }
 
 .connect-link:hover {
-  color: var(--accent-warm);
+  opacity: 0.7;
 }
 
 /* ---------------------------------------------------- placeholder tiles
@@ -635,7 +644,7 @@ img.fragment-card {
   position: relative;
   width: clamp(130px, 17vw, 220px);
   margin: -14px -22px;
-  border: 1px solid var(--button-stroke);
+  border: 1px dotted var(--button-stroke);
   box-shadow: 0 10px 22px rgba(58, 58, 58, 0.2);
   cursor: grab;
   touch-action: none;
@@ -821,8 +830,9 @@ img.fragment-card {
 .project-card-image {
   width: 100%;
   aspect-ratio: 3 / 2;
-  /* permanent blue stroke, not just a hover-triggered one */
-  border: 2px solid var(--background);
+  /* permanent blue stroke, not just a hover-triggered one — a small
+     dotted line rather than a solid rule */
+  border: 1px dotted var(--background);
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
@@ -912,7 +922,7 @@ img.fragment-card {
   line-height: 1;
   text-transform: lowercase;
   color: var(--text);
-  border: 1px solid var(--button-stroke);
+  border: 1px dotted var(--button-stroke);
   border-radius: var(--radius-full);
   padding: var(--space-2) var(--space-3);
 }
@@ -1285,12 +1295,18 @@ img.fragment-card {
 .case-tagline {
   font-size: var(--subheader-size);
   line-height: var(--subheader-line);
-  /* the larger case-study subtitle — fixed brand blue in both themes,
-     same treatment as the homepage hero's .tagline */
-  color: var(--background);
+  /* dark gray in light mode, paired with the now-blue .page-title above
+     it; swaps to the paler body-text color in dark mode instead of
+     staying literal ink, which would otherwise blend into the dark
+     page canvas (--page-bg is the same --ink value in dark mode) */
+  color: var(--ink);
   font-variation-settings: "wght" var(--wght-regular);
   margin: 0 0 var(--space-4);
   max-width: 640px;
+}
+
+:root[data-theme="dark"] .case-tagline {
+  color: var(--text);
 }
 
 .case-meta {
@@ -2264,7 +2280,7 @@ img.fragment-card {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  border: 1px solid var(--button-stroke);
+  border: 1px dotted var(--button-stroke);
   background-color: var(--page-bg);
   background-image: url("../assets/cursor-ring.png");
   background-repeat: no-repeat;
@@ -2930,13 +2946,15 @@ img.fragment-card {
      aligned lockup next to the tagline, rather than a huge centerpiece */
   font-size: 72px;
   line-height: 1;
-  font-style: normal;
+  /* whole title reads italic now, swapped in from the tagline's old
+     styling (see the color swap just below) */
+  font-style: italic;
   font-family: var(--font-display);
   font-weight: 300;
-  /* solid dark gray fill in light mode (was the pale --background fill kept
-     legible only by its outline); dark mode restores the old pale-yellow
-     fill just below */
-  color: var(--ink);
+  /* swapped with .tagline: the title is now the fixed brand blue in both
+     themes, and .tagline took over the title's old ink/dark-mode-yellow
+     treatment (see .tagline and its dark-mode override) */
+  color: var(--background);
   cursor: url("../assets/cursor-ring.png") 10 10, default;
   cursor: -webkit-image-set(url("../assets/cursor-ring.png") 1x, url("../assets/cursor-ring@2x.png") 2x, url("../assets/cursor-ring@3x.png") 3x) 10 10, default;
   cursor: image-set(url("../assets/cursor-ring.png") 1x, url("../assets/cursor-ring@2x.png") 2x, url("../assets/cursor-ring@3x.png") 3x) 10 10, default;
@@ -2944,13 +2962,9 @@ img.fragment-card {
   animation: title-bob 2.6s ease-in-out infinite;
 }
 
-/* the soft glow behind the title is a dark-mode-only effect now — it read
-   as too heavy against a plain white canvas once the fill went solid
-   dark gray, but still works well against the dark page background. */
-:root[data-theme="dark"] .site-title {
-  color: var(--accent-warm);
-  text-shadow: 0 0 18px rgba(114, 196, 255, 0.55), 0 0 36px rgba(114, 196, 255, 0.35);
-}
+/* .site-title is now the fixed brand blue in both themes (see above), so
+   it no longer needs its own dark-mode override or glow — that glow
+   moved to .tagline's dark-mode rule instead, as part of the same swap. */
 
 @media (max-width: 640px) {
   .site-title {
@@ -3137,9 +3151,15 @@ img.fragment-card {
   /* narrowed so the wrapped lines read as a single left-aligned column
      under "chelsea lee" above it, instead of stretching wide */
   max-width: 480px;
-  /* the hero subtitle — fixed brand blue in both themes, like the other
-     "same hex in both modes" brand colors, rather than following --text */
-  color: var(--background);
+  /* swapped with .site-title: the subtitle now carries the title's old
+     solid dark-gray fill in light mode, with a dark-mode override just
+     below that restores the title's old pale-yellow glow treatment */
+  color: var(--ink);
+}
+
+:root[data-theme="dark"] .tagline {
+  color: var(--accent-warm);
+  text-shadow: 0 0 18px rgba(114, 196, 255, 0.55), 0 0 36px rgba(114, 196, 255, 0.35);
 }
 
 /* the "product designer" / "artist" marks read as plain text here — no
@@ -3224,14 +3244,14 @@ img.fragment-card {
 .bubble-bio {
   background: #ffffff;
   color: var(--background);
-  border: 2px solid var(--background);
+  border: 1px dotted var(--background);
   box-shadow: 0 6px 14px rgba(58, 58, 58, 0.14);
 }
 
 .bubble-quote {
   background: #ffffff;
   color: var(--background);
-  border: 2px solid var(--background);
+  border: 1px dotted var(--background);
   box-shadow: 0 6px 14px rgba(58, 58, 58, 0.14);
 }
 
@@ -3242,8 +3262,8 @@ img.fragment-card {
   width: 140px;
   height: 140px;
   border-radius: 50%;
-  background: var(--off-white);
-  color: var(--button-stroke);
+  background: var(--accent-warm);
+  color: var(--background);
   font-style: italic;
   font-size: 12px;
   line-height: 16px;
@@ -3252,11 +3272,6 @@ img.fragment-card {
   justify-content: center;
   text-align: center;
   padding: var(--space-3);
-}
-
-.bubble-fact:hover {
-  background: var(--accent-warm);
-  color: var(--background);
 }
 
 /* A real speech bubble (rounded rect + tail) sitting over the top-left
@@ -3311,7 +3326,7 @@ img.fragment-card {
 .bubble-hobbies {
   background: #ffffff;
   color: var(--background);
-  border: 2px solid var(--background);
+  border: 1px dotted var(--background);
   box-shadow: 0 6px 14px rgba(58, 58, 58, 0.14);
 }
 
@@ -3322,7 +3337,7 @@ img.fragment-card {
 :root[data-theme="dark"] .bubble-quote,
 :root[data-theme="dark"] .bubble-hobbies {
   background: var(--background);
-  border: 2px solid transparent;
+  border: 1px dotted transparent;
   color: #ffffff;
   box-shadow: 0 6px 14px rgba(0, 0, 0, 0.3);
 }
@@ -3497,7 +3512,7 @@ img.fragment-card {
   height: 48px;
   padding: 0;
   border-radius: 50%;
-  border: 1px solid var(--button-stroke);
+  border: 1px dotted var(--button-stroke);
   background-color: var(--page-bg);
   background-image: url("../assets/cursor-ring.png");
   background-repeat: no-repeat;
