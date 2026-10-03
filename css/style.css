@@ -516,11 +516,18 @@ main {
 }
 
 /* same dotted-underline treatment as .underline-accent above, but in the
-   site's brand blue instead of yellow — used under "Chelsea" in the home
-   hero title and under the "More" / "Fragments" page titles */
+   site's brand blue instead of yellow, bigger, and sitting right under
+   the text — used under "Chelsea" in the home hero title and under the
+   "More" / "Fragments" page titles. inline-block + line-height: 1 tights
+   the span's own box to the glyphs themselves (these headings' own
+   line-height is looser, which otherwise pushes a border-bottom well
+   below the text instead of hugging it) with no padding to add more gap
+   back. */
 .underline-accent-blue {
-  border-bottom: 2px dotted var(--background);
-  padding-bottom: 2px;
+  display: inline-block;
+  line-height: 1;
+  border-bottom: 3px dotted var(--background);
+  padding-bottom: 0;
 }
 
 .footer-signoff {
