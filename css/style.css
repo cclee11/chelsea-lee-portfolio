@@ -399,6 +399,7 @@ main {
    .page-title */
 .case-main .page-title {
   font-family: var(--font-serif);
+  font-weight: 400;
 }
 
 /* subtitle sitting directly under a bare page title (currently the Fun
@@ -1299,8 +1300,8 @@ img.fragment-card {
    clearly unfinished (dashed, muted) so they're easy to find and swap. */
 
 .case-tagline {
-  font-size: var(--subheader-size);
-  line-height: var(--subheader-line);
+  font-size: 15px;
+  line-height: 22px;
   /* dark gray in light mode, paired with the now-blue .page-title above
      it; swaps to the paler body-text color in dark mode instead of
      staying literal ink, which would otherwise blend into the dark
@@ -1359,26 +1360,34 @@ img.fragment-card {
 
 .case-meta-item .meta-label {
   font-family: var(--font-serif);
-  font-size: 14px;
+  font-size: 12px;
   color: var(--button-stroke);
   font-variation-settings: "wght" var(--wght-regular);
 }
 
 .case-meta-item .meta-value {
   font-family: var(--font-sans);
-  font-size: 15px;
+  font-size: 13px;
   color: var(--ink);
-  font-variation-settings: "wght" var(--wght-bold);
+  font-variation-settings: "wght" var(--wght-regular);
 }
 
 :root[data-theme="dark"] .case-meta-item .meta-value {
   color: var(--off-white);
 }
 
-.case-top .case-hero {
+/* hero image/video and the jump-to bubble share this right-hand column,
+   so the jump-to card sits directly under the hero instead of under the
+   whole (taller) two-column row */
+.case-top-right {
+  display: flex;
+  flex-direction: column;
   flex: 1 1 480px;
   min-width: 0;
-  margin: 0;
+}
+
+.case-top-right .case-hero {
+  margin: 0 0 var(--space-3);
 }
 
 .case-hero {
@@ -1704,11 +1713,18 @@ img.fragment-card {
   }
 }
 
+/* always one row of three, never wrapping to a second line — each stat
+   shares the row evenly instead of sizing to its own label's width */
 .case-stats {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: var(--space-5);
   margin: var(--space-4) 0 0;
+}
+
+.case-stat {
+  flex: 1 1 0;
+  min-width: 0;
 }
 
 .case-stat .stat-number {
@@ -2152,6 +2168,33 @@ img.fragment-card {
    Prototype walkthrough, sized down and centered right under the section
    heading rather than running full width like the screen grid below. */
 
+/* video on the left, its caption on the right, side by side instead of
+   stacked (see .solution-video-wrap / .solution-intro below) */
+.solution-top {
+  display: flex;
+  align-items: center;
+  gap: var(--space-5);
+  margin: 0 0 var(--space-5);
+}
+
+.solution-top .solution-video-wrap {
+  flex: 1 1 420px;
+  margin: 0;
+}
+
+.solution-top .solution-intro {
+  flex: 1 1 360px;
+  margin: 0;
+  text-align: left;
+  max-width: none;
+}
+
+@media (max-width: 760px) {
+  .solution-top {
+    flex-direction: column;
+  }
+}
+
 .solution-video-wrap {
   display: flex;
   justify-content: center;
@@ -2382,8 +2425,9 @@ img.fragment-card {
 
 .solution-toggle-label {
   font-size: 13px;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
+  font-family: var(--font-serif);
+  font-style: italic;
+  letter-spacing: 0.01em;
   color: var(--text);
   font-variation-settings: "wght" var(--wght-medium);
 }
@@ -2918,7 +2962,13 @@ img.fragment-card {
 
 @media (max-width: 640px) {
   .case-stats {
-    gap: var(--space-4);
+    gap: var(--space-3);
+  }
+  .case-stat .stat-number {
+    font-size: 24px;
+  }
+  .case-stat .stat-label {
+    font-size: 10px;
   }
   .case-heading {
     font-size: 24px;
