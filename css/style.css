@@ -4,16 +4,21 @@
    ========================================================================== */
 
 :root {
+  /* Chelsea Lee design system — see the attached 5-color palette.
+     --ink / --background / --accent-warm keep the same hex in both modes
+     (they're the fixed "brand" colors used on colored bubble/pill
+     surfaces, buttons and highlights); --page-bg and --text are the two
+     that flip between light and dark mode just below. */
   --ink: #143e66;
-  --background: #a7d4e4;
-  --button-stroke: #6194c0;
+  --background: #72c4ff;
+  --button-stroke: #afafaf;
   --accent-warm: #fff6c3;
-  --accent-tint: #e0f7ff;
-  --page-bg: #ffffff;
+  --off-white: #f3f3f3;
+  --page-bg: var(--off-white);
   /* text sitting directly on the page background; kept separate from
      --ink, which stays the fixed navy used for text on the colored bubble
      / pill surfaces, so those stay legible when night mode flips --text */
-  --text: var(--ink);
+  --text: var(--button-stroke);
 
   --space-1: 4px;
   --space-2: 8px;
@@ -31,6 +36,10 @@
      text (project card titles, case-study headings, nav card titles, the
      "chelsea lee" hero name) — never for running body copy */
   --font-display: "roca", sans-serif;
+  /* used sparingly for a couple of warm, handwritten-feeling footer lines
+     (see .footer-label / .footer-signoff) — a system serif stack, no new
+     webfont to load */
+  --font-serif: Georgia, "Iowan Old Style", "Palatino Linotype", "Book Antiqua", serif;
   --wght-light: 300;
   --wght-regular: 400;
   --wght-medium: 500;
@@ -46,35 +55,30 @@
   --content-max: 960px;
 }
 
-/* Night mode: only the page canvas and the plain running text on top of it
-   flip to dark. The colored bubbles, pills and buttons keep their usual
-   brand colors (and --ink stays put) so text on those surfaces is never
-   put at risk of low contrast. */
+/* Night mode: bg flips to the dark navy and running text flips to the
+   light off-white, per the palette's dark-mode mapping. The colored
+   bubbles, pills and buttons keep their usual brand colors (and --ink
+   stays put) so text on those surfaces is never put at risk of low
+   contrast. */
 :root[data-theme="dark"] {
-  --page-bg: #0a1828;
-  --text: var(--accent-tint);
+  --page-bg: var(--ink);
+  --text: var(--off-white);
 }
 
-/* dark mode restores the original pale-yellow title fill, since the
-   light-mode default is now blue (see .site-title .word) */
-:root[data-theme="dark"] .site-title .word {
-  color: var(--accent-warm);
-}
-
-/* every page title and section header switches to the same light blue
-   used in the logo (--background) rather than the paler --text value, so
-   titles read as a distinct, branded blue instead of blending toward
+/* every page title and section header switches to the palette's dark-mode
+   "headers" color (the warm yellow) instead of the paler --text value, so
+   titles read as a distinct, branded accent instead of blending toward
    white against the dark canvas */
 :root[data-theme="dark"] .page-title,
 :root[data-theme="dark"] .case-heading,
 :root[data-theme="dark"] .case-subheading {
-  color: var(--background);
+  color: var(--accent-warm);
 }
 
-/* the case-toc sidebar's active link gets the same branded-blue
+/* the case-toc sidebar's active link gets the same branded-yellow
    treatment in dark mode as the headings it points to */
 :root[data-theme="dark"] .case-toc a.is-active {
-  color: var(--background);
+  color: var(--accent-warm);
 }
 
 /* dark mode swaps the yellow highlight for a sheer pale-blue wash, so the
@@ -83,7 +87,7 @@
    legible against yellow */
 :root[data-theme="dark"] mark,
 :root[data-theme="dark"] .intro mark {
-  background: rgba(167, 212, 228, 0.22);
+  background: rgba(114, 196, 255, 0.22);
   color: var(--text);
 }
 
@@ -133,9 +137,14 @@ body {
   font-size: var(--body-size);
   line-height: var(--body-line);
   color: var(--text);
-  background: var(--page-bg);
+  background-color: var(--page-bg);
+  /* slight paper grain over the page canvas — a tiled fractal-noise SVG,
+     very low alpha so it reads as texture rather than visible speckle;
+     matches the same grain already baked into the logo artwork/video */
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='matrix' values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.05 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  background-repeat: repeat;
   -webkit-font-smoothing: antialiased;
-  transition: background 0.25s ease, color 0.25s ease;
+  transition: background-color 0.25s ease, color 0.25s ease;
   /* the ring from the logo, standing in for the system pointer everywhere */
   cursor: url("../assets/cursor-ring.png") 10 10, auto;
   /* sticky footer: header + nav + main stack normally, main grows to
@@ -153,7 +162,6 @@ button,
 .icon-logo-link,
 .flip-tile,
 .bubble-intro,
-.letter,
 .theme-toggle {
   cursor: url("../assets/cursor-ring.png") 10 10, pointer;
 }
@@ -202,55 +210,23 @@ mark {
   display: inline-block;
 }
 
-/* The logo is split into 3 pieces (left ring / symbol / right ring) so
-   they can be animated independently. .icon-logo-wrap is sized to the
-   full original mark's aspect ratio, and each piece is positioned inside
-   it with the exact percentages of where it sits in that original mark,
-   so at rest the three pieces reassemble into the same logo. On hover,
-   only the rings slide outward — the symbol in the middle never moves. */
+/* Single flat logo mark (eyes + walking figure). .icon-logo-wrap is sized
+   to the mark's own aspect ratio; the image fills it via object-fit so it
+   scales cleanly wherever the wrap's width changes (see .bs-cover
+   .icon-logo-wrap for a larger instance on the brand-system page). */
 .icon-logo-wrap {
   position: relative;
   display: block;
   /* smaller than the eyes-divider mark on the home page (see .eyes-icon) */
   width: 58px;
-  height: calc(58px * 344 / 776);
+  height: calc(58px * 353 / 787);
 }
 
 .logo-piece {
-  position: absolute;
   display: block;
-  width: auto;
-  height: auto;
-  transition: transform 0.3s ease;
-}
-
-.logo-ring-left {
-  left: 0.26%;
-  top: 2.62%;
-  width: 33.38%;
-  height: 75.29%;
-}
-
-.logo-symbol {
-  left: 33.76%;
-  top: 18.02%;
-  width: 32.99%;
-  height: 81.69%;
-}
-
-.logo-ring-right {
-  left: 66.49%;
-  top: 0.58%;
-  width: 33.38%;
-  height: 75.29%;
-}
-
-.icon-logo-link:hover .logo-ring-left {
-  transform: translateX(-10px);
-}
-
-.icon-logo-link:hover .logo-ring-right {
-  transform: translateX(10px);
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 /* ------------------------------------------------------------------ nav */
@@ -381,7 +357,10 @@ main {
   line-height: var(--header-line);
   font-family: var(--font-display);
   font-weight: 700;
-  color: var(--text);
+  /* headers role (--ink), not --text's body-text gray — flips to the
+     dark-mode headers color via the :root[data-theme="dark"] .page-title
+     rule above */
+  color: var(--ink);
   margin: 0 0 var(--space-5);
   text-transform: lowercase;
   letter-spacing: 0.01em;
@@ -446,15 +425,29 @@ main {
   color: var(--button-stroke);
 }
 
+/* right side of the footer: "Let's connect!" heading (serif, larger) sits
+   above the link row, with the serif sign-off line below it — the whole
+   column right-aligned against the footer's own right edge */
+.footer-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--space-2);
+  text-align: right;
+}
+
 .footer-label {
-  font-size: var(--body-size);
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: 22px;
+  font-style: italic;
   color: var(--text);
-  text-transform: lowercase;
 }
 
 .connect-links {
   display: flex;
   flex-wrap: wrap;
+  justify-content: flex-end;
   gap: var(--space-4);
 }
 
@@ -463,6 +456,15 @@ main {
   font-size: var(--body-size);
   transition: color 0.2s ease;
   text-transform: lowercase;
+}
+
+/* the closing, slightly whimsical sign-off line under the links */
+.footer-signoff {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 13px;
+  color: var(--button-stroke);
 }
 
 .connect-link:hover {
@@ -667,7 +669,7 @@ img.fragment-card {
 
 .grid-design .flip-tile:hover .project-card-image,
 .grid-design .flip-tile:focus-visible .project-card-image {
-  box-shadow: 0 8px 16px rgba(20, 62, 102, 0.16), 0 0 10px rgba(167, 212, 228, 0.35);
+  box-shadow: 0 8px 16px rgba(20, 62, 102, 0.16), 0 0 10px rgba(114, 196, 255, 0.35);
 }
 
 /* caption under each UX card: plain text sitting directly on the page
@@ -688,7 +690,11 @@ img.fragment-card {
   font-size: 21px;
   font-family: var(--font-display);
   font-weight: 700;
-  color: var(--text);
+  color: var(--ink);
+}
+
+:root[data-theme="dark"] .card-caption-title {
+  color: var(--accent-warm);
 }
 
 .card-caption-desc {
@@ -718,7 +724,7 @@ img.fragment-card {
 .placeholder-link:hover .project-card-image,
 .placeholder-link:focus-visible .project-card-image {
   border-color: var(--background);
-  box-shadow: 0 18px 30px rgba(20, 62, 102, 0.22), 0 0 16px rgba(167, 212, 228, 0.5);
+  box-shadow: 0 18px 30px rgba(20, 62, 102, 0.22), 0 0 16px rgba(114, 196, 255, 0.5);
 }
 
 /* UX cards only: drop the lift + elevated drop-shadow ("pop out") that
@@ -731,7 +737,7 @@ img.fragment-card {
 .grid-2col-cards .placeholder-link:hover .project-card-image,
 .grid-2col-cards .placeholder-link:focus-visible .project-card-image {
   border-color: var(--background);
-  box-shadow: 0 0 16px rgba(167, 212, 228, 0.5);
+  box-shadow: 0 0 16px rgba(114, 196, 255, 0.5);
 }
 
 /* fun page: three smaller squares per row, packed closer together than
@@ -772,7 +778,9 @@ img.fragment-card {
   /* row-gap widened so the first row's tags sit clear of the second
      row's images; column-gap unchanged */
   gap: 48px 24px;
-  max-width: 1272px;
+  /* wider + a smaller inset below (see .hero-box .projects-grid), now that
+     there's no card rectangle constraining it — bigger tiles */
+  max-width: 1480px;
   margin: 0 auto;
 }
 
@@ -805,7 +813,7 @@ img.fragment-card {
   border: 2px solid transparent;
   transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
   /* slight ambient glow at rest, echoing the hero title's light-blue glow */
-  box-shadow: 0 0 16px rgba(167, 212, 228, 0.5);
+  box-shadow: 0 0 16px rgba(114, 196, 255, 0.5);
 }
 
 .project-card:hover .project-card-image,
@@ -813,7 +821,7 @@ img.fragment-card {
   border-color: var(--background);
   /* layer the lift shadow .placeholder:hover already adds on top of the
      resting glow instead of replacing it */
-  box-shadow: 0 18px 30px rgba(20, 62, 102, 0.22), 0 0 16px rgba(167, 212, 228, 0.5);
+  box-shadow: 0 18px 30px rgba(20, 62, 102, 0.22), 0 0 16px rgba(114, 196, 255, 0.5);
 }
 
 /* light-blue fill for the "more projects coming soon" tile, instead of the
@@ -864,7 +872,14 @@ img.fragment-card {
   letter-spacing: 0.03em;
   font-family: var(--font-display);
   font-weight: 700;
-  color: var(--text);
+  /* a title/heading, not running body copy, so it uses the "headers" role
+     (--ink) rather than --text's body-text gray; flips to the dark-mode
+     headers color just below, same as .page-title and friends */
+  color: var(--ink);
+}
+
+:root[data-theme="dark"] .project-card-title {
+  color: var(--accent-warm);
 }
 
 .project-card-desc {
@@ -907,7 +922,7 @@ img.fragment-card {
   max-width: calc(100% - var(--space-3) * 2);
   font-size: 12px;
   font-variation-settings: "wght" var(--wght-medium);
-  color: var(--accent-tint);
+  color: var(--off-white);
   background: rgba(97, 148, 192, 0.6);
   padding: var(--space-1) var(--space-3);
   border-radius: var(--radius-full);
@@ -1047,7 +1062,7 @@ img.fragment-card {
   left: 50%;
   bottom: var(--space-3);
   transform: translate(-50%, 8px);
-  background: var(--accent-tint);
+  background: var(--off-white);
   color: var(--ink);
   font-size: 13px;
   font-variation-settings: "wght" var(--wght-medium);
@@ -1071,7 +1086,7 @@ img.fragment-card {
 .flip-tile:hover .project-card-image,
 .flip-tile:focus-visible .project-card-image {
   border-color: var(--background);
-  box-shadow: 0 18px 30px rgba(20, 62, 102, 0.22), 0 0 16px rgba(167, 212, 228, 0.5);
+  box-shadow: 0 18px 30px rgba(20, 62, 102, 0.22), 0 0 16px rgba(114, 196, 255, 0.5);
 }
 
 /* --------------------------------------------------------------- subnav
@@ -1276,7 +1291,7 @@ img.fragment-card {
 }
 
 .case-meta-pill {
-  background: var(--accent-tint);
+  background: var(--off-white);
   border-radius: var(--radius-md);
   padding: var(--space-2) var(--space-3);
   display: flex;
@@ -1316,7 +1331,7 @@ img.fragment-card {
 /* quick-jump tabs, right-aligned directly under the hero image, linking
    down to the process / solution / reflection sections below. Wrapped in
    a slightly-darker-blue bubble (--background, one step down from the
-   --accent-tint pills inside it) with a small "jump to..." title. */
+   --off-white pills inside it) with a small "jump to..." title. */
 .case-jumpnav-wrap {
   display: flex;
   justify-content: flex-end;
@@ -1351,7 +1366,7 @@ img.fragment-card {
 .case-jumpnav a {
   font-size: 13px;
   color: var(--ink);
-  background: var(--accent-tint);
+  background: var(--off-white);
   padding: var(--space-1) var(--space-3);
   border-radius: var(--radius-full);
   transition: background 0.2s ease;
@@ -1457,7 +1472,7 @@ img.fragment-card {
   font-size: 32px;
   line-height: 1.25;
   text-align: left;
-  color: var(--text);
+  color: var(--ink);
   font-family: var(--font-display);
   font-weight: 700;
   text-transform: lowercase;
@@ -1470,7 +1485,7 @@ img.fragment-card {
 
 .case-subheading {
   font-size: var(--body-size);
-  color: var(--text);
+  color: var(--ink);
   font-family: var(--font-display);
   font-weight: 700;
   margin: var(--space-5) 0 var(--space-3);
@@ -1508,7 +1523,7 @@ img.fragment-card {
 }
 
 .case-note {
-  background: var(--accent-tint);
+  background: var(--off-white);
   color: var(--ink);
   border-radius: var(--radius-lg);
   padding: var(--space-4);
@@ -1553,7 +1568,7 @@ img.fragment-card {
 }
 
 .response-card {
-  background: var(--accent-tint);
+  background: var(--off-white);
   color: var(--ink);
   border-radius: var(--radius-lg);
   padding: var(--space-4);
@@ -1601,8 +1616,12 @@ img.fragment-card {
   display: block;
   font-size: 32px;
   line-height: 1.1;
-  color: var(--text);
+  color: var(--ink);
   font-variation-settings: "wght" var(--wght-medium);
+}
+
+:root[data-theme="dark"] .case-stat .stat-number {
+  color: var(--accent-warm);
 }
 
 .case-stat .stat-label {
@@ -1634,7 +1653,7 @@ img.fragment-card {
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background: var(--accent-tint);
+  background: var(--off-white);
   color: var(--ink);
   display: flex;
   align-items: center;
@@ -1685,7 +1704,7 @@ img.fragment-card {
   display: flex;
   align-items: center;
   gap: var(--space-2);
-  background: var(--accent-tint);
+  background: var(--off-white);
   border-radius: var(--radius-full);
   padding: var(--space-1) var(--space-3) var(--space-1) var(--space-1);
 }
@@ -1741,7 +1760,7 @@ img.fragment-card {
   display: flex;
   align-items: center;
   gap: var(--space-1);
-  background: var(--accent-tint);
+  background: var(--off-white);
   color: var(--ink);
   border-radius: var(--radius-full);
   padding: var(--space-1) var(--space-3);
@@ -1767,7 +1786,7 @@ img.fragment-card {
 }
 
 .persona-card {
-  background: var(--accent-tint);
+  background: var(--off-white);
   border-radius: var(--radius-lg);
   padding: 28px;
 }
@@ -1785,7 +1804,7 @@ img.fragment-card {
   height: 44px;
   border-radius: 50%;
   background: var(--ink);
-  color: var(--accent-tint);
+  color: var(--off-white);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1906,7 +1925,7 @@ img.fragment-card {
 /* ------------------------------------------------------ design opportunities
    Three cards translating the competitive audit into concrete design
    moves, one per benchmarked competitor. Each card keeps the same
-   accent-tint/ink treatment as .case-note (a colored surface, so the
+   off-white/ink treatment as .case-note (a colored surface, so the
    text stays fixed navy regardless of theme) and is told apart from its
    neighbors only by a left accent bar in one of the palette's existing
    blues, rather than introducing new colors outside the system. */
@@ -1919,7 +1938,7 @@ img.fragment-card {
 }
 
 .opportunity-card {
-  background: var(--accent-tint);
+  background: var(--off-white);
   color: var(--ink);
   border-radius: var(--radius-md);
   border-left: 4px solid var(--ink);
@@ -1988,15 +2007,15 @@ img.fragment-card {
 .mockup-caption-card {
   /* navy card, white-blue text in light mode; flips to a white-blue card
      with navy text in dark mode — inverted from the old always-light
-     accent-tint card */
+     off-white card */
   background: var(--ink);
-  color: var(--accent-tint);
+  color: var(--off-white);
   border-radius: var(--radius-md);
   padding: var(--space-3);
 }
 
 :root[data-theme="dark"] .mockup-caption-card {
-  background: var(--accent-tint);
+  background: var(--off-white);
   color: var(--ink);
 }
 
@@ -2081,13 +2100,13 @@ img.fragment-card {
 
 /* real, clickable CTA under the prototype video, linking out to the
    interactive Figma prototype. Styled like the site's own .back-to-top
-   pill (accent-tint fill, accent-warm hover) rather than GrubHub's own
+   pill (off-white fill, accent-warm hover) rather than GrubHub's own
    in-case-study purple, so it reads as "Chelsea's site" not "GrubHub". */
 .prototype-cta {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: var(--accent-tint);
+  background: var(--off-white);
   color: var(--ink);
   border-radius: var(--radius-full);
   padding: var(--space-2) var(--space-4);
@@ -2328,9 +2347,13 @@ img.fragment-card {
   font-size: 13px;
   text-transform: lowercase;
   letter-spacing: 0.02em;
-  color: var(--text);
+  color: var(--ink);
   font-family: var(--font-display);
   font-weight: 700;
+}
+
+:root[data-theme="dark"] .solution-caption-title {
+  color: var(--accent-warm);
 }
 
 .solution-caption-desc {
@@ -2654,7 +2677,7 @@ img.fragment-card {
    A flagged insight pulled straight out of the original-app audit,
    visually distinct from the surrounding .case-note blocks. */
 .audit-callout {
-  background: var(--accent-tint);
+  background: var(--off-white);
   color: var(--ink);
   border-left: 3px solid var(--button-stroke);
   border-radius: var(--radius-md);
@@ -2718,7 +2741,7 @@ img.fragment-card {
   gap: var(--space-2);
   font-size: 13px;
   color: var(--ink);
-  background: var(--accent-tint);
+  background: var(--off-white);
   border: none;
   padding: var(--space-2) var(--space-4);
   border-radius: var(--radius-full);
@@ -2764,10 +2787,14 @@ img.fragment-card {
 
 .project-nav .nav-title {
   font-size: 16px;
-  color: var(--text);
+  color: var(--ink);
   font-family: var(--font-display);
   font-weight: 700;
   transition: color 0.2s ease;
+}
+
+:root[data-theme="dark"] .project-nav .nav-title {
+  color: var(--accent-warm);
 }
 
 .project-nav a:hover .nav-title {
@@ -2801,23 +2828,17 @@ img.fragment-card {
   margin-bottom: var(--space-4);
 }
 
+/* no card/rectangle here on purpose — the hero content (and the project
+   grid below it) just rests directly on the page's own background, same
+   as every other section of the site. Padding is kept (not a border) so
+   the content still has breathing room against the viewport edges. */
 .hero-box {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  border: 1px solid var(--button-stroke);
-  border-radius: var(--radius-lg);
-  /* extra bottom padding so the last row of project cards (with their own
-     glow/shadow) has real breathing room before the box's own border,
-     instead of ending nearly flush against it; sides widened to match now
-     that the grid actually stretches to fill this box (see
-     .hero-box .projects-grid) instead of sitting at a shrink-to-fit width;
-     top padding doubled so the title/tagline content sits lower inside
-     the box instead of starting right at the border */
-  padding: 80px var(--space-5) 64px;
+  padding: 48px var(--space-5) 64px;
   text-align: left;
-  box-shadow: 0 12px 28px rgba(20, 62, 102, 0.16);
 }
 
 /* the title/tagline now read left-aligned (see .hero-intro), so the
@@ -2826,11 +2847,11 @@ img.fragment-card {
 .hero-box .projects-grid {
   text-align: left;
   /* an explicit width (rather than align-self: stretch, which .projects-
-     grid's own margin: auto cancels out per spec anyway) both fixes the
-     grid at a predictable size relative to the box and insets it a little
-     further than the box's own padding, so the cards read as slightly
-     smaller instead of filling the box edge-to-edge */
-  width: calc(100% - 48px);
+     grid's own margin: auto cancels out per spec anyway) fixes the grid at
+     a predictable size relative to the box; barely inset now (just enough
+     that the cards' own glow doesn't clip) so the tiles read as big as
+     possible with no card rectangle around them to justify shrinking back */
+  width: calc(100% - 8px);
   margin: 0 auto;
 }
 
@@ -2860,8 +2881,26 @@ img.fragment-card {
     align-items: flex-start;
     gap: var(--space-4);
   }
+
+  /* .eyes-caption floats above .eyes-icon via its own absolute
+     top/translateY offset (see .eyes-caption), overflowing upward past
+     .eyes-icon's own top edge by more than the stacked gap above gives
+     it room for once the title wraps to two lines. Extra clearance here
+     (on top of .hero-name-row's gap) keeps the bubble off the title's
+     wrapped second line without touching the shared desktop layout.
+     Selector is scoped under .hero-name-row (rather than bare
+     .eyes-divider) so it beats the unconditional "margin: 0 32px 0 0"
+     rule on .eyes-divider itself, which comes later in the file and
+     would otherwise win the cascade and reset this back to 0. */
+  .hero-name-row .eyes-divider {
+    margin-top: 48px;
+  }
 }
 
+/* Plain text now (no more per-word / per-letter spans — see main.js's
+   removed click-to-color feature) since "Hi, I'm Chelsea" reads as one
+   ordinary run of text rather than a two-word lockup that needed its own
+   flex layout. */
 .site-title {
   /* no margin of its own: it now sits in a flex row with .eyes-divider
      (see .hero-name-row), and any margin here would throw off centering
@@ -2869,21 +2908,7 @@ img.fragment-card {
      margin box. The gap before the tagline comes from .hero-name-row's
      own margin-bottom instead. */
   margin: 0;
-  display: inline-flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  align-items: baseline;
-  /* gap is set in px, not em: the words are sized way up via .word's own
-     font-size, so an em-based gap here (inherited from body's small
-     font-size) would end up nearly invisible next to the letters */
-  gap: 16px;
-  cursor: url("../assets/cursor-ring.png") 10 10, default;
-  /* idle bounce, always running, matching the eyes-divider logo below it */
-  animation: title-bob 2.6s ease-in-out infinite;
-}
-
-.site-title .word {
-  display: inline-flex;
+  display: inline-block;
   /* scaled down from the old 136px now that the name reads as a left-
      aligned lockup next to the tagline, rather than a huge centerpiece */
   font-size: 72px;
@@ -2895,47 +2920,28 @@ img.fragment-card {
      legible only by its outline); dark mode restores the old pale-yellow
      fill just below */
   color: var(--ink);
+  cursor: url("../assets/cursor-ring.png") 10 10, default;
+  /* idle bounce, always running, matching the eyes-divider logo below it */
+  animation: title-bob 2.6s ease-in-out infinite;
 }
 
-/* the soft glow behind the letters is a dark-mode-only effect now — it
-   read as too heavy against a plain white canvas once the fill went
-   solid navy, but still works well against the dark page background. */
-:root[data-theme="dark"] .site-title .word {
-  text-shadow: 0 0 18px rgba(167, 212, 228, 0.55), 0 0 36px rgba(167, 212, 228, 0.35);
+/* the soft glow behind the title is a dark-mode-only effect now — it read
+   as too heavy against a plain white canvas once the fill went solid
+   navy, but still works well against the dark page background. */
+:root[data-theme="dark"] .site-title {
+  color: var(--accent-warm);
+  text-shadow: 0 0 18px rgba(114, 196, 255, 0.55), 0 0 36px rgba(114, 196, 255, 0.35);
 }
 
 @media (max-width: 640px) {
-  .site-title .word {
-    font-size: 40px;
-  }
   .site-title {
-    gap: 10px;
+    font-size: 40px;
   }
 }
 
 @keyframes title-bob {
   0%, 100% { transform: translateY(0); }
   50%      { transform: translateY(-6px); }
-}
-
-/* Each letter is independently clickable: clicking cycles its fill through
-   a small palette (see main.js), while the blue outline stroke (inherited
-   from .word) stays constant so every state still reads as one family.
-   .word is display:inline-flex (see above) so the whitespace between each
-   letter span in the HTML source doesn't render as a gap — but that also
-   means plain letter-spacing has no effect here, since flex layout doesn't
-   use it. A small negative margin pulls the letters in tight instead. */
-.letter {
-  display: inline-block;
-  margin-right: -0.04em;
-}
-
-.letter.color-lightblue {
-  color: var(--background);
-}
-
-.letter.color-yellow {
-  color: var(--accent-warm);
 }
 
 /* ------------------------------------------------- eyes-looking divider
@@ -3208,7 +3214,7 @@ img.fragment-card {
   width: 140px;
   height: 140px;
   border-radius: 50%;
-  background: var(--accent-tint);
+  background: var(--off-white);
   color: var(--button-stroke);
   font-style: italic;
   font-size: 12px;
@@ -3364,7 +3370,7 @@ img.fragment-card {
 .lightbox-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(167, 212, 228, 0.55);
+  background: rgba(114, 196, 255, 0.55);
   z-index: 150;
   display: none;
   align-items: center;

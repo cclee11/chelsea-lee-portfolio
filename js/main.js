@@ -6,16 +6,20 @@
       phrases, one per click; after the last phrase it returns to the
       original "hi, i'm chelsea!" greeting before cycling through again.
       The "(click me)" hint disappears after the first click.
-   3. Click-to-color title letters (home page): each letter in "chelsea
-      lee" is independently clickable, cycling its own fill color through
-      a small palette (see the .letter.color-* rules in style.css).
-      Keyboard-accessible (Enter/Space) like the other interactions here.
-   4. Night mode toggle: a small ring-shaped button, sticky to the bottom
+   3. Night mode toggle: a small ring-shaped button, sticky to the bottom
       right of every page, flips a [data-theme="dark"] attribute on <html>
       (see style.css) and remembers the choice in localStorage. Applied
       as early as possible (script runs at the end of body, so
       document.documentElement already exists) to avoid a flash of the
       wrong theme on load.
+   4. Theme-aware logo video (.theme-video, see #loading-screen and the
+      home hero's .eyes-icon): the looping logo clip is baked against a
+      flat background per theme (there's no real video transparency here,
+      so a light-mode take and a dark-mode take are rendered separately,
+      each matching that mode's --page-bg) and this swaps each
+      .theme-video's <source> srcs to the right pair whenever the theme is
+      set, including on first load, so the video's background always
+      matches the page underneath it instead of showing a mismatched box.
    5. Subnav tabs (more page): clicking a .subnav-tab shows the
       .subnav-panel with the matching data-panel and hides the rest.
       Generic by data-tab/data-panel, so any page can reuse the same
@@ -44,16 +48,16 @@
       left gutter and animates to whichever entry is current. Clicking a
       link uses the browser's native anchor scroll.
    9. Homepage loading screen (#loading-screen, index.html only): a plain
-      white overlay with a small looping logo video, captioned with two
-      phrases that fade in and out in turn ("just getting set up...",
-      "welcome!"). After the last phrase, the whole overlay fades out and
-      removes itself from the DOM, revealing the hero page underneath.
-      Only ever runs on an actual page reload (an inline script right
-      after #loading-screen in index.html checks the Navigation Timing
-      API and removes the element immediately, before this script even
-      runs, on a plain in-site navigation — clicking the "projects" nav
-      tab or the header logo back to the homepage — so it doesn't replay
-      every time someone lands back on index.html).
+      overlay with a small looping logo video (see #4 above), captioned
+      with two phrases that fade in and out in turn ("just getting set
+      up...", "welcome!"). After the last phrase, the whole overlay fades
+      out and removes itself from the DOM, revealing the hero page
+      underneath. Only ever runs on an actual page reload (an inline
+      script right after #loading-screen in index.html checks the
+      Navigation Timing API and removes the element immediately, before
+      this script even runs, on a plain in-site navigation — clicking the
+      "projects" nav tab or the header logo back to the homepage — so it
+      doesn't replay every time someone lands back on index.html).
   10. Draggable fragment cards (fun.html only, see js/fragments.js): each
       card in #fragmentsStage can be picked up and dropped anywhere,
       reusing the same --tx/--ty/--rot transform vars every .placeholder
@@ -73,6 +77,36 @@
     } else {
       document.documentElement.removeAttribute("data-theme");
     }
+    updateThemeVideos(theme);
+  }
+
+  // .theme-video elements (the loading screen + the home hero's eyes-icon)
+  // carry the light/dark source pairs as data attributes rather than real
+  // <source src>, so the very first paint already picks the right one —
+  // nothing to swap away from after the fact. See main.js doc comment #4.
+  function updateThemeVideos(theme) {
+    var isDark = theme === "dark";
+    var videos = document.querySelectorAll(".theme-video");
+    videos.forEach(function (video) {
+      var webm = video.getAttribute(isDark ? "data-webm-dark" : "data-webm-light");
+      var mp4 = video.getAttribute(isDark ? "data-mp4-dark" : "data-mp4-light");
+      var sources = video.querySelectorAll("source");
+      var webmSource = sources[0];
+      var mp4Source = sources[1];
+      if (webmSource && webm && webmSource.getAttribute("src") !== webm) {
+        webmSource.setAttribute("src", webm);
+      }
+      if (mp4Source && mp4 && mp4Source.getAttribute("src") !== mp4) {
+        mp4Source.setAttribute("src", mp4);
+      }
+      video.load();
+      var playPromise = video.play();
+      if (playPromise && typeof playPromise.catch === "function") {
+        // autoplay can be rejected (rare, given muted+playsinline) — if so,
+        // just leave the video on its first frame instead of throwing
+        playPromise.catch(function () {});
+      }
+    });
   }
 
   var storedTheme = null;
@@ -181,42 +215,6 @@
         }
       });
     }
-
-    var titleLetters = document.querySelectorAll(".site-title .letter");
-    // "" (no class) is the default navy fill from .word; each click steps
-    // to the next color and wraps back around to the default navy.
-    var letterColors = ["", "color-lightblue", "color-yellow"];
-
-    var cycleLetterColor = function (letter) {
-      var current = parseInt(letter.getAttribute("data-color-index") || "0", 10);
-      var next = (current + 1) % letterColors.length;
-      letterColors.forEach(function (cls) {
-        if (cls) {
-          letter.classList.remove(cls);
-        }
-      });
-      if (letterColors[next]) {
-        letter.classList.add(letterColors[next]);
-      }
-      letter.setAttribute("data-color-index", String(next));
-    };
-
-    titleLetters.forEach(function (letter) {
-      letter.setAttribute("role", "button");
-      letter.setAttribute("tabindex", "0");
-      letter.setAttribute("aria-label", "Change the color of this letter");
-
-      letter.addEventListener("click", function () {
-        cycleLetterColor(letter);
-      });
-
-      letter.addEventListener("keydown", function (e) {
-        if (e.key === "Enter" || e.key === " " || e.key === "Spacebar") {
-          e.preventDefault();
-          cycleLetterColor(letter);
-        }
-      });
-    });
 
     var subnavTabs = document.querySelectorAll(".subnav-tab");
     if (subnavTabs.length) {

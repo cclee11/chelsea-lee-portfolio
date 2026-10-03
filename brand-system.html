@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="https://use.typekit.net/nli4aly.css">
+<link rel="stylesheet" href="css/style.css">
+<title>chelsea lee — brand system</title>
+<style>
+  body {
+    background: #f3f3f3;
+  }
+
+  .bs-doc {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 64px 48px 96px;
+  }
+
+  .bs-cover {
+    text-align: center;
+    padding: 56px 32px 64px;
+    background: var(--page-bg);
+    border-radius: var(--radius-lg);
+    margin-bottom: 64px;
+  }
+
+  .bs-cover .icon-logo-wrap {
+    margin: 0 auto 24px;
+    width: 96px;
+    height: calc(96px * 353 / 787);
+  }
+
+  .bs-eyebrow {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--button-stroke);
+    margin: 0 0 12px;
+  }
+
+  .bs-cover .site-title {
+    margin: 0 0 16px;
+  }
+
+  .bs-cover-sub {
+    font-size: 18px;
+    font-style: italic;
+    color: var(--ink);
+    max-width: 560px;
+    margin: 0 auto;
+  }
+
+  .bs-section {
+    margin: 0 0 72px;
+  }
+
+  .bs-section-title {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--button-stroke);
+    font-variation-settings: "wght" var(--wght-medium);
+    margin: 0 0 8px;
+  }
+
+  .bs-section-heading {
+    font-size: 30px;
+    color: var(--ink);
+    font-variation-settings: "wght" var(--wght-medium);
+    margin: 0 0 32px;
+    padding-bottom: 16px;
+    border-bottom: 2px solid var(--background);
+  }
+
+  .bs-lead {
+    font-size: 15px;
+    line-height: 24px;
+    color: var(--ink);
+    max-width: 720px;
+    margin: -20px 0 32px;
+  }
+
+  /* ---- color palette ---- */
+  .bs-swatch-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .bs-swatch {
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    border: 1px solid rgba(20, 62, 102, 0.1);
+  }
+
+  .bs-swatch-fill {
+    height: 100px;
+  }
+
+  .bs-swatch-info {
+    background: #fff;
+    padding: 14px 16px;
+  }
+
+  .bs-swatch-name {
+    font-size: 14px;
+    color: var(--ink);
+    font-variation-settings: "wght" var(--wght-medium);
+    margin: 0 0 2px;
+  }
+
+  .bs-swatch-role {
+    font-size: 12px;
+    color: var(--button-stroke);
+    margin: 0 0 6px;
+  }
+
+  .bs-swatch-hex {
+    font-size: 12px;
+    font-family: "SFMono-Regular", Consolas, monospace;
+    color: var(--ink);
+    letter-spacing: 0.02em;
+  }
+
+  /* ---- typography ---- */
+  .bs-type-weights {
+    display: flex;
+    gap: 40px;
+    margin: 0 0 40px;
+    flex-wrap: wrap;
+  }
+
+  .bs-type-weight-sample {
+    font-size: 64px;
+    color: var(--ink);
+    line-height: 1;
+  }
+
+  .bs-type-weight-label {
+    font-size: 12px;
+    color: var(--button-stroke);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-top: 8px;
+  }
+
+  .bs-type-scale-row {
+    display: flex;
+    align-items: baseline;
+    gap: 24px;
+    padding: 16px 0;
+    border-top: 1px solid var(--background);
+  }
+
+  .bs-type-scale-row:first-of-type {
+    border-top: none;
+  }
+
+  .bs-type-scale-label {
+    flex: 0 0 220px;
+    font-size: 12px;
+    color: var(--button-stroke);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .bs-type-scale-sample {
+    color: var(--ink);
+  }
+
+  /* ---- spacing + radius ---- */
+  .bs-scale-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+  }
+
+  .bs-scale-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+
+  .bs-scale-bar {
+    background: var(--button-stroke);
+    height: 20px;
+    border-radius: 4px;
+  }
+
+  .bs-scale-tag {
+    font-size: 12px;
+    font-family: "SFMono-Regular", Consolas, monospace;
+    color: var(--ink);
+    width: 130px;
+    flex: 0 0 auto;
+  }
+
+  .bs-radius-swatch {
+    width: 64px;
+    height: 64px;
+    background: var(--button-stroke);
+    flex: 0 0 auto;
+  }
+
+  /* ---- components ---- */
+  .bs-component-block {
+    margin-bottom: 40px;
+  }
+
+  .bs-component-label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--button-stroke);
+    margin: 0 0 12px;
+  }
+
+  .bs-component-stage {
+    background: var(--page-bg);
+    border-radius: var(--radius-lg);
+    padding: 28px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .bs-bubble-row {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .bs-bubble-row .bubble {
+    max-width: 260px;
+    font-size: 13px;
+  }
+
+  .bs-mini-placeholder {
+    width: 140px;
+    aspect-ratio: 1/1;
+  }
+
+  /* ---- light / dark comparison ---- */
+  .bs-theme-compare {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+
+  .bs-theme-frame {
+    border-radius: var(--radius-lg);
+    padding: 28px 24px;
+    background: var(--page-bg);
+    color: var(--text);
+  }
+
+  .bs-theme-frame-label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--button-stroke);
+    margin: 0 0 16px;
+  }
+
+  .bs-theme-frame .site-nav {
+    border: none;
+    padding: 0 0 20px;
+    justify-content: flex-start;
+    position: static;
+  }
+
+  .bs-mini-title {
+    font-size: 28px;
+    color: var(--ink);
+    font-variation-settings: "wght" var(--wght-medium);
+    margin: 0 0 12px;
+  }
+
+  .bs-theme-frame[data-dark="true"] .bs-mini-title {
+    color: var(--accent-warm);
+  }
+
+  .bs-mini-heading {
+    font-size: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+    color: var(--text);
+    font-variation-settings: "wght" var(--wght-medium);
+    margin: 0 0 10px;
+  }
+
+  .bs-mini-body {
+    font-size: 14px;
+    color: var(--text);
+    max-width: 360px;
+  }
+
+  /* ---- voice ---- */
+  .bs-principle-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  .bs-principle {
+    background: var(--off-white);
+    border-radius: var(--radius-lg);
+    padding: 20px;
+  }
+
+  .bs-principle-title {
+    font-size: 15px;
+    color: var(--ink);
+    font-variation-settings: "wght" var(--wght-medium);
+    margin: 0 0 8px;
+  }
+
+  .bs-principle-body {
+    font-size: 13px;
+    line-height: 19px;
+    color: var(--ink);
+    margin: 0;
+  }
+
+  .bs-footer {
+    text-align: center;
+    padding-top: 32px;
+    border-top: 1px solid var(--background);
+    color: var(--button-stroke);
+    font-size: 12px;
+  }
+</style>
+</head>
+<body>
+
+  <div class="bs-doc">
+
+    <div class="bs-cover">
+      <span class="icon-logo-wrap" style="display: inline-block; position: relative;">
+        <img src="assets/logo-mark.png" alt="" class="logo-piece logo-mark">
+      </span>
+      <p class="bs-eyebrow">brand system</p>
+      <h1 class="site-title">Hi, I'm Chelsea</h1>
+      <p class="bs-cover-sub">a UX/UI designer &amp; artist — visual identity, tokens, and components for the portfolio at cclee11.github.io</p>
+    </div>
+
+    <!-- ============================================================ logo -->
+    <div class="bs-section">
+      <p class="bs-section-title">identity</p>
+      <h2 class="bs-section-heading">logo &amp; marks</h2>
+      <div class="bs-component-stage" style="justify-content: space-around; text-align: center;">
+        <div>
+          <span class="icon-logo-wrap" style="display: inline-block; position: relative; width: 140px; height: calc(140px * 353 / 787); margin-bottom: 12px;">
+            <img src="assets/logo-mark.png" alt="" class="logo-piece logo-mark">
+          </span>
+          <p class="bs-component-label" style="text-align: center;">primary mark — header lockup</p>
+        </div>
+        <div>
+          <span class="eyes-icon" style="display: inline-block; width: 160px; height: calc(160px * 342 / 776); margin-bottom: 12px; animation: none;">
+            <img class="eyes-base" src="assets/eyes-base.png" alt="" style="position: absolute; inset: 0; width: 100%; height: 100%;">
+            <img class="eyes-pupils" src="assets/eyes-pupils.png" alt="" style="position: absolute; inset: 0; width: 100%; height: 100%;">
+          </span>
+          <p class="bs-component-label" style="text-align: center;">secondary mark — "eyes" divider</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================================ color -->
+    <div class="bs-section">
+      <p class="bs-section-title">color</p>
+      <h2 class="bs-section-heading">palette</h2>
+      <p class="bs-lead">One fixed navy ink for text on colored surfaces, one light blue for buttons/accents, one warm yellow accent, one gray for strokes/body text, and an off-white that flips with the page background for night mode. Ink, background and accent-warm never change between light and dark — only the stroke/text role and the page background do.</p>
+      <div class="bs-swatch-grid">
+        <div class="bs-swatch">
+          <div class="bs-swatch-fill" style="background: var(--ink);"></div>
+          <div class="bs-swatch-info">
+            <p class="bs-swatch-name">ink</p>
+            <p class="bs-swatch-role">fixed text on colored surfaces; light-mode headers</p>
+            <p class="bs-swatch-hex">#143E66 · --ink</p>
+          </div>
+        </div>
+        <div class="bs-swatch">
+          <div class="bs-swatch-fill" style="background: var(--background);"></div>
+          <div class="bs-swatch-info">
+            <p class="bs-swatch-name">background</p>
+            <p class="bs-swatch-role">buttons / accent — same in both modes</p>
+            <p class="bs-swatch-hex">#72C4FF · --background</p>
+          </div>
+        </div>
+        <div class="bs-swatch">
+          <div class="bs-swatch-fill" style="background: var(--button-stroke);"></div>
+          <div class="bs-swatch-info">
+            <p class="bs-swatch-name">button stroke</p>
+            <p class="bs-swatch-role">strokes; light-mode body text</p>
+            <p class="bs-swatch-hex">#AFAFAF · --button-stroke</p>
+          </div>
+        </div>
+        <div class="bs-swatch">
+          <div class="bs-swatch-fill" style="background: var(--accent-warm);"></div>
+          <div class="bs-swatch-info">
+            <p class="bs-swatch-name">accent warm</p>
+            <p class="bs-swatch-role">active nav, hover states, dark-mode headers/title</p>
+            <p class="bs-swatch-hex">#FFF6C3 · --accent-warm</p>
+          </div>
+        </div>
+        <div class="bs-swatch">
+          <div class="bs-swatch-fill" style="background: var(--off-white);"></div>
+          <div class="bs-swatch-info">
+            <p class="bs-swatch-name">off white</p>
+            <p class="bs-swatch-role">meta pills, note cards; light-mode page bg; dark-mode text</p>
+            <p class="bs-swatch-hex">#F3F3F3 · --off-white</p>
+          </div>
+        </div>
+        <div class="bs-swatch">
+          <div class="bs-swatch-fill" style="background: #f3f3f3;"></div>
+          <div class="bs-swatch-info">
+            <p class="bs-swatch-name">page bg — light</p>
+            <p class="bs-swatch-role">default canvas</p>
+            <p class="bs-swatch-hex">#F3F3F3 · --page-bg</p>
+          </div>
+        </div>
+        <div class="bs-swatch">
+          <div class="bs-swatch-fill" style="background: #143e66;"></div>
+          <div class="bs-swatch-info">
+            <p class="bs-swatch-name">page bg — dark</p>
+            <p class="bs-swatch-role">night mode canvas</p>
+            <p class="bs-swatch-hex">#143E66 · --page-bg (dark)</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================================ type -->
+    <div class="bs-section">
+      <p class="bs-section-title">typography</p>
+      <h2 class="bs-section-heading">type</h2>
+      <p class="bs-lead">Deuterium Variable is the only typeface on the site, carrying every weight from a light 300 running text up through a medium 500 for headings — set entirely in lowercase, except section headers, which are the one place the system goes all caps.</p>
+
+      <div class="bs-type-weights">
+        <div>
+          <p class="bs-type-weight-sample" style="font-variation-settings: 'wght' 300;">Aa</p>
+          <p class="bs-type-weight-label">light · 300</p>
+        </div>
+        <div>
+          <p class="bs-type-weight-sample" style="font-variation-settings: 'wght' 400;">Aa</p>
+          <p class="bs-type-weight-label">regular · 400</p>
+        </div>
+        <div>
+          <p class="bs-type-weight-sample" style="font-variation-settings: 'wght' 500;">Aa</p>
+          <p class="bs-type-weight-label">medium · 500</p>
+        </div>
+      </div>
+
+      <div class="bs-type-scale-row">
+        <span class="bs-type-scale-label">header / 40px · 44 line</span>
+        <span class="bs-type-scale-sample" style="font-size: 40px; font-variation-settings: 'wght' 500; text-transform: uppercase;">page title</span>
+      </div>
+      <div class="bs-type-scale-row">
+        <span class="bs-type-scale-label">subheader / 20px · 26 line</span>
+        <span class="bs-type-scale-sample" style="font-size: 20px; font-style: italic;">welcome to an exploration...</span>
+      </div>
+      <div class="bs-type-scale-row">
+        <span class="bs-type-scale-label">body / 15px · 22 line</span>
+        <span class="bs-type-scale-sample" style="font-size: 15px;">thoughtful art and design are the major catalysts for impactful communication.</span>
+      </div>
+    </div>
+
+    <!-- ============================================================ scale -->
+    <div class="bs-section">
+      <p class="bs-section-title">layout</p>
+      <h2 class="bs-section-heading">spacing &amp; radius</h2>
+      <div class="bs-scale-grid">
+        <div>
+          <p class="bs-component-label">spacing scale</p>
+          <div class="bs-scale-row"><span class="bs-scale-tag">space-1 · 4px</span><span class="bs-scale-bar" style="width: 4px;"></span></div>
+          <div class="bs-scale-row"><span class="bs-scale-tag">space-2 · 8px</span><span class="bs-scale-bar" style="width: 8px;"></span></div>
+          <div class="bs-scale-row"><span class="bs-scale-tag">space-3 · 16px</span><span class="bs-scale-bar" style="width: 16px;"></span></div>
+          <div class="bs-scale-row"><span class="bs-scale-tag">space-4 · 24px</span><span class="bs-scale-bar" style="width: 24px;"></span></div>
+          <div class="bs-scale-row"><span class="bs-scale-tag">space-5 · 40px</span><span class="bs-scale-bar" style="width: 40px;"></span></div>
+        </div>
+        <div>
+          <p class="bs-component-label">corner radius</p>
+          <div class="bs-scale-row"><span class="bs-scale-tag">radius-sm · 4px</span><span class="bs-radius-swatch" style="border-radius: 4px;"></span></div>
+          <div class="bs-scale-row"><span class="bs-scale-tag">radius-md · 8px</span><span class="bs-radius-swatch" style="border-radius: 8px;"></span></div>
+          <div class="bs-scale-row"><span class="bs-scale-tag">radius-lg · 16px</span><span class="bs-radius-swatch" style="border-radius: 16px;"></span></div>
+          <div class="bs-scale-row"><span class="bs-scale-tag">radius-full · pill</span><span class="bs-radius-swatch" style="border-radius: 999px; width: 96px;"></span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================================ components -->
+    <div class="bs-section">
+      <p class="bs-section-title">ui kit</p>
+      <h2 class="bs-section-heading">components</h2>
+
+      <div class="bs-component-block">
+        <p class="bs-component-label">primary nav</p>
+        <div class="bs-component-stage">
+          <nav class="site-nav" style="border: none; padding: 0; position: static;">
+            <a href="#" class="active">projects</a>
+            <a href="#">more</a>
+            <a href="#">fragments</a>
+            <a href="#">about</a>
+          </nav>
+        </div>
+      </div>
+
+      <div class="bs-component-block">
+        <p class="bs-component-label">jump-to bubble</p>
+        <div class="bs-component-stage">
+          <div class="case-jumpnav-bubble">
+            <span class="jumpnav-label">jump to...</span>
+            <nav class="case-jumpnav">
+              <a href="#">process</a>
+              <a href="#">solution</a>
+              <a href="#">reflection</a>
+            </nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="bs-component-block">
+        <p class="bs-component-label">subnav tabs</p>
+        <div class="bs-component-stage">
+          <nav class="subnav" style="margin: 0;">
+            <button type="button" class="subnav-tab is-active">UX</button>
+            <button type="button" class="subnav-tab">design</button>
+          </nav>
+        </div>
+      </div>
+
+      <div class="bs-component-block">
+        <p class="bs-component-label">meta pills</p>
+        <div class="bs-component-stage">
+          <div class="case-meta" style="margin: 0;">
+            <div class="case-meta-pill"><span class="meta-label">role</span><span class="meta-value">lead designer</span></div>
+            <div class="case-meta-pill"><span class="meta-label">team</span><span class="meta-value">2 designers</span></div>
+            <div class="case-meta-pill"><span class="meta-label">timeline</span><span class="meta-value">8 weeks</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bs-component-block">
+        <p class="bs-component-label">bubbles &amp; notes</p>
+        <div class="bs-component-stage">
+          <div class="bs-bubble-row">
+            <div class="bubble bubble-bio"><p>meet chelsea, a designer based in los angeles...</p></div>
+            <div class="bubble bubble-quote"><p>the success of any message lies in its craftsmanship!</p></div>
+            <div class="case-note" style="max-width: 260px;"><p>call out the insight that shaped your direction.</p></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bs-component-block">
+        <p class="bs-component-label">image placeholder tile</p>
+        <div class="bs-component-stage">
+          <div class="placeholder bs-mini-placeholder"></div>
+          <div class="placeholder bs-mini-placeholder" style="border-radius: 999px; aspect-ratio: unset; width: 140px; height: 44px; display: flex; align-items: center; justify-content: center;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================================ theme -->
+    <div class="bs-section">
+      <p class="bs-section-title">modes</p>
+      <h2 class="bs-section-heading">light &amp; dark</h2>
+      <div class="bs-theme-compare">
+        <div class="bs-theme-frame" style="--page-bg: #f3f3f3; --text: var(--button-stroke);">
+          <p class="bs-theme-frame-label">light mode</p>
+          <nav class="site-nav"><a href="#" class="active">projects</a><a href="#">more</a></nav>
+          <h3 class="bs-mini-title">hi, i'm chelsea</h3>
+          <h4 class="bs-mini-heading">overview</h4>
+          <p class="bs-mini-body">headings sit in --ink, running text in the gray --button-stroke, on an off-white canvas.</p>
+        </div>
+        <div class="bs-theme-frame" data-dark="true" style="--page-bg: #143e66; --text: var(--off-white);">
+          <p class="bs-theme-frame-label" style="color: var(--accent-warm);">dark mode</p>
+          <nav class="site-nav"><a href="#" class="active">projects</a><a href="#">more</a></nav>
+          <h3 class="bs-mini-title">hi, i'm chelsea</h3>
+          <h4 class="bs-mini-heading">overview</h4>
+          <p class="bs-mini-body">the canvas darkens to navy, headings shift to the warm yellow, and running text shifts to off-white — pills and bubbles keep their usual colors so contrast is never at risk.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================================ voice -->
+    <div class="bs-section" style="margin-bottom: 0;">
+      <p class="bs-section-title">personality</p>
+      <h2 class="bs-section-heading">voice &amp; principles</h2>
+      <div class="bs-principle-grid">
+        <div class="bs-principle">
+          <p class="bs-principle-title">lowercase &amp; warm</p>
+          <p class="bs-principle-body">body copy and everyday labels stay lowercase and conversational — approachable first, formal never.</p>
+        </div>
+        <div class="bs-principle">
+          <p class="bs-principle-title">caps for structure</p>
+          <p class="bs-principle-body">only page titles and section headers go into tracked all-caps, so the eye always knows where a new section starts.</p>
+        </div>
+        <div class="bs-principle">
+          <p class="bs-principle-title">tactile, not flat</p>
+          <p class="bs-principle-body">soft shadows, gentle tilts, and rounded bubbles keep the UI feeling hand-placed rather than templated.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="bs-footer">
+      chelsea lee — brand system · compiled from the live portfolio design system
+    </div>
+
+  </div>
+
+</body>
+</html>

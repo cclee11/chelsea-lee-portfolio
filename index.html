@@ -14,9 +14,11 @@
 <body>
 
   <div id="loading-screen" class="loading-screen" role="status" aria-live="polite">
-    <video class="loading-video" autoplay muted loop playsinline>
-      <source src="assets/loading-logo.webm" type="video/webm">
-      <source src="assets/loading-logo.mp4" type="video/mp4">
+    <video class="loading-video theme-video" autoplay muted loop playsinline
+      data-webm-light="assets/loading-logo-light.webm" data-mp4-light="assets/loading-logo-light.mp4"
+      data-webm-dark="assets/loading-logo-dark.webm" data-mp4-dark="assets/loading-logo-dark.mp4">
+      <source type="video/webm">
+      <source type="video/mp4">
     </video>
     <p class="loading-caption"></p>
   </div>
@@ -46,9 +48,7 @@
   <header class="site-header">
     <a href="index.html" class="icon-logo-link" aria-label="Go to home page">
       <span class="icon-logo-wrap">
-        <img src="assets/logo-ring-left.png" alt="" class="logo-piece logo-ring-left" aria-hidden="true">
-        <img src="assets/logo-symbol.png" alt="" class="logo-piece logo-symbol" aria-hidden="true">
-        <img src="assets/logo-ring-right.png" alt="" class="logo-piece logo-ring-right" aria-hidden="true">
+        <img src="assets/logo-mark.png" alt="" class="logo-piece logo-mark" aria-hidden="true">
       </span>
     </a>
   </header>
@@ -65,28 +65,15 @@
       <div class="hero-box">
         <div class="hero-intro">
           <div class="hero-name-row">
-            <h1 class="site-title">
-              <span class="word word-chelsea">
-                <span class="letter">c</span>
-                <span class="letter">h</span>
-                <span class="letter">e</span>
-                <span class="letter">l</span>
-                <span class="letter">s</span>
-                <span class="letter">e</span>
-                <span class="letter">a</span>
-              </span>
-              <span class="word word-lee">
-                <span class="letter">l</span>
-                <span class="letter">e</span>
-                <span class="letter">e</span>
-              </span>
-            </h1>
+            <h1 class="site-title">Hi, I'm Chelsea</h1>
 
             <div class="eyes-divider">
               <div class="eyes-icon" role="img" aria-label="Chelsea Lee logo, eyes glancing side to side">
-                <video class="eyes-video" autoplay muted loop playsinline aria-hidden="true">
-                  <source src="assets/loading-logo.webm" type="video/webm">
-                  <source src="assets/loading-logo.mp4" type="video/mp4">
+                <video class="eyes-video theme-video" autoplay muted loop playsinline aria-hidden="true"
+                  data-webm-light="assets/loading-logo-light.webm" data-mp4-light="assets/loading-logo-light.mp4"
+                  data-webm-dark="assets/loading-logo-dark.webm" data-mp4-dark="assets/loading-logo-dark.mp4">
+                  <source type="video/webm">
+                  <source type="video/mp4">
                 </video>
                 <p class="eyes-caption">take a look around...</p>
               </div>
@@ -150,14 +137,17 @@
 
   <footer class="site-footer">
     <div class="footer-left">
-      <span class="footer-label">Let's connect!</span>
       <p class="footer-credits">&copy; 2026 Chelsea Lee</p>
     </div>
-    <div class="connect-links">
-      <a class="connect-link" href="mailto:chelsleee911@gmail.com">chelsleee911@gmail.com</a>
-      <a class="connect-link" href="https://www.instagram.com/clartchive/" target="_blank" rel="noopener">@clartchive</a>
-      <a class="connect-link" href="https://www.linkedin.com/in/chelsea-lee-79109835a" target="_blank" rel="noopener">My LinkedIn</a>
-      <a class="connect-link" href="assets/chelsea-lee-resume-2026.pdf" target="_blank" rel="noopener">Resume</a>
+    <div class="footer-right">
+      <p class="footer-label">Let's connect!</p>
+      <div class="connect-links">
+        <a class="connect-link" href="mailto:chelsleee911@gmail.com">chelsleee911@gmail.com</a>
+        <a class="connect-link" href="https://www.instagram.com/clartchive/" target="_blank" rel="noopener">@clartchive</a>
+        <a class="connect-link" href="https://www.linkedin.com/in/chelsea-lee-79109835a" target="_blank" rel="noopener">My LinkedIn</a>
+        <a class="connect-link" href="assets/chelsea-lee-resume-2026.pdf" target="_blank" rel="noopener">Resume</a>
+      </div>
+      <p class="footer-signoff">Created with lots of chai lattes and intermittent snoozing...</p>
     </div>
   </footer>
 
