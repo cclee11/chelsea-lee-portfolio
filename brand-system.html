@@ -90,7 +90,7 @@
   .bs-swatch {
     border-radius: var(--radius-lg);
     overflow: hidden;
-    border: 1px solid rgba(20, 62, 102, 0.1);
+    border: 1px solid rgba(65, 65, 65, 0.1);
   }
 
   .bs-swatch-fill {
@@ -371,29 +371,37 @@
     <div class="bs-section">
       <p class="bs-section-title">color</p>
       <h2 class="bs-section-heading">palette</h2>
-      <p class="bs-lead">One fixed navy ink for text on colored surfaces, one light blue for buttons/accents, one warm yellow accent, one gray for strokes/body text, and an off-white that flips with the page background for night mode. Ink, background and accent-warm never change between light and dark — only the stroke/text role and the page background do.</p>
+      <p class="bs-lead">One fixed dark gray ink for titles and headers, one light blue for buttons/accents/subtitles, one warm yellow accent, one mid-gray for strokes, a separate gray for running body text, and an off-white that flips with the page background for night mode. Ink, background and accent-warm never change between light and dark — only the text role and the page background do.</p>
       <div class="bs-swatch-grid">
         <div class="bs-swatch">
           <div class="bs-swatch-fill" style="background: var(--ink);"></div>
           <div class="bs-swatch-info">
             <p class="bs-swatch-name">ink</p>
-            <p class="bs-swatch-role">fixed text on colored surfaces; light-mode headers</p>
-            <p class="bs-swatch-hex">#143E66 · --ink</p>
+            <p class="bs-swatch-role">titles &amp; headers; text on colored surfaces</p>
+            <p class="bs-swatch-hex">#3A3A3A · --ink</p>
           </div>
         </div>
         <div class="bs-swatch">
           <div class="bs-swatch-fill" style="background: var(--background);"></div>
           <div class="bs-swatch-info">
             <p class="bs-swatch-name">background</p>
-            <p class="bs-swatch-role">buttons / accent — same in both modes</p>
+            <p class="bs-swatch-role">buttons / accent / subtitles — same in both modes</p>
             <p class="bs-swatch-hex">#72C4FF · --background</p>
+          </div>
+        </div>
+        <div class="bs-swatch">
+          <div class="bs-swatch-fill" style="background: var(--text);"></div>
+          <div class="bs-swatch-info">
+            <p class="bs-swatch-name">text</p>
+            <p class="bs-swatch-role">running body copy, captions</p>
+            <p class="bs-swatch-hex">#939393 · --text</p>
           </div>
         </div>
         <div class="bs-swatch">
           <div class="bs-swatch-fill" style="background: var(--button-stroke);"></div>
           <div class="bs-swatch-info">
             <p class="bs-swatch-name">button stroke</p>
-            <p class="bs-swatch-role">strokes; light-mode body text</p>
+            <p class="bs-swatch-role">borders / strokes</p>
             <p class="bs-swatch-hex">#AFAFAF · --button-stroke</p>
           </div>
         </div>
@@ -422,11 +430,11 @@
           </div>
         </div>
         <div class="bs-swatch">
-          <div class="bs-swatch-fill" style="background: #143e66;"></div>
+          <div class="bs-swatch-fill" style="background: #3a3a3a;"></div>
           <div class="bs-swatch-info">
             <p class="bs-swatch-name">page bg — dark</p>
             <p class="bs-swatch-role">night mode canvas</p>
-            <p class="bs-swatch-hex">#143E66 · --page-bg (dark)</p>
+            <p class="bs-swatch-hex">#3A3A3A · --page-bg (dark)</p>
           </div>
         </div>
       </div>
@@ -567,19 +575,19 @@
       <p class="bs-section-title">modes</p>
       <h2 class="bs-section-heading">light &amp; dark</h2>
       <div class="bs-theme-compare">
-        <div class="bs-theme-frame" style="--page-bg: #f3f3f3; --text: var(--button-stroke);">
+        <div class="bs-theme-frame" style="--page-bg: #f3f3f3; --text: #939393;">
           <p class="bs-theme-frame-label">light mode</p>
           <nav class="site-nav"><a href="#" class="active">projects</a><a href="#">more</a></nav>
           <h3 class="bs-mini-title">hi, i'm chelsea</h3>
           <h4 class="bs-mini-heading">overview</h4>
-          <p class="bs-mini-body">headings sit in --ink, running text in the gray --button-stroke, on an off-white canvas.</p>
+          <p class="bs-mini-body">headings sit in --ink, running text in the gray --text, on an off-white canvas.</p>
         </div>
-        <div class="bs-theme-frame" data-dark="true" style="--page-bg: #143e66; --text: var(--off-white);">
+        <div class="bs-theme-frame" data-dark="true" style="--page-bg: #3a3a3a; --text: var(--off-white);">
           <p class="bs-theme-frame-label" style="color: var(--accent-warm);">dark mode</p>
           <nav class="site-nav"><a href="#" class="active">projects</a><a href="#">more</a></nav>
           <h3 class="bs-mini-title">hi, i'm chelsea</h3>
           <h4 class="bs-mini-heading">overview</h4>
-          <p class="bs-mini-body">the canvas darkens to navy, headings shift to the warm yellow, and running text shifts to off-white — pills and bubbles keep their usual colors so contrast is never at risk.</p>
+          <p class="bs-mini-body">the canvas darkens to dark gray, headings shift to the warm yellow, and running text shifts to off-white — pills and bubbles keep their usual colors so contrast is never at risk.</p>
         </div>
       </div>
     </div>

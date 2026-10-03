@@ -23,12 +23,19 @@
     <p class="loading-caption"></p>
   </div>
   <script>
-    // only ever show the loading screen on an actual page reload (Cmd/Ctrl+R,
-    // F5, the browser's reload button) — not on a plain in-site navigation
-    // back to the homepage, like clicking the "projects" tab or the header
-    // logo. Runs synchronously, immediately after #loading-screen above, so
-    // it's removed before the rest of the page (and before paint) on every
-    // other kind of visit.
+    // Only ever show the loading screen the very first time someone lands
+    // on the site in this browser session, or on an actual page reload
+    // (Cmd/Ctrl+R, F5, the browser's reload button) — never on a plain
+    // in-site navigation back to the homepage, like clicking the
+    // "projects" tab or the header logo from another page. The Navigation
+    // Timing API alone can't tell "first-ever visit" apart from "clicked
+    // a link back to index.html" (both report type "navigate" on this
+    // multi-page site), so a sessionStorage flag fills that gap: once the
+    // loading screen has been shown once this session, it's skipped on
+    // every later visit to index.html except a real reload. Runs
+    // synchronously, immediately after #loading-screen above, so it's
+    // removed before the rest of the page (and before paint) whenever it
+    // shouldn't show.
     (function () {
       var nav = window.performance && performance.getEntriesByType
         ? performance.getEntriesByType("navigation")[0]
@@ -36,7 +43,25 @@
       var isReload = nav
         ? nav.type === "reload"
         : !!(window.performance && performance.navigation && performance.navigation.type === 1);
-      if (!isReload) {
+
+      var SESSION_KEY = "chelseaFolioLoadingShown";
+      var alreadyShown = true;
+      try {
+        alreadyShown = sessionStorage.getItem(SESSION_KEY) === "1";
+      } catch (e) {
+        // sessionStorage unavailable (private browsing, etc.) — fall back
+        // to treating every non-reload visit as "already shown" so the
+        // loading screen doesn't risk replaying on every nav click
+        alreadyShown = true;
+      }
+
+      var isFirstVisit = !alreadyShown;
+
+      if (isReload || isFirstVisit) {
+        try {
+          sessionStorage.setItem(SESSION_KEY, "1");
+        } catch (e) {}
+      } else {
         var el = document.getElementById("loading-screen");
         if (el) {
           el.remove();

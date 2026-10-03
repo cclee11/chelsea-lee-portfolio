@@ -52,12 +52,14 @@
       with two phrases that fade in and out in turn ("just getting set
       up...", "welcome!"). After the last phrase, the whole overlay fades
       out and removes itself from the DOM, revealing the hero page
-      underneath. Only ever runs on an actual page reload (an inline
-      script right after #loading-screen in index.html checks the
-      Navigation Timing API and removes the element immediately, before
-      this script even runs, on a plain in-site navigation — clicking the
-      "projects" nav tab or the header logo back to the homepage — so it
-      doesn't replay every time someone lands back on index.html).
+      underneath. Only ever shows on the very first visit to the site this
+      browser session, or on an actual page reload — an inline script
+      right after #loading-screen in index.html checks the Navigation
+      Timing API plus a sessionStorage flag and removes the element
+      immediately, before this script even runs, on a plain in-site
+      navigation back to the homepage (clicking the "projects" nav tab or
+      the header logo from another page) once it's already been shown
+      once this session.
   10. Draggable fragment cards (fun.html only, see js/fragments.js): each
       card in #fragmentsStage can be picked up and dropped anywhere,
       reusing the same --tx/--ty/--rot transform vars every .placeholder

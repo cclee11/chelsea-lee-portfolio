@@ -9,16 +9,17 @@
      (they're the fixed "brand" colors used on colored bubble/pill
      surfaces, buttons and highlights); --page-bg and --text are the two
      that flip between light and dark mode just below. */
-  --ink: #143e66;
+  --ink: #3a3a3a;
   --background: #72c4ff;
   --button-stroke: #afafaf;
   --accent-warm: #fff6c3;
   --off-white: #f3f3f3;
   --page-bg: var(--off-white);
-  /* text sitting directly on the page background; kept separate from
-     --ink, which stays the fixed navy used for text on the colored bubble
-     / pill surfaces, so those stay legible when night mode flips --text */
-  --text: var(--button-stroke);
+  /* text sitting directly on the page background; its own gray, distinct
+     from both --ink (headers) and --button-stroke (borders/strokes), kept
+     separate so night mode can flip just this one without touching the
+     other two */
+  --text: #939393;
 
   --space-1: 4px;
   --space-2: 8px;
@@ -55,7 +56,7 @@
   --content-max: 960px;
 }
 
-/* Night mode: bg flips to the dark navy and running text flips to the
+/* Night mode: bg flips to the dark gray and running text flips to the
    light off-white, per the palette's dark-mode mapping. The colored
    bubbles, pills and buttons keep their usual brand colors (and --ink
    stays put) so text on those surfaces is never put at risk of low
@@ -83,7 +84,7 @@
 
 /* dark mode swaps the yellow highlight for a sheer pale-blue wash, so the
    marked phrase can keep reading in the same white-blue --text color as
-   the rest of the sentence, instead of needing a fixed navy --ink to stay
+   the rest of the sentence, instead of needing a fixed dark gray --ink to stay
    legible against yellow */
 :root[data-theme="dark"] mark,
 :root[data-theme="dark"] .intro mark {
@@ -93,7 +94,7 @@
 
 /* ...except inside a colored bubble (case notes, persona cards, the
    competitor legend, etc.) — those surfaces stay the same light blue in
-   both themes, so a <mark> inside one needs to keep its ordinary navy-on
+   both themes, so a <mark> inside one needs to keep its ordinary dark gray-on
    -yellow treatment too, instead of the pale --text color meant for a
    highlight sitting on the dark page canvas (which was unreadable against
    the bubble's always-light background). */
@@ -145,8 +146,16 @@ body {
   background-repeat: repeat;
   -webkit-font-smoothing: antialiased;
   transition: background-color 0.25s ease, color 0.25s ease;
-  /* the ring from the logo, standing in for the system pointer everywhere */
+  /* the ring from the logo, standing in for the system pointer everywhere.
+     image-set() picks the sharp @2x/@3x bitmap on high-density screens
+     instead of stretching the 1x image; the plain url() above it is the
+     fallback for browsers that don't understand image-set (an invalid
+     cursor value is simply ignored, leaving the previous declaration in
+     effect, so this is safe progressive enhancement, not a real fallback
+     chain). */
   cursor: url("../assets/cursor-ring.png") 10 10, auto;
+  cursor: -webkit-image-set(url("../assets/cursor-ring.png") 1x, url("../assets/cursor-ring@2x.png") 2x, url("../assets/cursor-ring@3x.png") 3x) 10 10, auto;
+  cursor: image-set(url("../assets/cursor-ring.png") 1x, url("../assets/cursor-ring@2x.png") 2x, url("../assets/cursor-ring@3x.png") 3x) 10 10, auto;
   /* sticky footer: header + nav + main stack normally, main grows to
      fill any leftover space, and the footer sits flush against the
      bottom of the viewport on short pages instead of floating right
@@ -164,6 +173,8 @@ button,
 .bubble-intro,
 .theme-toggle {
   cursor: url("../assets/cursor-ring.png") 10 10, pointer;
+  cursor: -webkit-image-set(url("../assets/cursor-ring.png") 1x, url("../assets/cursor-ring@2x.png") 2x, url("../assets/cursor-ring@3x.png") 3x) 10 10, pointer;
+  cursor: image-set(url("../assets/cursor-ring.png") 1x, url("../assets/cursor-ring@2x.png") 2x, url("../assets/cursor-ring@3x.png") 3x) 10 10, pointer;
 }
 
 a {
@@ -306,7 +317,7 @@ mark {
   margin: 0;
   font-family: var(--font-sans);
   font-size: 13px;
-  color: var(--button-stroke);
+  color: var(--background);
   text-align: center;
   opacity: 0;
   transition: opacity 0.4s ease;
@@ -489,7 +500,7 @@ main {
 
 .placeholder:hover {
   --ty: -10px;
-  box-shadow: 0 18px 30px rgba(20, 62, 102, 0.22);
+  box-shadow: 0 18px 30px rgba(58, 58, 58, 0.22);
 }
 
 a.placeholder-link {
@@ -616,7 +627,7 @@ img.fragment-card {
   width: clamp(130px, 17vw, 220px);
   margin: -14px -22px;
   border: 1px solid var(--button-stroke);
-  box-shadow: 0 10px 22px rgba(20, 62, 102, 0.2);
+  box-shadow: 0 10px 22px rgba(58, 58, 58, 0.2);
   cursor: grab;
   touch-action: none;
   -webkit-user-select: none;
@@ -646,7 +657,7 @@ img.fragment-card {
 .fragment-card.is-dragging {
   cursor: grabbing;
   transition: none;
-  box-shadow: 0 22px 36px rgba(20, 62, 102, 0.32);
+  box-shadow: 0 22px 36px rgba(58, 58, 58, 0.32);
 }
 
 @media (max-width: 640px) {
@@ -664,12 +675,12 @@ img.fragment-card {
    source order. */
 .grid-design .placeholder:hover {
   --ty: -4px;
-  box-shadow: 0 8px 16px rgba(20, 62, 102, 0.16);
+  box-shadow: 0 8px 16px rgba(58, 58, 58, 0.16);
 }
 
 .grid-design .flip-tile:hover .project-card-image,
 .grid-design .flip-tile:focus-visible .project-card-image {
-  box-shadow: 0 8px 16px rgba(20, 62, 102, 0.16), 0 0 10px rgba(114, 196, 255, 0.35);
+  box-shadow: 0 8px 16px rgba(58, 58, 58, 0.16), 0 0 10px rgba(114, 196, 255, 0.35);
 }
 
 /* caption under each UX card: plain text sitting directly on the page
@@ -724,7 +735,7 @@ img.fragment-card {
 .placeholder-link:hover .project-card-image,
 .placeholder-link:focus-visible .project-card-image {
   border-color: var(--background);
-  box-shadow: 0 18px 30px rgba(20, 62, 102, 0.22), 0 0 16px rgba(114, 196, 255, 0.5);
+  box-shadow: 0 18px 30px rgba(58, 58, 58, 0.22), 0 0 16px rgba(114, 196, 255, 0.5);
 }
 
 /* UX cards only: drop the lift + elevated drop-shadow ("pop out") that
@@ -821,7 +832,7 @@ img.fragment-card {
   border-color: var(--background);
   /* layer the lift shadow .placeholder:hover already adds on top of the
      resting glow instead of replacing it */
-  box-shadow: 0 18px 30px rgba(20, 62, 102, 0.22), 0 0 16px rgba(114, 196, 255, 0.5);
+  box-shadow: 0 18px 30px rgba(58, 58, 58, 0.22), 0 0 16px rgba(114, 196, 255, 0.5);
 }
 
 /* light-blue fill for the "more projects coming soon" tile, instead of the
@@ -855,7 +866,7 @@ img.fragment-card {
 }
 
 /* caption sitting below each homepage project tile — plain text on the
-   page background instead of the old overlaid navy bubble, so it reads
+   page background instead of the old overlaid dark gray bubble, so it reads
    the same way the "more" cards' captions do (see .card-caption-bubble) */
 .project-card-bubble {
   display: flex;
@@ -1086,7 +1097,7 @@ img.fragment-card {
 .flip-tile:hover .project-card-image,
 .flip-tile:focus-visible .project-card-image {
   border-color: var(--background);
-  box-shadow: 0 18px 30px rgba(20, 62, 102, 0.22), 0 0 16px rgba(114, 196, 255, 0.5);
+  box-shadow: 0 18px 30px rgba(58, 58, 58, 0.22), 0 0 16px rgba(114, 196, 255, 0.5);
 }
 
 /* --------------------------------------------------------------- subnav
@@ -1277,7 +1288,9 @@ img.fragment-card {
 .case-tagline {
   font-size: var(--subheader-size);
   line-height: var(--subheader-line);
-  color: var(--text);
+  /* the larger case-study subtitle — fixed brand blue in both themes,
+     same treatment as the homepage hero's .tagline */
+  color: var(--background);
   font-variation-settings: "wght" var(--wght-regular);
   margin: 0 0 var(--space-4);
   max-width: 640px;
@@ -1324,7 +1337,7 @@ img.fragment-card {
   object-fit: contain;
   background: var(--page-bg);
   border-radius: var(--radius-lg);
-  box-shadow: 0 14px 28px rgba(20, 62, 102, 0.18);
+  box-shadow: 0 14px 28px rgba(58, 58, 58, 0.18);
   animation: title-bob 3.2s ease-in-out infinite;
 }
 
@@ -1714,7 +1727,7 @@ img.fragment-card {
   height: 28px;
   border-radius: 50%;
   flex-shrink: 0;
-  border: 1px solid rgba(20, 62, 102, 0.15);
+  border: 1px solid rgba(58, 58, 58, 0.15);
 }
 
 .swatch-text {
@@ -1865,7 +1878,7 @@ img.fragment-card {
 }
 
 /* --------------------------------------------------------- pain points
-   Six small bouncing bubble cards, light-yellow-on-navy, in a 3-up grid
+   Six small bouncing bubble cards, light-yellow-on-dark gray, in a 3-up grid
    under their own mini heading. Each card bounces on its own offset so
    the grid doesn't bob in lockstep (reuses the idle bob keyframe defined
    for the home title / eyes-divider). */
@@ -1888,7 +1901,7 @@ img.fragment-card {
   border-radius: var(--radius-lg);
   padding: var(--space-3);
   text-align: center;
-  box-shadow: 0 10px 18px rgba(20, 62, 102, 0.14);
+  box-shadow: 0 10px 18px rgba(58, 58, 58, 0.14);
   animation: title-bob 2.6s ease-in-out infinite;
 }
 
@@ -1926,7 +1939,7 @@ img.fragment-card {
    Three cards translating the competitive audit into concrete design
    moves, one per benchmarked competitor. Each card keeps the same
    off-white/ink treatment as .case-note (a colored surface, so the
-   text stays fixed navy regardless of theme) and is told apart from its
+   text stays fixed dark gray regardless of theme) and is told apart from its
    neighbors only by a left accent bar in one of the palette's existing
    blues, rather than introducing new colors outside the system. */
 
@@ -2005,8 +2018,8 @@ img.fragment-card {
 }
 
 .mockup-caption-card {
-  /* navy card, white-blue text in light mode; flips to a white-blue card
-     with navy text in dark mode — inverted from the old always-light
+  /* dark gray card, white-blue text in light mode; flips to a white-blue card
+     with dark gray text in dark mode — inverted from the old always-light
      off-white card */
   background: var(--ink);
   color: var(--off-white);
@@ -2055,7 +2068,7 @@ img.fragment-card {
   width: 100%;
   max-width: 520px;
   border-radius: var(--radius-lg);
-  box-shadow: 0 14px 26px rgba(20, 62, 102, 0.2);
+  box-shadow: 0 14px 26px rgba(58, 58, 58, 0.2);
 }
 
 /* a tall (near full-screen) portrait recording, capped by height instead
@@ -2086,7 +2099,7 @@ img.fragment-card {
   max-width: 100%;
   max-height: 52vh;
   border-radius: var(--radius-lg);
-  box-shadow: 0 14px 26px rgba(20, 62, 102, 0.2);
+  box-shadow: 0 14px 26px rgba(58, 58, 58, 0.2);
 }
 
 /* the prototype-walkthrough recording (The App section): its mockup frame
@@ -2254,13 +2267,13 @@ img.fragment-card {
   background-repeat: no-repeat;
   background-position: center;
   background-size: 64%;
-  box-shadow: 0 6px 14px rgba(20, 62, 102, 0.18);
+  box-shadow: 0 6px 14px rgba(58, 58, 58, 0.18);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .solution-toggle:hover .solution-toggle-ring {
   transform: scale(1.08);
-  box-shadow: 0 8px 18px rgba(20, 62, 102, 0.26);
+  box-shadow: 0 8px 18px rgba(58, 58, 58, 0.26);
 }
 
 .solution-toggle[aria-pressed="true"] .solution-toggle-ring {
@@ -2306,7 +2319,7 @@ img.fragment-card {
   aspect-ratio: 864 / 603;
   border-radius: var(--radius-lg);
   overflow: hidden;
-  box-shadow: 0 12px 22px rgba(20, 62, 102, 0.18);
+  box-shadow: 0 12px 22px rgba(58, 58, 58, 0.18);
   animation: title-bob 2.8s ease-in-out infinite;
 }
 
@@ -2366,7 +2379,7 @@ img.fragment-card {
 
 /* ------------------------------------------------------- rebrand logos
    The two final WUX lockups, back on their brand-colored circle plates
-   (dark navy / off-white, matching each lockup) so they read the way
+   (dark dark gray / off-white, matching each lockup) so they read the way
    they'll actually ship — as an icon on a colored disc, not floating
    free. The drop shadow sits under the circle itself, and the circle
    (not just the mark) does the site's shared idle bob. */
@@ -2395,7 +2408,7 @@ img.fragment-card {
   max-width: 280px;
   aspect-ratio: 1 / 1;
   border-radius: 50%;
-  box-shadow: 0 16px 26px rgba(20, 62, 102, 0.3);
+  box-shadow: 0 16px 26px rgba(58, 58, 58, 0.3);
   animation: title-bob 2.8s ease-in-out infinite;
 }
 
@@ -2445,7 +2458,7 @@ img.fragment-card {
   width: 100%;
   max-width: 160px;
   height: auto;
-  filter: drop-shadow(0 10px 16px rgba(20, 62, 102, 0.22));
+  filter: drop-shadow(0 10px 16px rgba(58, 58, 58, 0.22));
   animation: title-bob 2.6s ease-in-out infinite;
 }
 
@@ -2477,7 +2490,7 @@ img.fragment-card {
   flex-wrap: wrap;
   gap: var(--space-2) var(--space-4);
   padding-bottom: var(--space-3);
-  border-bottom: 1px solid rgba(20, 62, 102, 0.12);
+  border-bottom: 1px solid rgba(58, 58, 58, 0.12);
 }
 
 .type-scale-row:last-child {
@@ -2498,7 +2511,7 @@ img.fragment-card {
   /* var(--text), not the fixed --ink: these big type samples sit right on
      the plain page canvas (no bubble behind them), so they need to switch
      to the pale white-blue text color in dark mode instead of staying a
-     near-invisible navy against the dark background */
+     near-invisible dark gray against the dark background */
   color: var(--text);
   flex: 1 1 auto;
 }
@@ -2552,7 +2565,7 @@ img.fragment-card {
   width: 100%;
   height: auto;
   border-radius: var(--radius-lg);
-  box-shadow: 0 12px 22px rgba(20, 62, 102, 0.2);
+  box-shadow: 0 12px 22px rgba(58, 58, 58, 0.2);
   animation: title-bob 2.8s ease-in-out infinite;
 }
 
@@ -2589,7 +2602,7 @@ img.fragment-card {
   width: 100%;
   height: auto;
   border-radius: var(--radius-lg);
-  box-shadow: 0 12px 22px rgba(20, 62, 102, 0.2);
+  box-shadow: 0 12px 22px rgba(58, 58, 58, 0.2);
   animation: title-bob 2.8s ease-in-out infinite;
 }
 
@@ -2709,7 +2722,7 @@ img.fragment-card {
   max-width: 640px;
   height: auto;
   border-radius: var(--radius-lg);
-  box-shadow: 0 18px 32px rgba(20, 62, 102, 0.3);
+  box-shadow: 0 18px 32px rgba(58, 58, 58, 0.3);
   animation: title-bob 3s ease-in-out infinite;
 }
 
@@ -2916,18 +2929,20 @@ img.fragment-card {
   font-style: normal;
   font-family: var(--font-display);
   font-weight: 300;
-  /* solid navy fill in light mode (was the pale --background fill kept
+  /* solid dark gray fill in light mode (was the pale --background fill kept
      legible only by its outline); dark mode restores the old pale-yellow
      fill just below */
   color: var(--ink);
   cursor: url("../assets/cursor-ring.png") 10 10, default;
+  cursor: -webkit-image-set(url("../assets/cursor-ring.png") 1x, url("../assets/cursor-ring@2x.png") 2x, url("../assets/cursor-ring@3x.png") 3x) 10 10, default;
+  cursor: image-set(url("../assets/cursor-ring.png") 1x, url("../assets/cursor-ring@2x.png") 2x, url("../assets/cursor-ring@3x.png") 3x) 10 10, default;
   /* idle bounce, always running, matching the eyes-divider logo below it */
   animation: title-bob 2.6s ease-in-out infinite;
 }
 
 /* the soft glow behind the title is a dark-mode-only effect now — it read
    as too heavy against a plain white canvas once the fill went solid
-   navy, but still works well against the dark page background. */
+   dark gray, but still works well against the dark page background. */
 :root[data-theme="dark"] .site-title {
   color: var(--accent-warm);
   text-shadow: 0 0 18px rgba(114, 196, 255, 0.55), 0 0 36px rgba(114, 196, 255, 0.35);
@@ -2987,6 +3002,8 @@ img.fragment-card {
   width: 124px;
   height: calc(124px * 342 / 776);
   cursor: url("../assets/cursor-ring.png") 10 10, default;
+  cursor: -webkit-image-set(url("../assets/cursor-ring.png") 1x, url("../assets/cursor-ring@2x.png") 2x, url("../assets/cursor-ring@3x.png") 3x) 10 10, default;
+  cursor: image-set(url("../assets/cursor-ring.png") 1x, url("../assets/cursor-ring@2x.png") 2x, url("../assets/cursor-ring@3x.png") 3x) 10 10, default;
   animation: eyes-bob 2.6s ease-in-out infinite;
 }
 
@@ -3034,13 +3051,13 @@ img.fragment-card {
 
 /* "take a look around..." reads as a small speech bubble floating above
    and to the right of the eyes mark, with a little triangular tail
-   pointing back down at it — thin white fill with a blue stroke, same
-   blue as the rest of the icon's own outline, so the two feel like one
-   character. Nested inside .eyes-icon in the markup (rather than sitting
-   beside it) and positioned absolutely against it, so the bubble always
-   anchors to the icon itself — not however tall .eyes-divider happens to
-   be, which varies on the secret page where the divider stretches to
-   fill the space below the back link. */
+   pointing back down at it — solid brand blue fill with yellow text, same
+   in both themes (like the other fixed brand-color surfaces) so it never
+   needs a dark-mode override. Nested inside .eyes-icon in the markup
+   (rather than sitting beside it) and positioned absolutely against it,
+   so the bubble always anchors to the icon itself — not however tall
+   .eyes-divider happens to be, which varies on the secret page where the
+   divider stretches to fill the space below the back link. */
 .eyes-caption {
   position: absolute;
   top: -16px;
@@ -3050,21 +3067,20 @@ img.fragment-card {
   margin: 0;
   max-width: 150px;
   padding: 6px 14px;
-  background: #ffffff;
-  color: var(--ink);
-  border: 1px solid var(--button-stroke);
+  background: var(--background);
+  color: var(--accent-warm);
   border-radius: var(--radius-full);
   font-size: 12px;
   font-style: italic;
   line-height: 1.3;
   white-space: nowrap;
-  box-shadow: 0 6px 14px rgba(20, 62, 102, 0.16);
+  box-shadow: 0 6px 14px rgba(58, 58, 58, 0.16);
 }
 
 /* the tail: a small square rotated into a diamond, straddling the
    bubble's bottom edge near its left side (closer to the icon below) so
-   only its lower-left corner pokes out — the two bordered sides read as
-   a little triangle pointing down toward the eyes mark */
+   only its lower-left corner pokes out, reading as a little triangle
+   pointing down toward the eyes mark */
 .eyes-caption::after {
   content: "";
   position: absolute;
@@ -3072,9 +3088,7 @@ img.fragment-card {
   left: 20px;
   width: 11px;
   height: 11px;
-  background: #ffffff;
-  border-right: 1px solid var(--button-stroke);
-  border-bottom: 1px solid var(--button-stroke);
+  background: var(--background);
   transform: rotate(45deg);
 }
 
@@ -3120,6 +3134,9 @@ img.fragment-card {
   /* narrowed so the wrapped lines read as a single left-aligned column
      under "chelsea lee" above it, instead of stretching wide */
   max-width: 480px;
+  /* the hero subtitle — fixed brand blue in both themes, like the other
+     "same hex in both modes" brand colors, rather than following --text */
+  color: var(--background);
 }
 
 /* the "product designer" / "artist" marks read as plain text here — no
@@ -3197,14 +3214,18 @@ img.fragment-card {
   line-height: var(--body-line);
 }
 
+/* the plain text cards (bio / quote / hobbies): light gray fill with blue
+   text in light mode; dark mode flips to a dark gray fill with a blue
+   stroke and light gray (off-white) text — see the dark-mode overrides
+   just below .bubble-hobbies */
 .bubble-bio {
-  background: var(--background);
-  color: var(--ink);
+  background: var(--button-stroke);
+  color: var(--background);
 }
 
 .bubble-quote {
-  background: var(--background);
-  color: var(--ink);
+  background: var(--button-stroke);
+  color: var(--background);
 }
 
 .bubble-fact {
@@ -3241,8 +3262,11 @@ img.fragment-card {
   z-index: 2;
   max-width: 260px;
   padding: var(--space-4) var(--space-5);
-  background: var(--accent-warm);
-  color: var(--ink);
+  /* blue fill with light yellow text, same in both themes — every cycled
+     greeting (see main.js) shares this one rule, so every variation gets
+     the same colorway automatically */
+  background: var(--background);
+  color: var(--accent-warm);
   text-align: center;
 }
 
@@ -3259,7 +3283,9 @@ img.fragment-card {
   font-size: 11px;
   font-style: italic;
   font-family: var(--font-sans);
-  color: var(--button-stroke);
+  /* matches .bubble-intro's own light-yellow text instead of the gray
+     --button-stroke, which read poorly against the new blue fill */
+  color: var(--accent-warm);
 }
 
 .bubble-intro::after {
@@ -3271,12 +3297,23 @@ img.fragment-card {
   height: 0;
   border-left: 12px solid transparent;
   border-right: 12px solid transparent;
-  border-top: 16px solid var(--accent-warm);
+  border-top: 16px solid var(--background);
 }
 
 .bubble-hobbies {
-  background: var(--background);
-  color: var(--ink);
+  background: var(--button-stroke);
+  color: var(--background);
+}
+
+/* dark mode: the text cards swap to a dark gray fill with a blue stroke
+   and light gray (off-white) running text, instead of light mode's light
+   gray fill with blue text */
+:root[data-theme="dark"] .bubble-bio,
+:root[data-theme="dark"] .bubble-quote,
+:root[data-theme="dark"] .bubble-hobbies {
+  background: var(--ink);
+  border: 1px solid var(--background);
+  color: var(--off-white);
 }
 
 .tilt-hover {
@@ -3284,7 +3321,7 @@ img.fragment-card {
 }
 
 .tilt-hover:hover {
-  box-shadow: 0 18px 30px rgba(20, 62, 102, 0.22);
+  box-shadow: 0 18px 30px rgba(58, 58, 58, 0.22);
 }
 
 .tilt-left:hover {
@@ -3383,11 +3420,11 @@ img.fragment-card {
   display: flex;
 }
 
-/* dark mode: the sheer backdrop switches from light blue to navy so it
+/* dark mode: the sheer backdrop switches from light blue to dark gray so it
    reads as a dim, sheer layer over the dark canvas instead of a pale
    wash that would fight with it */
 :root[data-theme="dark"] .lightbox-overlay {
-  background: rgba(20, 62, 102, 0.55);
+  background: rgba(58, 58, 58, 0.55);
 }
 
 .lightbox-overlay img {
@@ -3397,7 +3434,7 @@ img.fragment-card {
   width: auto;
   height: auto;
   border-radius: var(--radius-lg);
-  box-shadow: 0 30px 60px rgba(20, 62, 102, 0.35);
+  box-shadow: 0 30px 60px rgba(58, 58, 58, 0.35);
   cursor: default;
 }
 
@@ -3421,7 +3458,7 @@ img.fragment-card {
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  box-shadow: 0 8px 16px rgba(20, 62, 102, 0.25);
+  box-shadow: 0 8px 16px rgba(58, 58, 58, 0.25);
 }
 
 /* signal the new click-to-enlarge behavior on the images it applies to,
@@ -3455,11 +3492,11 @@ img.fragment-card {
   background-repeat: no-repeat;
   background-position: center;
   background-size: 64%;
-  box-shadow: 0 8px 20px rgba(20, 62, 102, 0.22);
+  box-shadow: 0 8px 20px rgba(58, 58, 58, 0.22);
   transition: background-color 0.25s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .theme-toggle:hover {
   transform: scale(1.08);
-  box-shadow: 0 10px 24px rgba(20, 62, 102, 0.3);
+  box-shadow: 0 10px 24px rgba(58, 58, 58, 0.3);
 }
