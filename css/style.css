@@ -2939,10 +2939,12 @@ img.fragment-card {
 }
 
 /* ------------------------------------------------- eyes-looking divider
-   Sits between the hero card and the project grid. The home page (see
-   .eyes-icon-animated below) plays the same looping clip as the loading
-   screen (#loading-screen's video, assets/loading-logo), so the eyes
-   glance side to side on their own — no hover required. The secret page
+   Sits between the hero card and the project grid. The home page plays
+   the same looping clip as the loading screen (#loading-screen's video,
+   assets/loading-logo) inside the same box as the original mark (see
+   .eyes-video's object-fit: contain, which letterboxes the wider clip to
+   fit), so the eyes glance side to side on their own — no hover required.
+   The secret page
    still uses the original hover-triggered version just below: built as
    two stacked layers so only the pupils move, never the rings/character:
    .eyes-base is the mark with the pupils (fill + their own outline
@@ -2980,13 +2982,6 @@ img.fragment-card {
   height: calc(124px * 342 / 776);
   cursor: url("../assets/cursor-ring.png") 10 10, default;
   animation: eyes-bob 2.6s ease-in-out infinite;
-}
-
-/* the home page's mark: same box, but sized for the wider loading-logo
-   video (rings + walking character) instead of the close-cropped eyes-
-   only artwork, so it isn't squashed */
-.eyes-icon-animated {
-  height: calc(124px * 488 / 944);
 }
 
 .eyes-video {
