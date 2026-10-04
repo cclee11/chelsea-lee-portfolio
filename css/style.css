@@ -3518,22 +3518,22 @@ img.fragment-card {
   line-height: var(--body-line);
 }
 
-/* the plain text cards (bio / quote / hobbies): white fill with a
-   black-gray stroke and black-gray text in light mode; dark mode flips
-   to the page's own dark background with blue text, keeping a blue
-   dotted stroke (see the dark-mode overrides just below .bubble-hobbies)
-   — no drop shadow in either theme, per the About page's flatter,
-   shadow-free look. */
+/* the plain text cards (bio / quote / hobbies): white fill with a blue
+   dotted stroke and black-gray text in light mode; dark mode flips
+   to the page's own dark background with blue text, keeping the same
+   blue dotted stroke (see the dark-mode overrides just below
+   .bubble-hobbies) — no drop shadow in either theme, per the About
+   page's flatter, shadow-free look. */
 .bubble-bio {
   background: #ffffff;
   color: var(--ink);
-  border: 2px dotted var(--ink);
+  border: 2px dotted var(--background);
 }
 
 .bubble-quote {
   background: #ffffff;
   color: var(--ink);
-  border: 2px dotted var(--ink);
+  border: 2px dotted var(--background);
 }
 
 .bubble-fact {
@@ -3611,7 +3611,7 @@ img.fragment-card {
 .bubble-hobbies {
   background: #ffffff;
   color: var(--ink);
-  border: 2px dotted var(--ink);
+  border: 2px dotted var(--background);
 }
 
 /* dark mode: the text cards swap to the page's own dark background with
