@@ -3547,7 +3547,10 @@ img.fragment-card {
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: var(--space-3);
+  /* a touch more padding above than below nudges the centered text down
+     slightly from true-center, rather than sitting dead center in the
+     circle */
+  padding: 22px var(--space-3) 10px;
 }
 
 /* A real speech bubble (rounded rect + tail) sitting over the top-left
