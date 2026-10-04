@@ -3795,7 +3795,15 @@ img.fragment-card {
   right: var(--space-4);
   bottom: var(--space-4);
   z-index: 500;
-  display: block;
+  /* the knob (26px) is taller than the track's padded content box (22px),
+     and near the pill's rounded end-caps the usable room is tighter still
+     than the straight sides — flex + align-items: center keeps the knob
+     vertically centered, and overflow: hidden clips it to the track's own
+     pill shape so none of it can poke past the border as a stray white
+     sliver, in either slide position. */
+  display: flex;
+  align-items: center;
+  overflow: hidden;
   width: 64px;
   height: 34px;
   padding: 4px;
@@ -3845,7 +3853,11 @@ img.fragment-card {
 }
 
 :root[data-theme="dark"] .theme-toggle-knob {
-  transform: translateX(30px);
+  /* track's padded content box is 52px wide, knob is 26px, so 26px is
+     exactly how far it can slide right before overlapping the border —
+     the old 30px overshot that by 4px, pushing the knob's white circle
+     past the track's rounded edge as a stray sliver */
+  transform: translateX(26px);
 }
 
 /* fills the knob completely (no gap of white showing around it). Uses a
