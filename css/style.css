@@ -371,7 +371,10 @@ mark {
 .loading-caption {
   margin: 0;
   font-family: var(--font-sans);
-  font-size: 13px;
+  font-size: 15px;
+  /* a touch bolder than the page's default --wght-light, which this
+     would otherwise inherit */
+  font-variation-settings: "wght" var(--wght-regular);
   color: var(--background);
   text-align: center;
   opacity: 0;

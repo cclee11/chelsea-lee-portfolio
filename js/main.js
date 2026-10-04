@@ -96,8 +96,15 @@
     var isDark = theme === "dark";
     var videos = document.querySelectorAll(".theme-video");
     videos.forEach(function (video) {
-      var webm = video.getAttribute(isDark ? "data-webm-dark" : "data-webm-light");
-      var mp4 = video.getAttribute(isDark ? "data-mp4-dark" : "data-mp4-light");
+      // the loading screen is always a plain white overlay regardless of
+      // theme (see .loading-screen in style.css), so its logo video must
+      // always use the light-mode (white-backed) take too — otherwise a
+      // reload in dark mode would show the dark-backed clip's own square
+      // of dark background floating on the white overlay around it.
+      var forceLight = !!video.closest("#loading-screen");
+      var useDark = isDark && !forceLight;
+      var webm = video.getAttribute(useDark ? "data-webm-dark" : "data-webm-light");
+      var mp4 = video.getAttribute(useDark ? "data-mp4-dark" : "data-mp4-light");
       var sources = video.querySelectorAll("source");
       var webmSource = sources[0];
       var mp4Source = sources[1];
