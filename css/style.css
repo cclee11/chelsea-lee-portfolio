@@ -1273,7 +1273,13 @@ img.fragment-card {
 
 .back-link:hover {
   /* was var(--ink): a fixed dark color that matched dark mode's own
-     page background 1:1, making the link vanish on hover there */
+     page background 1:1, making the link vanish on hover there.
+     Light mode hovers to blue; dark mode keeps the yellow accent below
+     so it still stands out against the dark page background. */
+  color: var(--background);
+}
+
+:root[data-theme="dark"] .back-link:hover {
   color: var(--accent-warm);
 }
 
