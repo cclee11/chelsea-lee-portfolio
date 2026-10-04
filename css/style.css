@@ -3795,12 +3795,10 @@ img.fragment-card {
   right: var(--space-4);
   bottom: var(--space-4);
   z-index: 500;
-  /* the knob (26px) is taller than the track's padded content box (22px),
-     and near the pill's rounded end-caps the usable room is tighter still
-     than the straight sides — flex + align-items: center keeps the knob
-     vertically centered, and overflow: hidden clips it to the track's own
-     pill shape so none of it can poke past the border as a stray white
-     sliver, in either slide position. */
+  /* flex + align-items: center keeps the knob vertically centered
+     regardless of the exact padding/border box math, and overflow: hidden
+     clips anything that would otherwise poke past the track's own pill
+     shape. */
   display: flex;
   align-items: center;
   overflow: hidden;
@@ -3809,8 +3807,8 @@ img.fragment-card {
   padding: 4px;
   border-radius: var(--radius-full);
   /* blue stroke in both themes (was the muted gray --button-stroke in
-     light mode, blue only in dark mode) */
-  border: 2px solid var(--background);
+     light mode, blue only in dark mode), thinned down from 2px */
+  border: 1px solid var(--background);
   /* see-through track (rather than a flat opaque fill) so the page
      behind shows through clearly, same idea as the glass-dotted cards
      elsewhere on the site */
@@ -3869,5 +3867,10 @@ img.fragment-card {
   width: 100%;
   height: 100%;
   object-fit: contain;
-  transform: translateY(-1px);
+  /* the 1px upward nudge alone would uncover a sliver of the knob's white
+     background at the bottom edge (the icon fills the knob exactly
+     edge-to-edge) — scaling up slightly keeps it overflowing on every
+     side after the shift, safely clipped by the knob's own
+     overflow: hidden, so no white ever shows through. */
+  transform: translateY(-1px) scale(1.12);
 }
