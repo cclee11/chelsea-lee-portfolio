@@ -1269,7 +1269,9 @@ img.fragment-card {
 }
 
 .back-link:hover {
-  color: var(--ink);
+  /* was var(--ink): a fixed dark color that matched dark mode's own
+     page background 1:1, making the link vanish on hover there */
+  color: var(--accent-warm);
 }
 
 .detail-grid {
@@ -3798,7 +3800,9 @@ img.fragment-card {
   height: 34px;
   padding: 4px;
   border-radius: var(--radius-full);
-  border: 2px solid var(--button-stroke);
+  /* blue stroke in both themes (was the muted gray --button-stroke in
+     light mode, blue only in dark mode) */
+  border: 2px solid var(--background);
   /* see-through track (rather than a flat opaque fill) so the page
      behind shows through clearly, same idea as the glass-dotted cards
      elsewhere on the site */
@@ -3815,11 +3819,10 @@ img.fragment-card {
 
 /* dark mode flips the track to a translucent dark gray (rather than
    reusing --page-bg, which would make the track invisible against the
-   toggle's own dark-mode surroundings) with a blue dotted stroke, same
-   convention as every other dotted-bordered surface on the site. */
+   toggle's own dark-mode surroundings); the blue stroke above now carries
+   over unchanged since both themes share it. */
 :root[data-theme="dark"] .theme-toggle {
   background-color: rgba(58, 58, 58, 0.25);
-  border-color: var(--background);
 }
 
 /* the knob: a plain white circle (readable against either track color)
@@ -3835,8 +3838,6 @@ img.fragment-card {
   width: 26px;
   height: 26px;
   border-radius: 50%;
-  /* clips the ring icon's own 2px upward nudge below to a clean circular
-     edge instead of letting it poke past the knob's bottom boundary */
   overflow: hidden;
   background: #ffffff;
   transform: translateX(0);
@@ -3847,20 +3848,13 @@ img.fragment-card {
   transform: translateX(30px);
 }
 
-/* fills the knob completely (no gap of white showing around it). Uses
-   logo-ring-toggle.png rather than the plain logo-ring.png crop (used
-   for the favicon) — that source is cropped with a bit more room below
-   the ring than above it, to compensate for the ring artwork's own
-   baked-in drop shadow (which sits under the inner circle and pulls the
-   visual "center of mass" down from the geometric center), so it reads
-   as centered in the knob instead of looking low. */
+/* fills the knob completely (no gap of white showing around it). Uses a
+   flat, perfectly symmetric blue-and-yellow dot (theme-toggle-icon.png)
+   rather than a crop of the logo-ring artwork, so it needs no shadow,
+   border, or off-center compensation — just centers cleanly as-is. */
 .theme-toggle-ring-icon {
   display: block;
   width: 100%;
   height: 100%;
   object-fit: contain;
-  /* one more small nudge up, on top of the asymmetric logo-ring-toggle.png
-     crop above — the knob's overflow: hidden keeps this from poking past
-     its circular edge */
-  transform: translateY(-2px);
 }

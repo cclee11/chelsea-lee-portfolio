@@ -544,7 +544,7 @@
       var logoSrc = existingLogoImg.getAttribute("src") || "";
       assetPrefix = logoSrc.slice(0, logoSrc.lastIndexOf("/") + 1);
     }
-    themeToggleIcon.src = assetPrefix + "logo-ring-toggle.png";
+    themeToggleIcon.src = assetPrefix + "theme-toggle-icon.png";
 
     themeToggleKnob.appendChild(themeToggleIcon);
     themeToggle.appendChild(themeToggleKnob);
