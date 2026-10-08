@@ -2519,19 +2519,19 @@ img.fragment-card {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  border: 2px dotted var(--button-stroke);
-  background-color: var(--page-bg);
-  background-image: url("../assets/cursor-ring.png");
+  /* just the ring icon itself now — no dotted stroke, no white/page-bg
+     disc behind it, no drop shadow. Uses the @3x cursor-ring asset
+     (60px) rather than the 1x (20px) so it stays crisp at this 40px
+     display size instead of visibly upscaling a tiny source image. */
+  background-image: url("../assets/cursor-ring@3x.png");
   background-repeat: no-repeat;
   background-position: center;
-  background-size: 64%;
-  box-shadow: 0 6px 14px rgba(58, 58, 58, 0.18);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  background-size: 100%;
+  transition: transform 0.2s ease;
 }
 
 .solution-toggle:hover .solution-toggle-ring {
   transform: scale(1.08);
-  box-shadow: 0 8px 18px rgba(58, 58, 58, 0.26);
 }
 
 .solution-toggle[aria-pressed="true"] .solution-toggle-ring {
