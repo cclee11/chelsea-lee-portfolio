@@ -2901,25 +2901,6 @@ img.fragment-card {
   margin-bottom: var(--space-1);
 }
 
-/* ---------------------------------------------- screenshot annotations
-   A thin, rounded-rectangle stroke overlaid directly on a screenshot,
-   boxing in the exact UI element its caption (or a specific bullet
-   within it) is describing — no numbering, just the outline doing the
-   pointing. Each marker's position/size is one-off per screenshot, so
-   only the shared stroke look lives here; the box itself comes from an
-   inline style on each .shot-marker. */
-.shot-annotated {
-  position: relative;
-  display: block;
-}
-
-.shot-marker {
-  position: absolute;
-  border: 2px solid var(--background);
-  border-radius: 10px;
-  pointer-events: none;
-}
-
 /* ------------------------------------------------------- persona, solo
    When only one persona card exists (vs. the 2-up grid elsewhere), keep
    it from stretching half-width and stranding empty space beside it. */
