@@ -2600,6 +2600,13 @@ img.fragment-card {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  /* the exported screen captures each carry a thin pale backdrop margin
+     baked around the actual browser-window mockup (left over from the
+     mockup-frame export); scaling up just enough crops that margin away
+     behind the rounded, overflow-hidden .solution-img-wrap so every card
+     reads as one clean, edge-to-edge screenshot instead of a screenshot
+     floating on a visible gray-ish canvas */
+  transform: scale(1.16);
   opacity: 0;
   transition: opacity 0.25s ease;
 }
