@@ -10,7 +10,9 @@
      surfaces, buttons and highlights); --page-bg and --text are the two
      that flip between light and dark mode just below. */
   --ink: #202020;
-  --background: #72c4ff;
+  /* darkened from the original #72c4ff pastel sky-blue to hit WCAG AA's
+     4.5:1 contrast ratio against --accent-warm yellow text (was 1.74:1) */
+  --background: #0072c4;
   --button-stroke: #afafaf;
   --accent-warm: #fff6c3;
   --off-white: #f3f3f3;
