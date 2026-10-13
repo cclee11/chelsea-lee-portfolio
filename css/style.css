@@ -411,7 +411,7 @@ main {
   /* wider stage than the site's 960px default so case-study screenshots,
      hero videos, and solution grids all render noticeably larger without
      having to hand-adjust every individual image/video rule */
-  --content-max: 1180px;
+  --content-max: 1320px;
 }
 
 /* gives the home page a wider stage than other pages, just for the
@@ -1380,7 +1380,7 @@ img.fragment-card {
 
 .detail-stack .detail-image {
   width: 100%;
-  max-width: 760px;
+  max-width: 900px;
   margin: 0 auto;
 }
 
@@ -1483,7 +1483,7 @@ img.fragment-card {
 .case-top-right {
   display: flex;
   flex-direction: column;
-  flex: 1 1 560px;
+  flex: 1 1 640px;
   min-width: 0;
 }
 
@@ -2315,7 +2315,7 @@ img.fragment-card {
 
 .solution-video {
   width: 100%;
-  max-width: 640px;
+  max-width: 780px;
   border-radius: var(--radius-lg);
   box-shadow: 0 14px 26px rgba(58, 58, 58, 0.2);
 }
@@ -2346,7 +2346,7 @@ img.fragment-card {
 .solution-video-side {
   width: auto;
   max-width: 100%;
-  max-height: 62vh;
+  max-height: 74vh;
   border-radius: var(--radius-lg);
   box-shadow: 0 14px 26px rgba(58, 58, 58, 0.2);
 }
@@ -2447,7 +2447,7 @@ img.fragment-card {
 
 .research-shots-3col .research-shot {
   width: 100%;
-  max-width: 250px;
+  max-width: 300px;
 }
 
 @media (max-width: 760px) {
@@ -2823,7 +2823,7 @@ img.fragment-card {
   flex-direction: column;
   align-items: center;
   text-align: center;
-  width: 200px;
+  width: 240px;
 }
 
 .phone-shot img {
@@ -2860,7 +2860,7 @@ img.fragment-card {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 220px;
+  width: 260px;
 }
 
 .research-shot img {
@@ -2902,11 +2902,11 @@ img.fragment-card {
 }
 
 /* ---------------------------------------------- screenshot annotations
-   A numbered circle overlaid directly on a screenshot, pointing at the
-   exact UI element its caption (or a specific bullet within it) is
-   describing, with a matching numbered badge inline in the caption
-   text. Each marker's position is one-off per screenshot, so only the
-   shared ring/badge look lives here — position and size come from an
+   A thin, rounded-rectangle stroke overlaid directly on a screenshot,
+   boxing in the exact UI element its caption (or a specific bullet
+   within it) is describing — no numbering, just the outline doing the
+   pointing. Each marker's position/size is one-off per screenshot, so
+   only the shared stroke look lives here; the box itself comes from an
    inline style on each .shot-marker. */
 .shot-annotated {
   position: relative;
@@ -2915,47 +2915,9 @@ img.fragment-card {
 
 .shot-marker {
   position: absolute;
-  border: 3px solid var(--background);
-  border-radius: 50%;
-  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.9), 0 2px 8px rgba(32, 32, 32, 0.3);
+  border: 2px solid var(--background);
+  border-radius: 10px;
   pointer-events: none;
-}
-
-.shot-marker-num {
-  position: absolute;
-  top: -11px;
-  left: -11px;
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  background: var(--background);
-  color: var(--accent-warm);
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 2px 6px rgba(32, 32, 32, 0.35);
-}
-
-/* same numbered badge, inline in the caption/bullet text instead of
-   pinned to a marker's corner, so the two read as one pair */
-.shot-callout-num {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 17px;
-  height: 17px;
-  margin-right: 6px;
-  border-radius: 50%;
-  background: var(--background);
-  color: var(--accent-warm);
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 10px;
-  flex-shrink: 0;
-  transform: translateY(-2px);
 }
 
 /* ------------------------------------------------------- persona, solo
@@ -2980,7 +2942,7 @@ img.fragment-card {
 
 .phone-shots-grid-3col .phone-shot {
   width: 100%;
-  max-width: 260px;
+  max-width: 310px;
 }
 
 @media (max-width: 760px) {
@@ -3005,7 +2967,7 @@ img.fragment-card {
 }
 
 .keyframe-row .phone-shot {
-  width: 210px;
+  width: 250px;
 }
 
 /* ------------------------------------------------------- audit callout
