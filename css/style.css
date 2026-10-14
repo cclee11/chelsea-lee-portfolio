@@ -97,6 +97,17 @@ html, body {
   padding: 0;
 }
 
+p {
+  /* progressive-enhancement widow fix for browsers that support it
+     (Chrome/Edge, Safari 26+) — wraps paragraph text more evenly so a
+     lone short word is less likely to land alone on the last line.
+     Firefox doesn't support this yet, so js/main.js's "widon't" pass
+     (joining each paragraph's last two words with a non-breaking space)
+     is the fix that actually works everywhere; this is just a nicety on
+     top of it where the browser can do better. */
+  text-wrap: pretty;
+}
+
 body {
   font-family: var(--font-sans);
   font-variation-settings: "wght" var(--wght-light);

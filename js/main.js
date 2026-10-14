@@ -73,6 +73,17 @@
        translateX(-50%) animation on that track forever; since the two
        halves are identical, the loop point is invisible. No scrollbar,
        no manual drag — the photos just drift across on their own.
+   11. No-widow paragraphs (every page): every <p> on the site gets the
+       classic "widon't" treatment — the space between its last two
+       words is swapped for a non-breaking one, so a lone short word can
+       never end up stranded alone on a paragraph's last line. Runs once
+       on load; style.css's `text-wrap: pretty` on p handles the same
+       problem (and more general raggedness) in browsers that support
+       it, but Firefox doesn't yet, so this JS pass is the one fix that
+       works everywhere. Walks each paragraph's actual text nodes
+       (rather than touching .textContent, which would wipe out any
+       <mark>/<strong> formatting inside it) so it's safe even on
+       paragraphs with inline markup.
 */
 
 (function () {
@@ -84,7 +95,67 @@
     tile.setAttribute("aria-pressed", flipped ? "true" : "false");
   }
 
+  // "Widon't": joins a paragraph's last two words with a non-breaking
+  // space so the final line of a paragraph can never be just one short
+  // word on its own. Operates on the paragraph's actual last text node
+  // (found via TreeWalker, which descends into any <mark>/<strong>/etc.
+  // the paragraph contains) rather than el.textContent, so it can't ever
+  // clobber inline formatting — it only ever rewrites plain text.
+  function preventWidow(p) {
+    // Collect every non-empty text node in document order (this correctly
+    // descends into any <mark>/<strong>/<span>/etc. the paragraph contains)
+    // so the last two "words" can be found and joined even when an inline
+    // element sits between or around them.
+    var walker = document.createTreeWalker(p, NodeFilter.SHOW_TEXT, null);
+    var textNodes = [];
+    var node;
+    while ((node = walker.nextNode())) {
+      if (node.nodeValue.replace(/\s/g, "").length > 0) {
+        textNodes.push(node);
+      }
+    }
+    if (textNodes.length === 0) {
+      return;
+    }
+
+    var lastTextNode = textNodes[textNodes.length - 1];
+    var text = lastTextNode.nodeValue;
+    var trailingWhitespaceMatch = text.match(/\s+$/);
+    var trailingWhitespace = trailingWhitespaceMatch ? trailingWhitespaceMatch[0] : "";
+    var body = trailingWhitespace ? text.slice(0, -trailingWhitespace.length) : text;
+
+    var lastSpaceIndex = body.lastIndexOf(" ");
+    if (lastSpaceIndex !== -1) {
+      lastTextNode.nodeValue =
+        body.slice(0, lastSpaceIndex) + " " + body.slice(lastSpaceIndex + 1) + trailingWhitespace;
+      return;
+    }
+
+    // The final word has no space within its own text node — it's either
+    // entirely inside its own inline element (e.g. <mark>word</mark>) or
+    // trails right after one with no space of its own (e.g.
+    // <span>word</span>...). Either way, walk backward through the
+    // paragraph's other text nodes (which may live in a different inline
+    // element, or several elements back) until one is found that ends in
+    // a plain space, and join across that gap instead.
+    for (var i = textNodes.length - 2; i >= 0; i--) {
+      var candidate = textNodes[i];
+      if (/ $/.test(candidate.nodeValue)) {
+        candidate.nodeValue = candidate.nodeValue.replace(/ $/, " ");
+        return;
+      }
+      // if this earlier node itself has no trailing space, the words are
+      // already jammed together (no wrap point between them anyway) —
+      // keep looking further back in case there's an earlier real gap.
+    }
+  }
+
   document.addEventListener("DOMContentLoaded", function () {
+    var allParagraphs = document.querySelectorAll("p");
+    for (var i = 0; i < allParagraphs.length; i++) {
+      preventWidow(allParagraphs[i]);
+    }
+
     var loadingScreen = document.getElementById("loading-screen");
     if (loadingScreen) {
       var loadingCaption = loadingScreen.querySelector(".loading-caption");
@@ -97,6 +168,10 @@
 
       var advanceLoadingScreen = function (index) {
         loadingCaption.textContent = loadingPhrases[index];
+        // this caption's text is set dynamically, after the page's
+        // one-time widow pass already ran against an empty <p> — so it
+        // needs its own call each time its text changes.
+        preventWidow(loadingCaption);
         requestAnimationFrame(function () {
           loadingCaption.classList.add("is-visible");
         });
@@ -163,6 +238,9 @@
         introText.textContent = phraseIndex === phrases.length
           ? defaultGreeting
           : phrases[phraseIndex];
+        // same deal as the loading caption — this text changes after the
+        // page's one-time widow pass already ran, so re-run it here too.
+        preventWidow(introText);
         if (introHint) {
           introHint.style.display = "none";
         }
