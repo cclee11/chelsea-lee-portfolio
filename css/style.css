@@ -1492,26 +1492,47 @@ img.fragment-card {
   position: relative;
 }
 
-/* ------------------------------------------------------------- midfi rows
-   Each mid-fidelity screen stacked in its own row alongside its caption,
-   instead of one flat composite image with captions listed separately,
-   so every screenshot lines up with the copy that describes it. */
-.midfi-rows {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-4);
-  margin-top: var(--space-4);
+/* ------------------------------------------------------------- midfi grid
+   The mid-fidelity "Global Corporate Events" exploration, shown as four
+   individually-cropped screens in a 2x2 grid, each with its own caption
+   directly underneath it — instead of one flat composite image with every
+   caption listed off to the side, so each screenshot reads together with
+   the copy that describes it, and can run bigger besides. */
+.midfi-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-5) var(--space-4);
+  margin: var(--space-4) 0;
+  padding: 0;
+  list-style: none;
 }
 
-.midfi-row {
-  display: grid;
-  grid-template-columns: 1.5fr 1fr;
-  gap: var(--space-4);
+.midfi-card {
+  margin: 0;
+  /* screen + caption both centered within their card, rather than the
+     left-aligned treatment used elsewhere for side-by-side image/text
+     layouts — these are a standalone 2x2 set, so centering reads more
+     deliberate than a left edge that lines up with nothing beside it */
+  display: flex;
+  flex-direction: column;
   align-items: center;
+  text-align: center;
+}
+
+.midfi-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-lg);
+}
+
+.midfi-card .mockup-caption-card {
+  margin-top: var(--space-3);
+  width: 100%;
 }
 
 @media (max-width: 640px) {
-  .midfi-row {
+  .midfi-grid {
     grid-template-columns: 1fr;
   }
 }
@@ -2710,11 +2731,11 @@ img.fragment-card {
   position: relative;
   display: block;
   width: 100%;
-  /* matches the screen captures' own cropped ratio (805 x 543 — the
-     pale mockup-frame backdrop margin trimmed off the raw 864 x 603
-     export, see the asset itself) so object-fit: cover below needs no
-     extra zoom and never crops into real UI content */
-  aspect-ratio: 805 / 543;
+  /* matches the screen captures' own native ratio (783 x 521 — full-bleed
+     browser screenshots with no backdrop margin to crop out) so
+     object-fit: cover below needs no extra zoom and never crops into
+     real UI content */
+  aspect-ratio: 783 / 521;
   border-radius: var(--radius-lg);
   overflow: hidden;
 }
@@ -2726,16 +2747,10 @@ img.fragment-card {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  /* the exact crop above removes the backdrop along every straight edge,
-     but the mockup window's own rounded corners still leave a small
-     (~15-20px, out of 805px wide) pale notch tucked into each corner,
-     outside the straight-edge bbox. A tiny zoom tucks that last notch
-     behind the wrap's own rounded clip — this used to be scale(1.12),
-     which was a 12% crop into the real screenshot on every edge (losing
-     a visible slice of the actual UI, not just the corner notch); this
-     much smaller zoom still covers the notch without eating into real
-     content. */
-  transform: scale(1.04);
+  /* the current screen exports are full-bleed with no pale backdrop
+     notch to hide, so (unlike the old assets) no extra zoom is needed
+     here — object-fit: cover alone, at the matching aspect-ratio above,
+     shows the screenshot edge-to-edge with nothing cropped. */
 }
 
 .solution-card figcaption {
@@ -3485,12 +3500,29 @@ img.fragment-card {
   display: inline-block;
   /* bigger than the original size now that it's a standalone focal point
      next to the hero title rather than a small supporting mark — bumped
-     up again from 160px alongside the larger caption bubble */
-  width: 190px;
-  height: calc(190px * 342 / 776);
+     up again (and re-matched to the new logo video's own 944 x 488
+     frame, replacing the old 776 x 342 ratio, so the clip fills the box
+     edge to edge instead of pillarboxing down smaller than it should) */
+  width: 280px;
+  height: calc(280px * 488 / 944);
   cursor: url("../assets/cursor-ring.png") 10 10, default;
   cursor: -webkit-image-set(url("../assets/cursor-ring.png") 1x, url("../assets/cursor-ring@2x.png") 2x, url("../assets/cursor-ring@3x.png") 3x) 10 10, default;
   cursor: image-set(url("../assets/cursor-ring.png") 1x, url("../assets/cursor-ring@2x.png") 2x, url("../assets/cursor-ring@3x.png") 3x) 10 10, default;
+}
+
+@media (max-width: 640px) {
+  /* the desktop size (280px) is wider than .hero-intro itself once the
+     row stacks into a single narrow column, which pushed both the icon
+     and its caption bubble past the viewport edge — scaled back down to
+     fit the column width here, same aspect ratio as the desktop size.
+     (Placed after the base .eyes-icon rule above, not alongside the
+     other mobile overrides near .hero-name-row, since a media query
+     earlier in the cascade than the plain rule it's meant to override
+     would otherwise lose to it at equal specificity.) */
+  .eyes-icon {
+    width: 170px;
+    height: calc(170px * 488 / 944);
+  }
 }
 
 .eyes-video {
