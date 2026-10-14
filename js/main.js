@@ -30,10 +30,12 @@
       left gutter and animates to whichever entry is current. Clicking a
       link uses the browser's native anchor scroll.
    6. Homepage loading screen (#loading-screen, index.html only): a plain
-      overlay with a small looping logo video, captioned with two phrases
-      that fade in and out in turn ("just getting set up...", "welcome!").
-      After the last phrase, the whole overlay fades out and removes
-      itself from the DOM, revealing the hero page underneath. Only ever
+      overlay with the still logo mark (no video — see .anim-logo-wrap in
+      style.css for the always-on CSS animation that slides its two cream
+      pupils side to side), captioned with two phrases that fade in and
+      out in turn ("just getting set up...", "welcome!"). After the last
+      phrase, the whole overlay fades out and removes itself from the
+      DOM, revealing the hero page underneath. Only ever
       shows on the very first visit to the site this browser session, or
       on an actual page reload — an inline script right after
       #loading-screen in index.html checks the Navigation Timing API plus
@@ -82,53 +84,7 @@
     tile.setAttribute("aria-pressed", flipped ? "true" : "false");
   }
 
-  // Swaps a transparent-webm logo video over to its transparent-gif
-  // sibling for any browser that can't actually decode the webm — Safari
-  // chief among them, since it has never supported the webm container at
-  // all regardless of vp9 codec support elsewhere. This can't rely on
-  // <video>'s built-in "fallback content" (plain children of <video>
-  // other than <source>/<track>): that mechanism only ever renders in
-  // browsers old enough to not recognize the <video> element itself,
-  // which don't exist anymore — Safari understands <video> fine, it
-  // just renders an empty box when none of its <source>s can play, and
-  // never looks at anything nested inside it. So the fallback image has
-  // to be a real sibling in the markup (see .loading-video-wrap /
-  // .eyes-icon), hidden by default and only revealed here once it's
-  // confirmed the video actually can't play.
-  function checkVideoFallback(video, fallback) {
-    if (!video || !fallback) {
-      return;
-    }
-
-    function showFallback() {
-      video.classList.add("is-hidden");
-      fallback.classList.add("is-visible");
-    }
-
-    // Proactive check: Safari reports this directly (an empty string,
-    // meaning "definitely not") rather than waiting for a decode to
-    // actually fail, so most unsupported browsers are caught instantly.
-    var canPlay = video.canPlayType && video.canPlayType('video/webm; codecs="vp9"');
-    if (!canPlay) {
-      showFallback();
-      return;
-    }
-
-    // Safety net for a browser that reports "maybe"/"probably" here yet
-    // still fails at actual decode time.
-    video.addEventListener("error", showFallback, true);
-  }
-
   document.addEventListener("DOMContentLoaded", function () {
-    checkVideoFallback(
-      document.querySelector(".loading-video"),
-      document.querySelector(".loading-video-fallback")
-    );
-    checkVideoFallback(
-      document.querySelector(".eyes-video"),
-      document.querySelector(".eyes-video-fallback")
-    );
-
     var loadingScreen = document.getElementById("loading-screen");
     if (loadingScreen) {
       var loadingCaption = loadingScreen.querySelector(".loading-caption");
@@ -675,36 +631,12 @@
       }
     }
 
-    // floating eyes mascot (bottom-left, fixed — see .eyes-divider-mascot
-    // in style.css): clicking it swaps its speech bubble to a quick
-    // reaction ("ouch"), then eases back to the default "take a look
-    // around..." caption after a couple of seconds. Reads the two strings
-    // off data attributes on the caption itself so markup stays the
-    // single source of truth for both.
+    // floating eyes mascot (bottom-right, fixed — see .eyes-divider-mascot
+    // in style.css): purely decorative, no click interaction anymore —
+    // just fades out while the footer is in view so it never sits on top
+    // of the footer text down there, and back in once it isn't.
     var mascot = document.querySelector(".eyes-divider-mascot");
     if (mascot) {
-      var mascotCaption = mascot.querySelector(".eyes-caption");
-      if (mascotCaption) {
-        var defaultCaptionText =
-          mascotCaption.getAttribute("data-default-text") || mascotCaption.textContent;
-        var clickCaptionText = mascotCaption.getAttribute("data-click-text") || "ouch";
-        var revertTimer = null;
-
-        mascot.addEventListener("click", function () {
-          mascotCaption.textContent = clickCaptionText;
-          if (revertTimer) {
-            clearTimeout(revertTimer);
-          }
-          revertTimer = setTimeout(function () {
-            mascotCaption.textContent = defaultCaptionText;
-            revertTimer = null;
-          }, 1800);
-        });
-      }
-
-      // fixed bottom-left positioning means the mascot would otherwise sit
-      // on top of the footer once it scrolls into view — fade it out
-      // whenever the footer is on screen, and back in once it isn't.
       var siteFooter = document.querySelector(".site-footer");
       if (siteFooter && "IntersectionObserver" in window) {
         var footerObserver = new IntersectionObserver(

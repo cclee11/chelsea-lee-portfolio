@@ -359,14 +359,16 @@ mark {
 
 /* ------------------------------------------------------------ loading screen
    A brief intro overlay on the homepage only (see #loading-screen in
-   index.html): a small looping video of the logo mark, with a caption
-   beneath that fades through a few phrases (see main.js) before the whole
-   overlay fades out and removes itself, revealing the hero page. Back to a
-   plain white background regardless of light/dark mode (restored — a
-   see-through version was tried in between, but with live page content
-   and the floating corner mascot showing through it, it read as broken
-   rather than as a clean loading moment), so it reads as a blank
-   "loading" beat rather than a double-exposure over the homepage. */
+   index.html): the still logo mark (no video — see .anim-logo-wrap below
+   for the layered rings/pupils/symbol stack and its always-on pupil-slide
+   animation), with a caption beneath that fades through a few phrases
+   (see main.js) before the whole overlay fades out and removes itself,
+   revealing the hero page. Back to a plain white background regardless of
+   light/dark mode (restored — a see-through version was tried in between,
+   but with live page content and the floating corner mascot showing
+   through it, it read as broken rather than as a clean loading moment),
+   so it reads as a blank "loading" beat rather than a double-exposure
+   over the homepage. */
 
 .loading-screen {
   position: fixed;
@@ -386,35 +388,13 @@ mark {
   pointer-events: none;
 }
 
-.loading-video-wrap {
+.loading-logo-wrap {
   display: block;
   width: 300px;
-}
-
-.loading-video {
-  /* bigger per request, up from the old 140px, then 240px */
-  width: 100%;
-  height: auto;
-  display: block;
-}
-
-/* hidden by default — main.js's checkVideoFallback() reveals this (and
-   hides .loading-video) only once it's confirmed the browser actually
-   can't play the webm above. See the markup comment on
-   .loading-video-wrap for why this has to be a real sibling of <video>
-   rather than content nested inside it. */
-.loading-video-fallback {
-  display: none;
-  width: 100%;
-  height: auto;
-}
-
-.loading-video-fallback.is-visible {
-  display: block;
-}
-
-.loading-video.is-hidden {
-  display: none;
+  /* matches the eyes-mark-*.png canvas (944 x 488) so the layered pieces
+     below line up edge to edge with no stretching */
+  height: calc(300px * 488 / 944);
+  position: relative;
 }
 
 @media (max-width: 640px) {
@@ -423,8 +403,9 @@ mark {
      (overlapping the hero title underneath more than is comfortable for
      this ~3.5s intro) — scaled back down a bit, still bigger than the
      old 140px baseline */
-  .loading-video-wrap {
+  .loading-logo-wrap {
     width: 220px;
+    height: calc(220px * 488 / 944);
   }
 }
 
@@ -443,6 +424,52 @@ mark {
 
 .loading-caption.is-visible {
   opacity: 1;
+}
+
+/* ------------------------------------------------------------- anim-logo
+   The still "eyes" mark (two navy rings, a cream pupil centered in each,
+   the stick-figure glyph between them) used wherever the logo needs to
+   glance side to side on its own — the homepage loading screen and the
+   floating corner mascot (see .loading-logo-wrap and .eyes-icon). No
+   video anymore: three plain images stacked with inset: 0 (same trick as
+   .icon-logo-wrap's header logo) —
+     .eyes-mark-rings.png   solid navy discs, no cutout
+     .eyes-mark-pupils.png  both cream circles, transparent elsewhere
+     .eyes-mark-symbol.png  the glyph
+   — with only the pupils layer ever moving. Its cream circles are drawn
+   noticeably bigger than the sliver of ring they rest in would need, so
+   sliding them left/right still leaves them fully covering that circle at
+   every point along the animation — the ring is what actually masks them
+   back down to a perfect circle, so nothing ever peeks outside it. */
+.anim-logo-wrap {
+  position: relative;
+}
+
+.anim-logo-piece {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+@keyframes anim-logo-glance {
+  /* +/-2% of the mark's own width is ~19px at its native 944px artwork
+     size — comfortably inside how far the pupils can slide before
+     reaching the ring's outer edge (measured at build time), so they
+     never spill past the navy */
+  0%, 100% { transform: translateX(-2%); }
+  50%      { transform: translateX(2%); }
+}
+
+.anim-logo-pupils {
+  animation: anim-logo-glance 3.2s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .anim-logo-pupils {
+    animation: none;
+  }
 }
 
 /* -------------------------------------------------------------- layout */
@@ -3525,11 +3552,11 @@ img.fragment-card {
 /* ------------------------------------------------- eyes-looking divider
    Used to sit between the hero title and the project grid; now lives as
    a small corner badge overlapping the GrubHub project card instead (see
-   .eyes-divider-card-badge just below). The home page plays the same
-   looping clip as the loading screen (#loading-screen's video,
-   assets/loading-logo) inside the same box as the original mark (see
-   .eyes-video's object-fit: contain, which letterboxes the wider clip to
-   fit), so the eyes glance side to side on their own — no hover required.
+   .eyes-divider-card-badge just below). Plays the same still mark as the
+   loading screen (see .anim-logo-wrap/.anim-logo-piece/.anim-logo-pupils
+   near .loading-screen), so the eyes glance side to side on their own —
+   no hover, no click required (it used to swap its caption to "ouch" on
+   click; that interaction — and the video it played — are both gone now).
    brand-system.html's style-guide page still uses the original
    hover-triggered version just below: built as
    two stacked layers so only the pupils move, never the rings/character:
@@ -3553,14 +3580,13 @@ img.fragment-card {
 /* floating mascot, fixed to the bottom-right corner of the viewport so it
    stays put (rather than scrolling away) no matter how far down the page
    you've scrolled — moved out of the GrubHub project card's <a> in the
-   markup so a click here reacts in place (see the click handler in
-   main.js) instead of navigating to the case study. */
+   markup so it was never a link to the case study. Purely decorative now
+   (no click interaction, so no pointer cursor either). */
 .eyes-divider-mascot {
   position: fixed;
   right: 24px;
   bottom: 24px;
   z-index: 40;
-  cursor: pointer;
   opacity: 1;
   transition: opacity 0.25s ease;
 }
@@ -3596,53 +3622,25 @@ img.fragment-card {
 }
 
 .eyes-icon {
-  /* only meaningful for brand-system.html's separate eyes-base/eyes-
-     pupils static preview (see that page's inline-styled .eyes-icon),
-     which still relies on this for its hover pupil-slide — the video
-     used everywhere else has no .eyes-pupils child, so this is inert
-     there regardless of the icon's own size. Left untouched so that
-     page's long-tuned socket alignment doesn't shift. */
+  /* --pupil-step is only meaningful for brand-system.html's separate
+     eyes-base/eyes-pupils static preview (see that page's inline-styled
+     .eyes-icon), which still relies on this for its hover pupil-slide —
+     the always-on anim-logo-* stack used everywhere else has its own
+     .anim-logo-pupils animation instead, so this var is inert here
+     regardless of the icon's own size. Left untouched so that page's
+     long-tuned socket alignment doesn't shift. */
   --pupil-step: 7.08px;
   position: relative;
   display: inline-block;
   /* bumped up from the old 108px corner-badge size now that this is its
      own floating mascot rather than a small sticker on a project card —
-     matched to the logo video's own 944 x 488 frame so the clip fills the
-     box edge to edge with no pillarboxing */
+     matched to the logo artwork's own 944 x 488 frame so it fills the box
+     edge to edge with no pillarboxing */
   width: 160px;
   height: calc(160px * 488 / 944);
   cursor: url("../assets/cursor-ring.png") 10 10, default;
   cursor: -webkit-image-set(url("../assets/cursor-ring.png") 1x, url("../assets/cursor-ring@2x.png") 2x, url("../assets/cursor-ring@3x.png") 3x) 10 10, default;
   cursor: image-set(url("../assets/cursor-ring.png") 1x, url("../assets/cursor-ring@2x.png") 2x, url("../assets/cursor-ring@3x.png") 3x) 10 10, default;
-}
-
-.eyes-video {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-
-.eyes-video.is-hidden {
-  display: none;
-}
-
-/* hidden by default, positioned to exactly overlap .eyes-video — main.js's
-   checkVideoFallback() reveals this (and hides .eyes-video) only once
-   it's confirmed the browser actually can't play the webm source. See
-   the markup comment near .loading-video-wrap for why this has to be a
-   real sibling of <video> rather than content nested inside it. */
-.eyes-video-fallback {
-  display: none;
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-
-.eyes-video-fallback.is-visible {
-  display: block;
 }
 
 .eyes-base,

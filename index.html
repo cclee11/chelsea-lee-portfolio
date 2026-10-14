@@ -19,21 +19,10 @@
   <a href="#main-content" class="skip-link">Skip to main content</a>
 
   <div id="loading-screen" class="loading-screen" role="status" aria-live="polite">
-    <div class="loading-video-wrap">
-      <video class="loading-video" autoplay muted loop playsinline>
-        <source src="assets/loading-logo-light.webm" type="video/webm">
-      </video>
-      <!-- Safari (and anything else that can't decode this webm) still
-           understands the <video> element itself, so it just renders an
-           empty box rather than falling through to content nested inside
-           it — content inside <video> only ever shows in browsers old
-           enough to not recognize <video> at all, which don't exist
-           anymore. This <img> is a real sibling instead, hidden by
-           default and revealed by main.js's checkVideoFallback() only
-           once it's confirmed the video actually can't play here. It has
-           a real transparent background, confirmed in real-browser
-           testing. -->
-      <img src="assets/loading-logo-light-fallback.gif" class="loading-video-fallback" alt="">
+    <div class="loading-logo-wrap anim-logo-wrap">
+      <img src="assets/eyes-mark-rings.png" alt="" class="anim-logo-piece" aria-hidden="true">
+      <img src="assets/eyes-mark-pupils.png" alt="" class="anim-logo-piece anim-logo-pupils" aria-hidden="true">
+      <img src="assets/eyes-mark-symbol.png" alt="" class="anim-logo-piece" aria-hidden="true">
     </div>
     <p class="loading-caption"></p>
   </div>
@@ -167,14 +156,10 @@
 
   <div class="eyes-divider eyes-divider-mascot">
     <div class="eyes-icon" role="img" aria-label="Chelsea Lee logo, eyes glancing side to side">
-      <video class="eyes-video" autoplay muted loop playsinline aria-hidden="true">
-        <source src="assets/loading-logo-light.webm" type="video/webm">
-      </video>
-      <!-- real sibling, not fallback content inside <video> — see the
-           comment on .loading-video-wrap above for why; toggled by
-           main.js's checkVideoFallback() -->
-      <img src="assets/loading-logo-light-fallback.gif" class="eyes-video-fallback" alt="" aria-hidden="true">
-      <p class="eyes-caption" data-default-text="take a look around..." data-click-text="ouch">take a look around...</p>
+      <img src="assets/eyes-mark-rings.png" alt="" class="anim-logo-piece" aria-hidden="true">
+      <img src="assets/eyes-mark-pupils.png" alt="" class="anim-logo-piece anim-logo-pupils" aria-hidden="true">
+      <img src="assets/eyes-mark-symbol.png" alt="" class="anim-logo-piece" aria-hidden="true">
+      <p class="eyes-caption">take a look around...</p>
     </div>
   </div>
 
