@@ -48,8 +48,10 @@
   /* soft light-blue glow applied to every speech-bubble-style element
      sitewide (.bubble and its variants, .eyes-caption, .page-title-
      bubble, .fragment-click-bubble) — uses --background's mid-blue at
-     low opacity so it reads as a glow rather than a hard drop shadow */
-  --bubble-glow: 0 0 24px rgba(114, 196, 255, 0.55);
+     low opacity so it reads as a glow rather than a hard drop shadow.
+     Blur radius and opacity both brought down from the old 24px/0.55 so
+     it reads as a subtle hint rather than a strong blue halo. */
+  --bubble-glow: 0 0 10px rgba(114, 196, 255, 0.28);
 
   --space-1: 4px;
   --space-2: 8px;
@@ -384,20 +386,26 @@ mark {
 }
 
 .loading-video {
-  /* bigger per request, up from the old 140px */
-  width: 240px;
+  /* bigger per request, up from the old 140px, then 240px */
+  width: 300px;
+  height: auto;
+  display: block;
+}
+
+.loading-video-fallback {
+  width: 100%;
   height: auto;
   display: block;
 }
 
 @media (max-width: 640px) {
   /* now that the overlay has no background plate of its own, the full
-     240px desktop size reads as covering most of a narrow phone screen
+     300px desktop size reads as covering most of a narrow phone screen
      (overlapping the hero title underneath more than is comfortable for
      this ~3.5s intro) — scaled back down a bit, still bigger than the
      old 140px baseline */
   .loading-video {
-    width: 180px;
+    width: 220px;
   }
 }
 
@@ -3399,20 +3407,21 @@ img.fragment-card {
      relative to the title itself instead of the document */
   position: relative;
   /* scaled down from the old 136px now that the name reads as a left-
-     aligned lockup next to the tagline, rather than a huge centerpiece */
-  font-size: 72px;
+     aligned lockup next to the tagline, rather than a huge centerpiece;
+     bumped back up from 72px per request for more presence */
+  font-size: 88px;
   line-height: 1;
   /* deuterium variable, medium weight, no italic, all lowercase —
      dark-dark-blue (--ink) throughout, "Chelsea" included (see
      .underline-accent-blue just below, which no longer carries its own
-     accent color). Letter-spacing left at the font's own natural
-     tracking (no more tightening) per request. */
+     accent color). Letter-spacing nudged slightly tighter than the
+     font's natural tracking per request (was 0). */
   font-style: normal;
   font-family: var(--font-sans);
   font-variation-settings: "wght" var(--wght-medium);
   font-weight: 500;
   text-transform: lowercase;
-  letter-spacing: 0;
+  letter-spacing: -0.5px;
   color: var(--ink);
   cursor: url("../assets/cursor-ring.png") 10 10, default;
   cursor: -webkit-image-set(url("../assets/cursor-ring.png") 1x, url("../assets/cursor-ring@2x.png") 2x, url("../assets/cursor-ring@3x.png") 3x) 10 10, default;
@@ -3422,7 +3431,7 @@ img.fragment-card {
 
 @media (max-width: 640px) {
   .site-title {
-    font-size: 40px;
+    font-size: 48px;
   }
 }
 
@@ -3484,19 +3493,33 @@ img.fragment-card {
   gap: var(--space-2);
 }
 
-/* positions the whole mark + caption as a small sticker overlapping the
-   top-right corner of the GrubHub project card (see index.html, where
-   .eyes-divider now sits inside that card's <a>, a sibling of
-   .card-media) — half on, half off the card's own top-right corner, the
-   same way the hero version used to float its caption half outside the
-   icon's own box. z-index keeps it above the card's video/CTA, and
-   pointer-events stays on (rather than off) so the hover pupil animation
-   still triggers when this corner is hovered directly. */
-.eyes-divider-card-badge {
-  position: absolute;
-  top: -16px;
-  right: -16px;
-  z-index: 5;
+/* floating mascot, fixed to the bottom-left corner of the viewport so it
+   stays put (rather than scrolling away) no matter how far down the page
+   you've scrolled — moved out of the GrubHub project card's <a> in the
+   markup so a click here reacts in place (see the click handler in
+   main.js) instead of navigating to the case study. */
+.eyes-divider-mascot {
+  position: fixed;
+  left: 24px;
+  bottom: 24px;
+  z-index: 40;
+  cursor: pointer;
+  opacity: 1;
+  transition: opacity 0.25s ease;
+}
+
+/* faded out by main.js (via IntersectionObserver) while the footer is in
+   view, so it never sits on top of the footer text down there */
+.eyes-divider-mascot.is-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+@media (max-width: 640px) {
+  .eyes-divider-mascot {
+    left: 16px;
+    bottom: 16px;
+  }
 }
 
 .eyes-icon {
@@ -3509,18 +3532,29 @@ img.fragment-card {
   --pupil-step: 7.08px;
   position: relative;
   display: inline-block;
-  /* small corner-badge size now that this sits on top of a project card
-     rather than standing alone next to the hero title — matched to the
-     logo video's own 944 x 488 frame so the clip fills the box edge to
-     edge with no pillarboxing */
-  width: 108px;
-  height: calc(108px * 488 / 944);
+  /* bumped up from the old 108px corner-badge size now that this is its
+     own floating mascot rather than a small sticker on a project card —
+     matched to the logo video's own 944 x 488 frame so the clip fills the
+     box edge to edge with no pillarboxing */
+  width: 160px;
+  height: calc(160px * 488 / 944);
   cursor: url("../assets/cursor-ring.png") 10 10, default;
   cursor: -webkit-image-set(url("../assets/cursor-ring.png") 1x, url("../assets/cursor-ring@2x.png") 2x, url("../assets/cursor-ring@3x.png") 3x) 10 10, default;
   cursor: image-set(url("../assets/cursor-ring.png") 1x, url("../assets/cursor-ring@2x.png") 2x, url("../assets/cursor-ring@3x.png") 3x) 10 10, default;
 }
 
 .eyes-video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* shown only by browsers that can't play the webm source above (Safari
+   doesn't support the webm container at all) — sized identically to
+   .eyes-video so the fallback slots into the same box with no layout
+   shift between browsers */
+.eyes-video-fallback {
   display: block;
   width: 100%;
   height: 100%;

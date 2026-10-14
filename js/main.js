@@ -628,5 +628,49 @@
         recentlyScroll.appendChild(recentlyTrack);
       }
     }
+
+    // floating eyes mascot (bottom-left, fixed — see .eyes-divider-mascot
+    // in style.css): clicking it swaps its speech bubble to a quick
+    // reaction ("ouch"), then eases back to the default "take a look
+    // around..." caption after a couple of seconds. Reads the two strings
+    // off data attributes on the caption itself so markup stays the
+    // single source of truth for both.
+    var mascot = document.querySelector(".eyes-divider-mascot");
+    if (mascot) {
+      var mascotCaption = mascot.querySelector(".eyes-caption");
+      if (mascotCaption) {
+        var defaultCaptionText =
+          mascotCaption.getAttribute("data-default-text") || mascotCaption.textContent;
+        var clickCaptionText = mascotCaption.getAttribute("data-click-text") || "ouch";
+        var revertTimer = null;
+
+        mascot.addEventListener("click", function () {
+          mascotCaption.textContent = clickCaptionText;
+          if (revertTimer) {
+            clearTimeout(revertTimer);
+          }
+          revertTimer = setTimeout(function () {
+            mascotCaption.textContent = defaultCaptionText;
+            revertTimer = null;
+          }, 1800);
+        });
+      }
+
+      // fixed bottom-left positioning means the mascot would otherwise sit
+      // on top of the footer once it scrolls into view — fade it out
+      // whenever the footer is on screen, and back in once it isn't.
+      var siteFooter = document.querySelector(".site-footer");
+      if (siteFooter && "IntersectionObserver" in window) {
+        var footerObserver = new IntersectionObserver(
+          function (entries) {
+            entries.forEach(function (entry) {
+              mascot.classList.toggle("is-hidden", entry.isIntersecting);
+            });
+          },
+          { rootMargin: "0px 0px -10px 0px" }
+        );
+        footerObserver.observe(siteFooter);
+      }
+    }
   });
 })();

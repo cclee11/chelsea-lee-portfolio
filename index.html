@@ -21,7 +21,12 @@
   <div id="loading-screen" class="loading-screen" role="status" aria-live="polite">
     <video class="loading-video" autoplay muted loop playsinline>
       <source src="assets/loading-logo-light.webm" type="video/webm">
-      <source src="assets/loading-logo-light.mp4" type="video/mp4">
+      <!-- Safari doesn't play webm at all, so it falls through to this
+           fallback content instead of a baked-white-background mp4 source
+           (mp4/H.264 has no alpha channel, so that route could never be
+           transparent). This animated gif has a real transparent
+           background, confirmed in real-browser testing. -->
+      <img src="assets/loading-logo-light-fallback.gif" class="loading-video-fallback" alt="">
     </video>
     <p class="loading-caption"></p>
   </div>
@@ -95,7 +100,7 @@
       <div class="hero-box">
         <div class="hero-intro">
           <div class="hero-name-row">
-            <h1 class="site-title">Hi, I'm <span class="underline-accent-blue">Chelsea</span>!</h1>
+            <h1 class="site-title">Hello, I'm <span class="underline-accent-blue">Chelsea</span>!</h1>
           </div>
 
           <p class="tagline">A <mark>product designer</mark> with a background in <mark>visual arts</mark>, making complexity feel simple, and simplicity feel fun!</p>
@@ -120,15 +125,6 @@
             <div class="card-media">
               <video class="placeholder project-card-image project-card-bounce" src="assets/grubhub-hero-card.mp4" autoplay muted loop playsinline aria-label="Redesigned GrubHub mobile app, hero shot"></video>
               <span class="project-card-cta">view case study</span>
-            </div>
-            <div class="eyes-divider eyes-divider-card-badge">
-              <div class="eyes-icon" role="img" aria-label="Chelsea Lee logo, eyes glancing side to side">
-                <video class="eyes-video" autoplay muted loop playsinline aria-hidden="true">
-                  <source src="assets/loading-logo-light.webm" type="video/webm">
-                  <source src="assets/loading-logo-light.mp4" type="video/mp4">
-                </video>
-                <p class="eyes-caption">take a look around...</p>
-              </div>
             </div>
             <div class="project-card-bubble">
               <span class="project-card-title">Redesigning GrubHub Mobile</span>
@@ -161,6 +157,16 @@
       </div>
     </section>
   </main>
+
+  <div class="eyes-divider eyes-divider-mascot">
+    <div class="eyes-icon" role="img" aria-label="Chelsea Lee logo, eyes glancing side to side">
+      <video class="eyes-video" autoplay muted loop playsinline aria-hidden="true">
+        <source src="assets/loading-logo-light.webm" type="video/webm">
+        <img src="assets/loading-logo-light-fallback.gif" class="eyes-video-fallback" alt="" aria-hidden="true">
+      </video>
+      <p class="eyes-caption" data-default-text="take a look around..." data-click-text="ouch">take a look around...</p>
+    </div>
+  </div>
 
   <footer class="site-footer">
     <div class="footer-inner">
