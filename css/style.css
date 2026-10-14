@@ -3334,11 +3334,10 @@ img.fragment-card {
   margin: 0 auto;
 }
 
-/* Name/tagline on the left, the "take a look around..." mark on the right
-   — a row lined up directly against the name itself (see .hero-name-row),
-   with the tagline running full-width underneath. Stacks back to a
-   left-aligned column on narrow viewports so the two never get cramped
-   side by side. */
+/* Name/tagline, the "take a look around..." mark having moved off this
+   row entirely (it now lives as a small corner badge on the GrubHub
+   project card — see .eyes-divider-card-badge). Stacks back to a
+   left-aligned column on narrow viewports so wrapped lines never crowd. */
 .hero-intro {
   width: calc(100% - 48px);
   margin: 0 auto var(--space-5);
@@ -3357,34 +3356,11 @@ img.fragment-card {
   margin-bottom: var(--space-4);
 }
 
-/* the title and the eyes-divider box already line up via align-items:
-   center above, but the title's own type and the icon's artwork don't
-   fill their boxes identically (measured ~5px apart), so the icon gets a
-   small manual nudge down to bring its visible mark level with the
-   title's visible letterforms, per request */
-.hero-name-row .eyes-divider {
-  margin-top: 5px;
-}
-
 @media (max-width: 640px) {
   .hero-name-row {
     flex-direction: column;
     align-items: flex-start;
     gap: var(--space-4);
-  }
-
-  /* .eyes-caption floats above .eyes-icon via its own absolute
-     top/translateY offset (see .eyes-caption), overflowing upward past
-     .eyes-icon's own top edge by more than the stacked gap above gives
-     it room for once the title wraps to two lines. Extra clearance here
-     (on top of .hero-name-row's gap) keeps the bubble off the title's
-     wrapped second line without touching the shared desktop layout.
-     Selector is scoped under .hero-name-row (rather than bare
-     .eyes-divider) so it beats the unconditional "margin: 0 32px 0 0"
-     rule on .eyes-divider itself, which comes later in the file and
-     would otherwise win the cascade and reset this back to 0. */
-  .hero-name-row .eyes-divider {
-    margin-top: 48px;
   }
 }
 
@@ -3393,11 +3369,9 @@ img.fragment-card {
    ordinary run of text rather than a two-word lockup that needed its own
    flex layout. */
 .site-title {
-  /* no margin of its own: it now sits in a flex row with .eyes-divider
-     (see .hero-name-row), and any margin here would throw off centering
-     them against each other since flex alignment counts each item's
-     margin box. The gap before the tagline comes from .hero-name-row's
-     own margin-bottom instead. */
+  /* no margin of its own: .hero-name-row still centers it vertically via
+     flex align-items, and the gap before the tagline comes from
+     .hero-name-row's own margin-bottom instead. */
   margin: 0;
   display: inline-block;
   /* positions the cursor-trail dots (see .title-trail-dot and main.js)
@@ -3462,8 +3436,10 @@ img.fragment-card {
 }
 
 /* ------------------------------------------------- eyes-looking divider
-   Sits between the hero card and the project grid. The home page plays
-   the same looping clip as the loading screen (#loading-screen's video,
+   Used to sit between the hero title and the project grid; now lives as
+   a small corner badge overlapping the GrubHub project card instead (see
+   .eyes-divider-card-badge just below). The home page plays the same
+   looping clip as the loading screen (#loading-screen's video,
    assets/loading-logo) inside the same box as the original mark (see
    .eyes-video's object-fit: contain, which letterboxes the wider clip to
    fit), so the eyes glance side to side on their own — no hover required.
@@ -3485,44 +3461,42 @@ img.fragment-card {
   flex-direction: column;
   align-items: center;
   gap: var(--space-2);
-  /* nudged in from the row's flush-right edge so the speech bubble's
-     own rightward overflow (see .eyes-caption's "right" offset) lands
-     the same distance from .hero-box's edge as "chelsea lee" sits from
-     its left edge — without this, the icon alone would be symmetric but
-     the bubble sitting past its right edge would not be. */
-  margin: 0 32px 0 0;
-  flex-shrink: 0;
+}
+
+/* positions the whole mark + caption as a small sticker overlapping the
+   top-right corner of the GrubHub project card (see index.html, where
+   .eyes-divider now sits inside that card's <a>, a sibling of
+   .card-media) — half on, half off the card's own top-right corner, the
+   same way the hero version used to float its caption half outside the
+   icon's own box. z-index keeps it above the card's video/CTA, and
+   pointer-events stays on (rather than off) so the hover pupil animation
+   still triggers when this corner is hovered directly. */
+.eyes-divider-card-badge {
+  position: absolute;
+  top: -16px;
+  right: -16px;
+  z-index: 5;
 }
 
 .eyes-icon {
+  /* only meaningful for brand-system.html's separate eyes-base/eyes-
+     pupils static preview (see that page's inline-styled .eyes-icon),
+     which still relies on this for its hover pupil-slide — the video
+     used everywhere else has no .eyes-pupils child, so this is inert
+     there regardless of the icon's own size. Left untouched so that
+     page's long-tuned socket alignment doesn't shift. */
   --pupil-step: 7.08px;
   position: relative;
   display: inline-block;
-  /* bigger than the original size now that it's a standalone focal point
-     next to the hero title rather than a small supporting mark — bumped
-     up again (and re-matched to the new logo video's own 944 x 488
-     frame, replacing the old 776 x 342 ratio, so the clip fills the box
-     edge to edge instead of pillarboxing down smaller than it should) */
-  width: 280px;
-  height: calc(280px * 488 / 944);
+  /* small corner-badge size now that this sits on top of a project card
+     rather than standing alone next to the hero title — matched to the
+     logo video's own 944 x 488 frame so the clip fills the box edge to
+     edge with no pillarboxing */
+  width: 108px;
+  height: calc(108px * 488 / 944);
   cursor: url("../assets/cursor-ring.png") 10 10, default;
   cursor: -webkit-image-set(url("../assets/cursor-ring.png") 1x, url("../assets/cursor-ring@2x.png") 2x, url("../assets/cursor-ring@3x.png") 3x) 10 10, default;
   cursor: image-set(url("../assets/cursor-ring.png") 1x, url("../assets/cursor-ring@2x.png") 2x, url("../assets/cursor-ring@3x.png") 3x) 10 10, default;
-}
-
-@media (max-width: 640px) {
-  /* the desktop size (280px) is wider than .hero-intro itself once the
-     row stacks into a single narrow column, which pushed both the icon
-     and its caption bubble past the viewport edge — scaled back down to
-     fit the column width here, same aspect ratio as the desktop size.
-     (Placed after the base .eyes-icon rule above, not alongside the
-     other mobile overrides near .hero-name-row, since a media query
-     earlier in the cascade than the plain rule it's meant to override
-     would otherwise lose to it at equal specificity.) */
-  .eyes-icon {
-    width: 170px;
-    height: calc(170px * 488 / 944);
-  }
 }
 
 .eyes-video {
