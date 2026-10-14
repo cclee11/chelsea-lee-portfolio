@@ -390,22 +390,19 @@ mark {
 
 .loading-logo-wrap {
   display: block;
-  width: 300px;
+  /* scaled down per request (was 300px) */
+  width: 190px;
   /* matches the eyes-mark-*.png canvas (944 x 488) so the layered pieces
      below line up edge to edge with no stretching */
-  height: calc(300px * 488 / 944);
+  height: calc(190px * 488 / 944);
   position: relative;
 }
 
 @media (max-width: 640px) {
-  /* now that the overlay has no background plate of its own, the full
-     300px desktop size reads as covering most of a narrow phone screen
-     (overlapping the hero title underneath more than is comfortable for
-     this ~3.5s intro) — scaled back down a bit, still bigger than the
-     old 140px baseline */
+  /* scaled down to match, proportionally (was 220px) */
   .loading-logo-wrap {
-    width: 220px;
-    height: calc(220px * 488 / 944);
+    width: 140px;
+    height: calc(140px * 488 / 944);
   }
 }
 
@@ -2137,7 +2134,12 @@ img.fragment-card {
 
 .case-takeaways {
   list-style: none;
-  margin: 0;
+  /* centers the whole (badge + text) row as one block, same as every
+     other case-study body block — 32px badge + var(--space-3) gap +
+     .takeaway p's own 720px measure, so the row's own right edge lines
+     up with .case-section > p's at its widest */
+  max-width: calc(32px + var(--space-3) + 720px);
+  margin: 0 auto;
   padding: 0;
 }
 
@@ -3495,15 +3497,15 @@ img.fragment-card {
      bumped back up from 72px per request for more presence */
   font-size: 88px;
   line-height: 1;
-  /* deuterium variable, medium weight, no italic, all lowercase —
-     dark-dark-blue (--ink) throughout, "Chelsea" included (see
-     .underline-accent-blue just below, which no longer carries its own
-     accent color). Letter-spacing nudged slightly tighter than the
-     font's natural tracking per request (was 0). */
+  /* deuterium variable, regular weight (was medium, per request), no
+     italic, all lowercase — dark-dark-blue (--ink) throughout, "Chelsea"
+     included (see .underline-accent-blue just below, which no longer
+     carries its own accent color). Letter-spacing nudged slightly
+     tighter than the font's natural tracking per request (was 0). */
   font-style: normal;
   font-family: var(--font-sans);
-  font-variation-settings: "wght" var(--wght-medium);
-  font-weight: 500;
+  font-variation-settings: "wght" var(--wght-regular);
+  font-weight: 400;
   text-transform: lowercase;
   letter-spacing: -0.5px;
   color: var(--ink);
@@ -3584,8 +3586,9 @@ img.fragment-card {
    (no click interaction, so no pointer cursor either). */
 .eyes-divider-mascot {
   position: fixed;
-  right: 24px;
-  bottom: 24px;
+  /* moved further in from the corner per request (was 24px) */
+  right: 64px;
+  bottom: 64px;
   z-index: 40;
   opacity: 1;
   transition: opacity 0.25s ease;
@@ -3616,8 +3619,8 @@ img.fragment-card {
 
 @media (max-width: 640px) {
   .eyes-divider-mascot {
-    right: 16px;
-    bottom: 16px;
+    right: 40px;
+    bottom: 40px;
   }
 }
 
@@ -3632,12 +3635,12 @@ img.fragment-card {
   --pupil-step: 7.08px;
   position: relative;
   display: inline-block;
-  /* bumped up from the old 108px corner-badge size now that this is its
-     own floating mascot rather than a small sticker on a project card —
-     matched to the logo artwork's own 944 x 488 frame so it fills the box
-     edge to edge with no pillarboxing */
-  width: 160px;
-  height: calc(160px * 488 / 944);
+  /* scaled back down per request (was 160px, itself bumped up from an
+     old 108px corner-badge size) — matched to the logo artwork's own
+     944 x 488 frame so it fills the box edge to edge with no
+     pillarboxing */
+  width: 100px;
+  height: calc(100px * 488 / 944);
   cursor: url("../assets/cursor-ring.png") 10 10, default;
   cursor: -webkit-image-set(url("../assets/cursor-ring.png") 1x, url("../assets/cursor-ring@2x.png") 2x, url("../assets/cursor-ring@3x.png") 3x) 10 10, default;
   cursor: image-set(url("../assets/cursor-ring.png") 1x, url("../assets/cursor-ring@2x.png") 2x, url("../assets/cursor-ring@3x.png") 3x) 10 10, default;
