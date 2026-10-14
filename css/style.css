@@ -3586,8 +3586,9 @@ img.fragment-card {
    (no click interaction, so no pointer cursor either). */
 .eyes-divider-mascot {
   position: fixed;
-  /* moved further in from the corner per request (was 24px) */
-  right: 64px;
+  /* moved further in from the corner per request (right: was 24px, then
+     64px; bottom: was 24px) */
+  right: 104px;
   bottom: 64px;
   z-index: 40;
   opacity: 1;
@@ -3619,7 +3620,7 @@ img.fragment-card {
 
 @media (max-width: 640px) {
   .eyes-divider-mascot {
-    right: 40px;
+    right: 64px;
     bottom: 40px;
   }
 }
