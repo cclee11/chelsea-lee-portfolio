@@ -238,7 +238,9 @@ mark {
 .site-header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  /* nav now sits beside the logo on the left, instead of pushed to the
+     header's far right edge */
+  justify-content: flex-start;
   flex-wrap: wrap;
   row-gap: var(--space-2);
   gap: var(--space-3);
@@ -278,7 +280,9 @@ mark {
   position: relative;
   display: block;
   width: 64px;
-  height: calc(64px * 340 / 774);
+  /* updated aspect ratio for the new logo-new-*.png artwork (944x488),
+     replacing the old mark's 774x340 canvas */
+  height: calc(64px * 488 / 944);
 }
 
 .logo-piece {
@@ -315,6 +319,9 @@ mark {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-3);
+  /* a bit of breathing room from the logo now that the nav sits beside
+     it instead of being pushed to the header's far edge */
+  margin-left: var(--space-4);
 }
 
 .site-nav a {
@@ -3445,8 +3452,8 @@ img.fragment-card {
    assets/loading-logo) inside the same box as the original mark (see
    .eyes-video's object-fit: contain, which letterboxes the wider clip to
    fit), so the eyes glance side to side on their own — no hover required.
-   The secret page
-   still uses the original hover-triggered version just below: built as
+   brand-system.html's style-guide page still uses the original
+   hover-triggered version just below: built as
    two stacked layers so only the pupils move, never the rings/character:
    .eyes-base is the mark with the pupils (fill + their own outline
    stroke) erased to a plain disc, and .eyes-pupils is a transparent-
@@ -3537,9 +3544,7 @@ img.fragment-card {
    never clipping or overflowing it, regardless of font metrics. Nested
    inside .eyes-icon in the markup (rather than sitting beside it) and
    positioned absolutely against it, so the bubble always anchors to the
-   icon itself — not however tall .eyes-divider happens to be, which
-   varies on the secret page where the divider stretches to fill the
-   space below the back link. */
+   icon itself rather than to however tall .eyes-divider happens to be. */
 .eyes-caption {
   position: absolute;
   top: -18px;
@@ -3574,71 +3579,6 @@ img.fragment-card {
   transform: rotate(45deg);
 }
 
-/* the secret page reuses this same mark at nearly double the size (see
-   .secret-page .eyes-icon below), so its speech bubble is nudged out a
-   little further to keep sitting clear of the bigger icon */
-.secret-page .eyes-caption {
-  right: -42px;
-}
-
-/* -------------------------------------------------------- secret page
-   A hidden little "you found me" page linked from the fun-fact bubble on
-   about.html. No header/nav — just a back link up top and the same
-   eyes-looking mark from the home page, centered in the space below it. */
-
-.secret-page {
-  /* full viewport height/width, dark-blue background edge to edge —
-     overrides the sitewide <main> max-width/centering (see "main" above)
-     so the fill reaches every edge of the screen, not just the usual
-     960px reading column */
-  min-height: 100vh;
-  max-width: none;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  background: var(--ink);
-}
-
-.secret-page .eyes-divider {
-  flex: 1;
-  justify-content: center;
-  margin: 0;
-}
-
-.secret-page .eyes-icon {
-  width: 240px;
-  height: calc(240px * 342 / 776);
-}
-
-/* back button: moved up into the page's top-right corner (where the
-   site-wide nav/logo would normally sit), out of the flex flow via fixed
-   positioning so it no longer pushes the eyes mark off-center below it —
-   light-blue per request, to read against the new dark-blue page */
-.secret-page .back-link {
-  position: fixed;
-  top: var(--space-4);
-  right: var(--space-5);
-  z-index: 10;
-  margin: 0;
-  color: var(--accent-tint);
-}
-
-.secret-page .back-link:hover {
-  color: #ffffff;
-}
-
-/* the "hey! you found me!" caption: plain light-blue text with no pill
-   fill/tail of its own (the filled bubble from the home page's identical
-   mark would clash with the now-dark-blue page background) */
-.secret-page .eyes-caption {
-  background: transparent;
-  color: var(--accent-tint);
-  padding: 0;
-}
-
-.secret-page .eyes-caption::after {
-  display: none;
-}
 
 .tagline {
   /* a "subtitle" text, so it's set in Roboto Mono per the sitewide
@@ -3775,36 +3715,26 @@ img.fragment-card {
   transition: background 0.2s ease;
 }
 
-/* on hover/focus: swap the fact text out for the site's own logo mark
-   and flip the circle to the dark-blue fill used elsewhere on hover */
-.bubble-fact:hover,
-.bubble-fact:focus-visible {
-  background: var(--ink);
+/* no longer a link (see about.html — the circle is now a plain, inert
+   div, not a click-through to a page), so this is a plain :hover only:
+   on hover, swap the fact text out for the site's own logo mark; the
+   circle itself stays the same light-blue fill, no color change */
+.bubble-fact:hover {
+  background: var(--accent-tint);
   padding: var(--space-3);
 }
 
-.bubble-fact:hover .bubble-fact-text,
-.bubble-fact:focus-visible .bubble-fact-text {
+.bubble-fact:hover .bubble-fact-text {
   display: none;
 }
 
 .bubble-fact-logo {
   display: none;
-  position: relative;
-  width: 64px;
-  height: calc(64px * 340 / 774);
+  width: 72px;
+  height: auto;
 }
 
-.bubble-fact:hover .bubble-fact-logo,
-.bubble-fact:focus-visible .bubble-fact-logo {
-  display: block;
-}
-
-.bubble-fact-logo-piece {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
+.bubble-fact:hover .bubble-fact-logo {
   display: block;
 }
 
