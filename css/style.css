@@ -1609,7 +1609,6 @@ img.fragment-card {
   display: block;
   width: 100%;
   height: auto;
-  border-radius: var(--radius-lg);
 }
 
 .midfi-card .mockup-caption-card {
@@ -2856,7 +2855,6 @@ img.fragment-card {
      object-fit: cover below needs no extra zoom and never crops into
      real UI content */
   aspect-ratio: 783 / 521;
-  border-radius: var(--radius-lg);
   overflow: hidden;
 }
 
@@ -3294,8 +3292,7 @@ img.fragment-card {
 }
 
 /* ---------------------------------------------------------- closing shot
-   The sticker mockup that closes out the case study: rounded corners
-   and a drop shadow. */
+   The sticker mockup that closes out the case study. */
 .closing-shot-wrap {
   display: flex;
   justify-content: center;
@@ -3306,7 +3303,6 @@ img.fragment-card {
   width: 100%;
   max-width: 640px;
   height: auto;
-  border-radius: var(--radius-lg);
 }
 
 @media (max-width: 640px) {
