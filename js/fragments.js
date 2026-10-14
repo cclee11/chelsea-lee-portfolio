@@ -1,4 +1,4 @@
-/* chelsea lee — portfolio: fun page drag interaction
+/* chelsea lee — portfolio: fun page drag + click interaction
    Lets each card in #fragmentsStage be picked up and dropped anywhere,
    stacking on top of whatever it's dropped on. Reuses the --tx/--ty/--rot
    custom properties .placeholder already defines in style.css (the same
@@ -7,15 +7,17 @@
    sets --tx/--ty inline, which simply wins over any stylesheet rule for
    the same property.
 
-   A plain click (pointer barely moves between down and up) is left
-   alone, so the image lightbox wired up in main.js still opens as usual
-   — only an actual drag is intercepted, via a short-lived flag that
-   swallows the synthetic click a real drag would otherwise leave behind.
+   A plain click (pointer barely moves between down and up) no longer
+   opens an image lightbox — instead it pops up a small phrase bubble
+   that cycles through PHRASES below (see showClickBubble), floating up
+   and fading out over 1.5s. Only an actual drag is intercepted/ignored
+   for this purpose, via a short-lived flag that swallows the synthetic
+   click a real drag would otherwise leave behind.
 
-   Also drives the "drag me around!" cursor-replacement bubble (see
-   .drag-hint in style.css): a single shared pill, shown and moved to
-   the pointer position while hovering any card, and hidden the instant
-   a real drag starts so it never fights the card being dragged.
+   Also drives the "click me!" cursor-replacement bubble (see
+   .fragment-hint in style.css): a single shared pill, shown and moved
+   to the pointer position while hovering any card, and hidden the
+   instant a real drag starts so it never fights the card being dragged.
 */
 
 (function () {
@@ -38,10 +40,54 @@
   // one shared bubble, reused across every card instead of one per
   // card — it only ever follows whichever card the pointer is over
   var hint = document.createElement("span");
-  hint.className = "drag-hint";
-  hint.textContent = "drag me around!";
+  hint.className = "fragment-hint";
+  hint.textContent = "click me!";
   hint.setAttribute("aria-hidden", "true");
   document.body.appendChild(hint);
+
+  // the phrases a card's own click bubble cycles through, one step per
+  // click, shared across every card (a single running index) and
+  // wrapping back to the start once it reaches the end
+  var PHRASES = [
+    "always a painter at heart",
+    "creative juice are flowing...",
+    "it all starts on paper!",
+    "currently: playing around",
+    "^_^"
+  ];
+  var phraseIndex = 0;
+
+  // one shared click-bubble element, repositioned and restarted on
+  // every card click rather than spawning a new element per click
+  var clickBubble = document.createElement("span");
+  clickBubble.className = "fragment-click-bubble";
+  clickBubble.setAttribute("aria-live", "polite");
+  document.body.appendChild(clickBubble);
+
+  function showClickBubble(event, card) {
+    clickBubble.textContent = PHRASES[phraseIndex];
+    phraseIndex = (phraseIndex + 1) % PHRASES.length;
+    // a keyboard-triggered click (Enter/Space, see the keydown handler
+    // below) dispatches a synthetic click with clientX/clientY both 0 —
+    // fall back to the card's own center so the bubble doesn't jump to
+    // the corner of the page for keyboard users
+    var x = event.clientX;
+    var y = event.clientY;
+    if (!x && !y && card) {
+      var rect = card.getBoundingClientRect();
+      x = rect.left + rect.width / 2;
+      y = rect.top + rect.height / 2;
+    }
+    clickBubble.style.left = x + "px";
+    clickBubble.style.top = y + "px";
+    // restart the CSS animation even if it's already mid-run from a
+    // previous click: drop the class, force a reflow, then re-add it —
+    // simply re-adding the same class name is a no-op as far as the
+    // animation is concerned.
+    clickBubble.classList.remove("is-animating");
+    void clickBubble.offsetWidth;
+    clickBubble.classList.add("is-animating");
+  }
 
   // small offset so the bubble sits just past the pointer instead of
   // directly under it, the same way a native cursor doesn't cover what
@@ -145,8 +191,8 @@
     card.addEventListener("pointerup", release);
     card.addEventListener("pointercancel", release);
 
-    // keyboard users can't drag, but Enter/Space should still open the
-    // lightbox the same way a plain click does
+    // keyboard users can't drag, but Enter/Space should still pop the
+    // click bubble the same way a plain click does
     card.addEventListener("keydown", function (event) {
       if (event.key === "Enter" || event.key === " ") {
         event.preventDefault();
@@ -155,20 +201,21 @@
     });
   });
 
-  // capture phase, on the stage rather than each card, so this runs
-  // before main.js's own (bubble-phase) click listener ever sees the
-  // event — the only way to actually stop a post-drag click from
-  // reaching it.
-  stage.addEventListener(
-    "click",
-    function (event) {
-      var card = event.target.closest(".fragment-card");
-      if (card && card.dataset.justDragged === "true") {
-        delete card.dataset.justDragged;
-        event.stopPropagation();
-        event.preventDefault();
-      }
-    },
-    true
-  );
+  // One listener for every card, on the stage rather than each card
+  // individually. A real drag leaves a synthetic click behind once the
+  // pointer is released — that gets swallowed here (via justDragged)
+  // instead of popping the phrase bubble; every other click is a
+  // genuine plain click/tap/keyboard-activation, so that's what shows
+  // the next phrase.
+  stage.addEventListener("click", function (event) {
+    var card = event.target.closest(".fragment-card");
+    if (!card) {
+      return;
+    }
+    if (card.dataset.justDragged === "true") {
+      delete card.dataset.justDragged;
+      return;
+    }
+    showClickBubble(event, card);
+  });
 })();

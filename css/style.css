@@ -246,9 +246,18 @@ mark {
   position: sticky;
   top: 0;
   z-index: 100;
-  /* the site's light-blue accent fill — yellow is reserved for the logo
-     artwork only now, nowhere else in the UI */
-  background: var(--accent-tint);
+  /* see-through: the same light-blue accent tint, but translucent, with
+     whatever scrolls underneath blurred through it — a plain solid fill
+     is the fallback for a browser without backdrop-filter support */
+  background: rgba(216, 237, 255, 0.72);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .site-header {
+    background: var(--accent-tint);
+  }
 }
 
 .icon-logo-link {
@@ -321,7 +330,7 @@ mark {
   font-variation-settings: "wght" var(--wght-regular);
   color: var(--ink);
   background: transparent;
-  border: 2px solid transparent;
+  border: 0.5px solid transparent;
   letter-spacing: 0.02em;
   padding: var(--space-1) var(--space-3);
   border-radius: var(--radius-full);
@@ -424,7 +433,10 @@ main {
 /* gives the home page a wider stage than other pages, just for the
    project cards below (see .projects-grid) */
 .home-main {
-  --content-max: 1320px;
+  /* widened (from 1320px) so the project cards below render noticeably
+     bigger per request, while every caption/tag/title keeps its own
+     fixed px size regardless of how much wider the column gets */
+  --content-max: 1560px;
 }
 
 /* wider stage shared by any page whose grid should render bigger than
@@ -447,35 +459,46 @@ main {
   letter-spacing: 0.01em;
 }
 
-/* the More and Fragments pages wrap their title (+ subtitle, + the More
-   page's subnav tabs) in one light-blue card instead of sitting bare on
-   the white page background. The title switches to dark-blue inside it
-   — --heading-blue's pale brand blue (already a deliberately low-
-   contrast accent against plain white) would be close to illegible
-   against this light-blue fill, so this is a targeted exception rather
-   than touching the sitewide header color rule. */
-.page-header-card {
+/* The More and Fragments pages used to wrap their whole title+subtitle
+   (+subnav) block in one light-blue card. That's gone now — only the
+   title itself sits in a small speech bubble (reusing the same
+   "..." feel as .eyes-caption's "take a look around..."), sized to fit
+   just the title text rather than stretching across the page; the
+   subtitle and subnav sit bare on the white page background again,
+   same as every other page. */
+.page-title-bubble {
+  position: relative;
+  display: inline-block;
+  width: max-content;
+  max-width: 100%;
   background: var(--accent-tint);
   border-radius: var(--radius-lg);
-  padding: var(--space-4) var(--space-5);
-  margin: 0 0 var(--space-5);
+  padding: var(--space-3) var(--space-5);
+  margin: 0 0 var(--space-4);
 }
 
-.page-header-card .page-title {
+/* --heading-blue's pale brand blue (already a deliberately low-contrast
+   accent against plain white) would be close to illegible against this
+   bubble's light-blue fill, so the title switches to dark-blue inside
+   it — a targeted exception rather than touching the sitewide header
+   color rule. */
+.page-title-bubble .page-title {
   color: var(--ink);
+  margin: 0;
 }
 
-/* .page-title:has(+ .page-subtitle) above already gives the title/
-   subtitle gap its (increased) spacing; this just trims the subtitle's
-   own trailing margin, which was sized for a bare page bottom, down to
-   nothing so the card's own padding (or the subnav below it) controls
-   the space instead */
-.page-header-card .page-subtitle {
-  margin-bottom: 0;
-}
-
-.page-header-card .subnav {
-  margin-top: var(--space-4);
+/* small tail pointing down-left, same construction as .bubble-intro's
+   own speech-bubble tail on the about page */
+.page-title-bubble::after {
+  content: "";
+  position: absolute;
+  bottom: -14px;
+  left: 36px;
+  width: 0;
+  height: 0;
+  border-left: 12px solid transparent;
+  border-right: 12px solid transparent;
+  border-top: 16px solid var(--accent-tint);
 }
 
 /* the case-study's own main title keeps the same sans-serif, bold,
@@ -486,12 +509,14 @@ main {
   letter-spacing: -0.005em;
 }
 
-/* subtitle sitting directly under a bare page title (currently the Fun
-   page): styled like the home page's supporting tagline text rather than
-   a plain heading, so it doesn't read as a second big title */
+/* subtitle sitting directly under the page title (More/Fragments):
+   styled like the home page's supporting tagline text rather than a
+   plain heading, so it doesn't read as a second big title — sized down
+   a notch from the usual body copy so it reads clearly as secondary to
+   the title bubble sitting right above it */
 .page-subtitle {
   font-family: var(--font-mono);
-  font-size: var(--body-size);
+  font-size: 13px;
   line-height: var(--body-line);
   color: var(--text);
   /* explicit regular weight so this never goes bold regardless of which
@@ -503,8 +528,9 @@ main {
 
 /* a bit more air than the usual tight title spacing, which was meant
    for a title with nothing sitting directly beneath it — enough that
-   the title and subtitle clearly read as two separate lines */
-.page-title:has(+ .page-subtitle) {
+   the title bubble and subtitle clearly read as two separate lines */
+.page-title:has(+ .page-subtitle),
+.page-title-bubble:has(+ .page-subtitle) {
   margin-bottom: var(--space-4);
 }
 
@@ -611,8 +637,12 @@ main {
 
 .footer-label {
   margin: 0;
-  font-family: var(--font-mono);
-  font-size: 12px;
+  /* sans-serif (not the footer's usual mono micro-text) and a little
+     bigger, so "Let's connect!" reads as a small heading of its own
+     rather than blending in with the plain mono link list below it */
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-variation-settings: "wght" var(--wght-medium);
   color: var(--accent-tint);
 }
 
@@ -787,6 +817,9 @@ img.fragment-card {
   touch-action: none;
   -webkit-user-select: none;
   user-select: none;
+  /* same super-thin dark-blue frame as the project/more/design cards,
+     per request */
+  border: 1px solid var(--ink);
 }
 
 /* a loose stagger so cards read as scattered rows rather than a strict
@@ -812,8 +845,8 @@ img.fragment-card {
   transition: none;
 }
 
-/* while js/fragments.js has the "drag me around!" hint bubble showing
-   (see .drag-hint below), hide the native grab cursor entirely so the
+/* while js/fragments.js has the "click me!" hint bubble showing (see
+   .fragment-hint below), hide the native grab cursor entirely so the
    bubble reads as the cursor's replacement rather than sitting beside
    it. Gated behind this JS-applied class (rather than a plain :hover)
    so the ordinary grab cursor still shows as a fallback affordance
@@ -829,19 +862,18 @@ img.fragment-card {
   }
 }
 
-/* "drag me around!" cursor-replacement bubble (js/fragments.js): same
-   solid brand-blue-on-yellow pill as .eyes-caption's "take a look
-   around..." speech bubble, but following the pointer instead of
-   anchored to one spot. Fixed + pointer-events:none so it never
-   intercepts the drag it's hinting at. */
-.drag-hint {
+/* "click me!" cursor-replacement bubble (js/fragments.js): the sitewide
+   light-blue-fill/dark-blue-text bubble treatment, following the
+   pointer instead of anchored to one spot. Fixed + pointer-events:none
+   so it never intercepts the drag/click it's hinting at. */
+.fragment-hint {
   position: fixed;
   top: 0;
   left: 0;
   z-index: 999;
   margin: 0;
   padding: 8px 16px;
-  background: var(--background);
+  background: var(--accent-tint);
   color: var(--ink);
   border-radius: var(--radius-full);
   font-size: 14px;
@@ -853,8 +885,52 @@ img.fragment-card {
   will-change: transform, opacity;
 }
 
-.drag-hint.is-visible {
+.fragment-hint.is-visible {
   opacity: 1;
+}
+
+/* the "always a painter at heart" / etc. phrase bubble that pops up and
+   cycles on each click of a fragment card (see js/fragments.js) — same
+   light-blue/dark-blue bubble language as .fragment-hint above, but
+   anchored to the click point and animated rather than pointer-tracked:
+   it floats upward and fades out over 1.5s, then js removes the
+   "is-animating" class so the next click can restart the animation
+   from scratch (re-adding the same class wouldn't otherwise replay it). */
+.fragment-click-bubble {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999;
+  margin: 0;
+  padding: 8px 16px;
+  background: var(--accent-tint);
+  color: var(--ink);
+  border-radius: var(--radius-full);
+  font-size: 14px;
+  line-height: 1.3;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+.fragment-click-bubble.is-animating {
+  animation: fragment-bubble-float 1.5s ease-out forwards;
+}
+
+@keyframes fragment-bubble-float {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -100%) scale(0.92);
+  }
+  12% {
+    opacity: 1;
+    transform: translate(-50%, -115%) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -190%) scale(1);
+  }
 }
 
 /* Design tab: the site's usual hover pop (big -10px lift + heavy
@@ -884,8 +960,8 @@ img.fragment-card {
 .card-caption-title {
   font-size: 21px;
   font-family: var(--font-mono);
-  /* a <span>, not a real header, so per "don't bold anything that isn't
-     a header" this stays regular weight */
+  /* bold per request, despite being a <span> rather than an h-tag */
+  font-weight: 700;
   color: var(--ink);
 }
 
@@ -957,8 +1033,10 @@ img.fragment-card {
      row's images; column-gap unchanged */
   gap: 48px 24px;
   /* wider + a smaller inset below (see .hero-box .projects-grid), now that
-     there's no card rectangle constraining it — bigger tiles */
-  max-width: 1480px;
+     there's no card rectangle constraining it — bigger tiles. Matches
+     .home-main's widened --content-max so this cap is no longer the
+     binding constraint; actual width still comes from the page column. */
+  max-width: 1560px;
   margin: 0 auto;
 }
 
@@ -986,12 +1064,11 @@ img.fragment-card {
 .project-card-image {
   width: 100%;
   aspect-ratio: 3 / 2;
-  /* a super-thin light-blue frame — reintroduced as a deliberate
+  /* a super-thin dark-blue frame — reintroduced as a deliberate
      exception for project/more cards specifically (most other strokes
-     sitewide are still gone); --background's more saturated blue reads
-     clearly at 1px against white, where the paler --accent-tint used for
-     fills would all but disappear as a border */
-  border: 1px solid var(--background);
+     sitewide are still gone); dark-blue per request, in place of the
+     former --background mid-blue */
+  border: 1px solid var(--ink);
   transition: transform 0.25s ease;
 }
 
@@ -1041,10 +1118,10 @@ img.fragment-card {
   font-size: 16px;
   letter-spacing: 0.03em;
   font-family: var(--font-sans);
-  /* not a real header (it's a <span>, not an h-tag), so per "don't bold
-     anything that isn't a header" it stays regular weight — just --ink
-     rather than --text's body-text gray, since it's still a title label
-     rather than running body copy */
+  /* bold per request, despite being a <span> rather than an h-tag — the
+     title is meant to read as the clear focal point of the caption */
+  font-variation-settings: "wght" var(--wght-bold);
+  font-weight: 700;
   color: var(--ink);
 }
 
@@ -1064,7 +1141,9 @@ img.fragment-card {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-1);
-  margin-top: 2px;
+  /* more breathing room under the (now-bold) title above, up from a
+     near-flush 2px */
+  margin-top: var(--space-2);
 }
 
 .project-tag {
@@ -1097,7 +1176,11 @@ img.fragment-card {
   z-index: 2;
   max-width: calc(100% - var(--space-3) * 2);
   font-size: 12px;
-  font-variation-settings: "wght" var(--wght-medium);
+  /* roboto mono, regular weight (not bold) per request — distinct from
+     the sans-serif used by the card's own title just above it */
+  font-family: var(--font-mono);
+  font-variation-settings: "wght" var(--wght-regular);
+  font-weight: 400;
   color: var(--ink);
   background: var(--page-bg);
   padding: var(--space-1) var(--space-3);
@@ -1220,17 +1303,17 @@ img.fragment-card {
   background: #ffffff;
   padding: 0;
   overflow: hidden;
-  /* same super-thin light-blue frame as .project-card-image, so the
+  /* same super-thin dark-blue frame as .project-card-image, so the
      More page's Design-tab tiles read consistently with the rest of the
      project/more cards */
-  border: 1px solid var(--background);
+  border: 1px solid var(--ink);
 }
 
 /* the Design tab's plain photo tiles (not flip-posters) get the same
-   thin light-blue frame */
+   thin dark-blue frame */
 .grid-2col.grid-design > img.placeholder,
 .bw-spread-group .placeholder {
-  border: 1px solid var(--background);
+  border: 1px solid var(--ink);
 }
 
 .flip-tile-front-poster img,
@@ -1292,17 +1375,16 @@ img.fragment-card {
   /* matches .site-nav a's weight so the More page's own tabs read as the
      same "weight" of navigation as the primary nav above them */
   font-variation-settings: "wght" var(--wght-regular);
-  /* the sitewide "button" treatment (distinct from .site-nav a, which is
-     stroke-only): a light-blue pill with dark-blue text and a very thin
-     dark-blue stroke, always on — hover/is-active just thickens the
-     stroke a touch rather than flipping any fill or text color, since
-     the resting state is already the "selected-looking" light blue. */
+  /* the sitewide "button" treatment: a light-blue pill with dark-blue
+     text and a hairline dark-blue stroke at rest; hover/is-active flips
+     to a solid dark-blue fill with light-blue text instead of touching
+     the stroke width or adding any shadow. */
   color: var(--ink);
   background: var(--accent-tint);
-  border: 1px solid var(--ink);
+  border: 0.5px solid var(--ink);
   border-radius: var(--radius-full);
   padding: var(--space-1) var(--space-3);
-  transition: border-color 0.2s ease;
+  transition: background 0.2s ease, color 0.2s ease;
   /* same convention as .site-nav a: the HTML keeps readable casing
      ("UI/UX", "Design") for accessibility, lowercased visually here */
   text-transform: lowercase;
@@ -1310,19 +1392,11 @@ img.fragment-card {
 
 .subnav-tab:hover,
 .subnav-tab.is-active {
-  /* no color/weight change on purpose — switching tabs used to also jump
-     the label to a heavier weight or flip the fill, either of which read
-     as more motion than intended. Keeping the same light-blue fill and
-     --wght-light means only the stroke itself thickens to signal
-     selection/hover. */
-  border-width: 2px;
-}
-
-/* shadow on hover only — not on .is-active too, so a selected tab
-   doesn't carry a permanent shadow once the pointer moves away */
-.subnav-tab:hover,
-.subnav-tab:focus-visible {
-  box-shadow: 0 6px 14px rgba(58, 58, 58, 0.16);
+  /* the selected tab reads as "permanently hovered" — same dark-blue
+     fill/light-blue text as a transient hover elsewhere, so the active
+     tab stays visually distinct without a shadow or a thicker stroke */
+  background: var(--ink);
+  color: var(--accent-tint);
 }
 
 /* ------------------------------------------------------------ sub-pages */
@@ -1602,16 +1676,15 @@ img.fragment-card {
   font-size: 13px;
   color: var(--ink);
   background: var(--accent-tint);
-  border: 1px solid var(--ink);
+  border: 0.5px solid var(--ink);
   padding: var(--space-1) var(--space-3);
   border-radius: var(--radius-full);
-  transition: background 0.2s ease, color 0.2s ease, border-width 0.2s ease;
+  transition: background 0.2s ease, color 0.2s ease;
 }
 
 .case-jumpnav a:hover {
-  background: var(--off-white);
-  color: var(--ink);
-  border-width: 2px;
+  background: var(--ink);
+  color: var(--accent-tint);
 }
 
 .case-section {
@@ -2454,26 +2527,26 @@ img.fragment-card {
   align-items: center;
   justify-content: center;
   /* the sitewide "button" treatment: light-blue fill, dark-blue text,
-     and a very thin dark-blue stroke, all always on — hover/focus just
-     lifts the button and thickens the stroke rather than flipping any
-     color */
+     and a hairline dark-blue stroke, all always on — hover/focus flips
+     to a dark-blue fill with light-blue text and lifts slightly, with
+     no stroke-width change and no shadow */
   background: var(--accent-tint);
   color: var(--ink);
-  border: 1px solid var(--ink);
+  border: 0.5px solid var(--ink);
   border-radius: var(--radius-full);
   padding: var(--space-2) var(--space-4);
   font-size: 14px;
   font-variation-settings: "wght" var(--wght-medium);
   text-decoration: none;
   text-transform: lowercase;
-  transition: border-width 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.15s ease;
 }
 
 .prototype-cta:hover,
 .prototype-cta:focus-visible {
-  border-width: 2px;
+  background: var(--ink);
+  color: var(--accent-tint);
   transform: translateY(-2px);
-  box-shadow: 0 6px 14px rgba(58, 58, 58, 0.2);
 }
 
 /* Original App row: .detail-grid's default 1fr/1fr split leaves the
@@ -2626,12 +2699,14 @@ img.fragment-card {
   object-fit: cover;
   /* the exact crop above removes the backdrop along every straight edge,
      but the mockup window's own rounded corners still leave a small
-     pale notch tucked into each corner, outside the straight-edge bbox
-     — invisible in light mode (it's nearly page-white) but a visible
-     gray-ish ring against the dark-mode page. A small zoom (much
-     smaller than it sounds — the straight edges have no margin left to
-     lose) tucks that last notch behind the wrap's own rounded clip. */
-  transform: scale(1.12);
+     (~15-20px, out of 805px wide) pale notch tucked into each corner,
+     outside the straight-edge bbox. A tiny zoom tucks that last notch
+     behind the wrap's own rounded clip — this used to be scale(1.12),
+     which was a 12% crop into the real screenshot on every edge (losing
+     a visible slice of the actual UI, not just the corner notch); this
+     much smaller zoom still covers the notch without eating into real
+     content. */
+  transform: scale(1.04);
 }
 
 .solution-card figcaption {
@@ -3092,25 +3167,25 @@ img.fragment-card {
   gap: var(--space-2);
   font-size: 13px;
   /* the sitewide "button" treatment: light-blue fill, dark-blue text,
-     and a very thin dark-blue stroke, all always on — hover/focus just
-     lifts the button and thickens the stroke rather than flipping any
-     color */
+     and a hairline dark-blue stroke, all always on — hover/focus flips
+     to a dark-blue fill with light-blue text and lifts slightly, with
+     no stroke-width change and no shadow */
   color: var(--ink);
   background: var(--accent-tint);
-  border: 1px solid var(--ink);
+  border: 0.5px solid var(--ink);
   padding: var(--space-2) var(--space-4);
   border-radius: var(--radius-full);
   font-family: inherit;
   text-transform: lowercase;
   letter-spacing: 0.04em;
-  transition: border-width 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
 }
 
 .back-to-top:hover,
 .back-to-top:focus-visible {
-  border-width: 2px;
+  background: var(--ink);
+  color: var(--accent-tint);
   transform: translateY(-2px);
-  box-shadow: 0 6px 14px rgba(58, 58, 58, 0.2);
 }
 
 .project-nav {
@@ -3237,6 +3312,15 @@ img.fragment-card {
      lines, matching the bigger title/subtitle gap used sitewide (see
      .page-title:has(+ .page-subtitle)) */
   margin-bottom: var(--space-4);
+}
+
+/* the title and the eyes-divider box already line up via align-items:
+   center above, but the title's own type and the icon's artwork don't
+   fill their boxes identically (measured ~5px apart), so the icon gets a
+   small manual nudge down to bring its visible mark level with the
+   title's visible letterforms, per request */
+.hero-name-row .eyes-divider {
+  margin-top: 5px;
 }
 
 @media (max-width: 640px) {
@@ -3480,9 +3564,16 @@ img.fragment-card {
    eyes-looking mark from the home page, centered in the space below it. */
 
 .secret-page {
-  min-height: 70vh;
+  /* full viewport height/width, dark-blue background edge to edge —
+     overrides the sitewide <main> max-width/centering (see "main" above)
+     so the fill reaches every edge of the screen, not just the usual
+     960px reading column */
+  min-height: 100vh;
+  max-width: none;
+  width: 100%;
   display: flex;
   flex-direction: column;
+  background: var(--ink);
 }
 
 .secret-page .eyes-divider {
@@ -3494,6 +3585,36 @@ img.fragment-card {
 .secret-page .eyes-icon {
   width: 240px;
   height: calc(240px * 342 / 776);
+}
+
+/* back button: moved up into the page's top-right corner (where the
+   site-wide nav/logo would normally sit), out of the flex flow via fixed
+   positioning so it no longer pushes the eyes mark off-center below it —
+   light-blue per request, to read against the new dark-blue page */
+.secret-page .back-link {
+  position: fixed;
+  top: var(--space-4);
+  right: var(--space-5);
+  z-index: 10;
+  margin: 0;
+  color: var(--accent-tint);
+}
+
+.secret-page .back-link:hover {
+  color: #ffffff;
+}
+
+/* the "hey! you found me!" caption: plain light-blue text with no pill
+   fill/tail of its own (the filled bubble from the home page's identical
+   mark would clash with the now-dark-blue page background) */
+.secret-page .eyes-caption {
+  background: transparent;
+  color: var(--accent-tint);
+  padding: 0;
+}
+
+.secret-page .eyes-caption::after {
+  display: none;
 }
 
 .tagline {
@@ -3591,6 +3712,7 @@ img.fragment-card {
 .bubble-bio {
   background: var(--accent-tint);
   color: var(--ink);
+  font-family: var(--font-mono);
 }
 
 .bubble-quote {
@@ -3599,6 +3721,7 @@ img.fragment-card {
      bubble) keeps the inverted dark-blue/light-blue treatment */
   background: var(--accent-tint);
   color: var(--ink);
+  font-family: var(--font-mono);
 }
 
 .bubble-fact {
@@ -3679,6 +3802,7 @@ img.fragment-card {
 .bubble-hobbies {
   background: var(--accent-tint);
   color: var(--ink);
+  font-family: var(--font-mono);
 }
 
 .tilt-hover {
@@ -3710,7 +3834,8 @@ img.fragment-card {
      whole section (heading + captions) is set in monospace per request,
      so it reads as a distinct, type-written photo log */
   font-family: var(--font-mono);
-  color: var(--heading-blue);
+  /* dark-blue per request (was the mid-blue --heading-blue) */
+  color: var(--ink);
   font-weight: 700;
   text-transform: lowercase;
   margin: 0;
@@ -3804,7 +3929,8 @@ img.fragment-card {
   font-size: 11px;
   line-height: 1.4;
   text-align: center;
-  color: var(--text);
+  /* dark-blue per request (was the muted body-text gray) */
+  color: var(--ink);
   max-width: 190px;
   /* part of the "recently..." section's monospace exception, alongside
      .recently-heading */
@@ -3825,22 +3951,32 @@ img.fragment-card {
 }
 
 /* --------------------------------------------------------- image lightbox
-   Click a plain image card on the Design tab or Fun page to see it
-   bigger. A sheer light-blue layer covers the whole page while it's
-   open, including the sticky nav pills (z-index 100) — the overlay
-   sits above them so the tint reaches the very top of the page too.
-   Flip-tile posters are left out of this (see main.js) — clicking
-   those still flips the tile the way it always has. */
+   Click a plain image card on the Design tab to see it bigger. The page
+   behind it is blurred rather than covered in a color tint — a soft
+   dark scrim still sits under the blur so the enlarged image/close
+   button keep enough contrast — covering the whole page while it's
+   open, including the sticky nav pills (z-index 100), so the blur
+   reaches the very top of the page too. Flip-tile posters are left out
+   of this (see main.js) — clicking those still flips the tile the way
+   it always has. */
 .lightbox-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(114, 196, 255, 0.55);
+  background: rgba(11, 31, 51, 0.25);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
   z-index: 150;
   display: none;
   align-items: center;
   justify-content: center;
   padding: var(--space-5);
   cursor: zoom-out;
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .lightbox-overlay {
+    background: rgba(11, 31, 51, 0.65);
+  }
 }
 
 .lightbox-overlay.is-open {
@@ -3884,9 +4020,10 @@ img.fragment-card {
 
 /* signal the new click-to-enlarge behavior on the images it applies to,
    in place of the site's usual custom ring cursor. The fun page's
-   fragment cards opt out of this — they get their own grab/grabbing
-   cursor instead (see .fragment-card), since dragging is their primary
-   affordance and a plain click still opens the same lightbox underneath. */
+   fragment cards opt out of this entirely — they get their own
+   grab/grabbing cursor instead (see .fragment-card), and a plain click
+   pops the phrase-cycle bubble rather than this lightbox (see
+   js/fragments.js). */
 .grid-design > img.placeholder,
 .bw-spread-group img.placeholder {
   cursor: zoom-in;

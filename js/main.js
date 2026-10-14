@@ -10,12 +10,13 @@
       .subnav-panel with the matching data-panel and hides the rest.
       Generic by data-tab/data-panel, so any page can reuse the same
       markup for its own set of tabs.
-   4. Image lightbox (design tab + fun page): clicking one of the plain
-      image cards opens it bigger in an overlay, with a sheer light-blue
-      layer over the whole page, including the sticky nav. Closes on
+   4. Image lightbox (design tab only): clicking one of the plain image
+      cards opens it bigger in an overlay, blurring the page behind it
+      (including the sticky nav) instead of tinting it. Closes on
       Escape, on clicking the backdrop, or via the close button.
       Flip-tile posters are excluded on purpose — clicking those still
-      flips the tile instead of opening the lightbox.
+      flips the tile instead of opening the lightbox. The fun page's
+      fragment cards don't use this at all anymore (see item 7).
    5. Case study side TOC (project-N.html pages only): built entirely
       from whatever .case-heading/.case-subheading elements exist on the
       page, so it never needs hand-maintaining as case study content
@@ -40,12 +41,15 @@
       this script even runs, on a plain in-site navigation back to the
       homepage (clicking the "projects" nav tab or the header logo from
       another page) once it's already been shown once this session.
-   7. Draggable fragment cards (fun.html only, see js/fragments.js): each
-      card in #fragmentsStage can be picked up and dropped anywhere,
-      reusing the same --tx/--ty/--rot transform vars every .placeholder
-      tile already understands (see style.css). A plain click (no real
-      pointer movement) still opens the image lightbox above instead of
-      counting as a drag.
+   7. Draggable + clickable fragment cards (fun.html only, see
+      js/fragments.js): each card in #fragmentsStage can be picked up
+      and dropped anywhere, reusing the same --tx/--ty/--rot transform
+      vars every .placeholder tile already understands (see style.css).
+      A plain click (no real pointer movement) doesn't count as a drag
+      — instead it cycles a small phrase bubble ("always a painter at
+      heart", etc.) that floats up and fades out over 1.5s. Hovering any
+      card (before the first click/drag on it) shows a "click me!" hint
+      bubble that follows the pointer instead of the native cursor.
    8. Hero title cursor trail (home page only): hovering the mouse over
       .site-title spawns small blue circles (.title-trail-dot) at the
       cursor's position, each fading out and removing itself a moment
@@ -203,11 +207,13 @@
       });
     });
 
-    // Image lightbox: only the plain image cards on the Design tab and
-    // the Fun page (never a flip-tile's front/back faces, which keep
-    // their own click-to-flip behavior).
+    // Image lightbox: only the plain image cards on the Design tab
+    // (never a flip-tile's front/back faces, which keep their own
+    // click-to-flip behavior). The Fun page's fragment cards used to
+    // open this too, but clicking one now pops the phrase-cycle bubble
+    // instead (see js/fragments.js), so they're deliberately left out.
     var lightboxImages = document.querySelectorAll(
-      ".grid-design > img.placeholder, .bw-spread-group img.placeholder, .fragments-stage img.placeholder"
+      ".grid-design > img.placeholder, .bw-spread-group img.placeholder"
     );
 
     if (lightboxImages.length) {
