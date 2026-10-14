@@ -489,9 +489,9 @@ main {
      titles (via .page-title-bubble) and every case-study title (via
      .case-main .page-title) alike, since they're all this one class */
   font-weight: 500;
-  /* lowercase, the logo's own lighter blue — the sitewide "headers"
-     treatment (see --heading-blue's comment in :root) */
-  color: var(--heading-blue);
+  /* dark-blue (--ink) per request — was the lighter --heading-blue
+     accent, which read as low-contrast light-blue-on-white */
+  color: var(--ink);
   text-transform: lowercase;
   margin: 0 0 var(--space-5);
   letter-spacing: 0.01em;
@@ -1922,13 +1922,16 @@ img.fragment-card {
 }
 
 .case-subheading {
-  /* bumped up from --body-size now that this is a branded blue accent
-     rather than plain ink text */
+  /* bumped up from --body-size now that this is a dedicated subheading
+     size, rather than plain body text */
   font-size: 20px;
-  color: var(--heading-blue);
+  /* dark-blue (--ink) per request — was the lighter --heading-blue
+     accent, which read as low-contrast light-blue-on-white */
+  color: var(--ink);
   text-transform: lowercase;
   font-family: var(--font-sans);
-  font-weight: 700;
+  /* medium weight per request (was bold/700) */
+  font-weight: 500;
   margin: var(--space-5) 0 var(--space-3);
   letter-spacing: 0.02em;
   scroll-margin-top: 90px;
@@ -2136,6 +2139,15 @@ img.fragment-card {
   margin: var(--space-5) 0 0;
 }
 
+/* the "Typographic Hierarchy" intro paragraph sits one level deeper than
+   .case-section's other body paragraphs (nested inside .brand-colors
+   rather than a direct child of .case-section), so it didn't pick up
+   .case-section > p's max-width and stretched to the full content
+   column instead — matched here to the same 720px measure per request */
+.brand-colors > p {
+  max-width: 720px;
+}
+
 .color-group {
   margin-bottom: var(--space-4);
 }
@@ -2287,10 +2299,11 @@ img.fragment-card {
 .persona-name {
   margin: 0;
   font-size: 16px;
-  /* a real <h4>, so it gets the sitewide "headers" treatment: bold,
-     lowercase (replacing the old capitalize), the logo's lighter blue */
-  color: var(--heading-blue);
-  font-weight: 700;
+  /* a real <h4>, so it gets the sitewide "subheader" treatment: medium
+     weight, lowercase, dark-blue (--ink) — was bold + the paler
+     --heading-blue, which read as low-contrast light-blue-on-white */
+  color: var(--ink);
+  font-weight: 500;
   text-transform: lowercase;
 }
 
@@ -2426,9 +2439,11 @@ img.fragment-card {
   font-size: var(--body-size);
   line-height: var(--body-line);
   font-family: var(--font-sans);
-  font-weight: 700;
-  /* a real <h5>, so it gets the sitewide "headers" treatment too */
-  color: var(--heading-blue);
+  /* medium weight, dark-blue (--ink) — a real <h5>, so it gets the
+     sitewide "subheader" treatment too (was bold + the paler
+     --heading-blue, which read as low-contrast light-blue-on-white) */
+  font-weight: 500;
+  color: var(--ink);
   text-transform: lowercase;
   margin: 0 0 var(--space-2);
 }
@@ -2892,8 +2907,14 @@ img.fragment-card {
    free. The drop shadow sits under the circle itself. */
 .rebrand-logos {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--space-5);
+  /* fixed-width columns matching .rebrand-logo-plate's own 280px cap
+     (was 1fr 1fr, which stretched each column to half the row and left
+     the two plates floating apart with a lot of dead space between
+     them), packed to the center so the pair sits close together with
+     just the gap below between them */
+  grid-template-columns: repeat(2, 280px);
+  justify-content: center;
+  gap: var(--space-4);
   margin: 0 0 var(--space-4);
   padding: 0;
   list-style: none;
