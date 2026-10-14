@@ -1497,7 +1497,13 @@ img.fragment-card {
   background: var(--accent-tint);
   border: none;
   border-radius: var(--radius-full);
-  padding: var(--space-1) var(--space-3);
+  /* a real <button> (unlike .site-nav a, an <a>) doesn't inherit the
+     page's line-height — it defaults to the UA's own "normal" line box,
+     which is noticeably shorter than .site-nav a's at the exact same
+     padding tokens. Bumped the vertical padding here (was var(--space-1),
+     4px) so this pill actually comes out the same height as a nav
+     button instead of just sharing its padding values on paper. */
+  padding: 7.5px var(--space-3);
   transition: background 0.2s ease, color 0.2s ease;
   /* same convention as .site-nav a: the HTML keeps readable casing
      ("UI/UX", "Design") for accessibility, lowercased visually here */
@@ -2927,8 +2933,10 @@ img.fragment-card {
   height: 18px;
   flex-shrink: 0;
   border-radius: var(--radius-full);
-  background: var(--button-stroke);
-  transition: background 0.2s ease;
+  /* dark blue in both states — only the knob's position signals on/off,
+     per request, instead of the track also switching to a lighter blue
+     once pressed */
+  background: var(--ink);
 }
 
 .dark-preview-toggle-knob {
@@ -2940,10 +2948,6 @@ img.fragment-card {
   border-radius: 50%;
   background: #fff;
   transition: transform 0.2s ease;
-}
-
-.dark-preview-toggle[aria-pressed="true"] .dark-preview-toggle-track {
-  background: var(--heading-blue);
 }
 
 .dark-preview-toggle[aria-pressed="true"] .dark-preview-toggle-knob {
@@ -3613,16 +3617,29 @@ img.fragment-card {
    icon's right edge, which reads fine for the GrubHub-card placement it
    was originally built for — but now that the mascot sits in the
    viewport's bottom-right corner, that would push the bubble straight
-   off the edge of the screen. Mirror it to hang off the left edge
-   instead, tail included, so it opens back toward the page. */
+   off the edge of the screen. Centered on the icon instead (both the
+   bubble itself and its tail), so it opens symmetrically above the
+   mascot and the icon always sits right under the tail's point,
+   regardless of the icon's own size or the caption text's width —
+   unlike the old fixed-pixel left/right offsets, which only lined up
+   by coincidence at one particular icon size. */
 .eyes-divider-mascot .eyes-caption {
+  left: 50%;
   right: auto;
-  left: -36px;
+  transform: translate(-50%, -100%);
 }
 
 .eyes-divider-mascot .eyes-caption::after {
-  left: auto;
-  right: 22px;
+  left: 50%;
+  right: auto;
+  margin-left: -6px;
+}
+
+/* slightly bigger than the shared default below, just for the floating
+   corner mascot */
+.eyes-divider-mascot .eyes-icon {
+  width: 120px;
+  height: calc(120px * 488 / 944);
 }
 
 @media (max-width: 640px) {
