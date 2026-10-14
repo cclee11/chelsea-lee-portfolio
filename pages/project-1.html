@@ -187,10 +187,16 @@
          unmissable "live now" badge and named, one-click document downloads).</p>
       </div>
 
+      <button type="button" class="dark-preview-toggle" data-dark-toggle="solutionScreens" aria-pressed="false">
+        <span class="dark-preview-toggle-track" aria-hidden="true"><span class="dark-preview-toggle-knob"></span></span>
+        preview these in dark mode
+      </button>
+
       <div class="solution-grid" id="solutionScreens">
         <figure class="solution-card">
           <span class="solution-img-wrap">
-            <img class="solution-img" src="../assets/screen-all-events.png" alt="corporate events, all tab">
+            <img class="solution-img solution-img-light" src="../assets/screen-all-events.png" alt="corporate events, all tab">
+            <img class="solution-img solution-img-dark" src="../assets/screen-all-events-dark.png" alt="corporate events, all tab, dark mode" aria-hidden="true">
             <span class="callout-box" style="left: 51%; top: 31.7%; width: 8.1%; height: 3.8%;"></span>
             <span class="callout-line" style="left: 59.1%; top: 33.4%; width: 5.4%;"></span>
             <span class="callout-label" style="left: 64.7%; top: 28.5%;">Live status,<br>at a glance</span>
@@ -202,7 +208,8 @@
         </figure>
         <figure class="solution-card">
           <span class="solution-img-wrap">
-            <img class="solution-img" src="../assets/screen-upcoming.png" alt="corporate events, upcoming tab">
+            <img class="solution-img solution-img-light" src="../assets/screen-upcoming.png" alt="corporate events, upcoming tab">
+            <img class="solution-img solution-img-dark" src="../assets/screen-upcoming-dark.png" alt="corporate events, upcoming tab, dark mode" aria-hidden="true">
           </span>
           <figcaption>
             <span class="solution-caption-title">Upcoming</span>
@@ -211,7 +218,8 @@
         </figure>
         <figure class="solution-card">
           <span class="solution-img-wrap">
-            <img class="solution-img" src="../assets/screen-reminders.png" alt="reminders panel">
+            <img class="solution-img solution-img-light" src="../assets/screen-reminders.png" alt="reminders panel">
+            <img class="solution-img solution-img-dark" src="../assets/screen-reminders-dark.png" alt="reminders panel, dark mode" aria-hidden="true">
           </span>
           <figcaption>
             <span class="solution-caption-title">Reminders panel</span>
@@ -220,7 +228,8 @@
         </figure>
         <figure class="solution-card">
           <span class="solution-img-wrap">
-            <img class="solution-img" src="../assets/screen-past.png" alt="corporate events, past tab">
+            <img class="solution-img solution-img-light" src="../assets/screen-past.png" alt="corporate events, past tab">
+            <img class="solution-img solution-img-dark" src="../assets/screen-past-dark.png" alt="corporate events, past tab, dark mode" aria-hidden="true">
           </span>
           <figcaption>
             <span class="solution-caption-title">Past</span>
@@ -229,7 +238,8 @@
         </figure>
         <figure class="solution-card">
           <span class="solution-img-wrap">
-            <img class="solution-img" src="../assets/screen-event-detail.png" alt="event detail page">
+            <img class="solution-img solution-img-light" src="../assets/screen-event-detail.png" alt="event detail page">
+            <img class="solution-img solution-img-dark" src="../assets/screen-event-detail-dark.png" alt="event detail page, dark mode" aria-hidden="true">
           </span>
           <figcaption>
             <span class="solution-caption-title">Event detail</span>
@@ -238,7 +248,8 @@
         </figure>
         <figure class="solution-card">
           <span class="solution-img-wrap">
-            <img class="solution-img" src="../assets/screen-calendar.png" alt="calendar toggle view">
+            <img class="solution-img solution-img-light" src="../assets/screen-calendar.png" alt="calendar toggle view">
+            <img class="solution-img solution-img-dark" src="../assets/screen-calendar-dark.png" alt="calendar toggle view, dark mode" aria-hidden="true">
           </span>
           <figcaption>
             <span class="solution-caption-title">Calendar toggle</span>
@@ -402,13 +413,8 @@
 
       <h3 class="case-subheading">Iteration</h3>
       <div class="detail-grid">
-        <div class="detail-image lowfi-grid-wrap" style="aspect-ratio: auto; height: auto;">
-          <div class="lowfi-grid">
-            <img class="case-shot bounce-img" style="aspect-ratio: 808 / 485;" src="../assets/lowfi-events-list.png" alt="low-fidelity wireframe of the core events list, with live/upcoming rows and a company-context sidebar">
-            <img class="case-shot bounce-img" style="aspect-ratio: 808 / 485;" src="../assets/lowfi-company-events.png" alt="low-fidelity wireframe of the same list scoped down to a single company's profile">
-            <img class="case-shot bounce-img" style="aspect-ratio: 803 / 591;" src="../assets/lowfi-reminder-flow.png" alt="low-fidelity wireframe of a hovered row surfacing quick add/remove reminder controls">
-            <img class="case-shot bounce-img" style="aspect-ratio: 803 / 591;" src="../assets/lowfi-calendar-toggle.png" alt="low-fidelity wireframe of the list switched to a calendar grid, with tracked events alongside it">
-          </div>
+        <div class="detail-image" style="aspect-ratio: auto; height: auto;">
+          <img class="case-shot bounce-img" style="aspect-ratio: 1824 / 1063;" src="../assets/lowfi-mockups.png" alt="low-fidelity wireframe sheet: the core events list, the same list scoped to a single company, a hovered row with quick reminder controls, and the list switched to a calendar grid">
         </div>
         <div>
           <p class="mockup-note">We started low-fidelity, sketching where corporate events should even
@@ -437,38 +443,36 @@
         </div>
       </div>
 
-      <p class="mockup-note">From there we moved into mid-fidelity: a tabbed all / upcoming / past
-         structure, a toggle between list and calendar views, and a sidebar for filters and
-         reminders. One mistake that popped up at this point was not taking into consideration that <mark>PitchBook's
-         branding wasn't a suggestion, it was a requirement</mark>, which sent us back to rebuild
-         components to actually match their system, not just borrow its palette towards the end.</p>
-      <div class="midfi-rows">
-        <div class="midfi-row">
-          <img class="case-shot bounce-img" style="aspect-ratio: 1840 / 1024;" src="../assets/midfi-global-events.png" alt="mid-fidelity global events tab for Microsoft Corporation, with filters expanded">
-          <div class="mockup-caption-card">
-            <span class="mockup-caption-title">Global events</span>
-            <span class="mockup-caption-desc">All / upcoming / past tabs, with a row expanded for dial-in info and quick actions.</span>
-          </div>
+      <p class="mockup-note">From there we pushed toward high-fidelity, exploring a dedicated
+         "Global Corporate Events" destination with its own top-level nav, color-coded status
+         pills, and full light/dark support. One mistake that popped up at this point was not
+         taking into consideration that <mark>PitchBook's branding wasn't a suggestion, it was a
+         requirement</mark> — the rest of the product lived entirely inside the existing
+         company-profile layout, so a standalone destination, however polished, didn't actually
+         fit. That sent us back to rebuild the same screens as a tab inside PitchBook's own
+         layout instead of a separate page.</p>
+      <div class="detail-grid">
+        <div class="detail-image" style="aspect-ratio: auto; height: auto;">
+          <img class="case-shot bounce-img" style="aspect-ratio: 2160 / 1280;" src="../assets/pitchbook-v2-overview.png" alt="high-fidelity exploration sheet for a standalone Global Corporate Events destination: a company profile with filters open, the same profile mid-live-call, a calendar view with reminders docked, and a global upcoming-events list">
         </div>
-        <div class="midfi-row">
-          <img class="case-shot bounce-img" style="aspect-ratio: 1840 / 1024;" src="../assets/midfi-company-profile.png" alt="mid-fidelity company-scoped events view for Apple Inc.">
-          <div class="mockup-caption-card">
-            <span class="mockup-caption-title">Company profile</span>
-            <span class="mockup-caption-desc">Apple Inc.'s own events tab, with the live call surfaced at the top.</span>
-          </div>
-        </div>
-        <div class="midfi-row">
-          <img class="case-shot bounce-img" style="aspect-ratio: 1840 / 1024;" src="../assets/midfi-calendar-toggle.png" alt="mid-fidelity calendar view for Apple Inc. with a docked reminders panel">
-          <div class="mockup-caption-card">
-            <span class="mockup-caption-title">Calendar toggle</span>
-            <span class="mockup-caption-desc">The same company view switched to a calendar, reminders docked to the side.</span>
-          </div>
-        </div>
-        <div class="midfi-row">
-          <img class="case-shot bounce-img" style="aspect-ratio: 1840 / 1024;" src="../assets/midfi-filter-sidebar.png" alt="mid-fidelity global events list with the filter sidebar open">
-          <div class="mockup-caption-card">
-            <span class="mockup-caption-title">Filter sidebar</span>
-            <span class="mockup-caption-desc">The global list paired with a collapsible filter panel for type, industry, and status.</span>
+        <div>
+          <div class="mockup-captions">
+            <div class="mockup-caption-card">
+              <span class="mockup-caption-title">Company profile</span>
+              <span class="mockup-caption-desc">Microsoft Corporation's own events tab, with the filter panel open to narrow by type, industry, and status.</span>
+            </div>
+            <div class="mockup-caption-card">
+              <span class="mockup-caption-title">Live state</span>
+              <span class="mockup-caption-desc">Apple Inc.'s profile mid-call, with the live event surfaced front and center.</span>
+            </div>
+            <div class="mockup-caption-card">
+              <span class="mockup-caption-title">Calendar toggle</span>
+              <span class="mockup-caption-desc">The same company view switched to a calendar, with the full reminders list docked beside it.</span>
+            </div>
+            <div class="mockup-caption-card">
+              <span class="mockup-caption-title">Global events</span>
+              <span class="mockup-caption-desc">Every company's upcoming events in one list, color-coded by status.</span>
+            </div>
           </div>
         </div>
       </div>

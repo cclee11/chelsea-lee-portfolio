@@ -52,6 +52,14 @@
       later (see .title-trail-dot in style.css). Spawning is throttled
       to roughly one circle every 35ms so a fast sweep of the mouse
       doesn't flood the DOM with elements.
+   9. Case-study dark-mode preview toggles (project-1.html only, so far):
+      a handful of screenshots in the Solution and Iteration sections
+      ship both a light and a dark export (see the .solution-img-dark
+      sibling <img> stacked on a .solution-img-light one). A small
+      [data-dark-toggle] switch flips its own linked container's
+      .is-dark class, which crossfades that container's light/dark
+      image pairs via CSS — this only swaps which screenshot is shown,
+      it never touches the site's own (light-only) theme.
 */
 
 (function () {
@@ -400,7 +408,7 @@
       }
     }
 
-    // hero title cursor trail (see main.js doc comment #11): small blue
+    // hero title cursor trail (see main.js doc comment #8): small blue
     // circles that spawn at the cursor while it hovers .site-title, then
     // fade out and remove themselves.
     var siteTitle = document.querySelector(".site-title");
@@ -444,5 +452,21 @@
         }, FADE_MS);
       });
     }
+
+    // case-study dark-mode preview toggles (see main.js doc comment #9):
+    // each button flips only the .is-dark class on its own linked
+    // container, so a page with more than one toggle (e.g. one for the
+    // Solution grid, one for the Iteration mid-fi rows) keeps them
+    // fully independent.
+    document.querySelectorAll("[data-dark-toggle]").forEach(function (btn) {
+      var target = document.getElementById(btn.getAttribute("data-dark-toggle"));
+      if (!target) {
+        return;
+      }
+      btn.addEventListener("click", function () {
+        var isDark = target.classList.toggle("is-dark");
+        btn.setAttribute("aria-pressed", isDark ? "true" : "false");
+      });
+    });
   });
 })();

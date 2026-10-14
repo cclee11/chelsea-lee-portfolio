@@ -2533,6 +2533,81 @@ img.fragment-card {
   margin-top: var(--space-2);
 }
 
+/* ------------------------------------------- dark-mode preview toggles
+   A handful of screens ship both a light and a dark export. Where that's
+   true, the card's normal .solution-img gets a .solution-img-light
+   modifier and a second, identically-positioned .solution-img-dark
+   sibling stacked on top via the existing position:absolute/inset:0 on
+   .solution-img (see above) — only opacity differs between them, so the
+   crossfade is free. Nothing here touches the site's own (light-only)
+   theme; .is-dark is a small per-container class flipped by the
+   [data-dark-toggle] button (see main.js), scoped to whichever
+   container id it names (#solutionScreens, #midfiScreens, …), so two
+   toggles on the same page never affect each other. Cards with only a
+   single export are unaffected either way. */
+.solution-img-light,
+.solution-img-dark {
+  transition: opacity 0.3s ease;
+}
+
+.solution-img-dark {
+  opacity: 0;
+  pointer-events: none;
+}
+
+#solutionScreens.is-dark .solution-img-light,
+#midfiScreens.is-dark .solution-img-light {
+  opacity: 0;
+}
+
+#solutionScreens.is-dark .solution-img-dark,
+#midfiScreens.is-dark .solution-img-dark {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.dark-preview-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin: 0 0 var(--space-4);
+  padding: 0;
+  background: none;
+  border: none;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text);
+}
+
+.dark-preview-toggle-track {
+  position: relative;
+  width: 34px;
+  height: 18px;
+  flex-shrink: 0;
+  border-radius: var(--radius-full);
+  background: var(--button-stroke);
+  transition: background 0.2s ease;
+}
+
+.dark-preview-toggle-knob {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #fff;
+  transition: transform 0.2s ease;
+}
+
+.dark-preview-toggle[aria-pressed="true"] .dark-preview-toggle-track {
+  background: var(--heading-blue);
+}
+
+.dark-preview-toggle[aria-pressed="true"] .dark-preview-toggle-knob {
+  transform: translateX(16px);
+}
+
 /* ------------------------------------------------- screenshot callouts
    A sparing "zoomed inset + leader line + label" treatment for pointing
    out one specific detail inside a screenshot, instead of flattening a
