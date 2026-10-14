@@ -1907,11 +1907,12 @@ img.fragment-card {
      of inheriting body's much lighter --text gray — light mode only,
      see the dark-mode override just below */
   color: var(--ink);
-  /* body/description copy centers (headers and titles — .page-title,
-     .case-heading, .case-subheading, .persona-name, .opportunity-title —
-     stay left); the margin: 0 auto above centers the 720px box itself
-     within the wider content column, and this centers the text inside it */
-  text-align: center;
+  /* the margin: 0 auto above centers the 720px box itself within the
+     wider content column (so every paragraph lines up on the same
+     vertical axis instead of hugging the left edge at varying widths),
+     but the text inside that box stays left-aligned/ragged-right —
+     only the block position centers, not the text itself */
+  text-align: left;
 }
 
 
@@ -2170,7 +2171,7 @@ img.fragment-card {
 .brand-colors > p {
   max-width: 720px;
   margin: 0 auto var(--space-4);
-  text-align: center;
+  text-align: left;
 }
 
 .color-group {
@@ -2344,7 +2345,7 @@ img.fragment-card {
   font-size: var(--body-size);
   line-height: var(--body-line);
   color: var(--ink);
-  text-align: center;
+  text-align: left;
 }
 
 .persona-cols {
@@ -2479,7 +2480,7 @@ img.fragment-card {
   font-size: 13px;
   line-height: 19px;
   margin: 0;
-  text-align: center;
+  text-align: left;
 }
 
 @media (max-width: 780px) {
@@ -2555,9 +2556,9 @@ img.fragment-card {
      1320px content column before, reading much wider than the Overview/
      Problem paragraphs right above it */
   max-width: 720px;
-  /* centered like every other body/description block — see
-     .case-section > p's comment */
-  text-align: center;
+  /* block stays centered via margin: 0 auto above; the text inside it
+     stays left-aligned — see .case-section > p's comment */
+  text-align: left;
 }
 
 
@@ -2582,7 +2583,7 @@ img.fragment-card {
 .solution-top .solution-intro {
   flex: 1 1 360px;
   margin: 0;
-  text-align: center;
+  text-align: left;
   max-width: none;
 }
 
@@ -2703,7 +2704,7 @@ img.fragment-card {
    half of the added margin. */
 .original-app-grid > p.solution-intro {
   margin: 0 0 94px;
-  text-align: center;
+  text-align: left;
 }
 
 @media (max-width: 640px) {
@@ -2778,7 +2779,7 @@ img.fragment-card {
    was quietly forcing margin-left/right back to 0 and keeping this block
    pinned to the left even though its text was centered */
 .case-section > p.solution-intro {
-  text-align: center;
+  text-align: left;
   margin-left: auto;
   margin-right: auto;
   /* matches .solution-video's own max-width so the paragraph shares the
