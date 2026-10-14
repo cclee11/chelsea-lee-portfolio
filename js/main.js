@@ -394,8 +394,14 @@
         if (!link) {
           return;
         }
-        var li = link.parentElement;
-        var top = li.offsetTop + li.offsetHeight / 2 - tocMarker.offsetHeight / 2;
+        // Centers on the LINK's own box, not its parent <li>'s: a group
+        // <li> also contains that group's (possibly expanded)
+        // .case-toc-subgroup, so centering on the <li> pulled the marker
+        // down toward the middle of "heading + its visible subheadings"
+        // instead of resting beside the actual active entry — the main
+        // cause of the marker visibly drifting off whenever the active
+        // section had subheadings showing underneath it.
+        var top = link.offsetTop + link.offsetHeight / 2 - tocMarker.offsetHeight / 2;
         tocMarker.style.top = top + "px";
       };
 
@@ -429,21 +435,54 @@
         });
         setExpandedGroup(groupByHeadingId[id] || null);
         positionTocMarker(target);
-        // the marker's final resting position depends on the newly
-        // (un)collapsed group's height, which only settles once the
-        // expand/collapse transition finishes, so re-measure once that's
-        // done too (300ms transition in the CSS, plus a small buffer).
-        window.setTimeout(function () {
-          positionTocMarker(activeLink);
-        }, 320);
       };
 
-      // the list's layout can shift after fonts load or on resize;
-      // re-align the marker to whatever is current without changing
-      // which entry is active.
+      // The marker's correct position depends on every other group's
+      // current (un)collapsed height, which keeps changing continuously
+      // for the full 300ms of the expand/collapse transition (and can
+      // also shift whenever web fonts finish loading and reflow the list,
+      // independent of any scroll or click). A single guessed timeout
+      // after the transition "should" be done is fragile — it can still
+      // sample mid-animation, which is exactly how the marker ends up
+      // visibly misaligned from its link. A ResizeObserver on the list
+      // instead re-measures on every actual layout change, so the marker
+      // tracks the animation continuously and always lands correctly.
+      if (window.ResizeObserver) {
+        var tocResizeObserver = new ResizeObserver(function () {
+          positionTocMarker(activeLink);
+        });
+        tocResizeObserver.observe(tocList);
+      } else {
+        // fallback for browsers without ResizeObserver: re-measure a
+        // few times across the transition window.
+        var scheduleRecheck = function () {
+          [50, 150, 320].forEach(function (delay) {
+            window.setTimeout(function () {
+              positionTocMarker(activeLink);
+            }, delay);
+          });
+        };
+        var _setActiveHeadingOrig = setActiveHeading;
+        setActiveHeading = function (id) {
+          _setActiveHeadingOrig(id);
+          scheduleRecheck();
+        };
+      }
+
+      // the list's layout can shift on resize too; re-align the marker to
+      // whatever is current without changing which entry is active.
       window.addEventListener("resize", function () {
         positionTocMarker(activeLink);
       });
+
+      // web fonts finishing their (async) load can change line-height/
+      // metrics and silently shift every link's position after the
+      // initial layout — re-align once they're ready.
+      if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(function () {
+          positionTocMarker(activeLink);
+        });
+      }
 
       // the first heading is active by default (e.g. on load, before the
       // user has scrolled far enough to pass any heading)
