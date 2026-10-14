@@ -1899,7 +1899,7 @@ img.fragment-card {
 }
 
 .case-section > p {
-  margin: 0 0 var(--space-4);
+  margin: 0 auto var(--space-4);
   line-height: var(--body-line);
   max-width: 720px;
   /* matches the same dark-ink tone every other case-study text block
@@ -1907,6 +1907,11 @@ img.fragment-card {
      of inheriting body's much lighter --text gray — light mode only,
      see the dark-mode override just below */
   color: var(--ink);
+  /* body/description copy centers (headers and titles — .page-title,
+     .case-heading, .case-subheading, .persona-name, .opportunity-title —
+     stay left); the margin: 0 auto above centers the 720px box itself
+     within the wider content column, and this centers the text inside it */
+  text-align: center;
 }
 
 
@@ -2164,6 +2169,8 @@ img.fragment-card {
    column instead — matched here to the same 720px measure per request */
 .brand-colors > p {
   max-width: 720px;
+  margin: 0 auto var(--space-4);
+  text-align: center;
 }
 
 .color-group {
@@ -2337,6 +2344,7 @@ img.fragment-card {
   font-size: var(--body-size);
   line-height: var(--body-line);
   color: var(--ink);
+  text-align: center;
 }
 
 .persona-cols {
@@ -2374,9 +2382,10 @@ img.fragment-card {
 /* --------------------------------------------------------- pain points
    Six small bubble cards in a 3-up grid under their own mini heading. */
 
-.pain-points-heading {
-  text-align: center;
-}
+/* was centered to sit over the centered pain-point grid below it, but
+   it's still a heading (h3.case-subheading) — per the "keep headers and
+   titles left, center everything else" rule it stays left like every
+   other .case-subheading instead of being a one-off exception */
 
 .pain-points-grid {
   display: grid;
@@ -2470,6 +2479,7 @@ img.fragment-card {
   font-size: 13px;
   line-height: 19px;
   margin: 0;
+  text-align: center;
 }
 
 @media (max-width: 780px) {
@@ -2535,7 +2545,7 @@ img.fragment-card {
 }
 
 .mockup-note {
-  margin: 0 0 var(--space-4);
+  margin: 0 auto var(--space-4);
   /* same dark-ink tone as the rest of the case-study body copy, light
      mode only (see the dark-mode override just below) */
   color: var(--ink);
@@ -2545,6 +2555,9 @@ img.fragment-card {
      1320px content column before, reading much wider than the Overview/
      Problem paragraphs right above it */
   max-width: 720px;
+  /* centered like every other body/description block — see
+     .case-section > p's comment */
+  text-align: center;
 }
 
 
@@ -2569,7 +2582,7 @@ img.fragment-card {
 .solution-top .solution-intro {
   flex: 1 1 360px;
   margin: 0;
-  text-align: left;
+  text-align: center;
   max-width: none;
 }
 
@@ -2690,7 +2703,7 @@ img.fragment-card {
    half of the added margin. */
 .original-app-grid > p.solution-intro {
   margin: 0 0 94px;
-  text-align: left;
+  text-align: center;
 }
 
 @media (max-width: 640px) {
