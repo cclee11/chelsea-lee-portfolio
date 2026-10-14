@@ -82,7 +82,53 @@
     tile.setAttribute("aria-pressed", flipped ? "true" : "false");
   }
 
+  // Swaps a transparent-webm logo video over to its transparent-gif
+  // sibling for any browser that can't actually decode the webm — Safari
+  // chief among them, since it has never supported the webm container at
+  // all regardless of vp9 codec support elsewhere. This can't rely on
+  // <video>'s built-in "fallback content" (plain children of <video>
+  // other than <source>/<track>): that mechanism only ever renders in
+  // browsers old enough to not recognize the <video> element itself,
+  // which don't exist anymore — Safari understands <video> fine, it
+  // just renders an empty box when none of its <source>s can play, and
+  // never looks at anything nested inside it. So the fallback image has
+  // to be a real sibling in the markup (see .loading-video-wrap /
+  // .eyes-icon), hidden by default and only revealed here once it's
+  // confirmed the video actually can't play.
+  function checkVideoFallback(video, fallback) {
+    if (!video || !fallback) {
+      return;
+    }
+
+    function showFallback() {
+      video.classList.add("is-hidden");
+      fallback.classList.add("is-visible");
+    }
+
+    // Proactive check: Safari reports this directly (an empty string,
+    // meaning "definitely not") rather than waiting for a decode to
+    // actually fail, so most unsupported browsers are caught instantly.
+    var canPlay = video.canPlayType && video.canPlayType('video/webm; codecs="vp9"');
+    if (!canPlay) {
+      showFallback();
+      return;
+    }
+
+    // Safety net for a browser that reports "maybe"/"probably" here yet
+    // still fails at actual decode time.
+    video.addEventListener("error", showFallback, true);
+  }
+
   document.addEventListener("DOMContentLoaded", function () {
+    checkVideoFallback(
+      document.querySelector(".loading-video"),
+      document.querySelector(".loading-video-fallback")
+    );
+    checkVideoFallback(
+      document.querySelector(".eyes-video"),
+      document.querySelector(".eyes-video-fallback")
+    );
+
     var loadingScreen = document.getElementById("loading-screen");
     if (loadingScreen) {
       var loadingCaption = loadingScreen.querySelector(".loading-caption");

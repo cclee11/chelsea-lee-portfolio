@@ -386,17 +386,35 @@ mark {
   pointer-events: none;
 }
 
+.loading-video-wrap {
+  display: block;
+  width: 300px;
+}
+
 .loading-video {
   /* bigger per request, up from the old 140px, then 240px */
-  width: 300px;
+  width: 100%;
   height: auto;
   display: block;
 }
 
+/* hidden by default — main.js's checkVideoFallback() reveals this (and
+   hides .loading-video) only once it's confirmed the browser actually
+   can't play the webm above. See the markup comment on
+   .loading-video-wrap for why this has to be a real sibling of <video>
+   rather than content nested inside it. */
 .loading-video-fallback {
+  display: none;
   width: 100%;
   height: auto;
+}
+
+.loading-video-fallback.is-visible {
   display: block;
+}
+
+.loading-video.is-hidden {
+  display: none;
 }
 
 @media (max-width: 640px) {
@@ -405,7 +423,7 @@ mark {
      (overlapping the hero title underneath more than is comfortable for
      this ~3.5s intro) — scaled back down a bit, still bigger than the
      old 140px baseline */
-  .loading-video {
+  .loading-video-wrap {
     width: 220px;
   }
 }
@@ -3591,15 +3609,26 @@ img.fragment-card {
   object-fit: contain;
 }
 
-/* shown only by browsers that can't play the webm source above (Safari
-   doesn't support the webm container at all) — sized identically to
-   .eyes-video so the fallback slots into the same box with no layout
-   shift between browsers */
+.eyes-video.is-hidden {
+  display: none;
+}
+
+/* hidden by default, positioned to exactly overlap .eyes-video — main.js's
+   checkVideoFallback() reveals this (and hides .eyes-video) only once
+   it's confirmed the browser actually can't play the webm source. See
+   the markup comment near .loading-video-wrap for why this has to be a
+   real sibling of <video> rather than content nested inside it. */
 .eyes-video-fallback {
-  display: block;
+  display: none;
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: contain;
+}
+
+.eyes-video-fallback.is-visible {
+  display: block;
 }
 
 .eyes-base,

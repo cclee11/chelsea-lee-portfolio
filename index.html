@@ -19,15 +19,22 @@
   <a href="#main-content" class="skip-link">Skip to main content</a>
 
   <div id="loading-screen" class="loading-screen" role="status" aria-live="polite">
-    <video class="loading-video" autoplay muted loop playsinline>
-      <source src="assets/loading-logo-light.webm" type="video/webm">
-      <!-- Safari doesn't play webm at all, so it falls through to this
-           fallback content instead of a baked-white-background mp4 source
-           (mp4/H.264 has no alpha channel, so that route could never be
-           transparent). This animated gif has a real transparent
-           background, confirmed in real-browser testing. -->
+    <div class="loading-video-wrap">
+      <video class="loading-video" autoplay muted loop playsinline>
+        <source src="assets/loading-logo-light.webm" type="video/webm">
+      </video>
+      <!-- Safari (and anything else that can't decode this webm) still
+           understands the <video> element itself, so it just renders an
+           empty box rather than falling through to content nested inside
+           it — content inside <video> only ever shows in browsers old
+           enough to not recognize <video> at all, which don't exist
+           anymore. This <img> is a real sibling instead, hidden by
+           default and revealed by main.js's checkVideoFallback() only
+           once it's confirmed the video actually can't play here. It has
+           a real transparent background, confirmed in real-browser
+           testing. -->
       <img src="assets/loading-logo-light-fallback.gif" class="loading-video-fallback" alt="">
-    </video>
+    </div>
     <p class="loading-caption"></p>
   </div>
   <script>
@@ -162,8 +169,11 @@
     <div class="eyes-icon" role="img" aria-label="Chelsea Lee logo, eyes glancing side to side">
       <video class="eyes-video" autoplay muted loop playsinline aria-hidden="true">
         <source src="assets/loading-logo-light.webm" type="video/webm">
-        <img src="assets/loading-logo-light-fallback.gif" class="eyes-video-fallback" alt="" aria-hidden="true">
       </video>
+      <!-- real sibling, not fallback content inside <video> — see the
+           comment on .loading-video-wrap above for why; toggled by
+           main.js's checkVideoFallback() -->
+      <img src="assets/loading-logo-light-fallback.gif" class="eyes-video-fallback" alt="" aria-hidden="true">
       <p class="eyes-caption" data-default-text="take a look around..." data-click-text="ouch">take a look around...</p>
     </div>
   </div>
