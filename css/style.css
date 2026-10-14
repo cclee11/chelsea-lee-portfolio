@@ -959,9 +959,11 @@ img.fragment-card {
 
 .card-caption-title {
   font-size: 21px;
-  font-family: var(--font-mono);
-  /* bold per request, despite being a <span> rather than an h-tag */
-  font-weight: 700;
+  /* switched from Roboto Mono to the sitewide deuterium variable face,
+     medium weight, to match .project-card-title's treatment */
+  font-family: var(--font-sans);
+  font-variation-settings: "wght" var(--wght-medium);
+  font-weight: 500;
   color: var(--ink);
 }
 
@@ -1118,10 +1120,10 @@ img.fragment-card {
   font-size: 16px;
   letter-spacing: 0.03em;
   font-family: var(--font-sans);
-  /* bold per request, despite being a <span> rather than an h-tag — the
-     title is meant to read as the clear focal point of the caption */
-  font-variation-settings: "wght" var(--wght-bold);
-  font-weight: 700;
+  /* deuterium variable, medium weight per request — reads as the clear
+     focal point of the caption without going all the way to bold */
+  font-variation-settings: "wght" var(--wght-medium);
+  font-weight: 500;
   color: var(--ink);
 }
 
