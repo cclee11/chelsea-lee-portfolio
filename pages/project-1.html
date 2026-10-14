@@ -4,6 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://use.typekit.net/nli4aly.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="icon" href="../assets/favicon.ico" sizes="any">
   <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="../assets/favicon-16x16.png">
@@ -12,6 +15,8 @@
   <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
+
+  <a href="#main-content" class="skip-link">Skip to main content</a>
 
   <header class="site-header">
     <a href="../index.html" class="icon-logo-link" aria-label="Go to home page">
@@ -30,7 +35,7 @@
     </nav>
   </header>
 
-  <main class="case-main">
+  <main class="case-main" id="main-content">
     <a href="../index.html" class="back-link">&larr; back to projects</a>
 
     <div class="case-top">
@@ -182,18 +187,13 @@
          unmissable "live now" badge and named, one-click document downloads).</p>
       </div>
 
-      <div class="mode-toggle-wrap">
-        <button type="button" class="solution-toggle" id="solutionDarkToggle" aria-pressed="false">
-          <span class="solution-toggle-ring"></span>
-          <span class="solution-toggle-label">Click here to view in dark mode!</span>
-        </button>
-      </div>
-
       <div class="solution-grid" id="solutionScreens">
         <figure class="solution-card">
           <span class="solution-img-wrap">
-            <img class="solution-img solution-img-light" src="../assets/screen-all-events.png" alt="corporate events, all tab">
-            <img class="solution-img solution-img-dark" src="../assets/screen-all-events-dark.png" alt="corporate events, all tab, dark mode">
+            <img class="solution-img" src="../assets/screen-all-events.png" alt="corporate events, all tab">
+            <span class="callout-box" style="left: 51%; top: 31.7%; width: 8.1%; height: 3.8%;"></span>
+            <span class="callout-line" style="left: 59.1%; top: 33.4%; width: 5.4%;"></span>
+            <span class="callout-label" style="left: 64.7%; top: 28.5%;">Live status,<br>at a glance</span>
           </span>
           <figcaption>
             <span class="solution-caption-title">All events</span>
@@ -202,8 +202,7 @@
         </figure>
         <figure class="solution-card">
           <span class="solution-img-wrap">
-            <img class="solution-img solution-img-light" src="../assets/screen-upcoming.png" alt="corporate events, upcoming tab">
-            <img class="solution-img solution-img-dark" src="../assets/screen-upcoming-dark.png" alt="corporate events, upcoming tab, dark mode">
+            <img class="solution-img" src="../assets/screen-upcoming.png" alt="corporate events, upcoming tab">
           </span>
           <figcaption>
             <span class="solution-caption-title">Upcoming</span>
@@ -212,8 +211,7 @@
         </figure>
         <figure class="solution-card">
           <span class="solution-img-wrap">
-            <img class="solution-img solution-img-light" src="../assets/screen-reminders.png" alt="reminders panel">
-            <img class="solution-img solution-img-dark" src="../assets/screen-reminders-dark.png" alt="reminders panel, dark mode">
+            <img class="solution-img" src="../assets/screen-reminders.png" alt="reminders panel">
           </span>
           <figcaption>
             <span class="solution-caption-title">Reminders panel</span>
@@ -222,8 +220,7 @@
         </figure>
         <figure class="solution-card">
           <span class="solution-img-wrap">
-            <img class="solution-img solution-img-light" src="../assets/screen-past.png" alt="corporate events, past tab">
-            <img class="solution-img solution-img-dark" src="../assets/screen-past-dark.png" alt="corporate events, past tab, dark mode">
+            <img class="solution-img" src="../assets/screen-past.png" alt="corporate events, past tab">
           </span>
           <figcaption>
             <span class="solution-caption-title">Past</span>
@@ -232,9 +229,7 @@
         </figure>
         <figure class="solution-card">
           <span class="solution-img-wrap">
-            <img class="solution-img solution-img-light" src="../assets/screen-event-detail.png" alt="event detail page">
-            <img class="solution-img solution-img-dark" src="../assets/screen-event-detail-dark.png" alt="event detail page, dark mode">
-
+            <img class="solution-img" src="../assets/screen-event-detail.png" alt="event detail page">
           </span>
           <figcaption>
             <span class="solution-caption-title">Event detail</span>
@@ -243,9 +238,7 @@
         </figure>
         <figure class="solution-card">
           <span class="solution-img-wrap">
-            <img class="solution-img solution-img-light" src="../assets/screen-calendar.png" alt="calendar toggle view">
-            <img class="solution-img solution-img-dark" src="../assets/screen-calendar-dark.png" alt="calendar toggle view, dark mode">
-
+            <img class="solution-img" src="../assets/screen-calendar.png" alt="calendar toggle view">
           </span>
           <figcaption>
             <span class="solution-caption-title">Calendar toggle</span>

@@ -6,36 +6,17 @@
       phrases, one per click; after the last phrase it returns to the
       original "hi, i'm chelsea!" greeting before cycling through again.
       The "(click me)" hint disappears after the first click.
-   3. Night mode toggle: a small ring-shaped button, sticky to the bottom
-      right of every page, flips a [data-theme="dark"] attribute on <html>
-      (see style.css) and remembers the choice in localStorage. Applied
-      as early as possible (script runs at the end of body, so
-      document.documentElement already exists) to avoid a flash of the
-      wrong theme on load.
-   4. Theme-aware logo video (.theme-video, see #loading-screen and the
-      home hero's .eyes-icon): the looping logo clip is baked against a
-      flat background per theme (there's no real video transparency here,
-      so a light-mode take and a dark-mode take are rendered separately,
-      each matching that mode's --page-bg) and this swaps each
-      .theme-video's <source> srcs to the right pair whenever the theme is
-      set, including on first load, so the video's background always
-      matches the page underneath it instead of showing a mismatched box.
-   5. Subnav tabs (more page): clicking a .subnav-tab shows the
+   3. Subnav tabs (more page): clicking a .subnav-tab shows the
       .subnav-panel with the matching data-panel and hides the rest.
       Generic by data-tab/data-panel, so any page can reuse the same
       markup for its own set of tabs.
-   6. Solution dark-mode toggle (pitchbook case study): a "view dark mode"
-      switch scoped to the six final-screen images only, independent of
-      the site-wide night mode toggle above. Flips .is-dark on the
-      #solutionScreens grid, which crossfades each screen's light/dark
-      image pair (see .solution-img-* in style.css).
-   7. Image lightbox (design tab + fun page): clicking one of the plain
+   4. Image lightbox (design tab + fun page): clicking one of the plain
       image cards opens it bigger in an overlay, with a sheer light-blue
       layer over the whole page, including the sticky nav. Closes on
       Escape, on clicking the backdrop, or via the close button.
       Flip-tile posters are excluded on purpose — clicking those still
       flips the tile instead of opening the lightbox.
-   8. Case study side TOC (project-N.html pages only): built entirely
+   5. Case study side TOC (project-N.html pages only): built entirely
       from whatever .case-heading/.case-subheading elements exist on the
       page, so it never needs hand-maintaining as case study content
       changes. Assigns each heading a stable id (skipping any it already
@@ -47,26 +28,25 @@
       the user scrolls. A small ring-logo marker sits in the sidebar's
       left gutter and animates to whichever entry is current. Clicking a
       link uses the browser's native anchor scroll.
-   9. Homepage loading screen (#loading-screen, index.html only): a plain
-      overlay with a small looping logo video (see #4 above), captioned
-      with two phrases that fade in and out in turn ("just getting set
-      up...", "welcome!"). After the last phrase, the whole overlay fades
-      out and removes itself from the DOM, revealing the hero page
-      underneath. Only ever shows on the very first visit to the site this
-      browser session, or on an actual page reload — an inline script
-      right after #loading-screen in index.html checks the Navigation
-      Timing API plus a sessionStorage flag and removes the element
-      immediately, before this script even runs, on a plain in-site
-      navigation back to the homepage (clicking the "projects" nav tab or
-      the header logo from another page) once it's already been shown
-      once this session.
-  10. Draggable fragment cards (fun.html only, see js/fragments.js): each
+   6. Homepage loading screen (#loading-screen, index.html only): a plain
+      overlay with a small looping logo video, captioned with two phrases
+      that fade in and out in turn ("just getting set up...", "welcome!").
+      After the last phrase, the whole overlay fades out and removes
+      itself from the DOM, revealing the hero page underneath. Only ever
+      shows on the very first visit to the site this browser session, or
+      on an actual page reload — an inline script right after
+      #loading-screen in index.html checks the Navigation Timing API plus
+      a sessionStorage flag and removes the element immediately, before
+      this script even runs, on a plain in-site navigation back to the
+      homepage (clicking the "projects" nav tab or the header logo from
+      another page) once it's already been shown once this session.
+   7. Draggable fragment cards (fun.html only, see js/fragments.js): each
       card in #fragmentsStage can be picked up and dropped anywhere,
       reusing the same --tx/--ty/--rot transform vars every .placeholder
       tile already understands (see style.css). A plain click (no real
       pointer movement) still opens the image lightbox above instead of
       counting as a drag.
-  11. Hero title cursor trail (home page only): hovering the mouse over
+   8. Hero title cursor trail (home page only): hovering the mouse over
       .site-title spawns small blue circles (.title-trail-dot) at the
       cursor's position, each fading out and removing itself a moment
       later (see .title-trail-dot in style.css). Spawning is throttled
@@ -76,61 +56,6 @@
 
 (function () {
   "use strict";
-
-  var THEME_KEY = "chelsea-lee-theme";
-
-  function applyTheme(theme) {
-    if (theme === "dark") {
-      document.documentElement.setAttribute("data-theme", "dark");
-    } else {
-      document.documentElement.removeAttribute("data-theme");
-    }
-    updateThemeVideos(theme);
-  }
-
-  // .theme-video elements (the loading screen + the home hero's eyes-icon)
-  // carry the light/dark source pairs as data attributes rather than real
-  // <source src>, so the very first paint already picks the right one —
-  // nothing to swap away from after the fact. See main.js doc comment #4.
-  function updateThemeVideos(theme) {
-    var isDark = theme === "dark";
-    var videos = document.querySelectorAll(".theme-video");
-    videos.forEach(function (video) {
-      // the loading screen is always a plain white overlay regardless of
-      // theme (see .loading-screen in style.css), so its logo video must
-      // always use the light-mode (white-backed) take too — otherwise a
-      // reload in dark mode would show the dark-backed clip's own square
-      // of dark background floating on the white overlay around it.
-      var forceLight = !!video.closest("#loading-screen");
-      var useDark = isDark && !forceLight;
-      var webm = video.getAttribute(useDark ? "data-webm-dark" : "data-webm-light");
-      var mp4 = video.getAttribute(useDark ? "data-mp4-dark" : "data-mp4-light");
-      var sources = video.querySelectorAll("source");
-      var webmSource = sources[0];
-      var mp4Source = sources[1];
-      if (webmSource && webm && webmSource.getAttribute("src") !== webm) {
-        webmSource.setAttribute("src", webm);
-      }
-      if (mp4Source && mp4 && mp4Source.getAttribute("src") !== mp4) {
-        mp4Source.setAttribute("src", mp4);
-      }
-      video.load();
-      var playPromise = video.play();
-      if (playPromise && typeof playPromise.catch === "function") {
-        // autoplay can be rejected (rare, given muted+playsinline) — if so,
-        // just leave the video on its first frame instead of throwing
-        playPromise.catch(function () {});
-      }
-    });
-  }
-
-  var storedTheme = null;
-  try {
-    storedTheme = window.localStorage.getItem(THEME_KEY);
-  } catch (err) {
-    storedTheme = null;
-  }
-  applyTheme(storedTheme);
 
   function toggleFlip(tile) {
     tile.classList.toggle("is-flipped");
@@ -253,15 +178,6 @@
         tab.addEventListener("click", function () {
           activateSubnavTab(tab);
         });
-      });
-    }
-
-    var solutionDarkToggle = document.getElementById("solutionDarkToggle");
-    var solutionScreens = document.getElementById("solutionScreens");
-    if (solutionDarkToggle && solutionScreens) {
-      solutionDarkToggle.addEventListener("click", function () {
-        var isDark = solutionScreens.classList.toggle("is-dark");
-        solutionDarkToggle.setAttribute("aria-pressed", isDark ? "true" : "false");
       });
     }
 
@@ -528,46 +444,5 @@
         }, FADE_MS);
       });
     }
-
-    var themeToggle = document.createElement("button");
-    themeToggle.type = "button";
-    themeToggle.className = "theme-toggle";
-    themeToggle.setAttribute("aria-label", "Toggle night mode");
-
-    var themeToggleKnob = document.createElement("span");
-    themeToggleKnob.className = "theme-toggle-knob";
-    themeToggleKnob.setAttribute("aria-hidden", "true");
-
-    var themeToggleIcon = document.createElement("img");
-    themeToggleIcon.className = "theme-toggle-ring-icon";
-    themeToggleIcon.alt = "";
-    // reuses whatever relative path the header logo is already using to
-    // reach /assets (e.g. "assets/" on a root page, "../assets/" one
-    // level down in /pages), so this works unchanged on every page
-    // without needing to hardcode a folder depth here.
-    var existingLogoImg = document.querySelector(".icon-logo-wrap img");
-    var assetPrefix = "assets/";
-    if (existingLogoImg) {
-      var logoSrc = existingLogoImg.getAttribute("src") || "";
-      assetPrefix = logoSrc.slice(0, logoSrc.lastIndexOf("/") + 1);
-    }
-    themeToggleIcon.src = assetPrefix + "theme-toggle-icon.png";
-
-    themeToggleKnob.appendChild(themeToggleIcon);
-    themeToggle.appendChild(themeToggleKnob);
-
-    themeToggle.addEventListener("click", function () {
-      var isDark = document.documentElement.getAttribute("data-theme") === "dark";
-      var next = isDark ? "light" : "dark";
-      applyTheme(next);
-      try {
-        window.localStorage.setItem(THEME_KEY, next);
-      } catch (err) {
-        /* localStorage unavailable (e.g. private browsing) — the toggle
-           still works for the rest of this page view */
-      }
-    });
-
-    document.body.appendChild(themeToggle);
   });
 })();

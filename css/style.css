@@ -5,24 +5,29 @@
 
 :root {
   /* Chelsea Lee design system — see the attached 5-color palette.
-     --ink / --background / --accent-warm keep the same hex in both modes
-     (they're the fixed "brand" colors used on colored bubble/pill
-     surfaces, buttons and highlights); --page-bg and --text are the two
-     that flip between light and dark mode just below. */
+     Light mode only — the site no longer has a dark-mode variant, so
+     every token below resolves to exactly one value everywhere. */
   --ink: #202020;
   --background: #72c4ff;
-  --button-stroke: #afafaf;
+  /* a deeper, more saturated tint of the same brand blue, used ONLY where
+     blue is the TEXT color (headings, nav labels, small accents) rather
+     than a fill — the pastel --background reads fine as a button/pill
+     fill, but as foreground text on white or on the pale --accent-warm it
+     fails contrast; this shade keeps the same hue while passing WCAG AA
+     (~6.5:1 on white, ~6.5:1 on --accent-warm) at any text size. */
+  --heading-blue: #1558a0;
+  /* was #afafaf: too light to pass AA as text (this is used as a color
+     far more often than as an actual border/stroke — see every
+     .meta-label / .persona-role / etc. micro-label sitewide), so it's
+     darkened to clear 4.5:1 on white while still reading as a muted
+     secondary tone, distinct from --ink and --text. */
+  --button-stroke: #6b6b6b;
   --accent-warm: #fff6c3;
   --off-white: #f3f3f3;
-  /* the light-mode canvas is plain white, kept separate from --off-white
-     (still used for meta pills, note cards, and dark-mode text) so this
-     one value can be pure white without touching those other roles */
   --page-bg: #ffffff;
-  /* text sitting directly on the page background; its own gray, distinct
-     from both --ink (headers) and --button-stroke (borders/strokes), kept
-     separate so night mode can flip just this one without touching the
-     other two */
-  --text: #939393;
+  /* was #939393 (~3:1 on white, fails AA for body text); darkened to
+     ~4.9:1 so running copy that relies on this default stays legible. */
+  --text: #707070;
 
   --space-1: 4px;
   --space-2: 8px;
@@ -35,15 +40,15 @@
   --radius-lg: 16px;
   --radius-full: 999px;
 
+  /* One typeface family for everything but micro text: sized and
+     weighted per level (see the heading/body rules below) instead of
+     switching typefaces for titles, so hierarchy comes from scale and
+     the wght axis rather than a second font. */
   --font-sans: "deuterium-variable", sans-serif;
-  /* used only for page titles / section headings and other title-labeled
-     text (project card titles, case-study headings, nav card titles, the
-     "chelsea lee" hero name) — never for running body copy */
-  --font-display: "roca", sans-serif;
-  /* used sparingly for a couple of warm, handwritten-feeling footer lines
-     (see .footer-label / .footer-signoff) — a system serif stack, no new
-     webfont to load */
-  --font-serif: "gelica", Georgia, "Iowan Old Style", "Palatino Linotype", "Book Antiqua", serif;
+  /* small meta/label text only — tag pills, Role/Team/Timeline/Tools
+     labels, stat captions, swatch hex codes, figure-caption titles,
+     footer copyright, prev/next nav labels — never running prose. */
+  --font-mono: "Roboto Mono", "SFMono-Regular", Menlo, Consolas, monospace;
   --wght-light: 300;
   --wght-regular: 400;
   --wght-medium: 500;
@@ -57,58 +62,6 @@
   --body-line: 22px;
 
   --content-max: 960px;
-}
-
-/* Night mode: bg flips to the dark gray and running text flips to the
-   light off-white, per the palette's dark-mode mapping. The colored
-   bubbles, pills and buttons keep their usual brand colors (and --ink
-   stays put) so text on those surfaces is never put at risk of low
-   contrast. */
-:root[data-theme="dark"] {
-  --page-bg: var(--ink);
-  --text: var(--off-white);
-}
-
-/* every page title (not just case-study titles) is a fixed brand blue in
-   both themes — see the .page-title rule itself, which sets this color
-   directly instead of picking up the dark-mode "headers" yellow swap, so
-   no dark-mode override is needed here at all. */
-
-/* the case-toc sidebar's active link gets the same branded-yellow
-   treatment in dark mode as the headings it points to */
-:root[data-theme="dark"] .case-toc a.is-active {
-  color: var(--accent-warm);
-}
-
-/* dark mode swaps the yellow highlight for a sheer pale-blue wash, so the
-   marked phrase can keep reading in the same white-blue --text color as
-   the rest of the sentence, instead of needing a fixed dark gray --ink to stay
-   legible against yellow */
-:root[data-theme="dark"] mark,
-:root[data-theme="dark"] .intro mark {
-  background: rgba(114, 196, 255, 0.22);
-  color: var(--text);
-}
-
-/* ...except inside a colored bubble outside the case studies (the About
-   page speech bubbles, the homepage project-card caption, a flip-tile
-   back) — those surfaces stay the same light blue in both themes, so a
-   <mark> inside one needs to keep its ordinary dark gray-on-yellow
-   treatment too, instead of the pale --text color meant for a highlight
-   sitting on the dark page canvas (which was unreadable against the
-   bubble's always-light background). Every case-study component used to
-   be listed here too, but case studies now opt out of the yellow <mark>
-   highlight entirely (see .case-main mark / the dark override below). */
-:root[data-theme="dark"] .bubble-bio mark,
-:root[data-theme="dark"] .bubble-quote mark,
-:root[data-theme="dark"] .bubble-hobbies mark,
-:root[data-theme="dark"] .bubble-fact mark,
-:root[data-theme="dark"] .bubble-intro mark,
-:root[data-theme="dark"] .bubble-note mark,
-:root[data-theme="dark"] .flip-tile-back mark,
-:root[data-theme="dark"] .project-card-bubble mark {
-  background: var(--accent-warm);
-  color: var(--background);
 }
 
 * {
@@ -195,7 +148,7 @@ img {
    the home page */
 mark {
   background: var(--accent-warm);
-  color: var(--background);
+  color: var(--heading-blue);
   padding: 0 3px;
   border-radius: var(--radius-sm);
   font-variation-settings: "wght" var(--wght-medium);
@@ -221,17 +174,41 @@ mark {
   font-variation-settings: inherit;
 }
 
-/* beats the bare :root[data-theme="dark"] mark rule above (its :root +
-   [data-theme] selector otherwise outranks the plain .case-main mark
-   rule), so case studies stay opted out of the highlight in dark mode
-   too instead of picking up the pale-blue wash meant for everywhere
-   else. */
-:root[data-theme="dark"] .case-main mark {
-  background: none;
-  color: inherit;
+/* Screen-reader-only content: kept in the layout (not display:none, which
+   screen readers skip too) but visually collapsed to nothing. Used for
+   page <h1>s that would otherwise duplicate or clutter a whimsical visual
+   layout (About), and for text labels paired with icon-only controls. */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
   padding: 0;
-  border-radius: 0;
-  font-variation-settings: inherit;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* "Skip to content" link for keyboard/screen-reader users — invisible
+   until it receives focus (the first Tab stop on every page), then drops
+   into view above the sticky header so it never gets hidden behind it. */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: var(--space-3);
+  z-index: 200;
+  padding: var(--space-2) var(--space-4);
+  background: var(--heading-blue);
+  color: #fff;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-variation-settings: "wght" var(--wght-medium);
+  transition: top 0.15s ease;
+}
+
+.skip-link:focus {
+  top: var(--space-3);
 }
 
 /* ---------------------------------------------------------------- header
@@ -318,10 +295,12 @@ mark {
      navigation rather than body-copy-sized buttons; a touch bolder than
      --wght-light for legibility. Unselected tabs are plain blue text with
      no pill behind them; the active tab (and hover, as a preview of that
-     same state) gets the filled blue pill with yellow text. */
+     same state) gets the filled blue pill with dark ink text (yellow
+     measured well under AA contrast against this blue, so it's reserved
+     for text-on-light-surface pairings elsewhere instead). */
   font-size: 13px;
   font-variation-settings: "wght" var(--wght-regular);
-  color: var(--background);
+  color: var(--heading-blue);
   background: none;
   letter-spacing: 0.02em;
   padding: var(--space-1) var(--space-3);
@@ -333,7 +312,7 @@ mark {
 .site-nav a:hover,
 .site-nav a.active {
   background: var(--background);
-  color: var(--accent-warm);
+  color: var(--ink);
 }
 
 /* ------------------------------------------------------------ loading screen
@@ -375,7 +354,7 @@ mark {
   /* a touch bolder than the page's default --wght-light, which this
      would otherwise inherit */
   font-variation-settings: "wght" var(--wght-regular);
-  color: var(--background);
+  color: var(--heading-blue);
   text-align: center;
   opacity: 0;
   transition: opacity 0.4s ease;
@@ -428,12 +407,12 @@ main {
 .page-title {
   font-size: var(--header-size);
   line-height: var(--header-line);
-  font-family: var(--font-display);
+  font-family: var(--font-sans);
   font-weight: 700;
   font-style: italic;
   /* fixed brand blue in both themes (not a dark-mode-swapping "headers"
      role) — see the dark-mode comment above */
-  color: var(--background);
+  color: var(--heading-blue);
   margin: 0 0 var(--space-5);
   letter-spacing: 0.01em;
 }
@@ -449,7 +428,7 @@ main {
    GoFundMe-style reference), distinct from every other page's sans-serif
    .page-title */
 .case-main .page-title {
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   font-weight: 400;
   letter-spacing: -0.005em;
 }
@@ -494,9 +473,10 @@ main {
   padding: var(--space-5) clamp(24px, 5vw, 64px);
 }
 
-/* left side of the footer: the whimsical sign-off line (serif, yellow,
-   the biggest text in the footer) sits above the small copyright line,
-   both left-aligned against the footer's own left edge */
+/* left side of the footer: the whimsical sign-off line (italic sans, dark
+   ink on the blue footer fill, the biggest text in the footer) sits above
+   the small copyright line, both left-aligned against the footer's own
+   left edge */
 .footer-left {
   display: flex;
   flex-direction: column;
@@ -543,7 +523,7 @@ main {
 
 .footer-signoff {
   margin: 0;
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   font-style: italic;
   /* bigger than .footer-label's 22px so this reads as the footer's
      lead line — bumped up further now that .footer-left has the room
@@ -552,14 +532,15 @@ main {
   /* tighter than the old 1.35 so the two lines (see the manual <br> in
      the markup) sit close together instead of reading as loosely spaced */
   line-height: 1.15;
-  color: var(--accent-warm);
+  color: var(--ink);
 }
 
 .footer-credits {
+  font-family: var(--font-mono);
   margin: 0;
   text-align: left;
   font-size: 12px;
-  color: var(--accent-warm);
+  color: var(--ink);
 }
 
 /* right side of the footer: "Let's connect!" heading (serif) sits above
@@ -574,10 +555,10 @@ main {
 
 .footer-label {
   margin: 0;
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   font-size: 22px;
   font-style: italic;
-  color: var(--accent-warm);
+  color: var(--ink);
 }
 
 .connect-links {
@@ -588,7 +569,7 @@ main {
 }
 
 .connect-link {
-  color: var(--accent-warm);
+  color: var(--ink);
   font-size: var(--body-size);
   font-variation-settings: "wght" var(--wght-light);
   transition: font-variation-settings 0.2s ease;
@@ -806,13 +787,12 @@ img.fragment-card {
   margin: 0;
   padding: 8px 16px;
   background: var(--background);
-  color: var(--accent-warm);
+  color: var(--ink);
   border-radius: var(--radius-full);
   font-size: 14px;
   font-style: italic;
   line-height: 1.3;
   white-space: nowrap;
-  box-shadow: 0 6px 14px rgba(58, 58, 58, 0.16);
   pointer-events: none;
   opacity: 0;
   transition: opacity 0.15s ease;
@@ -849,14 +829,11 @@ img.fragment-card {
 
 .card-caption-title {
   font-size: 21px;
-  font-family: var(--font-display);
+  font-family: var(--font-mono);
   font-weight: 700;
   color: var(--ink);
 }
 
-:root[data-theme="dark"] .card-caption-title {
-  color: var(--accent-warm);
-}
 
 .card-caption-desc {
   font-size: 15px;
@@ -1006,7 +983,7 @@ img.fragment-card {
 .project-card-title {
   font-size: 16px;
   letter-spacing: 0.03em;
-  font-family: var(--font-display);
+  font-family: var(--font-sans);
   font-weight: 700;
   font-style: italic;
   /* a title/heading, not running body copy, so it uses the "headers" role
@@ -1015,9 +992,6 @@ img.fragment-card {
   color: var(--ink);
 }
 
-:root[data-theme="dark"] .project-card-title {
-  color: var(--accent-warm);
-}
 
 .project-card-desc {
   font-size: 12px;
@@ -1038,6 +1012,7 @@ img.fragment-card {
 }
 
 .project-tag {
+  font-family: var(--font-mono);
   font-size: 11px;
   line-height: 1;
   text-transform: lowercase;
@@ -1059,7 +1034,7 @@ img.fragment-card {
   max-width: calc(100% - var(--space-3) * 2);
   font-size: 12px;
   font-variation-settings: "wght" var(--wght-medium);
-  color: var(--accent-warm);
+  color: var(--ink);
   background: var(--background);
   padding: var(--space-1) var(--space-3);
   border-radius: var(--radius-full);
@@ -1152,7 +1127,7 @@ img.fragment-card {
 
 .flip-tile-back {
   background: var(--background);
-  color: var(--accent-warm);
+  color: var(--ink);
   font-style: italic;
   font-size: 14px;
   line-height: 20px;
@@ -1244,11 +1219,11 @@ img.fragment-card {
      same "weight" of navigation as the primary nav above them */
   font-variation-settings: "wght" var(--wght-regular);
   /* same treatment as .site-nav a: plain blue text with no pill behind
-     it when inactive, filled blue pill with yellow text on hover/active.
+     it when inactive, filled blue pill with dark ink text on hover/active.
      border: none (rather than the old 1px solid transparent) clears the
      browser's default button border, since .subnav-tab is a <button>,
      not a link like .site-nav a. */
-  color: var(--background);
+  color: var(--heading-blue);
   background: none;
   border: none;
   border-radius: var(--radius-full);
@@ -1262,11 +1237,18 @@ img.fragment-card {
 .subnav-tab:hover,
 .subnav-tab.is-active {
   background: var(--background);
-  color: var(--accent-warm);
+  color: var(--ink);
   /* no weight change here on purpose — switching tabs used to also jump
      the label to a heavier weight, which read as the text going bold.
      Keeping the same --wght-light as the inactive state means only the
      background pill moves, not the letterforms. */
+}
+
+/* shadow on hover only — not on .is-active too, so a selected tab
+   doesn't carry a permanent shadow once the pointer moves away */
+.subnav-tab:hover,
+.subnav-tab:focus-visible {
+  box-shadow: 0 6px 14px rgba(58, 58, 58, 0.16);
 }
 
 /* ------------------------------------------------------------ sub-pages */
@@ -1293,16 +1275,9 @@ img.fragment-card {
 }
 
 .back-link:hover {
-  /* was var(--ink): a fixed dark color that matched dark mode's own
-     page background 1:1, making the link vanish on hover there.
-     Light mode hovers to blue; dark mode keeps the yellow accent below
-     so it still stands out against the dark page background. */
-  color: var(--background);
+  color: var(--heading-blue);
 }
 
-:root[data-theme="dark"] .back-link:hover {
-  color: var(--accent-warm);
-}
 
 .detail-grid {
   display: grid;
@@ -1372,7 +1347,7 @@ img.fragment-card {
 
 .bubble-note {
   background: var(--accent-warm);
-  color: var(--background);
+  color: var(--heading-blue);
 }
 
 @media (max-width: 640px) {
@@ -1428,9 +1403,6 @@ img.fragment-card {
   max-width: 640px;
 }
 
-:root[data-theme="dark"] .case-tagline {
-  color: var(--text);
-}
 
 /* top-of-case-study layout: title/tagline/meta in a left column, the
    hero image/video in a right column, matching the two-column reference
@@ -1475,7 +1447,7 @@ img.fragment-card {
 }
 
 .case-meta-item .meta-label {
-  font-family: var(--font-serif);
+  font-family: var(--font-mono);
   font-size: 12px;
   color: var(--button-stroke);
   font-variation-settings: "wght" var(--wght-regular);
@@ -1488,9 +1460,6 @@ img.fragment-card {
   font-variation-settings: "wght" var(--wght-regular);
 }
 
-:root[data-theme="dark"] .case-meta-item .meta-value {
-  color: var(--off-white);
-}
 
 /* hero image/video and the jump-to bubble share this right-hand column,
    so the jump-to card sits directly under the hero instead of under the
@@ -1527,11 +1496,11 @@ img.fragment-card {
 
 /* quick-jump tabs, right-aligned directly under the hero image, linking
    down to the process / solution / reflection sections below. Wrapped in
-   a slightly-darker-blue bubble (--background) with a small "jump to..."
-   title, both set in the serif Gelica face with their natural upper/
-   lowercase casing (no uppercase/lowercase transform), and the tab
-   "buttons" filled with the brand yellow and blue text instead of the
-   old off-white/ink pills. */
+   a brand-blue bubble (--background) with a small "jump to..." title set
+   in dark ink (see .jumpnav-label), both in the sans body face with their
+   natural upper/lowercase casing (no uppercase/lowercase transform), and
+   the tab "buttons" themselves filled with the brand yellow and blue
+   text. */
 .case-jumpnav-wrap {
   display: flex;
   justify-content: flex-end;
@@ -1546,13 +1515,14 @@ img.fragment-card {
   background: var(--background);
   border-radius: var(--radius-lg);
   padding: var(--space-3) var(--space-4);
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
 }
 
 .jumpnav-label {
+  font-family: var(--font-mono);
   font-size: 13px;
   letter-spacing: 0.01em;
-  color: var(--accent-warm);
+  color: var(--ink);
   font-variation-settings: "wght" var(--wght-medium);
 }
 
@@ -1565,7 +1535,7 @@ img.fragment-card {
 
 .case-jumpnav a {
   font-size: 13px;
-  color: var(--background);
+  color: var(--heading-blue);
   background: var(--accent-warm);
   padding: var(--space-1) var(--space-3);
   border-radius: var(--radius-full);
@@ -1672,9 +1642,6 @@ img.fragment-card {
   color: var(--ink);
 }
 
-:root[data-theme="dark"] .case-section > p {
-  color: var(--text);
-}
 
 /* big, centered section heading */
 .case-heading {
@@ -1684,8 +1651,8 @@ img.fragment-card {
   font-size: 38px;
   line-height: 1.25;
   text-align: left;
-  color: var(--background);
-  font-family: var(--font-display);
+  color: var(--heading-blue);
+  font-family: var(--font-sans);
   font-weight: 700;
   font-style: italic;
   letter-spacing: -0.01em;
@@ -1700,8 +1667,8 @@ img.fragment-card {
   /* bumped up from --body-size now that this is a branded blue accent
      rather than plain ink text */
   font-size: 20px;
-  color: var(--background);
-  font-family: var(--font-display);
+  color: var(--heading-blue);
+  font-family: var(--font-sans);
   font-weight: 700;
   font-style: italic;
   margin: var(--space-5) 0 var(--space-3);
@@ -1753,10 +1720,6 @@ img.fragment-card {
   line-height: var(--body-line);
 }
 
-:root[data-theme="dark"] .case-note {
-  background: var(--page-bg);
-  color: var(--off-white);
-}
 
 .case-note p + p {
   margin-top: var(--space-4);
@@ -1804,16 +1767,13 @@ img.fragment-card {
   line-height: var(--body-line);
 }
 
-:root[data-theme="dark"] .response-card {
-  background: var(--page-bg);
-  color: var(--off-white);
-}
 
 .response-card p {
   margin: 0;
 }
 
 .response-meta {
+  font-family: var(--font-mono);
   display: block;
   font-size: 11px;
   text-transform: uppercase;
@@ -1860,11 +1820,9 @@ img.fragment-card {
   font-variation-settings: "wght" var(--wght-medium);
 }
 
-:root[data-theme="dark"] .case-stat .stat-number {
-  color: var(--accent-warm);
-}
 
 .case-stat .stat-label {
+  font-family: var(--font-mono);
   font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -1889,6 +1847,7 @@ img.fragment-card {
 }
 
 .takeaway-num {
+  font-family: var(--font-mono);
   flex: 0 0 auto;
   width: 32px;
   height: 32px;
@@ -1910,9 +1869,6 @@ img.fragment-card {
   color: var(--ink);
 }
 
-:root[data-theme="dark"] .takeaway p {
-  color: var(--text);
-}
 
 /* --------------------------------------------------------- brand colors
    Overview section: pitchbook's primary + secondary palette, pulled from
@@ -1933,6 +1889,7 @@ img.fragment-card {
 }
 
 .color-group-label {
+  font-family: var(--font-mono);
   display: block;
   font-size: 11px;
   text-transform: uppercase;
@@ -1971,6 +1928,7 @@ img.fragment-card {
 }
 
 .swatch-name {
+  font-family: var(--font-mono);
   font-size: 12px;
   color: var(--ink);
   font-variation-settings: "wght" var(--wght-medium);
@@ -1978,6 +1936,7 @@ img.fragment-card {
 }
 
 .swatch-hex {
+  font-family: var(--font-mono);
   font-size: 10px;
   color: var(--button-stroke);
   letter-spacing: 0.02em;
@@ -2039,19 +1998,11 @@ img.fragment-card {
   padding: 28px;
 }
 
-:root[data-theme="dark"] .persona-card {
-  background: var(--page-bg);
-}
 
 /* .persona-name / .persona-blurb / .persona-col ul all read literal
    --ink, which is the same value as --page-bg in dark mode — without
    this override that text goes fully invisible once the card's
    background flips to match the page above */
-:root[data-theme="dark"] .persona-name,
-:root[data-theme="dark"] .persona-blurb,
-:root[data-theme="dark"] .persona-col ul {
-  color: var(--off-white);
-}
 
 .persona-head {
   display: flex;
@@ -2083,6 +2034,7 @@ img.fragment-card {
 }
 
 .persona-role {
+  font-family: var(--font-mono);
   margin: 2px 0 0;
   font-size: 12px;
   color: var(--button-stroke);
@@ -2102,6 +2054,7 @@ img.fragment-card {
 }
 
 .persona-col-label {
+  font-family: var(--font-mono);
   display: block;
   font-size: 10px;
   text-transform: uppercase;
@@ -2146,11 +2099,10 @@ img.fragment-card {
 
 .pain-card {
   background: var(--accent-warm);
-  color: var(--background);
+  color: var(--heading-blue);
   border-radius: var(--radius-lg);
   padding: var(--space-3);
   text-align: center;
-  box-shadow: 0 10px 18px rgba(58, 58, 58, 0.14);
   animation: title-bob 2.6s ease-in-out infinite;
 }
 
@@ -2161,9 +2113,10 @@ img.fragment-card {
 .pain-card:nth-child(6) { animation-delay: 1s; }
 
 .pain-card-num {
+  font-family: var(--font-mono);
   display: block;
   font-size: 11px;
-  color: var(--background);
+  color: var(--heading-blue);
   font-variation-settings: "wght" var(--wght-medium);
   margin-bottom: 2px;
 }
@@ -2173,7 +2126,7 @@ img.fragment-card {
   font-size: 13px;
   text-transform: lowercase;
   letter-spacing: 0.02em;
-  font-family: var(--font-display);
+  font-family: var(--font-mono);
   font-weight: 700;
   margin-bottom: 4px;
 }
@@ -2205,12 +2158,9 @@ img.fragment-card {
   padding: var(--space-4);
 }
 
-:root[data-theme="dark"] .opportunity-card {
-  background: var(--page-bg);
-  color: var(--off-white);
-}
 
 .opportunity-source {
+  font-family: var(--font-mono);
   display: block;
   font-size: 11px;
   color: var(--button-stroke);
@@ -2223,7 +2173,7 @@ img.fragment-card {
 .opportunity-title {
   font-size: var(--body-size);
   line-height: var(--body-line);
-  font-family: var(--font-display);
+  font-family: var(--font-sans);
   font-weight: 700;
   margin: 0 0 var(--space-2);
 }
@@ -2279,17 +2229,13 @@ img.fragment-card {
   padding: var(--space-3);
 }
 
-:root[data-theme="dark"] .mockup-caption-card {
-  background: var(--page-bg);
-  color: var(--off-white);
-}
 
 .mockup-caption-title {
   display: block;
   font-size: 12px;
   text-transform: lowercase;
   letter-spacing: 0.02em;
-  font-family: var(--font-display);
+  font-family: var(--font-mono);
   font-weight: 700;
   margin-bottom: 4px;
 }
@@ -2308,9 +2254,6 @@ img.fragment-card {
   line-height: var(--body-line);
 }
 
-:root[data-theme="dark"] .mockup-note {
-  color: var(--text);
-}
 
 /* -------------------------------------------------------- solution video
    Prototype walkthrough, sized down and centered right under the section
@@ -2395,30 +2338,31 @@ img.fragment-card {
 }
 
 /* real, clickable CTA under the prototype video, linking out to the
-   interactive Figma prototype. Now matches the site's own nav-button
-   convention (blue pill, yellow text, lowercase label) instead of the
-   old off-white/ink scheme, so it reads consistently with the header
-   nav and subnav tabs elsewhere on the site. */
+   interactive Figma prototype. Matches the site's own nav-button
+   convention (blue pill, dark ink text, lowercase label) so it reads
+   consistently with the header nav and subnav tabs elsewhere on the
+   site. */
 .prototype-cta {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   background: var(--background);
-  color: var(--accent-warm);
+  color: var(--ink);
   border-radius: var(--radius-full);
   padding: var(--space-2) var(--space-4);
   font-size: 14px;
   font-variation-settings: "wght" var(--wght-medium);
   text-decoration: none;
   text-transform: lowercase;
-  transition: background 0.2s ease, color 0.2s ease, transform 0.15s ease;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
 }
 
 .prototype-cta:hover,
 .prototype-cta:focus-visible {
   background: var(--accent-warm);
-  color: var(--background);
+  color: var(--heading-blue);
   transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(58, 58, 58, 0.2);
 }
 
 /* Original App row: .detail-grid's default 1fr/1fr split leaves the
@@ -2509,6 +2453,7 @@ img.fragment-card {
 }
 
 .survey-question-hint {
+  font-family: var(--font-mono);
   display: block;
   font-size: 12px;
   color: var(--button-stroke);
@@ -2529,74 +2474,11 @@ img.fragment-card {
   max-width: 520px;
 }
 
-/* ---------------------------------------------------- dark-mode toggle
-   Local to the solution section only: flips the six final screens over
-   to their dark-mode counterparts. Separate from the site-wide night
-   mode toggle (.theme-toggle), which only affects the page canvas.
-   Reuses the same ring artwork as .theme-toggle so the two read as one
-   family, but inline/centered rather than fixed to the corner. */
-
-.mode-toggle-wrap {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0 0 var(--space-5);
-}
-
-.solution-toggle {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-3);
-  background: none;
-  border: none;
-  padding: 0;
-  font-family: inherit;
-}
-
-.solution-toggle-ring {
-  display: inline-block;
-  flex-shrink: 0;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  /* just the ring icon itself now — no dotted stroke, no white/page-bg
-     disc behind it, no drop shadow. Uses the @3x cursor-ring asset
-     (60px) rather than the 1x (20px) so it stays crisp at this 40px
-     display size instead of visibly upscaling a tiny source image. */
-  background-image: url("../assets/cursor-ring@3x.png");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 100%;
-  transition: transform 0.2s ease;
-}
-
-.solution-toggle:hover .solution-toggle-ring {
-  transform: scale(1.08);
-}
-
-.solution-toggle[aria-pressed="true"] .solution-toggle-ring {
-  transform: rotate(180deg);
-}
-
-.solution-toggle:focus-visible .solution-toggle-ring {
-  outline: 2px solid var(--button-stroke);
-  outline-offset: 2px;
-}
-
-.solution-toggle-label {
-  font-size: 13px;
-  font-family: var(--font-serif);
-  font-style: italic;
-  letter-spacing: 0.01em;
-  color: var(--text);
-  font-variation-settings: "wght" var(--wght-medium);
-}
-
 /* ------------------------------------------------------- solution grid
-   Each final screen ships as a light + dark image stacked in the same
-   box; the toggle above crossfades between them by flipping .is-dark on
-   the grid wrapper. Captions sit underneath, permanently visible (unlike
-   the home-page project bubbles, which only show on hover). */
+   Each final screen is one static light-mode screenshot (the site no
+   longer has a dark-mode toggle for these, or for the page itself).
+   Captions sit underneath, permanently visible (unlike the home-page
+   project bubbles, which only show on hover). */
 
 .solution-grid {
   display: grid;
@@ -2645,24 +2527,62 @@ img.fragment-card {
      smaller than it sounds — the straight edges have no margin left to
      lose) tucks that last notch behind the wrap's own rounded clip. */
   transform: scale(1.12);
-  opacity: 0;
-  transition: opacity 0.25s ease;
-}
-
-.solution-img-light {
-  opacity: 1;
-}
-
-.solution-grid.is-dark .solution-img-light {
-  opacity: 0;
-}
-
-.solution-grid.is-dark .solution-img-dark {
-  opacity: 1;
 }
 
 .solution-card figcaption {
   margin-top: var(--space-2);
+}
+
+/* ------------------------------------------------- screenshot callouts
+   A sparing "zoomed inset + leader line + label" treatment for pointing
+   out one specific detail inside a screenshot, instead of flattening a
+   second annotated image. All three pieces are positioned in percentages
+   so they track the highlighted UI element regardless of the card's
+   rendered width, and all three live inside .solution-img-wrap itself
+   (which is already position:relative) so they never need to escape its
+   rounded-corner clip — used sparingly, once or twice per case study, not
+   on every screenshot. */
+.callout-box {
+  position: absolute;
+  z-index: 2;
+  border: 2px solid var(--heading-blue);
+  border-radius: var(--radius-sm);
+  pointer-events: none;
+}
+
+.callout-line {
+  position: absolute;
+  z-index: 2;
+  height: 2px;
+  background: var(--heading-blue);
+  pointer-events: none;
+}
+
+/* a lightweight position:relative anchor for dropping a callout onto an
+   image that isn't already inside a .solution-img-wrap (e.g. a plain
+   .phone-shot screenshot) — used only on the handful of images that get
+   a callout, not added to every image wrapper sitewide. */
+.callout-anchor {
+  position: relative;
+  display: block;
+}
+
+.callout-label {
+  position: absolute;
+  z-index: 2;
+  /* a fixed px cap (not a %) so the chip stays a sensible, consistent
+     size regardless of how wide the card it's sitting on happens to be
+     rendered */
+  max-width: 150px;
+  padding: 5px 10px;
+  background: var(--page-bg);
+  color: var(--heading-blue);
+  border: 1px solid var(--heading-blue);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 1.35;
+  pointer-events: none;
 }
 
 .solution-caption-title {
@@ -2671,13 +2591,10 @@ img.fragment-card {
   text-transform: lowercase;
   letter-spacing: 0.02em;
   color: var(--ink);
-  font-family: var(--font-display);
+  font-family: var(--font-mono);
   font-weight: 700;
 }
 
-:root[data-theme="dark"] .solution-caption-title {
-  color: var(--accent-warm);
-}
 
 .solution-caption-desc {
   display: block;
@@ -2711,6 +2628,7 @@ img.fragment-card {
 }
 
 .rebrand-logo-plate {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2922,6 +2840,7 @@ img.fragment-card {
 }
 
 .research-shot-app {
+  font-family: var(--font-mono);
   display: block;
   font-size: 12px;
   text-transform: uppercase;
@@ -2945,9 +2864,6 @@ img.fragment-card {
   margin-bottom: var(--space-1);
 }
 
-:root[data-theme="dark"] .research-shot li {
-  color: var(--text);
-}
 
 /* ------------------------------------------------------- persona, solo
    When only one persona card exists (vs. the 2-up grid elsewhere), keep
@@ -3012,12 +2928,9 @@ img.fragment-card {
   margin: var(--space-4) 0 0;
 }
 
-:root[data-theme="dark"] .audit-callout {
-  background: var(--page-bg);
-  color: var(--off-white);
-}
 
 .audit-callout-label {
+  font-family: var(--font-mono);
   display: block;
   font-size: 11px;
   text-transform: uppercase;
@@ -3079,13 +2992,15 @@ img.fragment-card {
   font-family: inherit;
   text-transform: lowercase;
   letter-spacing: 0.04em;
-  transition: background 0.2s ease, transform 0.2s ease;
+  transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.back-to-top:hover {
+.back-to-top:hover,
+.back-to-top:focus-visible {
   background: var(--accent-warm);
-  color: var(--background);
+  color: var(--heading-blue);
   transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(58, 58, 58, 0.2);
 }
 
 .project-nav {
@@ -3111,6 +3026,7 @@ img.fragment-card {
 }
 
 .project-nav .nav-label {
+  font-family: var(--font-mono);
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -3120,14 +3036,11 @@ img.fragment-card {
 .project-nav .nav-title {
   font-size: 16px;
   color: var(--ink);
-  font-family: var(--font-display);
+  font-family: var(--font-sans);
   font-weight: 700;
   transition: color 0.2s ease;
 }
 
-:root[data-theme="dark"] .project-nav .nav-title {
-  color: var(--accent-warm);
-}
 
 .project-nav a:hover .nav-title {
   color: var(--button-stroke);
@@ -3257,23 +3170,16 @@ img.fragment-card {
   /* lighter weight, tighter tracking, no italic — a quieter, more
      condensed lockup than the old bold italic treatment */
   font-style: normal;
-  font-family: var(--font-display);
+  font-family: var(--font-sans);
   font-weight: 200;
   letter-spacing: -0.02em;
-  /* swapped with .tagline: the title is now the fixed brand blue in both
-     themes, and .tagline took over the title's old ink/dark-mode-yellow
-     treatment (see .tagline and its dark-mode override) */
-  color: var(--background);
+  color: var(--heading-blue);
   cursor: url("../assets/cursor-ring.png") 10 10, default;
   cursor: -webkit-image-set(url("../assets/cursor-ring.png") 1x, url("../assets/cursor-ring@2x.png") 2x, url("../assets/cursor-ring@3x.png") 3x) 10 10, default;
   cursor: image-set(url("../assets/cursor-ring.png") 1x, url("../assets/cursor-ring@2x.png") 2x, url("../assets/cursor-ring@3x.png") 3x) 10 10, default;
   /* idle bounce, always running, matching the eyes-divider logo below it */
   animation: title-bob 2.6s ease-in-out infinite;
 }
-
-/* .site-title is now the fixed brand blue in both themes (see above), so
-   it no longer needs its own dark-mode override or glow — that glow
-   moved to .tagline's dark-mode rule instead, as part of the same swap. */
 
 @media (max-width: 640px) {
   .site-title {
@@ -3421,13 +3327,12 @@ img.fragment-card {
   max-width: 170px;
   padding: 8px 16px;
   background: var(--background);
-  color: var(--accent-warm);
+  color: var(--ink);
   border-radius: var(--radius-full);
   font-size: 14px;
   font-style: italic;
   line-height: 1.3;
   white-space: nowrap;
-  box-shadow: 0 6px 14px rgba(58, 58, 58, 0.16);
 }
 
 /* the tail: a small square rotated into a diamond, straddling the
@@ -3492,9 +3397,6 @@ img.fragment-card {
   color: var(--ink);
 }
 
-:root[data-theme="dark"] .tagline {
-  color: var(--accent-warm);
-}
 
 /* the "product designer" / "artist" marks read as plain text here — no
    highlight pill, in either theme — since the hero tagline is meant to
@@ -3507,10 +3409,6 @@ img.fragment-card {
   font-variation-settings: inherit;
 }
 
-:root[data-theme="dark"] .tagline mark {
-  background: none;
-  color: inherit;
-}
 
 .intro {
   max-width: 620px;
@@ -3597,8 +3495,8 @@ img.fragment-card {
   height: 140px;
   border-radius: 50%;
   background: var(--background);
-  color: var(--accent-warm);
-  font-family: var(--font-serif);
+  color: var(--ink);
+  font-family: var(--font-sans);
   font-style: italic;
   font-size: 12px;
   line-height: 16px;
@@ -3623,11 +3521,14 @@ img.fragment-card {
   z-index: 2;
   max-width: 260px;
   padding: var(--space-4) var(--space-5);
-  /* blue fill with light yellow text, same in both themes — every cycled
-     greeting (see main.js) shares this one rule, so every variation gets
-     the same colorway automatically */
+  /* blue fill with dark ink text — the pale yellow this used to carry
+     measured well under 2:1 against the blue (nowhere near the 4.5:1 AA
+     floor), so every blue-filled pill/bubble across the site, this one
+     included, now pairs with --ink instead. Every cycled greeting (see
+     main.js) shares this one rule, so every variation gets the same
+     colorway automatically */
   background: var(--background);
-  color: var(--accent-warm);
+  color: var(--ink);
   text-align: center;
 }
 
@@ -3635,7 +3536,7 @@ img.fragment-card {
   margin: 0;
   font-size: 22px;
   line-height: 1.25;
-  font-family: var(--font-display);
+  font-family: var(--font-sans);
   font-weight: 700;
 }
 
@@ -3644,9 +3545,8 @@ img.fragment-card {
   font-size: 11px;
   font-style: italic;
   font-family: var(--font-sans);
-  /* matches .bubble-intro's own light-yellow text instead of the gray
-     --button-stroke, which read poorly against the new blue fill */
-  color: var(--accent-warm);
+  /* matches .bubble-intro's own ink text (see above) */
+  color: var(--ink);
 }
 
 .bubble-intro::after {
@@ -3665,16 +3565,6 @@ img.fragment-card {
   background: #ffffff;
   color: var(--ink);
   border: 2px dotted var(--background);
-}
-
-/* dark mode: the text cards swap to the page's own dark background with
-   blue text, keeping the blue dotted stroke instead of going transparent */
-:root[data-theme="dark"] .bubble-bio,
-:root[data-theme="dark"] .bubble-quote,
-:root[data-theme="dark"] .bubble-hobbies {
-  background: var(--page-bg);
-  border: 2px dotted var(--background);
-  color: var(--background);
 }
 
 .tilt-hover {
@@ -3700,8 +3590,8 @@ img.fragment-card {
    be misleading. */
 .recently-heading {
   font-size: 22px;
-  font-family: var(--font-serif);
-  color: var(--background);
+  font-family: var(--font-sans);
+  color: var(--heading-blue);
   font-variation-settings: "wght" var(--wght-medium);
   margin: 0;
   /* a thin dotted rule above it to separate the "recently..." strip from
@@ -3793,13 +3683,6 @@ img.fragment-card {
   display: flex;
 }
 
-/* dark mode: the sheer backdrop switches from light blue to dark gray so it
-   reads as a dim, sheer layer over the dark canvas instead of a pale
-   wash that would fight with it */
-:root[data-theme="dark"] .lightbox-overlay {
-  background: rgba(58, 58, 58, 0.55);
-}
-
 .lightbox-overlay img {
   display: block;
   max-width: min(90vw, 1100px);
@@ -3820,9 +3703,6 @@ img.fragment-card {
   border: none;
   border-radius: 50%;
   background: var(--page-bg);
-  /* var(--text), not the fixed --ink: this button's own background is
-     --page-bg, which goes dark in dark mode, so the × needs to switch to
-     the pale white-blue text color to stay legible against it */
   color: var(--text);
   font-size: 22px;
   line-height: 1;
@@ -3830,6 +3710,11 @@ img.fragment-card {
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  transition: box-shadow 0.2s ease;
+}
+
+.lightbox-close:hover,
+.lightbox-close:focus-visible {
   box-shadow: 0 8px 16px rgba(58, 58, 58, 0.25);
 }
 
@@ -3843,98 +3728,3 @@ img.fragment-card {
   cursor: zoom-in;
 }
 
-/* ---------------------------------------------------------- night mode
-   A small fixed switch, pinned to the bottom-right corner on every page
-   (injected by main.js so it doesn't need to be added to every HTML
-   file): a sliding track + knob, the same shape as any light/dark
-   switch, with the knob carrying the same ring mark as the logo instead
-   of a plain circle. The ring is cropped from the logo artwork at a much
-   higher resolution than it's ever shown at here, so it stays crisp at
-   this small a size — the old version stretched the tiny 20px
-   cursor-ring cursor asset up to fill the button, which is what made it
-   look blurry. */
-
-.theme-toggle {
-  position: fixed;
-  right: var(--space-4);
-  bottom: var(--space-4);
-  z-index: 500;
-  /* flex + align-items: center keeps the knob vertically centered
-     regardless of the exact padding/border box math, and overflow: hidden
-     clips anything that would otherwise poke past the track's own pill
-     shape. */
-  display: flex;
-  align-items: center;
-  overflow: hidden;
-  width: 64px;
-  height: 34px;
-  padding: 4px;
-  border-radius: var(--radius-full);
-  /* blue stroke in both themes (was the muted gray --button-stroke in
-     light mode, blue only in dark mode), thinned down from 2px */
-  border: 1px solid var(--background);
-  /* see-through track (rather than a flat opaque fill) so the page
-     behind shows through clearly, same idea as the glass-dotted cards
-     elsewhere on the site */
-  background-color: rgba(243, 243, 243, 0.2);
-  -webkit-backdrop-filter: blur(2px);
-  backdrop-filter: blur(2px);
-  transition: background-color 0.25s ease, border-color 0.25s ease,
-    transform 0.2s ease;
-}
-
-.theme-toggle:hover {
-  transform: scale(1.05);
-}
-
-/* dark mode flips the track to a translucent dark gray (rather than
-   reusing --page-bg, which would make the track invisible against the
-   toggle's own dark-mode surroundings); the blue stroke above now carries
-   over unchanged since both themes share it. */
-:root[data-theme="dark"] .theme-toggle {
-  background-color: rgba(58, 58, 58, 0.25);
-}
-
-/* the knob: a plain white circle (readable against either track color)
-   that slides from left to right when night mode is on, with the same
-   bouncy spring-back easing used elsewhere on the site (see
-   .logo-ring-piece) so the slide has a little life to it instead of
-   landing flat. No drop shadow — flat, matching the rest of the site's
-   shadow-free look. */
-.theme-toggle-knob {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-  overflow: hidden;
-  background: #ffffff;
-  transform: translateX(0);
-  transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-:root[data-theme="dark"] .theme-toggle-knob {
-  /* track's padded content box is 52px wide, knob is 26px, so 26px is
-     exactly how far it can slide right before overlapping the border —
-     the old 30px overshot that by 4px, pushing the knob's white circle
-     past the track's rounded edge as a stray sliver */
-  transform: translateX(26px);
-}
-
-/* fills the knob completely (no gap of white showing around it). Uses a
-   flat, perfectly symmetric blue-and-yellow dot (theme-toggle-icon.png)
-   rather than a crop of the logo-ring artwork, so it needs no shadow,
-   border, or off-center compensation — just centers cleanly as-is. */
-.theme-toggle-ring-icon {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  /* the 1px upward nudge alone would uncover a sliver of the knob's white
-     background at the bottom edge (the icon fills the knob exactly
-     edge-to-edge) — scaling up slightly keeps it overflowing on every
-     side after the shift, safely clipped by the knob's own
-     overflow: hidden, so no white ever shows through. */
-  transform: translateY(-1px) scale(1.12);
-}
