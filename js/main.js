@@ -21,9 +21,9 @@
       page, so it never needs hand-maintaining as case study content
       changes. Assigns each heading a stable id (skipping any it already
       has), lists them all in a fixed sidebar (see .case-toc in
-      style.css, hidden below 1440px so it can never overlap the page's
-      960px-max content column, and always vertically centered in the
-      viewport rather than anchored near the top), and highlights
+      style.css, hidden below 1600px so it can never overlap the case
+      page's wide-gutter content column, and always vertically centered
+      in the viewport rather than anchored near the top), and highlights
       whichever section is currently in view via IntersectionObserver as
       the user scrolls. A small ring-logo marker sits in the sidebar's
       left gutter and animates to whichever entry is current. Clicking a
@@ -60,6 +60,13 @@
       .is-dark class, which crossfades that container's light/dark
       image pairs via CSS — this only swaps which screenshot is shown,
       it never touches the site's own (light-only) theme.
+   10. "Recently..." auto-scrolling photo strip (about page only): the
+       .recently-item cards are wrapped in a .recently-track strip, then
+       the whole set is cloned once and appended, so the track holds two
+       identical back-to-back copies. style.css loops a translateX(0) ->
+       translateX(-50%) animation on that track forever; since the two
+       halves are identical, the loop point is invisible. No scrollbar,
+       no manual drag — the photos just drift across on their own.
 */
 
 (function () {
@@ -305,7 +312,22 @@
         return slug;
       };
 
+      // Groups the flat heading list into <li class="case-toc-group"> per
+      // .case-heading, each holding its own link plus a nested
+      // <ul class="case-toc-subgroup"> of any .case-subheadings that follow
+      // it (and precede the next .case-heading). Only the group containing
+      // the currently-active heading gets expanded — see setActiveHeading/
+      // setExpandedGroup below — so the sidebar only ever shows one
+      // section's sub-pages at a time, per the current heading as the user
+      // scrolls.
       var tocList = document.createElement("ul");
+      var currentGroupLi = null;
+      var currentSubList = null;
+      // every heading AND subheading id maps to the top-level group <li>
+      // it belongs to, so setActiveHeading can look up which group to
+      // expand regardless of whether the active entry is itself a heading
+      // or one of its subheadings.
+      var groupByHeadingId = {};
 
       caseHeadings.forEach(function (heading) {
         if (!heading.id) {
@@ -314,16 +336,35 @@
           usedIds[heading.id] = true;
         }
 
-        var li = document.createElement("li");
-        if (heading.classList.contains("case-subheading")) {
-          li.className = "case-toc-sub";
+        var isSub = heading.classList.contains("case-subheading");
+
+        if (!isSub || !currentGroupLi) {
+          // every .case-heading starts a new top-level group; a stray
+          // subheading with no heading before it (shouldn't happen, but
+          // falls back safely) also starts its own group.
+          currentGroupLi = document.createElement("li");
+          currentGroupLi.className = "case-toc-group";
+
+          var groupLink = document.createElement("a");
+          groupLink.href = "#" + heading.id;
+          groupLink.textContent = heading.textContent;
+          currentGroupLi.appendChild(groupLink);
+
+          currentSubList = document.createElement("ul");
+          currentSubList.className = "case-toc-subgroup";
+          currentGroupLi.appendChild(currentSubList);
+
+          tocList.appendChild(currentGroupLi);
+        } else {
+          var subLi = document.createElement("li");
+          var subLink = document.createElement("a");
+          subLink.href = "#" + heading.id;
+          subLink.textContent = heading.textContent;
+          subLi.appendChild(subLink);
+          currentSubList.appendChild(subLi);
         }
 
-        var link = document.createElement("a");
-        link.href = "#" + heading.id;
-        link.textContent = heading.textContent;
-        li.appendChild(link);
-        tocList.appendChild(li);
+        groupByHeadingId[heading.id] = currentGroupLi;
       });
 
       var caseToc = document.createElement("nav");
@@ -359,6 +400,23 @@
       };
 
       var activeLink = null;
+      var expandedGroup = null;
+
+      // collapses whichever group was previously expanded and expands the
+      // one that now contains the active heading, so only one section's
+      // sub-pages are ever showing at once.
+      var setExpandedGroup = function (group) {
+        if (group === expandedGroup) {
+          return;
+        }
+        if (expandedGroup) {
+          expandedGroup.classList.remove("is-expanded");
+        }
+        expandedGroup = group;
+        if (expandedGroup) {
+          expandedGroup.classList.add("is-expanded");
+        }
+      };
 
       var setActiveHeading = function (id) {
         var target = linkByHeadingId[id];
@@ -369,7 +427,15 @@
         tocLinks.forEach(function (link) {
           link.classList.toggle("is-active", link === target);
         });
+        setExpandedGroup(groupByHeadingId[id] || null);
         positionTocMarker(target);
+        // the marker's final resting position depends on the newly
+        // (un)collapsed group's height, which only settles once the
+        // expand/collapse transition finishes, so re-measure once that's
+        // done too (300ms transition in the CSS, plus a small buffer).
+        window.setTimeout(function () {
+          positionTocMarker(activeLink);
+        }, 320);
       };
 
       // the list's layout can shift after fonts load or on resize;
@@ -380,32 +446,52 @@
       });
 
       // the first heading is active by default (e.g. on load, before the
-      // user has scrolled far enough for the observer below to fire)
+      // user has scrolled far enough to pass any heading)
       setActiveHeading(caseHeadings[0].id);
 
-      if ("IntersectionObserver" in window) {
-        var headingObserver = new IntersectionObserver(
-          function (entries) {
-            var visible = entries.filter(function (entry) {
-              return entry.isIntersecting;
-            });
-            if (visible.length) {
-              visible.sort(function (a, b) {
-                return a.boundingClientRect.top - b.boundingClientRect.top;
-              });
-              setActiveHeading(visible[0].target.id);
-            }
-          },
-          // a heading counts as "current" once it's scrolled past the
-          // sticky nav, and stays current until it's most of the way up
-          // the viewport, so the topmost visible section wins ties
-          { rootMargin: "-100px 0px -70% 0px", threshold: 0 }
-        );
+      // Scrollspy: on every scroll, the "current" heading is simply the
+      // LAST one whose top edge has scrolled above the trigger line (just
+      // under the sticky nav). This is a plain comparison across every
+      // heading, so — unlike an IntersectionObserver with a narrow
+      // rootMargin band — there's no gap between two widely-spaced
+      // headings where nothing qualifies and the old active state gets
+      // stuck: exactly one heading always satisfies "the last one I've
+      // scrolled past" (or, before the first one, none do, so the first
+      // heading stays the default from setActiveHeading above).
+      var TRIGGER_LINE = 120;
+      var tickingScroll = false;
 
-        caseHeadings.forEach(function (heading) {
-          headingObserver.observe(heading);
-        });
-      }
+      var updateActiveFromScroll = function () {
+        tickingScroll = false;
+        var current = null;
+        for (var i = 0; i < caseHeadings.length; i++) {
+          var top = caseHeadings[i].getBoundingClientRect().top;
+          if (top <= TRIGGER_LINE) {
+            current = caseHeadings[i];
+          } else {
+            break;
+          }
+        }
+        if (current) {
+          setActiveHeading(current.id);
+        }
+      };
+
+      window.addEventListener(
+        "scroll",
+        function () {
+          if (!tickingScroll) {
+            tickingScroll = true;
+            window.requestAnimationFrame(updateActiveFromScroll);
+          }
+        },
+        { passive: true }
+      );
+
+      // headings can shift after web fonts finish loading (changing their
+      // vertical position without any scroll happening), so re-run once
+      // more shortly after load to correct for that
+      window.setTimeout(updateActiveFromScroll, 500);
     }
 
     // hero title cursor trail (see main.js doc comment #8): small blue
@@ -468,5 +554,34 @@
         btn.setAttribute("aria-pressed", isDark ? "true" : "false");
       });
     });
+
+    // "recently..." photo strip (about page, see main.js doc comment #10):
+    // wraps the existing .recently-item cards in a .recently-track strip,
+    // then clones that whole set once and appends the clone so the track
+    // is exactly twice the width of one full set of photos. style.css
+    // animates .recently-track with a continuous translateX(0) ->
+    // translateX(-50%) loop; because the second half is an identical copy
+    // of the first, the reset from -50% back to 0 is invisible and the
+    // strip appears to scroll forever with no visible seam, scrollbar, or
+    // user interaction required.
+    var recentlyScroll = document.querySelector(".recently-scroll");
+    if (recentlyScroll) {
+      var recentlyItems = Array.prototype.slice.call(
+        recentlyScroll.querySelectorAll(".recently-item")
+      );
+      if (recentlyItems.length) {
+        var recentlyTrack = document.createElement("div");
+        recentlyTrack.className = "recently-track";
+        recentlyItems.forEach(function (item) {
+          recentlyTrack.appendChild(item);
+        });
+        recentlyItems.forEach(function (item) {
+          var clone = item.cloneNode(true);
+          clone.setAttribute("aria-hidden", "true");
+          recentlyTrack.appendChild(clone);
+        });
+        recentlyScroll.appendChild(recentlyTrack);
+      }
+    }
   });
 })();

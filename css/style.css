@@ -7,27 +7,48 @@
   /* Chelsea Lee design system — see the attached 5-color palette.
      Light mode only — the site no longer has a dark-mode variant, so
      every token below resolves to exactly one value everywhere. */
-  --ink: #202020;
+  /* the sitewide default text color: a deep "dark dark blue" navy,
+     replacing the old neutral near-black (#202020) so every run of body
+     copy reads as part of the same blue palette as the brand itself,
+     instead of plain gray-black. --text below is kept as its own token
+     for anything that already referenced it, but now holds this exact
+     same value — there's no longer a separate lighter/muted default
+     text tone, just this one dark blue everywhere, per the brief. */
+  --ink: #0b1f33;
   --background: #72c4ff;
-  /* a deeper, more saturated tint of the same brand blue, used ONLY where
-     blue is the TEXT color (headings, nav labels, small accents) rather
-     than a fill — the pastel --background reads fine as a button/pill
-     fill, but as foreground text on white or on the pale --accent-warm it
-     fails contrast; this shade keeps the same hue while passing WCAG AA
-     (~6.5:1 on white, ~6.5:1 on --accent-warm) at any text size. */
-  --heading-blue: #1558a0;
-  /* was #afafaf: too light to pass AA as text (this is used as a color
-     far more often than as an actual border/stroke — see every
-     .meta-label / .persona-role / etc. micro-label sitewide), so it's
-     darkened to clear 4.5:1 on white while still reading as a muted
-     secondary tone, distinct from --ink and --text. */
-  --button-stroke: #6b6b6b;
+  /* the RAW brand blue straight from the logo (same hex as --background
+     above), used only as a TEXT color, and only for actual heading-level
+     elements (.page-title, .case-heading, .case-subheading,
+     .opportunity-title, .persona-name, .recently-heading) and the hero
+     .site-title. This used to be a hand-darkened shade (#1558a0) chosen
+     specifically so heading text would clear AA contrast on white; that
+     darkening is deliberately reverted here because the brief calls for
+     the literal "original lighter blue from the logo" on headers/title.
+     Flagging the trade-off: this blue as TEXT on a white/light page
+     measures well under WCAG AA (~1.9:1) even at large bold sizes — this
+     is scoped to those big display headings only, never body copy, which
+     stays at the high-contrast --ink navy above. */
+  --heading-blue: #72c4ff;
+  /* a muted, de-emphasized secondary tone — small labels/meta text
+     (.meta-label, .persona-role, case-toc's inactive links, etc.) and
+     the one remaining non-exception border, .project-tag's pill outline
+     — a muted slate-blue now instead of the old neutral gray, so even
+     this "quiet" tone still reads as part of the all-blue palette. */
+  --button-stroke: #3d5a73;
+  /* reserved now for exactly one deliberate exception: the "take a look
+     around" / "hey! you found me!" speech bubble (.eyes-caption).
+     Everywhere else, yellow has been swept out in favor of either
+     --accent-tint just below (soft highlight fills) or --heading-blue
+     above (heading/title text). */
   --accent-warm: #fff6c3;
+  /* pale-blue stand-in for the old pale-yellow soft-highlight treatment
+     — inline <mark> text, jump-nav pills, pain-point cards, a couple of
+     hover/focus states — the same quiet, barely-there-against-white role
+     the yellow used to play, just blue instead. */
+  --accent-tint: #d8edff;
   --off-white: #f3f3f3;
   --page-bg: #ffffff;
-  /* was #939393 (~3:1 on white, fails AA for body text); darkened to
-     ~4.9:1 so running copy that relies on this default stays legible. */
-  --text: #707070;
+  --text: #0b1f33;
 
   --space-1: 4px;
   --space-2: 8px;
@@ -147,8 +168,8 @@ img {
    .intro mark below is more specific and keeps its own softer look for
    the home page */
 mark {
-  background: var(--accent-warm);
-  color: var(--heading-blue);
+  background: var(--accent-tint);
+  color: var(--ink);
   padding: 0 3px;
   border-radius: var(--radius-sm);
   font-variation-settings: "wght" var(--wght-medium);
@@ -199,7 +220,7 @@ mark {
   left: var(--space-3);
   z-index: 200;
   padding: var(--space-2) var(--space-4);
-  background: var(--heading-blue);
+  background: var(--ink);
   color: #fff;
   border-radius: var(--radius-sm);
   font-size: 14px;
@@ -226,11 +247,13 @@ mark {
   row-gap: var(--space-2);
   gap: var(--space-3);
   padding: var(--space-3) var(--space-3) var(--space-3) var(--space-5);
-  border-bottom: 2px dotted var(--background);
   position: sticky;
   top: 0;
   z-index: 100;
-  background: var(--page-bg);
+  /* yellow from the logo, like the footer — the nav bar is the other
+     deliberate yellow exception sitewide, besides the logo itself,
+     .eyes-caption's speech bubble, and the case-study jump-nav pills */
+  background: var(--accent-warm);
 }
 
 .icon-logo-link {
@@ -292,27 +315,29 @@ mark {
 
 .site-nav a {
   /* smaller than the shared --body-size so the tabs read as compact
-     navigation rather than body-copy-sized buttons; a touch bolder than
-     --wght-light for legibility. Unselected tabs are plain blue text with
-     no pill behind them; the active tab (and hover, as a preview of that
-     same state) gets the filled blue pill with dark ink text (yellow
-     measured well under AA contrast against this blue, so it's reserved
-     for text-on-light-surface pairings elsewhere instead). */
+     navigation rather than body-copy-sized buttons. The sitewide "button"
+     treatment: a solid dark-blue pill with yellow text by default, which
+     flips on hover/active to a yellow pill with a thin dark-blue stroke
+     and dark-blue text — applies to every button-like control on the
+     site (.site-nav a, .subnav-tab, .prototype-cta, .back-to-top), not
+     just this nav. */
   font-size: 13px;
   font-variation-settings: "wght" var(--wght-regular);
-  color: var(--heading-blue);
-  background: none;
+  color: var(--accent-warm);
+  background: var(--ink);
+  border: 2px solid transparent;
   letter-spacing: 0.02em;
   padding: var(--space-1) var(--space-3);
   border-radius: var(--radius-full);
-  transition: background 0.2s ease, color 0.2s ease;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
   text-transform: lowercase;
 }
 
 .site-nav a:hover,
 .site-nav a.active {
-  background: var(--background);
+  background: var(--accent-warm);
   color: var(--ink);
+  border-color: var(--ink);
 }
 
 /* ------------------------------------------------------------ loading screen
@@ -354,7 +379,7 @@ mark {
   /* a touch bolder than the page's default --wght-light, which this
      would otherwise inherit */
   font-variation-settings: "wght" var(--wght-regular);
-  color: var(--heading-blue);
+  color: var(--ink);
   text-align: center;
   opacity: 0;
   transition: opacity 0.4s ease;
@@ -389,6 +414,13 @@ main {
      hero videos, and solution grids all render noticeably larger without
      having to hand-adjust every individual image/video rule */
   --content-max: 1320px;
+  /* case studies read as long-form prose, so they get noticeably more
+     breathing room on either side than the site's default clamp(24px,
+     5vw, 64px) — content stays centered (main's own margin: 0 auto) and
+     every paragraph/heading stays left-aligned as usual, this just pulls
+     the whole column in from the edges */
+  padding-left: clamp(32px, 8vw, 120px);
+  padding-right: clamp(32px, 8vw, 120px);
 }
 
 /* gives the home page a wider stage than other pages, just for the
@@ -409,10 +441,10 @@ main {
   line-height: var(--header-line);
   font-family: var(--font-sans);
   font-weight: 700;
-  font-style: italic;
-  /* fixed brand blue in both themes (not a dark-mode-swapping "headers"
-     role) — see the dark-mode comment above */
+  /* bold, lowercase, the logo's own lighter blue — the sitewide "headers"
+     treatment (see --heading-blue's comment in :root) */
   color: var(--heading-blue);
+  text-transform: lowercase;
   margin: 0 0 var(--space-5);
   letter-spacing: 0.01em;
 }
@@ -423,13 +455,11 @@ main {
   margin-bottom: var(--space-3);
 }
 
-/* the case-study's own main title additionally switches to the serif
-   display face (Gelica) to match the case-study header layout (see the
-   GoFundMe-style reference), distinct from every other page's sans-serif
-   .page-title */
+/* the case-study's own main title keeps the same sans-serif, bold,
+   lowercase "headers" treatment as every other .page-title — just a
+   touch tighter-tracked to suit the longer case-study titles */
 .case-main .page-title {
   font-family: var(--font-sans);
-  font-weight: 400;
   letter-spacing: -0.005em;
 }
 
@@ -437,8 +467,7 @@ main {
    page): styled like the home page's supporting tagline text rather than
    a plain heading, so it doesn't read as a second big title */
 .page-subtitle {
-  font-style: italic;
-  font-family: var(--font-sans);
+  font-family: var(--font-mono);
   font-size: var(--body-size);
   line-height: var(--body-line);
   color: var(--text);
@@ -461,7 +490,7 @@ main {
 .site-footer {
   width: 100%;
   flex-shrink: 0;
-  background: var(--background);
+  background: var(--accent-warm);
 }
 
 .footer-inner {
@@ -473,10 +502,9 @@ main {
   padding: var(--space-5) clamp(24px, 5vw, 64px);
 }
 
-/* left side of the footer: the whimsical sign-off line (italic sans, dark
-   ink on the blue footer fill, the biggest text in the footer) sits above
-   the small copyright line, both left-aligned against the footer's own
-   left edge */
+/* left side of the footer: the whimsical sign-off line (dark ink on the
+   blue footer fill, the biggest text in the footer) sits above the small
+   copyright line, both left-aligned against the footer's own left edge */
 .footer-left {
   display: flex;
   flex-direction: column;
@@ -495,36 +523,29 @@ main {
 /* the opening, slightly whimsical sign-off line, now the lead element
    of the footer's left column instead of trailing under the connect
    links on the right */
-/* a small yellow dotted accent under a specific word/phrase — used under
-   "chai lattes" / "snoozing" in the footer signoff */
+/* used to carry a small yellow dotted underline under "chai lattes" /
+   "snoozing" in the footer signoff — both the stroke and the yellow are
+   gone now (no strokes sitewide outside .project-tag, no yellow outside
+   the logo and .eyes-caption), so this just renders as plain text,
+   inheriting the page's --ink. Kept as a hook in the markup in case a
+   future, non-stroke emphasis treatment is wanted here. */
 .underline-accent {
-  border-bottom: 2px dotted var(--accent-warm);
-  padding-bottom: 2px;
 }
 
-/* same dotted-underline treatment as .underline-accent above, but in the
-   site's brand blue instead of yellow, bigger, and sitting right under
-   the text — used under "Chelsea" in the home hero title and under the
-   "More" / "Fragments" page titles. inline-block + line-height: 1 tights
-   the span's own box to the glyphs themselves (these headings' own
-   line-height is looser, which otherwise pushes a border-bottom well
-   below the text instead of hugging it) with no padding to add more gap
-   back. */
+/* same story as .underline-accent above — used under "Chelsea" in the
+   home hero title and under the "More" / "Fragments" page titles — minus
+   the dotted-underline stroke it used to carry. On .page-title (More/
+   Fragments) this is a no-op, since the whole title is already the same
+   brand blue; on .site-title it's the one deliberate accent, since the
+   rest of that title is dark-dark-blue (see .site-title's comment). */
 .underline-accent-blue {
   display: inline-block;
-  /* below 1 on purpose: a line-height of exactly 1 still reserves the
-     font's full descender space under the baseline, which read as too
-     much air between the word and its dotted line — this tucks the
-     line right up against the letters instead */
-  line-height: 0.78;
-  border-bottom: 3px dotted var(--background);
-  padding-bottom: 0;
+  color: var(--heading-blue);
 }
 
 .footer-signoff {
   margin: 0;
   font-family: var(--font-sans);
-  font-style: italic;
   /* bigger than .footer-label's 22px so this reads as the footer's
      lead line — bumped up further now that .footer-left has the room
      to let it run larger without crowding .footer-right */
@@ -533,6 +554,7 @@ main {
      the markup) sit close together instead of reading as loosely spaced */
   line-height: 1.15;
   color: var(--ink);
+  font-weight: 700;
 }
 
 .footer-credits {
@@ -555,9 +577,8 @@ main {
 
 .footer-label {
   margin: 0;
-  font-family: var(--font-sans);
+  font-family: var(--font-mono);
   font-size: 22px;
-  font-style: italic;
   color: var(--ink);
 }
 
@@ -570,6 +591,7 @@ main {
 
 .connect-link {
   color: var(--ink);
+  font-family: var(--font-mono);
   font-size: var(--body-size);
   font-variation-settings: "wght" var(--wght-light);
   transition: font-variation-settings 0.2s ease;
@@ -696,56 +718,40 @@ video.placeholder {
   width: 100%;
 }
 
-/* Fun page: a loose, hand-scattered stack of cards instead of a tidy
-   grid — each one rotated a few degrees (--rot, authored per card in the
-   HTML) and overlapping its neighbors via negative margins, so the whole
-   thing reads like a pile of photos dropped on a desk. Every card reuses
+/* Fun page: a genuinely disorganized, hand-scattered pile of cards —
+   each one absolutely positioned at its own authored left/top (inline
+   style in the HTML) and rotated a few degrees (--rot, also authored
+   per card), so some overlap their neighbors and some sit apart, the
+   way a pile of photos dropped on a desk would. Every card reuses
    .placeholder's existing --tx/--ty/--rot transform (see that rule near
    the top of the file) so js/fragments.js can drag one around just by
    setting --tx/--ty directly, the same mechanism .placeholder:hover
    already uses for its lift — the two never have to fight over the
-   transform property itself. */
+   transform property itself, and dragging works identically whether a
+   card is absolutely positioned (desktop) or sitting in normal flow
+   (mobile, see the max-width: 640px override below). */
 .fragments-stage {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: flex-start;
+  position: relative;
   max-width: 1360px;
   margin: 0 auto;
   padding: var(--space-4) var(--space-4) var(--space-5);
+  /* tall enough to hold every card's scattered position below without
+     clipping the lowest row */
+  min-height: 2000px;
 }
 
 /* "img.fragment-card" (tag + class), not just ".fragment-card": the
    width here needs to out-specificity the shared "img.placeholder,
    video.placeholder { width: 100% }" rule near the top of the file,
    which would otherwise win the tie (same 0-1-1 specificity either way)
-   by source order and stretch every card to its row's full width.
-   Positive margin (rather than the old tight overlapping negative
-   margin) spreads every card out into its own breathing room, so the
-   stage reads as scattered-but-distinct tiles instead of a packed,
-   overlapping pile. */
+   by source order and stretch every card to its row's full width. */
 img.fragment-card {
-  position: relative;
+  position: absolute;
   width: clamp(130px, 17vw, 220px);
-  margin: 22px 28px;
   cursor: grab;
   touch-action: none;
   -webkit-user-select: none;
   user-select: none;
-}
-
-/* a loose stagger so cards read as scattered rows rather than a strict
-   grid — four-item cycle, applied by position in the markup */
-.fragment-card:nth-child(4n+2) {
-  margin-top: 64px;
-}
-
-.fragment-card:nth-child(4n+3) {
-  margin-top: 4px;
-}
-
-.fragment-card:nth-child(4n) {
-  margin-top: 44px;
 }
 
 /* while a card is actively being dragged (see js/fragments.js): no
@@ -768,7 +774,21 @@ img.fragment-card {
 }
 
 @media (max-width: 640px) {
+  /* the scattered absolute layout needs real horizontal room to read as
+     "disorganized" rather than just cramped — below 640px it falls back
+     to a plain wrapping flow instead (ignoring each card's authored
+     left/top), same as every other narrow-screen card grid on the
+     site */
+  .fragments-stage {
+    position: static;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 0;
+  }
   img.fragment-card {
+    position: static;
     width: clamp(120px, 38vw, 170px);
     margin: 14px 18px;
   }
@@ -790,7 +810,6 @@ img.fragment-card {
   color: var(--ink);
   border-radius: var(--radius-full);
   font-size: 14px;
-  font-style: italic;
   line-height: 1.3;
   white-space: nowrap;
   pointer-events: none;
@@ -830,7 +849,8 @@ img.fragment-card {
 .card-caption-title {
   font-size: 21px;
   font-family: var(--font-mono);
-  font-weight: 700;
+  /* a <span>, not a real header, so per "don't bold anything that isn't
+     a header" this stays regular weight */
   color: var(--ink);
 }
 
@@ -914,8 +934,8 @@ img.fragment-card {
 
 /* the "more projects coming soon" tile isn't a link — turning off pointer
    events on the whole card means it never receives :hover either, so none
-   of the link-affordance styles below (lift, blue stroke, CTA reveal)
-   accidentally fire on something that isn't clickable */
+   of the link-affordance styles below (lift, CTA reveal) accidentally
+   fire on something that isn't clickable */
 .project-card-static {
   pointer-events: none;
   cursor: default;
@@ -931,10 +951,8 @@ img.fragment-card {
 .project-card-image {
   width: 100%;
   aspect-ratio: 3 / 2;
-  /* permanent blue stroke, not just a hover-triggered one — a solid rule,
-     unlike the dotted strokes used elsewhere on the site, so the project
-     and "more" cards (both reuse this class) read as solid framed tiles */
-  border: 2px solid var(--background);
+  /* used to carry a permanent blue stroke framing the tile; removed along
+     with every other stroke sitewide except .project-tag's pill outline */
   transition: transform 0.25s ease;
 }
 
@@ -984,11 +1002,10 @@ img.fragment-card {
   font-size: 16px;
   letter-spacing: 0.03em;
   font-family: var(--font-sans);
-  font-weight: 700;
-  font-style: italic;
-  /* a title/heading, not running body copy, so it uses the "headers" role
-     (--ink) rather than --text's body-text gray; flips to the dark-mode
-     headers color just below, same as .page-title and friends */
+  /* not a real header (it's a <span>, not an h-tag), so per "don't bold
+     anything that isn't a header" it stays regular weight — just --ink
+     rather than --text's body-text gray, since it's still a title label
+     rather than running body copy */
   color: var(--ink);
 }
 
@@ -1035,7 +1052,7 @@ img.fragment-card {
   font-size: 12px;
   font-variation-settings: "wght" var(--wght-medium);
   color: var(--ink);
-  background: var(--background);
+  background: var(--page-bg);
   padding: var(--space-1) var(--space-3);
   border-radius: var(--radius-full);
   opacity: 0;
@@ -1128,7 +1145,6 @@ img.fragment-card {
 .flip-tile-back {
   background: var(--background);
   color: var(--ink);
-  font-style: italic;
   font-size: 14px;
   line-height: 20px;
   transform: rotateY(180deg);
@@ -1174,7 +1190,7 @@ img.fragment-card {
   left: 50%;
   bottom: var(--space-3);
   transform: translate(-50%, 8px);
-  background: var(--off-white);
+  background: var(--page-bg);
   color: var(--ink);
   font-size: 13px;
   font-variation-settings: "wght" var(--wght-medium);
@@ -1218,17 +1234,15 @@ img.fragment-card {
   /* matches .site-nav a's weight so the More page's own tabs read as the
      same "weight" of navigation as the primary nav above them */
   font-variation-settings: "wght" var(--wght-regular);
-  /* same treatment as .site-nav a: plain blue text with no pill behind
-     it when inactive, filled blue pill with dark ink text on hover/active.
-     border: none (rather than the old 1px solid transparent) clears the
-     browser's default button border, since .subnav-tab is a <button>,
-     not a link like .site-nav a. */
-  color: var(--heading-blue);
-  background: none;
-  border: none;
+  /* the same sitewide "button" treatment as .site-nav a: dark-blue pill,
+     yellow text by default, yellow pill + dark-blue stroke + dark-blue
+     text on hover/active */
+  color: var(--accent-warm);
+  background: var(--ink);
+  border: 2px solid transparent;
   border-radius: var(--radius-full);
   padding: var(--space-1) var(--space-3);
-  transition: background 0.2s ease, color 0.2s ease;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
   /* same convention as .site-nav a: the HTML keeps readable casing
      ("UI/UX", "Design") for accessibility, lowercased visually here */
   text-transform: lowercase;
@@ -1236,8 +1250,9 @@ img.fragment-card {
 
 .subnav-tab:hover,
 .subnav-tab.is-active {
-  background: var(--background);
+  background: var(--accent-warm);
   color: var(--ink);
+  border-color: var(--ink);
   /* no weight change here on purpose — switching tabs used to also jump
      the label to a heavier weight, which read as the text going bold.
      Keeping the same --wght-light as the inactive state means only the
@@ -1260,7 +1275,6 @@ img.fragment-card {
   justify-content: center;
   text-align: center;
   color: var(--button-stroke);
-  border: 2px dashed var(--background);
   border-radius: var(--radius-lg);
   font-size: var(--subheader-size);
   line-height: var(--subheader-line);
@@ -1275,7 +1289,7 @@ img.fragment-card {
 }
 
 .back-link:hover {
-  color: var(--heading-blue);
+  color: var(--ink);
 }
 
 
@@ -1295,18 +1309,14 @@ img.fragment-card {
 
 /* ------------------------------------------------------- case screenshots
    Shared look for every standalone screenshot on the case study page
-   (hero, competitive audit, lowfi/midfi mockups): no grey backing plate
-   (some of these are transparent-background PNGs, so a solid fill would
-   show through as an ugly light box in dark mode) plus the same gentle
-   idle bob used elsewhere on the site. */
+   (hero, competitive audit, lowfi/midfi mockups): no grey backing plate,
+   so a transparent-background PNG shows its own edges cleanly instead of
+   a boxy fill behind it. No idle bob here (or anywhere else outside the
+   home/More project cards) — kept still, per the latest design pass. */
 .case-shot {
   display: block;
   width: 100%;
   background: none;
-}
-
-.bounce-img {
-  animation: title-bob 2.8s ease-in-out infinite;
 }
 
 /* a case-shot whose surrounding rectangle has been keyed out (so only
@@ -1346,8 +1356,8 @@ img.fragment-card {
 }
 
 .bubble-note {
-  background: var(--accent-warm);
-  color: var(--heading-blue);
+  background: var(--accent-tint);
+  color: var(--ink);
 }
 
 @media (max-width: 640px) {
@@ -1391,14 +1401,12 @@ img.fragment-card {
    clearly unfinished (dashed, muted) so they're easy to find and swap. */
 
 .case-tagline {
-  font-size: 15px;
-  line-height: 22px;
-  /* dark gray in light mode, paired with the now-blue .page-title above
-     it; swaps to the paler body-text color in dark mode instead of
-     staying literal ink, which would otherwise blend into the dark
-     page canvas (--page-bg is the same --ink value in dark mode) */
+  /* a "subtitle" text, so it's set in Roboto Mono per the sitewide
+     subtitle treatment (same family as .tagline/.page-subtitle) */
+  font-family: var(--font-mono);
+  font-size: 14px;
+  line-height: 21px;
   color: var(--ink);
-  font-variation-settings: "wght" var(--wght-regular);
   margin: 0 0 var(--space-4);
   max-width: 640px;
 }
@@ -1436,14 +1444,14 @@ img.fragment-card {
   gap: var(--space-4) var(--space-4);
 }
 
-/* each category (label + value) is underlined with a thin blue dotted
-   rule instead of sitting in a solid gray pill/card */
+/* each category (label + value) used to sit on a thin blue dotted
+   underline instead of a solid gray pill/card; the padding below is all
+   that's left of that now that strokes are gone sitewide */
 .case-meta-item {
   display: flex;
   flex-direction: column;
   gap: 4px;
   padding-bottom: var(--space-2);
-  border-bottom: 2px dotted var(--background);
 }
 
 .case-meta-item .meta-label {
@@ -1485,7 +1493,6 @@ img.fragment-card {
   object-fit: contain;
   background: var(--page-bg);
   border-radius: var(--radius-lg);
-  animation: title-bob 3.2s ease-in-out infinite;
 }
 
 @media (max-width: 860px) {
@@ -1495,12 +1502,12 @@ img.fragment-card {
 }
 
 /* quick-jump tabs, right-aligned directly under the hero image, linking
-   down to the process / solution / reflection sections below. Wrapped in
-   a brand-blue bubble (--background) with a small "jump to..." title set
-   in dark ink (see .jumpnav-label), both in the sans body face with their
-   natural upper/lowercase casing (no uppercase/lowercase transform), and
-   the tab "buttons" themselves filled with the brand yellow and blue
-   text. */
+   down to the process / solution / reflection sections below. No bubble
+   background anymore — just a small "jump to..." label in dark ink (see
+   .jumpnav-label) sitting above the tab pills, which are filled with the
+   brand yellow (--accent-warm) and dark-blue text, both in the sans body
+   face with their natural upper/lowercase casing (no uppercase/lowercase
+   transform). */
 .case-jumpnav-wrap {
   display: flex;
   justify-content: flex-end;
@@ -1512,8 +1519,6 @@ img.fragment-card {
   flex-direction: column;
   align-items: flex-end;
   gap: var(--space-2);
-  background: var(--background);
-  border-radius: var(--radius-lg);
   padding: var(--space-3) var(--space-4);
   font-family: var(--font-sans);
 }
@@ -1535,7 +1540,7 @@ img.fragment-card {
 
 .case-jumpnav a {
   font-size: 13px;
-  color: var(--heading-blue);
+  color: var(--ink);
   background: var(--accent-warm);
   padding: var(--space-1) var(--space-3);
   border-radius: var(--radius-full);
@@ -1557,8 +1562,13 @@ img.fragment-card {
    A persistent sidebar table of contents for case study pages, built and
    kept in sync automatically by main.js from every .case-heading/
    .case-subheading on the page (so it never needs hand-maintaining here).
-   Only shown once the viewport is wide enough that it fits in the margin
-   beside the (960px-max) case content without ever overlapping it. Stays
+   Only shown once the viewport is wide enough that it fits in the left
+   margin beside the (1320px-max, now wider-gutter) case content without
+   ever overlapping it — with .case-main's own left padding now topping
+   out at 120px (see .case-main's --content-max/padding rule), the content
+   column's left edge doesn't clear this sidebar's own 240px fixed right
+   edge (40px position + 200px width) until the viewport is at least
+   ~1560px wide, so the breakpoint sits comfortably above that. Stays
    vertically centered in the viewport (not scroll-anchored), and a small
    ring-logo marker (.case-toc-marker) sits in the left gutter, jumping to
    whichever entry is current as main.js updates the active link. */
@@ -1567,7 +1577,7 @@ img.fragment-card {
   display: none;
 }
 
-@media (min-width: 1440px) {
+@media (min-width: 1600px) {
   .case-toc {
     display: block;
     position: fixed;
@@ -1593,7 +1603,7 @@ img.fragment-card {
 
 .case-toc a {
   display: block;
-  font-family: var(--font-sans);
+  font-family: var(--font-mono);
   font-size: 12px;
   line-height: 1.4;
   color: var(--button-stroke);
@@ -1624,9 +1634,30 @@ img.fragment-card {
   pointer-events: none;
 }
 
+/* Only the main .case-heading entries show by default; each one's
+   .case-toc-subgroup (its .case-subheadings) stays collapsed to nothing
+   until main.js marks its parent .case-toc-group "is-expanded" — which it
+   does for exactly one group at a time, whichever contains the heading
+   the user has currently scrolled to (see setActiveHeading/
+   setExpandedGroup in main.js). max-height + overflow:hidden (rather than
+   display:none) is what's animatable here, and it also keeps every
+   sub-entry in normal layout flow at all times so main.js can still read
+   an accurate offsetTop for the marker even while a group is collapsed. */
+.case-toc-subgroup {
+  max-height: 0;
+  margin-top: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease, margin-top 0.3s ease;
+}
+
+.case-toc-group.is-expanded .case-toc-subgroup {
+  max-height: 480px;
+  margin-top: var(--space-2);
+}
+
 /* a .case-subheading entry nests slightly under its parent .case-heading
-   entry, so the flat list still reads with a light sense of hierarchy */
-.case-toc li.case-toc-sub a {
+   entry, so the expanded list still reads with a light sense of hierarchy */
+.case-toc-subgroup a {
   padding-left: var(--space-3);
   font-size: 11px;
 }
@@ -1652,9 +1683,9 @@ img.fragment-card {
   line-height: 1.25;
   text-align: left;
   color: var(--heading-blue);
+  text-transform: lowercase;
   font-family: var(--font-sans);
   font-weight: 700;
-  font-style: italic;
   letter-spacing: -0.01em;
   letter-spacing: 0.01em;
   /* offsets the scroll target so the sticky site-nav (and the case-toc
@@ -1668,9 +1699,9 @@ img.fragment-card {
      rather than plain ink text */
   font-size: 20px;
   color: var(--heading-blue);
+  text-transform: lowercase;
   font-family: var(--font-sans);
   font-weight: 700;
-  font-style: italic;
   margin: var(--space-5) 0 var(--space-3);
   letter-spacing: 0.02em;
   scroll-margin-top: 90px;
@@ -1682,9 +1713,7 @@ img.fragment-card {
 
 /* placeholder text still to be written */
 .tbd {
-  font-style: italic;
   color: var(--button-stroke);
-  border-bottom: 1px dashed var(--button-stroke);
 }
 
 /* placeholder image slot: same grey tile as everywhere else, plus a
@@ -1699,21 +1728,18 @@ img.fragment-card {
 
 .placeholder-tbd span {
   font-size: 12px;
-  font-style: italic;
   color: var(--button-stroke);
   max-width: 70%;
 }
 
 /* "gray caption card" treatment, shared by every plain callout/caption
    box in a case study (.case-note, .response-card, .opportunity-card,
-   .audit-callout, .persona-card, .mockup-caption-card): white fill with
-   a thin blue dotted outline in light mode, flips to a solid black fill
-   in dark mode (still with the same dotted outline) instead of the old
-   plain off-white/ink fill in both themes. */
+   .audit-callout, .persona-card, .mockup-caption-card): plain white fill,
+   no stroke (it used to carry a thin blue dotted outline — removed along
+   with every other non-.project-tag stroke sitewide). */
 .case-note {
   background: #ffffff;
   color: var(--ink);
-  border: 2px dotted var(--background);
   border-radius: var(--radius-lg);
   padding: var(--space-4);
   font-size: var(--body-size);
@@ -1760,7 +1786,6 @@ img.fragment-card {
 .response-card {
   background: #ffffff;
   color: var(--ink);
-  border: 2px dotted var(--background);
   border-radius: var(--radius-lg);
   padding: var(--space-4);
   font-size: var(--body-size);
@@ -1913,6 +1938,10 @@ img.fragment-card {
   padding: var(--space-1) var(--space-3) var(--space-1) var(--space-1);
 }
 
+/* another deliberate exception to "no strokes outside .project-tag": a
+   couple of the color swatches this renders (this case study's own
+   near-white brand colors, e.g. Eggshell Tint/Paper White) are otherwise
+   indistinguishable from the white card behind them without some edge */
 .swatch-chip {
   width: 28px;
   height: 28px;
@@ -1993,7 +2022,6 @@ img.fragment-card {
 
 .persona-card {
   background: #ffffff;
-  border: 2px dotted var(--background);
   border-radius: var(--radius-lg);
   padding: 28px;
 }
@@ -2028,9 +2056,11 @@ img.fragment-card {
 .persona-name {
   margin: 0;
   font-size: 16px;
-  color: var(--ink);
-  font-variation-settings: "wght" var(--wght-medium);
-  text-transform: capitalize;
+  /* a real <h4>, so it gets the sitewide "headers" treatment: bold,
+     lowercase (replacing the old capitalize), the logo's lighter blue */
+  color: var(--heading-blue);
+  font-weight: 700;
+  text-transform: lowercase;
 }
 
 .persona-role {
@@ -2080,10 +2110,7 @@ img.fragment-card {
 }
 
 /* --------------------------------------------------------- pain points
-   Six small bouncing bubble cards, light-yellow-on-dark gray, in a 3-up grid
-   under their own mini heading. Each card bounces on its own offset so
-   the grid doesn't bob in lockstep (reuses the idle bob keyframe defined
-   for the home title / eyes-divider). */
+   Six small bubble cards in a 3-up grid under their own mini heading. */
 
 .pain-points-heading {
   text-align: center;
@@ -2098,25 +2125,19 @@ img.fragment-card {
 }
 
 .pain-card {
-  background: var(--accent-warm);
-  color: var(--heading-blue);
+  background: var(--accent-tint);
+  color: var(--ink);
   border-radius: var(--radius-lg);
   padding: var(--space-3);
   text-align: center;
-  animation: title-bob 2.6s ease-in-out infinite;
 }
 
-.pain-card:nth-child(2) { animation-delay: 0.2s; }
-.pain-card:nth-child(3) { animation-delay: 0.4s; }
-.pain-card:nth-child(4) { animation-delay: 0.6s; }
-.pain-card:nth-child(5) { animation-delay: 0.8s; }
-.pain-card:nth-child(6) { animation-delay: 1s; }
 
 .pain-card-num {
   font-family: var(--font-mono);
   display: block;
   font-size: 11px;
-  color: var(--heading-blue);
+  color: var(--ink);
   font-variation-settings: "wght" var(--wght-medium);
   margin-bottom: 2px;
 }
@@ -2127,7 +2148,8 @@ img.fragment-card {
   text-transform: lowercase;
   letter-spacing: 0.02em;
   font-family: var(--font-mono);
-  font-weight: 700;
+  /* a <span>, not a real header, so per "don't bold anything that isn't
+     a header" this stays regular weight */
   margin-bottom: 4px;
 }
 
@@ -2153,7 +2175,6 @@ img.fragment-card {
 .opportunity-card {
   background: #ffffff;
   color: var(--ink);
-  border: 2px dotted var(--background);
   border-radius: var(--radius-md);
   padding: var(--space-4);
 }
@@ -2175,6 +2196,9 @@ img.fragment-card {
   line-height: var(--body-line);
   font-family: var(--font-sans);
   font-weight: 700;
+  /* a real <h5>, so it gets the sitewide "headers" treatment too */
+  color: var(--heading-blue);
+  text-transform: lowercase;
   margin: 0 0 var(--space-2);
 }
 
@@ -2224,7 +2248,6 @@ img.fragment-card {
 .mockup-caption-card {
   background: #ffffff;
   color: var(--ink);
-  border: 2px dotted var(--background);
   border-radius: var(--radius-md);
   padding: var(--space-3);
 }
@@ -2236,7 +2259,8 @@ img.fragment-card {
   text-transform: lowercase;
   letter-spacing: 0.02em;
   font-family: var(--font-mono);
-  font-weight: 700;
+  /* a <span>, not a real header, so per "don't bold anything that isn't
+     a header" this stays regular weight */
   margin-bottom: 4px;
 }
 
@@ -2346,21 +2370,26 @@ img.fragment-card {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: var(--background);
-  color: var(--ink);
+  /* the sitewide "button" treatment: dark-blue fill, yellow text by
+     default, yellow fill + thin dark-blue stroke + dark-blue text on
+     hover/focus */
+  background: var(--ink);
+  color: var(--accent-warm);
+  border: 2px solid transparent;
   border-radius: var(--radius-full);
   padding: var(--space-2) var(--space-4);
   font-size: 14px;
   font-variation-settings: "wght" var(--wght-medium);
   text-decoration: none;
   text-transform: lowercase;
-  transition: background 0.2s ease, color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
 }
 
 .prototype-cta:hover,
 .prototype-cta:focus-visible {
   background: var(--accent-warm);
-  color: var(--heading-blue);
+  color: var(--ink);
+  border-color: var(--ink);
   transform: translateY(-2px);
   box-shadow: 0 6px 14px rgba(58, 58, 58, 0.2);
 }
@@ -2504,14 +2533,8 @@ img.fragment-card {
   aspect-ratio: 805 / 543;
   border-radius: var(--radius-lg);
   overflow: hidden;
-  animation: title-bob 2.8s ease-in-out infinite;
 }
 
-.solution-card:nth-child(2) .solution-img-wrap { animation-delay: 0.15s; }
-.solution-card:nth-child(3) .solution-img-wrap { animation-delay: 0.3s; }
-.solution-card:nth-child(4) .solution-img-wrap { animation-delay: 0.45s; }
-.solution-card:nth-child(5) .solution-img-wrap { animation-delay: 0.6s; }
-.solution-card:nth-child(6) .solution-img-wrap { animation-delay: 0.75s; }
 
 .solution-img {
   position: absolute;
@@ -2608,58 +2631,6 @@ img.fragment-card {
   transform: translateX(16px);
 }
 
-/* ------------------------------------------------- screenshot callouts
-   A sparing "zoomed inset + leader line + label" treatment for pointing
-   out one specific detail inside a screenshot, instead of flattening a
-   second annotated image. All three pieces are positioned in percentages
-   so they track the highlighted UI element regardless of the card's
-   rendered width, and all three live inside .solution-img-wrap itself
-   (which is already position:relative) so they never need to escape its
-   rounded-corner clip — used sparingly, once or twice per case study, not
-   on every screenshot. */
-.callout-box {
-  position: absolute;
-  z-index: 2;
-  border: 2px solid var(--heading-blue);
-  border-radius: var(--radius-sm);
-  pointer-events: none;
-}
-
-.callout-line {
-  position: absolute;
-  z-index: 2;
-  height: 2px;
-  background: var(--heading-blue);
-  pointer-events: none;
-}
-
-/* a lightweight position:relative anchor for dropping a callout onto an
-   image that isn't already inside a .solution-img-wrap (e.g. a plain
-   .phone-shot screenshot) — used only on the handful of images that get
-   a callout, not added to every image wrapper sitewide. */
-.callout-anchor {
-  position: relative;
-  display: block;
-}
-
-.callout-label {
-  position: absolute;
-  z-index: 2;
-  /* a fixed px cap (not a %) so the chip stays a sensible, consistent
-     size regardless of how wide the card it's sitting on happens to be
-     rendered */
-  max-width: 150px;
-  padding: 5px 10px;
-  background: var(--page-bg);
-  color: var(--heading-blue);
-  border: 1px solid var(--heading-blue);
-  border-radius: var(--radius-sm);
-  font-family: var(--font-mono);
-  font-size: 11px;
-  line-height: 1.35;
-  pointer-events: none;
-}
-
 .solution-caption-title {
   display: block;
   font-size: 13px;
@@ -2667,7 +2638,8 @@ img.fragment-card {
   letter-spacing: 0.02em;
   color: var(--ink);
   font-family: var(--font-mono);
-  font-weight: 700;
+  /* a <span>, not a real header, so per "don't bold anything that isn't
+     a header" this stays regular weight */
 }
 
 
@@ -2683,8 +2655,7 @@ img.fragment-card {
    The two final WUX lockups, back on their brand-colored circle plates
    (dark dark gray / off-white, matching each lockup) so they read the way
    they'll actually ship — as an icon on a colored disc, not floating
-   free. The drop shadow sits under the circle itself, and the circle
-   (not just the mark) does the site's shared idle bob. */
+   free. The drop shadow sits under the circle itself. */
 .rebrand-logos {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -2711,12 +2682,8 @@ img.fragment-card {
   max-width: 280px;
   aspect-ratio: 1 / 1;
   border-radius: 50%;
-  animation: title-bob 2.8s ease-in-out infinite;
 }
 
-.rebrand-logo-card:nth-child(2) .rebrand-logo-plate {
-  animation-delay: 0.2s;
-}
 
 .rebrand-logo-img {
   width: 62%;
@@ -2737,8 +2704,7 @@ img.fragment-card {
 /* ------------------------------------------------------ iterate gallery
    Every individual logo-exploration badge, carved out of its circular
    backing and set loose on the page: a wrapping row of differently
-   sized cutouts, each with its own drop shadow and bob, staggered so
-   the whole row doesn't bounce in unison. */
+   sized cutouts, each with its own drop shadow. */
 .iterate-gallery {
   display: flex;
   flex-wrap: wrap;
@@ -2761,13 +2727,8 @@ img.fragment-card {
   max-width: 160px;
   height: auto;
   filter: drop-shadow(0 10px 16px rgba(58, 58, 58, 0.22));
-  animation: title-bob 2.6s ease-in-out infinite;
 }
 
-.iterate-item:nth-child(2n) img { animation-delay: 0.15s; }
-.iterate-item:nth-child(3n) img { animation-delay: 0.3s; }
-.iterate-item:nth-child(4n) img { animation-delay: 0.45s; }
-.iterate-item:nth-child(5n) img { animation-delay: 0.6s; }
 
 @media (max-width: 640px) {
   .iterate-item {
@@ -2792,7 +2753,6 @@ img.fragment-card {
   flex-wrap: wrap;
   gap: var(--space-2) var(--space-4);
   padding-bottom: var(--space-3);
-  border-bottom: 1px solid rgba(58, 58, 58, 0.12);
 }
 
 .type-scale-row:last-child {
@@ -2843,7 +2803,7 @@ img.fragment-card {
    A row of natural-aspect-ratio screenshots (not force-cropped like
    .solution-img-wrap, which assumes a landscape 864x603 box) — used for
    a walkthrough's "main screens" and for competitor-research shots. Each
-   one bounces gently and carries its own caption underneath. */
+   one carries its own caption underneath. */
 .phone-shots-grid {
   display: flex;
   flex-wrap: wrap;
@@ -2867,18 +2827,14 @@ img.fragment-card {
   width: 100%;
   height: auto;
   border-radius: var(--radius-lg);
-  animation: title-bob 2.8s ease-in-out infinite;
 }
 
-.phone-shot:nth-child(2n) img { animation-delay: 0.15s; }
-.phone-shot:nth-child(3n) img { animation-delay: 0.3s; }
-.phone-shot:nth-child(4n) img { animation-delay: 0.45s; }
 
 .phone-shot figcaption {
   margin-top: var(--space-3);
 }
 
-/* research shots: same bouncing screenshot, but the caption is a short
+/* research shots: same screenshot treatment, but the caption is a short
    bullet list of the specific thing being borrowed from that app,
    rather than a title/desc pair */
 .research-shots {
@@ -2903,11 +2859,8 @@ img.fragment-card {
   width: 100%;
   height: auto;
   border-radius: var(--radius-lg);
-  animation: title-bob 2.8s ease-in-out infinite;
 }
 
-.research-shot:nth-child(2n) img { animation-delay: 0.15s; }
-.research-shot:nth-child(3n) img { animation-delay: 0.3s; }
 
 .research-shot figcaption {
   margin-top: var(--space-3);
@@ -2997,7 +2950,6 @@ img.fragment-card {
 .audit-callout {
   background: #ffffff;
   color: var(--ink);
-  border: 2px dotted var(--background);
   border-radius: var(--radius-md);
   padding: var(--space-3) var(--space-4);
   margin: var(--space-4) 0 0;
@@ -3015,9 +2967,8 @@ img.fragment-card {
 }
 
 /* ---------------------------------------------------------- closing shot
-   The sticker mockup that closes out the case study: rounded corners,
-   a drop shadow, and the same idle bob used everywhere else on this
-   page, so the page ends on the same lightly-alive note it opens on. */
+   The sticker mockup that closes out the case study: rounded corners
+   and a drop shadow. */
 .closing-shot-wrap {
   display: flex;
   justify-content: center;
@@ -3029,7 +2980,6 @@ img.fragment-card {
   max-width: 640px;
   height: auto;
   border-radius: var(--radius-lg);
-  animation: title-bob 3s ease-in-out infinite;
 }
 
 @media (max-width: 640px) {
@@ -3059,21 +3009,25 @@ img.fragment-card {
   align-items: center;
   gap: var(--space-2);
   font-size: 13px;
-  color: var(--ink);
-  background: var(--off-white);
-  border: none;
+  /* the sitewide "button" treatment: dark-blue fill, yellow text by
+     default, yellow fill + thin dark-blue stroke + dark-blue text on
+     hover/focus */
+  color: var(--accent-warm);
+  background: var(--ink);
+  border: 2px solid transparent;
   padding: var(--space-2) var(--space-4);
   border-radius: var(--radius-full);
   font-family: inherit;
   text-transform: lowercase;
   letter-spacing: 0.04em;
-  transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .back-to-top:hover,
 .back-to-top:focus-visible {
   background: var(--accent-warm);
-  color: var(--heading-blue);
+  color: var(--ink);
+  border-color: var(--ink);
   transform: translateY(-2px);
   box-shadow: 0 6px 14px rgba(58, 58, 58, 0.2);
 }
@@ -3086,7 +3040,6 @@ img.fragment-card {
   gap: var(--space-4);
   margin: var(--space-5) 0 0;
   padding-top: var(--space-4);
-  border-top: 2px dotted var(--background);
 }
 
 .project-nav a {
@@ -3112,7 +3065,8 @@ img.fragment-card {
   font-size: 16px;
   color: var(--ink);
   font-family: var(--font-sans);
-  font-weight: 700;
+  /* a <span>, not a real header, so per "don't bold anything that isn't
+     a header" this stays regular weight */
   transition: color 0.2s ease;
 }
 
@@ -3242,18 +3196,19 @@ img.fragment-card {
      aligned lockup next to the tagline, rather than a huge centerpiece */
   font-size: 72px;
   line-height: 1;
-  /* lighter weight, tighter tracking, no italic — a quieter, more
-     condensed lockup than the old bold italic treatment */
+  /* bold and condensed (tight negative tracking pulls the letters
+     together), no italic. Dark-dark-blue (--ink) like all other text —
+     only the nested "Chelsea" span (.underline-accent-blue just below)
+     switches to the raw brand blue as a one-word accent. */
   font-style: normal;
   font-family: var(--font-sans);
-  font-weight: 200;
-  letter-spacing: -0.02em;
-  color: var(--heading-blue);
+  font-weight: 700;
+  letter-spacing: -0.045em;
+  color: var(--ink);
   cursor: url("../assets/cursor-ring.png") 10 10, default;
   cursor: -webkit-image-set(url("../assets/cursor-ring.png") 1x, url("../assets/cursor-ring@2x.png") 2x, url("../assets/cursor-ring@3x.png") 3x) 10 10, default;
   cursor: image-set(url("../assets/cursor-ring.png") 1x, url("../assets/cursor-ring@2x.png") 2x, url("../assets/cursor-ring@3x.png") 3x) 10 10, default;
   /* idle bounce, always running, matching the eyes-divider logo below it */
-  animation: title-bob 2.6s ease-in-out infinite;
 }
 
 @media (max-width: 640px) {
@@ -3309,8 +3264,7 @@ img.fragment-card {
    the source artwork so the pupils never clip outside their sockets.
    .eyes-pupils is drawn at the "look left" position, so 0 / 1 / 2
    step-units of --pupil-step land on left / center / right respectively;
-   resting state sits at 1 step (center). The whole icon also has a
-   gentle idle bob running all the time, hover or not. */
+   resting state sits at 1 step (center). */
 
 .eyes-divider {
   display: flex;
@@ -3338,7 +3292,6 @@ img.fragment-card {
   cursor: url("../assets/cursor-ring.png") 10 10, default;
   cursor: -webkit-image-set(url("../assets/cursor-ring.png") 1x, url("../assets/cursor-ring@2x.png") 2x, url("../assets/cursor-ring@3x.png") 3x) 10 10, default;
   cursor: image-set(url("../assets/cursor-ring.png") 1x, url("../assets/cursor-ring@2x.png") 2x, url("../assets/cursor-ring@3x.png") 3x) 10 10, default;
-  animation: eyes-bob 2.6s ease-in-out infinite;
 }
 
 .eyes-video {
@@ -3385,13 +3338,17 @@ img.fragment-card {
 
 /* "take a look around..." reads as a small speech bubble floating above
    and to the right of the eyes mark, with a little triangular tail
-   pointing back down at it — solid brand blue fill with yellow text, same
-   in both themes (like the other fixed brand-color surfaces) so it never
-   needs a dark-mode override. Nested inside .eyes-icon in the markup
-   (rather than sitting beside it) and positioned absolutely against it,
-   so the bubble always anchors to the icon itself — not however tall
-   .eyes-divider happens to be, which varies on the secret page where the
-   divider stretches to fill the space below the back link. */
+   pointing back down at it — a solid yellow fill (--accent-warm) with
+   dark-dark-blue (--ink) text, in Roboto Mono per the sitewide micro-text
+   convention. This is the one deliberate, sole reintroduction of yellow
+   anywhere outside the logo itself — everywhere else on the site, yellow
+   has been swept out in favor of --accent-tint (soft blue fills) or
+   --heading-blue (heading/title text). Nested inside .eyes-icon in the
+   markup (rather than sitting beside it) and positioned absolutely
+   against it, so the bubble always anchors to the icon itself — not
+   however tall .eyes-divider happens to be, which varies on the secret
+   page where the divider stretches to fill the space below the back
+   link. */
 .eyes-caption {
   position: absolute;
   top: -18px;
@@ -3401,11 +3358,11 @@ img.fragment-card {
   margin: 0;
   max-width: 170px;
   padding: 8px 16px;
-  background: var(--background);
+  background: var(--accent-warm);
   color: var(--ink);
   border-radius: var(--radius-full);
-  font-size: 14px;
-  font-style: italic;
+  font-family: var(--font-mono);
+  font-size: 13px;
   line-height: 1.3;
   white-space: nowrap;
 }
@@ -3421,7 +3378,7 @@ img.fragment-card {
   left: 22px;
   width: 12px;
   height: 12px;
-  background: var(--background);
+  background: var(--accent-warm);
   transform: rotate(45deg);
 }
 
@@ -3455,7 +3412,9 @@ img.fragment-card {
 }
 
 .tagline {
-  font-style: italic;
+  /* a "subtitle" text, so it's set in Roboto Mono per the sitewide
+     subtitle treatment (same family as .page-subtitle/.case-tagline) */
+  font-family: var(--font-mono);
   /* smaller than the shared --subheader-size, since this paragraph reads
      as supporting text under the big title rather than a subheading */
   font-size: 16px;
@@ -3466,9 +3425,6 @@ img.fragment-card {
   /* narrowed so the wrapped lines read as a single left-aligned column
      under "chelsea lee" above it, instead of stretching wide */
   max-width: 480px;
-  /* swapped with .site-title: the subtitle now carries the title's old
-     solid dark-gray fill in light mode, with a dark-mode override just
-     below that restores the title's old pale-yellow glow treatment */
   color: var(--ink);
 }
 
@@ -3493,7 +3449,7 @@ img.fragment-card {
 }
 
 .intro mark {
-  background: rgba(255, 246, 195, 0.45);
+  background: var(--accent-tint);
   color: var(--ink);
   padding: 0 2px;
   border-radius: var(--radius-sm);
@@ -3544,22 +3500,17 @@ img.fragment-card {
   line-height: var(--body-line);
 }
 
-/* the plain text cards (bio / quote / hobbies): white fill with a blue
-   dotted stroke and black-gray text in light mode; dark mode flips
-   to the page's own dark background with blue text, keeping the same
-   blue dotted stroke (see the dark-mode overrides just below
-   .bubble-hobbies) — no drop shadow in either theme, per the About
-   page's flatter, shadow-free look. */
+/* the plain text cards (bio / quote / hobbies): solid yellow or dark-blue
+   fills, mixed for variety, no stroke — matching the same two-tone
+   treatment as .bubble-intro/.bubble-fact above. */
 .bubble-bio {
-  background: #ffffff;
+  background: var(--accent-warm);
   color: var(--ink);
-  border: 2px dotted var(--background);
 }
 
 .bubble-quote {
-  background: #ffffff;
-  color: var(--ink);
-  border: 2px dotted var(--background);
+  background: var(--ink);
+  color: var(--accent-warm);
 }
 
 .bubble-fact {
@@ -3569,10 +3520,11 @@ img.fragment-card {
   width: 140px;
   height: 140px;
   border-radius: 50%;
-  background: var(--background);
+  /* solid yellow fill with dark-blue text — the other half of the mixed
+     yellow/dark-blue bubble treatment, no stroke */
+  background: var(--accent-warm);
   color: var(--ink);
   font-family: var(--font-sans);
-  font-style: italic;
   font-size: 12px;
   line-height: 16px;
   display: flex;
@@ -3596,14 +3548,13 @@ img.fragment-card {
   z-index: 2;
   max-width: 260px;
   padding: var(--space-4) var(--space-5);
-  /* blue fill with dark ink text — the pale yellow this used to carry
-     measured well under 2:1 against the blue (nowhere near the 4.5:1 AA
-     floor), so every blue-filled pill/bubble across the site, this one
-     included, now pairs with --ink instead. Every cycled greeting (see
-     main.js) shares this one rule, so every variation gets the same
-     colorway automatically */
-  background: var(--background);
-  color: var(--ink);
+  /* solid dark-blue fill with yellow text — one half of the mixed
+     yellow/dark-blue bubble treatment used across the about-page bubbles
+     (see .bubble-bio/.bubble-quote/.bubble-hobbies/.bubble-fact below),
+     no stroke. Every cycled greeting (see main.js) shares this one rule,
+     so every variation gets the same colorway automatically */
+  background: var(--ink);
+  color: var(--accent-warm);
   text-align: center;
 }
 
@@ -3612,16 +3563,16 @@ img.fragment-card {
   font-size: 22px;
   line-height: 1.25;
   font-family: var(--font-sans);
-  font-weight: 700;
+  /* a <p>, not a real header, so per "don't bold anything that isn't a
+     header" this stays regular weight */
 }
 
 .bubble-intro-hint {
   margin: 2px 0 0;
   font-size: 11px;
-  font-style: italic;
   font-family: var(--font-sans);
-  /* matches .bubble-intro's own ink text (see above) */
-  color: var(--ink);
+  /* matches .bubble-intro's own yellow text (see above) */
+  color: var(--accent-warm);
 }
 
 .bubble-intro::after {
@@ -3633,13 +3584,12 @@ img.fragment-card {
   height: 0;
   border-left: 12px solid transparent;
   border-right: 12px solid transparent;
-  border-top: 16px solid var(--background);
+  border-top: 16px solid var(--ink);
 }
 
 .bubble-hobbies {
-  background: #ffffff;
+  background: var(--accent-warm);
   color: var(--ink);
-  border: 2px dotted var(--background);
 }
 
 .tilt-hover {
@@ -3665,18 +3615,23 @@ img.fragment-card {
    be misleading. */
 .recently-heading {
   font-size: 22px;
-  font-family: var(--font-sans);
+  /* an explicit exception to the sitewide sans-serif heading face: this
+     whole section (heading + captions) is set in monospace per request,
+     so it reads as a distinct, type-written photo log */
+  font-family: var(--font-mono);
   color: var(--heading-blue);
-  font-variation-settings: "wght" var(--wght-medium);
+  font-weight: 700;
+  text-transform: lowercase;
   margin: 0;
-  /* a thin dotted rule above it to separate the "recently..." strip from
-     the bio/photo content above, instead of relying on margin alone */
-  border-top: 2px dotted var(--background);
+  /* a thin solid rule above it separates the "recently..." strip from
+     the bio/photo content above — the About page is the one deliberate
+     exception to "no strokes" sitewide */
+  border-top: 1px solid var(--background);
   padding-top: var(--space-4);
 }
 
 .recently-section {
-  /* extra breathing room above the dotted divider, beyond the usual
+  /* extra breathing room above the divider, beyond the usual
      --space-4 gap used elsewhere, so the "recently..." strip reads as
      clearly separated from the bio/photo content above it */
   margin-top: calc(var(--space-5) + var(--space-3));
@@ -3686,12 +3641,52 @@ img.fragment-card {
   margin-top: var(--space-3);
 }
 
+/* no more native drag-scroll: the strip auto-advances on its own (see
+   .recently-track below), so this just clips the second, duplicated half
+   of the track out of view instead of offering a scrollbar */
 .recently-scroll {
+  overflow: hidden;
+  padding: var(--space-1) 0 var(--space-3);
+}
+
+/* holds two identical back-to-back copies of the .recently-item cards
+   (the clone is appended by js/main.js, see doc comment #10) and drifts
+   them leftward forever; since both halves are identical, the moment it
+   resets from -50% back to 0 is invisible and the strip reads as an
+   endless, slowly moving loop. Paused on hover/focus so a visitor who
+   wants to read a caption or look at a photo isn't fighting the motion. */
+.recently-track {
   display: flex;
   gap: var(--space-4);
-  overflow-x: auto;
-  padding: var(--space-1) var(--space-1) var(--space-3);
-  -webkit-overflow-scrolling: touch;
+  width: max-content;
+  animation: recently-marquee 50s linear infinite;
+}
+
+.recently-section:hover .recently-track,
+.recently-track:focus-within {
+  animation-play-state: paused;
+}
+
+@keyframes recently-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .recently-track {
+    animation: none;
+  }
+  /* without the auto-scroll, fall back to a manual horizontal scroll so
+     the duplicated second half stays reachable instead of just clipped
+     off and unseeable */
+  .recently-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
 }
 
 .recently-photo .placeholder:hover {
@@ -3720,6 +3715,9 @@ img.fragment-card {
   text-align: center;
   color: var(--text);
   max-width: 190px;
+  /* part of the "recently..." section's monospace exception, alongside
+     .recently-heading */
+  font-family: var(--font-mono);
 }
 
 @media (max-width: 640px) {
