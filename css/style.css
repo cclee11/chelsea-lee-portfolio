@@ -2637,6 +2637,14 @@ img.fragment-card {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  /* the exact crop above removes the backdrop along every straight edge,
+     but the mockup window's own rounded corners still leave a small
+     pale notch tucked into each corner, outside the straight-edge bbox
+     — invisible in light mode (it's nearly page-white) but a visible
+     gray-ish ring against the dark-mode page. A small zoom (much
+     smaller than it sounds — the straight edges have no margin left to
+     lose) tucks that last notch behind the wrap's own rounded clip. */
+  transform: scale(1.12);
   opacity: 0;
   transition: opacity 0.25s ease;
 }
