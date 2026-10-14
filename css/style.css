@@ -532,7 +532,11 @@ main {
    back. */
 .underline-accent-blue {
   display: inline-block;
-  line-height: 1;
+  /* below 1 on purpose: a line-height of exactly 1 still reserves the
+     font's full descender space under the baseline, which read as too
+     much air between the word and its dotted line — this tucks the
+     line right up against the letters instead */
+  line-height: 0.78;
   border-bottom: 3px dotted var(--background);
   padding-bottom: 0;
 }
@@ -586,12 +590,14 @@ main {
 .connect-link {
   color: var(--accent-warm);
   font-size: var(--body-size);
-  transition: opacity 0.2s ease;
+  font-variation-settings: "wght" var(--wght-light);
+  transition: font-variation-settings 0.2s ease;
   text-transform: lowercase;
 }
 
-.connect-link:hover {
-  opacity: 0.7;
+.connect-link:hover,
+.connect-link:focus-visible {
+  font-variation-settings: "wght" var(--wght-bold);
 }
 
 /* ---------------------------------------------------- placeholder tiles
@@ -606,13 +612,12 @@ main {
   background: #d9d9d9;
   border-radius: var(--radius-lg);
   transform: translate(var(--tx), var(--ty)) rotate(var(--rot));
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  transition: transform 0.25s ease;
   will-change: transform;
 }
 
 .placeholder:hover {
   --ty: -10px;
-  box-shadow: 0 18px 30px rgba(58, 58, 58, 0.22);
 }
 
 a.placeholder-link {
@@ -724,7 +729,7 @@ video.placeholder {
   flex-wrap: wrap;
   justify-content: center;
   align-items: flex-start;
-  max-width: 1100px;
+  max-width: 1360px;
   margin: 0 auto;
   padding: var(--space-4) var(--space-4) var(--space-5);
 }
@@ -733,13 +738,15 @@ video.placeholder {
    width here needs to out-specificity the shared "img.placeholder,
    video.placeholder { width: 100% }" rule near the top of the file,
    which would otherwise win the tie (same 0-1-1 specificity either way)
-   by source order and stretch every card to its row's full width. */
+   by source order and stretch every card to its row's full width.
+   Positive margin (rather than the old tight overlapping negative
+   margin) spreads every card out into its own breathing room, so the
+   stage reads as scattered-but-distinct tiles instead of a packed,
+   overlapping pile. */
 img.fragment-card {
   position: relative;
   width: clamp(130px, 17vw, 220px);
-  margin: -14px -22px;
-  border: 2px dotted var(--button-stroke);
-  box-shadow: 0 10px 22px rgba(58, 58, 58, 0.2);
+  margin: 22px 28px;
   cursor: grab;
   touch-action: none;
   -webkit-user-select: none;
@@ -749,34 +756,71 @@ img.fragment-card {
 /* a loose stagger so cards read as scattered rows rather than a strict
    grid — four-item cycle, applied by position in the markup */
 .fragment-card:nth-child(4n+2) {
-  margin-top: 34px;
+  margin-top: 64px;
 }
 
 .fragment-card:nth-child(4n+3) {
-  margin-top: -18px;
+  margin-top: 4px;
 }
 
 .fragment-card:nth-child(4n) {
-  margin-top: 14px;
+  margin-top: 44px;
 }
 
 /* while a card is actively being dragged (see js/fragments.js): no
-   transition (so it tracks the pointer with zero lag), a stronger shadow
-   to read as "picked up", and a z-index high enough to clear every other
-   card regardless of source order — JS sets the exact value per pick-up.
-   Same specificity as .placeholder:hover, so it only wins because it's
-   declared later in this file. */
+   transition (so it tracks the pointer with zero lag), and a z-index
+   high enough to clear every other card regardless of source order —
+   JS sets the exact value per pick-up. */
 .fragment-card.is-dragging {
   cursor: grabbing;
   transition: none;
-  box-shadow: 0 22px 36px rgba(58, 58, 58, 0.32);
+}
+
+/* while js/fragments.js has the "drag me around!" hint bubble showing
+   (see .drag-hint below), hide the native grab cursor entirely so the
+   bubble reads as the cursor's replacement rather than sitting beside
+   it. Gated behind this JS-applied class (rather than a plain :hover)
+   so the ordinary grab cursor still shows as a fallback affordance
+   whenever the hint script hasn't attached for any reason. */
+.fragment-card.hint-active {
+  cursor: none;
 }
 
 @media (max-width: 640px) {
   img.fragment-card {
     width: clamp(120px, 38vw, 170px);
-    margin: -10px -16px;
+    margin: 14px 18px;
   }
+}
+
+/* "drag me around!" cursor-replacement bubble (js/fragments.js): same
+   solid brand-blue-on-yellow pill as .eyes-caption's "take a look
+   around..." speech bubble, but following the pointer instead of
+   anchored to one spot. Fixed + pointer-events:none so it never
+   intercepts the drag it's hinting at. */
+.drag-hint {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999;
+  margin: 0;
+  padding: 8px 16px;
+  background: var(--background);
+  color: var(--accent-warm);
+  border-radius: var(--radius-full);
+  font-size: 14px;
+  font-style: italic;
+  line-height: 1.3;
+  white-space: nowrap;
+  box-shadow: 0 6px 14px rgba(58, 58, 58, 0.16);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  will-change: transform, opacity;
+}
+
+.drag-hint.is-visible {
+  opacity: 1;
 }
 
 /* Design tab: the site's usual hover pop (big -10px lift + heavy
@@ -787,12 +831,6 @@ img.fragment-card {
    source order. */
 .grid-design .placeholder:hover {
   --ty: -4px;
-  box-shadow: 0 8px 16px rgba(58, 58, 58, 0.16);
-}
-
-.grid-design .flip-tile:hover .project-card-image,
-.grid-design .flip-tile:focus-visible .project-card-image {
-  box-shadow: 0 8px 16px rgba(58, 58, 58, 0.16);
 }
 
 /* caption under each UX card: plain text sitting directly on the page
@@ -841,17 +879,9 @@ img.fragment-card {
   transform: translateY(0);
 }
 
-/* same hover treatment as the homepage project cards (border reveal +
-   layered lift/glow shadow), reusing .project-card-image's own hover
-   rule but triggered off .placeholder-link instead of .project-card */
-.placeholder-link:hover .project-card-image,
-.placeholder-link:focus-visible .project-card-image {
-  box-shadow: 0 18px 30px rgba(58, 58, 58, 0.22);
-}
-
-/* UX cards only: drop the lift + elevated drop-shadow ("pop out") that
-   the homepage project cards use, keeping just the border highlight and
-   resting ambient glow so hover still reads as an affordance */
+/* UX cards only: drop the lift ("pop out") that the homepage project
+   cards use, keeping just the border highlight so hover still reads as
+   an affordance */
 .grid-2col-cards .placeholder:hover {
   --ty: 0px;
 }
@@ -928,12 +958,7 @@ img.fragment-card {
      unlike the dotted strokes used elsewhere on the site, so the project
      and "more" cards (both reuse this class) read as solid framed tiles */
   border: 2px solid var(--background);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-}
-
-.project-card:hover .project-card-image,
-.project-card:focus-visible .project-card-image {
-  box-shadow: 0 18px 30px rgba(58, 58, 58, 0.22);
+  transition: transform 0.25s ease;
 }
 
 /* light-blue fill for the "more projects coming soon" tile, instead of the
@@ -945,8 +970,8 @@ img.fragment-card {
 /* slight idle bounce for a project-card image that's meant to catch the
    eye (reuses the same bob keyframe as the home title / eyes-divider);
    the hover-lift transform from .placeholder:hover is visually masked
-   while this runs, but the hover box-shadow (a separate property) still
-   comes through, so hovering still reads as an affordance */
+   while this runs, but the border-color/opacity hover affordances still
+   come through */
 .project-card-bounce {
   animation: title-bob 2.6s ease-in-out infinite;
 }
@@ -1190,14 +1215,6 @@ img.fragment-card {
 .flip-tile:focus-visible .flip-tile-hint {
   opacity: 1;
   transform: translate(-50%, 0);
-}
-
-/* same drop-shadow + blue-glow hover treatment as the project cards on
-   the other pages (homepage, More/UX), triggered off the tile itself
-   since this one isn't wrapped in a .project-card or .placeholder-link */
-.flip-tile:hover .project-card-image,
-.flip-tile:focus-visible .project-card-image {
-  box-shadow: 0 18px 30px rgba(58, 58, 58, 0.22);
 }
 
 /* --------------------------------------------------------------- subnav
@@ -1499,7 +1516,6 @@ img.fragment-card {
   object-fit: contain;
   background: var(--page-bg);
   border-radius: var(--radius-lg);
-  box-shadow: 0 14px 28px rgba(58, 58, 58, 0.18);
   animation: title-bob 3.2s ease-in-out infinite;
 }
 
@@ -1649,6 +1665,15 @@ img.fragment-card {
   margin: 0 0 var(--space-4);
   line-height: var(--body-line);
   max-width: 720px;
+  /* matches the same dark-ink tone every other case-study text block
+     already uses (.case-note, .case-tagline, .persona-blurb, …) instead
+     of inheriting body's much lighter --text gray — light mode only,
+     see the dark-mode override just below */
+  color: var(--ink);
+}
+
+:root[data-theme="dark"] .case-section > p {
+  color: var(--text);
 }
 
 /* big, centered section heading */
@@ -1880,6 +1905,13 @@ img.fragment-card {
 .takeaway p {
   margin: 0;
   padding-top: 4px;
+  /* same dark-ink tone as the rest of the case-study body copy, light
+     mode only (see the dark-mode override just below) */
+  color: var(--ink);
+}
+
+:root[data-theme="dark"] .takeaway p {
+  color: var(--text);
 }
 
 /* --------------------------------------------------------- brand colors
@@ -2270,8 +2302,14 @@ img.fragment-card {
 
 .mockup-note {
   margin: 0 0 var(--space-4);
-  color: var(--text);
+  /* same dark-ink tone as the rest of the case-study body copy, light
+     mode only (see the dark-mode override just below) */
+  color: var(--ink);
   line-height: var(--body-line);
+}
+
+:root[data-theme="dark"] .mockup-note {
+  color: var(--text);
 }
 
 /* -------------------------------------------------------- solution video
@@ -2315,7 +2353,6 @@ img.fragment-card {
   width: 100%;
   max-width: 780px;
   border-radius: var(--radius-lg);
-  box-shadow: 0 14px 26px rgba(58, 58, 58, 0.2);
 }
 
 /* a tall (near full-screen) portrait recording, capped by height instead
@@ -2346,7 +2383,6 @@ img.fragment-card {
   max-width: 100%;
   max-height: 74vh;
   border-radius: var(--radius-lg);
-  box-shadow: 0 14px 26px rgba(58, 58, 58, 0.2);
 }
 
 /* the prototype-walkthrough recording (The App section): its mockup frame
@@ -2579,10 +2615,13 @@ img.fragment-card {
   position: relative;
   display: block;
   width: 100%;
-  aspect-ratio: 864 / 603;
+  /* matches the screen captures' own cropped ratio (805 x 543 — the
+     pale mockup-frame backdrop margin trimmed off the raw 864 x 603
+     export, see the asset itself) so object-fit: cover below needs no
+     extra zoom and never crops into real UI content */
+  aspect-ratio: 805 / 543;
   border-radius: var(--radius-lg);
   overflow: hidden;
-  box-shadow: 0 12px 22px rgba(58, 58, 58, 0.18);
   animation: title-bob 2.8s ease-in-out infinite;
 }
 
@@ -2598,13 +2637,6 @@ img.fragment-card {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  /* the exported screen captures each carry a thin pale backdrop margin
-     baked around the actual browser-window mockup (left over from the
-     mockup-frame export); scaling up just enough crops that margin away
-     behind the rounded, overflow-hidden .solution-img-wrap so every card
-     reads as one clean, edge-to-edge screenshot instead of a screenshot
-     floating on a visible gray-ish canvas */
-  transform: scale(1.16);
   opacity: 0;
   transition: opacity 0.25s ease;
 }
@@ -2678,7 +2710,6 @@ img.fragment-card {
   max-width: 280px;
   aspect-ratio: 1 / 1;
   border-radius: 50%;
-  box-shadow: 0 16px 26px rgba(58, 58, 58, 0.3);
   animation: title-bob 2.8s ease-in-out infinite;
 }
 
@@ -2835,7 +2866,6 @@ img.fragment-card {
   width: 100%;
   height: auto;
   border-radius: var(--radius-lg);
-  box-shadow: 0 12px 22px rgba(58, 58, 58, 0.2);
   animation: title-bob 2.8s ease-in-out infinite;
 }
 
@@ -2872,7 +2902,6 @@ img.fragment-card {
   width: 100%;
   height: auto;
   border-radius: var(--radius-lg);
-  box-shadow: 0 12px 22px rgba(58, 58, 58, 0.2);
   animation: title-bob 2.8s ease-in-out infinite;
 }
 
@@ -2902,8 +2931,14 @@ img.fragment-card {
 .research-shot li {
   font-size: 13px;
   line-height: 18px;
-  color: var(--text);
+  /* same dark-ink tone as the rest of the case-study body copy, light
+     mode only (see the dark-mode override just below) */
+  color: var(--ink);
   margin-bottom: var(--space-1);
+}
+
+:root[data-theme="dark"] .research-shot li {
+  color: var(--text);
 }
 
 /* ------------------------------------------------------- persona, solo
@@ -2998,7 +3033,6 @@ img.fragment-card {
   max-width: 640px;
   height: auto;
   border-radius: var(--radius-lg);
-  box-shadow: 0 18px 32px rgba(58, 58, 58, 0.3);
   animation: title-bob 3s ease-in-out infinite;
 }
 
@@ -3765,7 +3799,6 @@ img.fragment-card {
   width: auto;
   height: auto;
   border-radius: var(--radius-lg);
-  box-shadow: 0 30px 60px rgba(58, 58, 58, 0.35);
   cursor: default;
 }
 

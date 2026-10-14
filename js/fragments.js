@@ -11,6 +11,11 @@
    alone, so the image lightbox wired up in main.js still opens as usual
    — only an actual drag is intercepted, via a short-lived flag that
    swallows the synthetic click a real drag would otherwise leave behind.
+
+   Also drives the "drag me around!" cursor-replacement bubble (see
+   .drag-hint in style.css): a single shared pill, shown and moved to
+   the pointer position while hovering any card, and hidden the instant
+   a real drag starts so it never fights the card being dragged.
 */
 
 (function () {
@@ -30,6 +35,36 @@
     return isNaN(value) ? 0 : value;
   }
 
+  // one shared bubble, reused across every card instead of one per
+  // card — it only ever follows whichever card the pointer is over
+  var hint = document.createElement("span");
+  hint.className = "drag-hint";
+  hint.textContent = "drag me around!";
+  hint.setAttribute("aria-hidden", "true");
+  document.body.appendChild(hint);
+
+  // small offset so the bubble sits just past the pointer instead of
+  // directly under it, the same way a native cursor doesn't cover what
+  // it's pointing at
+  var HINT_OFFSET_X = 18;
+  var HINT_OFFSET_Y = 22;
+
+  function moveHint(event) {
+    hint.style.transform =
+      "translate(" + (event.clientX + HINT_OFFSET_X) + "px, " + (event.clientY + HINT_OFFSET_Y) + "px)";
+  }
+
+  function showHint(card, event) {
+    card.classList.add("hint-active");
+    moveHint(event);
+    hint.classList.add("is-visible");
+  }
+
+  function hideHint(card) {
+    card.classList.remove("hint-active");
+    hint.classList.remove("is-visible");
+  }
+
   cards.forEach(function (card) {
     var pointerId = null;
     var startX = 0;
@@ -37,6 +72,18 @@
     var baseTx = 0;
     var baseTy = 0;
     var dragged = false;
+
+    card.addEventListener("pointerenter", function (event) {
+      if (pointerId === null) {
+        showHint(card, event);
+      }
+    });
+
+    card.addEventListener("pointerleave", function () {
+      if (pointerId === null) {
+        hideHint(card);
+      }
+    });
 
     card.addEventListener("pointerdown", function (event) {
       if (event.pointerType === "mouse" && event.button !== 0) {
@@ -51,10 +98,16 @@
       dragged = false;
       topZ += 1;
       card.style.zIndex = topZ;
+      // a real drag is about to take over this card's cursor duties —
+      // the hint has done its job
+      hideHint(card);
     });
 
     card.addEventListener("pointermove", function (event) {
       if (event.pointerId !== pointerId) {
+        if (pointerId === null && card.classList.contains("hint-active")) {
+          moveHint(event);
+        }
         return;
       }
       var dx = event.clientX - startX;
@@ -80,6 +133,12 @@
         // swallow the synthetic click this drag would otherwise leave
         // behind, so it doesn't also pop open the lightbox
         card.dataset.justDragged = "true";
+      }
+      // the pointer is typically still sitting on top of the card right
+      // after a drop (it moved with the pointer), so bring the hint
+      // back instead of waiting for a pointerenter that won't fire
+      if (card.matches(":hover")) {
+        showHint(card, event);
       }
     }
 
