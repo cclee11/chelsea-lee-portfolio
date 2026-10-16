@@ -84,6 +84,13 @@
        (rather than touching .textContent, which would wipe out any
        <mark>/<strong> formatting inside it) so it's safe even on
        paragraphs with inline markup.
+   12. Cycling tagline adjective (home page only): the word right before
+       "product designer" in the hero subtitle (#taglineAdjective) steps
+       through a short list of adjectives on a timer, fading out,
+       swapping, then fading back in. #taglineArticle ("A"/"An") updates
+       in lockstep with whichever adjective is showing, based on
+       whether it starts with a vowel. Skipped entirely under
+       prefers-reduced-motion — the first adjective just stays put.
 */
 
 (function () {
@@ -662,6 +669,52 @@
           }
         }, FADE_MS);
       });
+    }
+
+    // cycling tagline adjective (see main.js doc comment #12): steps
+    // #taglineAdjective through a short list on a timer, fading the word
+    // (and its "A"/"An" article) out, swapping the text, then fading
+    // back in — rather than just snapping straight to the next word.
+    var taglineAdjectiveEl = document.getElementById("taglineAdjective");
+    var taglineArticleEl = document.getElementById("taglineArticle");
+    if (taglineAdjectiveEl && taglineArticleEl) {
+      var prefersReducedMotion =
+        window.matchMedia &&
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      if (!prefersReducedMotion) {
+        var taglineAdjectives = [
+          "empathetic",
+          "efficient",
+          "versatile",
+          "inquisitive",
+          "visual"
+        ];
+        var ADJECTIVE_HOLD_MS = 2600;
+        var ADJECTIVE_FADE_MS = 250;
+        var adjectiveIndex = 0;
+
+        var articleFor = function (word) {
+          return /^[aeiou]/i.test(word) ? "An" : "A";
+        };
+
+        var advanceAdjective = function () {
+          adjectiveIndex = (adjectiveIndex + 1) % taglineAdjectives.length;
+          var next = taglineAdjectives[adjectiveIndex];
+
+          taglineAdjectiveEl.style.opacity = "0";
+          taglineArticleEl.style.opacity = "0";
+
+          setTimeout(function () {
+            taglineAdjectiveEl.textContent = next;
+            taglineArticleEl.textContent = articleFor(next);
+            taglineAdjectiveEl.style.opacity = "1";
+            taglineArticleEl.style.opacity = "1";
+          }, ADJECTIVE_FADE_MS);
+        };
+
+        setInterval(advanceAdjective, ADJECTIVE_HOLD_MS);
+      }
     }
 
     // case-study dark-mode preview toggles (see main.js doc comment #9):
