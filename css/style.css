@@ -3803,11 +3803,10 @@ img.fragment-card {
 }
 
 /* the cycling adjective before "product designer" (see main.js doc
-   comment #12): italicized with a light-blue squiggle underneath,
-   instead of the yellow <mark> pill used elsewhere, so it reads as a
-   lighter, more playful aside than the two "real" highlighted phrases
-   beside it. Faded in/out by main.js on every swap rather than cutting
-   straight to the new word. */
+   comment #12): italicized and bold, instead of the yellow <mark> pill
+   used elsewhere, so it reads as a lighter, more playful aside than
+   the two "real" highlighted phrases beside it. Faded in/out by
+   main.js on every swap rather than cutting straight to the new word. */
 .tagline-article,
 .tagline-adjective {
   transition: opacity 0.25s ease;
@@ -3815,10 +3814,7 @@ img.fragment-card {
 
 .tagline-adjective {
   font-style: italic;
-  text-decoration-line: underline;
-  text-decoration-style: wavy;
-  text-decoration-color: var(--heading-blue);
-  text-underline-offset: 3px;
+  font-variation-settings: "wght" var(--wght-bold);
 }
 
 
